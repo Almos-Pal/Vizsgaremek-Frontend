@@ -5,6 +5,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-dark: #001917;
+  --color_light: #ffffff;
   --color-warning: #F2B400;
   --color-info: #3A8D9D;
   --color-error: #E74C3C;
