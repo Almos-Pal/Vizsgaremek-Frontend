@@ -1,4 +1,4 @@
-h1{
+.h1{
     color: --color-dark;
     font-size: 48px;
     font-weight: 700;
@@ -7,7 +7,7 @@ h1{
     letter-spacing: 4%;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-h2{
+.h2{
     color: --color-dark;
     font-size: 40px;
     font-weight:600;
@@ -15,7 +15,7 @@ h2{
     line-height: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-h3{
+.h3{
     color: --color-dark;
     font-size: 32px;
     font-weight: 600;
@@ -23,7 +23,7 @@ h3{
     line-height: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-h4{
+.h4{
     color: --color-dark;
     font-size: 24px;
     font-weight: 700;
@@ -31,7 +31,7 @@ h4{
     line-height: 32px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-h5{
+.h5{
     color: --color-dark;
     font-size: 20px;
     font-weight: 700;
@@ -70,14 +70,14 @@ h5{
     font-family: 'poppins';
     line-height: 24px;
 }
-button{
+.button{
     color: --color-dark;
     font-size: 16px;
     font-weight: 500;
     font-family: 'poppins';
     line-height: 24px;
 }
-caption{
+.caption{
     color: --color-dark;
     font-size: 12px;
     font-weight: 400;
