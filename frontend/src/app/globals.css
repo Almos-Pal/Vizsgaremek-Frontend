@@ -5,6 +5,23 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-dark: #001917;
+  --color_light: #ffffff;
+  --color-warning: #F2B400;
+  --color-info: #3A8D9D;
+  --color-error: #E74C3C;
+  --color-success: #27AE60;
+  --color-grey-500: #333333;
+  --color-grey-400: #C8C6C6;
+  --color-grey-300: #777777;
+  --color-grey-200: #999999;
+  --color-grey-100: #CCCCCC;
+  --color-primary-90: #004A5F;
+  --color-primary-75: #226375;
+  --color-primary-50: #277389;
+  --color-primary-10: #C5EBE5;
+  --color-primary: #6DB4A9;
+
 }
 
 @media (prefers-color-scheme: dark) {
