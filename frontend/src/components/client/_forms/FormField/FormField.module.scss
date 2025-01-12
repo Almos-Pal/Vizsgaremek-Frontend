@@ -1,0 +1,23 @@
+.formField {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .error {
+    color: var(--color-error);
+    margin-top: 4px;
+  }
+
+  .checkboxWrapper {
+    display: flex;
+    align-items: center;
+
+    label {
+      margin-left: 12px;
+    }
+  }
+
+  .inputError {
+    outline-color: var(--color-error) !important;
+  }
+}
