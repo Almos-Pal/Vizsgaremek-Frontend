@@ -24,7 +24,7 @@ interface TextProps {
 
 const Text: React.FC<TextProps> = ({
   variant = "body-16",
-  color = "--color-dark",
+  color = "var(--color-light)",
   style,
   className,
   children,
@@ -52,7 +52,7 @@ const Text: React.FC<TextProps> = ({
     } else if (variant === "h4") {
       Element = "h4";
     } else if (variant === "h5") {
-        Element = "h5";
+      Element = "h5";
     } else {
       Element = "p";
     }
