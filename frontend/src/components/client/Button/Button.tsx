@@ -63,16 +63,16 @@ const Button: React.FC<ButtonProps> = ({
   let iconColor;
   switch (color) {
     case "primary":
-      textColor = "var(--color-white)";
-      iconColor = "var(--color-white)";
+      textColor = "var(--color-dark)";
+      iconColor = "var(--color-dark)";
       break;
     case "secondary":
-      textColor = "var(--color-black)";
-      iconColor = "var(--color-black)";
+      textColor = "var(--color-light)";
+      iconColor = "var(--color-light)";
       break;
     default:
-      textColor = "var(--color-black)";
-      iconColor = "var(--color-black)";
+      textColor = "var(--color-dark)";
+      iconColor = "var(--color-dark)";
   }
 
   const iconSize = 24;

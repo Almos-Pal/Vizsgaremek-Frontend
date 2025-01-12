@@ -15,7 +15,16 @@ const TestPage: React.FC = () => {
       <Text variant="body-16">Test Page</Text>
       <Text variant="button">Test Page</Text>
       <Text variant="caption">Test Page</Text>
-      <Button>Test Button</Button>
+      <div className="flex flex-row gap-2 ">
+        <Button>Test Button</Button>
+        <Button leftIcon="ArrowLeftIcon">Test Button</Button>
+        <Button iconOnly leftIcon="ArrowLeftIcon" />
+        <Button color="secondary">Test Button</Button>
+        <Button color="secondary" leftIcon="ArrowLeftIcon">
+          Test Button
+        </Button>
+        <Button color="secondary" iconOnly leftIcon="ArrowLeftIcon" />
+      </div>
     </div>
   );
 };
