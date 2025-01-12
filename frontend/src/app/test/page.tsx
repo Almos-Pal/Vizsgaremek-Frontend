@@ -1,7 +1,18 @@
 "use client";
 import { Button } from "@/components/client";
+import FormField from "@/components/client/_forms/FormField/FormField";
+import Input from "@/components/client/_inputs/Input/Input";
 import { Text } from "@/components/server";
+import { Form, Formik } from "formik";
+
+import * as Yup from "yup";
+
 const TestPage: React.FC = () => {
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Name is required")
+      .min(3, "Name must be at least 3 characters"),
+  });
   return (
     <div>
       <Text variant="h1">Test Page</Text>
@@ -25,6 +36,29 @@ const TestPage: React.FC = () => {
         </Button>
         <Button color="secondary" iconOnly leftIcon="ArrowLeftIcon" />
       </div>
+
+      <Formik
+        initialValues={{ name: "" }}
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          console.log(values);
+        }}
+      >
+        <Form>
+          <div className="w-48">
+            <FormField
+              name="name"
+              as={Input}
+              type="password"
+              label={"Hello"}
+              placeholder={"Write here..."}
+            />
+          </div>
+          <Button color="secondary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Formik>
     </div>
   );
 };
