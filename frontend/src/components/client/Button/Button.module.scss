@@ -1,0 +1,71 @@
+.button {
+  display: inline-flex;
+  height: 50px;
+  padding: 12px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-radius: 100px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+  &.primary {
+    background-color: var(--color-primary);
+
+    &:hover {
+      background-color: var(--color-primary-40);
+    }
+  }
+
+  &.secondary {
+    background-color: var(--color-white);
+    border: 2px solid var(--color-secondary);
+
+    &:hover {
+      background-color: var(--color-secondary-80);
+    }
+  }
+
+  &.tertiary {
+    background-color: transparent;
+  }
+
+  &.primary-admin {
+    background-color: var(--color-grey-50);
+
+    &:hover {
+      background-color: var(--color-grey-70);
+    }
+  }
+
+  &.secondary-admin {
+    background-color: var(--color-grey-80);
+    border: none;
+
+    &:hover {
+      background-color: var(--color-grey-70);
+    }
+  }
+
+  &.tertiary-admin {
+    background-color: transparent;
+    color: var(--color-grey-50);
+
+    &:hover {
+      color: var(--color-grey-20);
+    }
+  }
+
+  &.iconOnly {
+    width: 50px;
+    height: 50px;
+    padding: 12px 12px;
+    justify-content: center;
+    align-items: center;
+    &.noPadding {
+      padding: 0;
+      width: auto;
+      height: auto;
+    }
+  }
+}
