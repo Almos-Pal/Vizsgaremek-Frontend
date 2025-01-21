@@ -18,5 +18,7 @@ export { default as CheckIcon } from "./CheckIcon";
 export { default as InfoIcon } from "./InfoIcon";
 export { default as WarningIcon } from "./WarningIcon";
 export { default as CalendarIcon } from "./CalendarIcon";
+export { default as TrashCanIcon } from "./TrashCanIcon";
+export { default as A_Köztisztaság_Kukája } from "./TrashCanIcon";
 
 
