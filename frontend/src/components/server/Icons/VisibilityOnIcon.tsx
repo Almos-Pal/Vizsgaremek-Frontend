@@ -7,7 +7,7 @@ interface VisibilityOnIconProps {
 
 const VisibilityOnIcon: React.FC<VisibilityOnIconProps> = ({
   size = 24,
-  color = "var(--color-white)",
+  color = "var(--color-light)",
   ...props
 }) => {
   return (

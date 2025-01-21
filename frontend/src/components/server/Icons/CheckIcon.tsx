@@ -1,11 +1,12 @@
 import React from "react";
 
-interface ArrowLeftIconProps {
+
+interface CheckIconProps {
   size?: number;
   color?: string;
 }
 
-const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({
+const CheckIcon: React.FC<CheckIconProps> = ({
   size = 24,
   color = "var(--color-light)",
   ...props
@@ -19,12 +20,14 @@ const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path
-        d="M7.825 13l5.6 5.6L12 20l-8-8 8-8 1.425 1.4-5.6 5.6H20v2H7.825z"
-        fill={color}
+         <path
+         fillRule="evenodd"
+         clipRule="evenodd"
+         d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm3 0l5 5 9-9-1.41-1.42L10 14.17l-3.59-3.58L5 12z"
+         fill={color}
       />
     </svg>
   );
 };
 
-export default ArrowLeftIcon;
+export default CheckIcon;

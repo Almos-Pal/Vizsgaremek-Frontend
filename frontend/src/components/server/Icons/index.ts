@@ -1,3 +1,22 @@
 export { default as ArrowLeftIcon } from "./ArrowLeftIcon";
+export { default as ArrowRightIcon } from "./ArrowRightIcon";
 export { default as VisibilityOffIcon } from "./VisibilityOffIcon";
 export { default as VisibilityOnIcon } from "./VisibilityOnIcon";
+export { default as EditIcon } from "./EditIcon";
+export { default as AddIcon } from "./AddIcon";
+export { default as MinusIcon } from "./MinusIcon";
+export { default as LinusIcon } from "./MinusIcon";
+export { default as PlayLeftIcon } from "./PlayLeftIcon";
+export { default as PlayRightIcon } from "./PlayRightIcon";
+export { default as SearchIcon } from "./SearchIcon";
+export { default as ProfileIcon } from "./ProfileIcon";
+export { default as MenuIcon } from "./MenuIcon";
+export { default as SettingsIcon } from "./SettingsIcon";
+export { default as ChartIcon } from "./ChartIcon";
+export { default as CancelIcon } from "./CancelIcon";
+export { default as CheckIcon } from "./CheckIcon";
+export { default as InfoIcon } from "./InfoIcon";
+export { default as WarningIcon } from "./WarningIcon";
+export { default as CalendarIcon } from "./CalendarIcon";
+
+

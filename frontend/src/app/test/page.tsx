@@ -2,7 +2,7 @@
 import { Button } from "@/components/client";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
-import { Text } from "@/components/server";
+import { Text ,Icons} from "@/components/server";
 import { Form, Formik } from "formik";
 
 import * as Yup from "yup";
@@ -59,6 +59,28 @@ const TestPage: React.FC = () => {
           </Button>
         </Form>
       </Formik>
+
+      
+      <Icons.WarningIcon  size={100} color="var(--color-light)" />
+      <Icons.InfoIcon  size={100} color="var(--color-light)" />
+      <Icons.CancelIcon  size={100} color="var(--color-light)" />
+      <Icons.CheckIcon  size={100} color="var(--color-light)" />
+      <Icons.AddIcon  size={100} color="var(--color-light)" />
+      <Icons.MinusIcon  size={100} color="var(--color-light)" />
+      <Icons.ArrowLeftIcon  size={100} color="var(--color-light)" />
+      <Icons.ArrowRightIcon  size={100} color="var(--color-light)" />
+      <Icons.CalendarIcon  size={100} color="var(--color-light)" />
+      <Icons.ChartIcon  size={100} color="var(--color-light)" />
+      <Icons.CancelIcon  size={100} color="var(--color-light)" />
+      <Icons.EditIcon  size={100} color="var(--color-light)" />
+      <Icons.MenuIcon  size={100} color="var(--color-light)" />
+      <Icons.PlayLeftIcon  size={100} color="var(--color-light)" />
+      <Icons.PlayRightIcon  size={100} color="var(--color-light)" />
+      <Icons.ProfileIcon  size={100} color="var(--color-light)" />
+      <Icons.SearchIcon  size={100} color="var(--color-light)" />
+      <Icons.SettingsIcon  size={100} color="var(--color-light)" />
+      <Icons.VisibilityOffIcon  size={100} color="var(--color-light)" />
+      <Icons.VisibilityOnIcon  size={100} color="var(--color-light)" />
     </div>
   );
 };
