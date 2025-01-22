@@ -20,5 +20,7 @@ export { default as WarningIcon } from "./WarningIcon";
 export { default as CalendarIcon } from "./CalendarIcon";
 export { default as TrashCanIcon } from "./TrashCanIcon";
 export { default as A_Köztisztaság_Kukája } from "./TrashCanIcon";
+export { default as PlayUpIcon } from "./PlayUpIcon";
+export { default as PlayDownIcon } from "./PlayDownIcon";
 
 
