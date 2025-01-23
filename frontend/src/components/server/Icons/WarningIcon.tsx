@@ -1,11 +1,12 @@
 import React from "react";
 
-interface ArrowLeftIconProps {
+
+interface WarningIconProps {
   size?: number;
   color?: string;
 }
 
-const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({
+const WarningIcon: React.FC<WarningIconProps> = ({
   size = 24,
   color = "var(--color-light)",
   ...props
@@ -19,12 +20,14 @@ const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path
-        d="M7.825 13l5.6 5.6L12 20l-8-8 8-8 1.425 1.4-5.6 5.6H20v2H7.825z"
-        fill={color}
+         <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M23 21L12 2 1 21h22zm-12-3v-2h2v2h-2zm0-4h2v-4h-2v4z"
+          fill={color}
       />
     </svg>
   );
 };
 
-export default ArrowLeftIcon;
+export default WarningIcon;

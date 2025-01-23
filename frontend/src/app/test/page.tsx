@@ -2,7 +2,7 @@
 import { Button } from "@/components/client";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
-import { Text } from "@/components/server";
+import { Text ,Icons} from "@/components/server";
 import { Form, Formik } from "formik";
 import { Navbar } from "@/components/client";
 
@@ -61,6 +61,31 @@ const TestPage: React.FC = () => {
           </Button>
         </Form>
       </Formik>
+
+      
+      <Icons.WarningIcon  size={100}  />
+      <Icons.InfoIcon  size={100}  />
+      <Icons.CancelIcon  size={100}  />
+      <Icons.CheckIcon  size={100}  />
+      <Icons.AddIcon  size={100}  />
+      <Icons.MinusIcon  size={100}  />
+      <Icons.ArrowLeftIcon  size={100}  />
+      <Icons.ArrowRightIcon  size={100}  />
+      <Icons.CalendarIcon  size={100}  />
+      <Icons.ChartIcon  size={100}  />
+      <Icons.CancelIcon  size={100}  />
+      <Icons.EditIcon  size={100}  />
+      <Icons.MenuIcon  size={100}  />
+      <Icons.PlayLeftIcon  size={100}  />
+      <Icons.PlayRightIcon  size={100}  />
+      <Icons.ProfileIcon  size={100}  />
+      <Icons.SearchIcon  size={100}  />
+      <Icons.SettingsIcon  size={100}  />
+      <Icons.VisibilityOffIcon  size={100}  />
+      <Icons.VisibilityOnIcon  size={100}  />
+      <Icons.TrashCanIcon  size={100}  />
+      <Icons.PlayUpIcon  size={100}  />
+      <Icons.PlayDownIcon  size={100}  />
     </div>
   );
 };

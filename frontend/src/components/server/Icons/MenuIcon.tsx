@@ -1,11 +1,12 @@
 import React from "react";
 
-interface ArrowLeftIconProps {
+
+interface MenuIconProps {
   size?: number;
   color?: string;
 }
 
-const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({
+const MenuIcon: React.FC<MenuIconProps> = ({
   size = 24,
   color = "var(--color-light)",
   ...props
@@ -20,11 +21,11 @@ const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({
       {...props}
     >
       <path
-        d="M7.825 13l5.6 5.6L12 20l-8-8 8-8 1.425 1.4-5.6 5.6H20v2H7.825z"
+        d="M3 18v-2h18v2H3zm0-5v-2h18v2H3zm0-5V6h18v2H3z"
         fill={color}
       />
     </svg>
   );
 };
 
-export default ArrowLeftIcon;
+export default MenuIcon;

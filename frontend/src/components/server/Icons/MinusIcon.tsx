@@ -1,11 +1,12 @@
 import React from "react";
 
-interface ArrowLeftIconProps {
+
+interface MinusIconProps {
   size?: number;
   color?: string;
 }
 
-const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({
+const MinusIcon: React.FC<MinusIconProps> = ({
   size = 24,
   color = "var(--color-light)",
   ...props
@@ -19,12 +20,14 @@ const ArrowLeftIcon: React.FC<ArrowLeftIconProps> = ({
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path
-        d="M7.825 13l5.6 5.6L12 20l-8-8 8-8 1.425 1.4-5.6 5.6H20v2H7.825z"
-        fill={color}
+         <path
+               fillRule="evenodd"
+               clipRule="evenodd"
+               d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12zM6 11v2h12v-2H6z"
+               fill={color}
       />
     </svg>
   );
 };
 
-export default ArrowLeftIcon;
+export default MinusIcon;
