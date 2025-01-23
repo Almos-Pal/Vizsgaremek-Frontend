@@ -4,6 +4,7 @@ import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text } from "@/components/server";
 import { Form, Formik } from "formik";
+import { Navbar } from "@/components/client";
 
 import * as Yup from "yup";
 
@@ -15,6 +16,7 @@ const TestPage: React.FC = () => {
   });
   return (
     <div>
+      <Navbar />
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>
       <Text variant="h3">Test Page</Text>
