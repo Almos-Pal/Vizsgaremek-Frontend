@@ -21,7 +21,7 @@ const MenuIcon: React.FC<MenuIconProps> = ({
       {...props}
     >
       <path
-        d="M3 18v-2h18v2H3zm0-5v-2h18v2H3zm0-5V6h18v2H3z"
+        d="M12 0L0 10.286h3V24h6v-6.857h6V24h6V10.183l3 .103L12 0z"
         fill={color}
       />
     </svg>

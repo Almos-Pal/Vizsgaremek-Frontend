@@ -1,0 +1,19 @@
+// Mobile screen (default styles)
+$screen-mobile-max: 1024px; // Everything up to 1024px is considered mobile
+
+// Desktop screen (styles for devices larger than mobile)
+$screen-desktop-min: 1025px; // From 1025px and above is considered desktop
+
+// Mobile devices
+@mixin mobile {
+  @media (max-width: #{$screen-mobile-max}) {
+    @content;
+  }
+}
+
+// Desktop devices
+@mixin desktop {
+  @media (min-width: #{$screen-desktop-min}) {
+    @content;
+  }
+}

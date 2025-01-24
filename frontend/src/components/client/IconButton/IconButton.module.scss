@@ -1,34 +1,37 @@
+@import "../../../styles/breakpoints.scss";
+
 .button {
     display: inline-flex;
     height: 50px;
-    padding: 12px 24px;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+
     flex-shrink: 0;
-    border-radius: 12px;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     background-color: transparent;
-    
-  
 
-    &.transparent {
-      
-      
-      &:hover {
-        path{
-          fill: var(--color-light) !important
-        }
-      }
+    @include desktop {
+        height: 60px;
+        padding: 12px 24px;
+        gap: 8px;
+        border-radius: 12px;
     }
 
-    &.secondary{
+    &.transparent {
+        &:hover {
+            path {
+                fill: var(--color-light) !important;
+            }
+        }
+    }
+
+    &.secondary {
         &:hover {
             path {
                 fill: var(--color-grey-300) !important;
             }
         }
     }
-  
+
     
-  }
+}

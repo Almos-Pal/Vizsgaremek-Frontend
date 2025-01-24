@@ -41,17 +41,17 @@ const IconButton: React.FC<IconButtonProps> = ({
   width,
   disabled,
 }) => {
-  // Construct a className based on color + icon-only style
   const className = clsx(
     styles.button,
     styles[color],
-    styles.iconOnly // ensure your .iconOnly class is defined to handle purely icon-based styling
+    styles.iconOnly 
   );
 
-  // Merge any inline styles with the optional width
-  const fullStyle: React.CSSProperties = { ...style, width: width ?? undefined };
+  const fullStyle: React.CSSProperties = {
+    ...style,
+    width: width ?? undefined,
+  };
 
-  // Determine icon color based on the selected variant
   let iconColor = "var(--color-dark)";
   if (color === "secondary") {
     iconColor = "var(--color-light)";
@@ -59,17 +59,14 @@ const IconButton: React.FC<IconButtonProps> = ({
     iconColor = "var(--color-grey-300)";
   }
 
-  // Build icon props (defaulting size to 24px if not provided)
   const finalIconProps = {
-    size: 24,
+    size: 24, 
     color: iconColor,
     ...iconProps,
   };
 
-  // Create the icon element from the Icons map
   const IconElement = React.createElement(Icons[icon], finalIconProps);
 
-  // If `href` is provided, render an <a> (via <Link>) instead of a <button>
   if (href) {
     return (
       <Link href={href} {...(hrefProps || {})}>
@@ -80,7 +77,6 @@ const IconButton: React.FC<IconButtonProps> = ({
     );
   }
 
-  // Otherwise, render a normal <button>
   return (
     <button
       className={className}
