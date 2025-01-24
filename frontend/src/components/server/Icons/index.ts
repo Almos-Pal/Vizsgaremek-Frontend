@@ -22,5 +22,7 @@ export { default as TrashCanIcon } from "./TrashCanIcon";
 export { default as A_Köztisztaság_Kukája } from "./TrashCanIcon";
 export { default as PlayUpIcon } from "./PlayUpIcon";
 export { default as PlayDownIcon } from "./PlayDownIcon";
-
+export { default as HomeIcon} from "./HomeIcon";
+export { default as DumbellIcon } from "./DumbellIcon";
+export { default as LogoutIcon } from "./LogoutIcon";
 
