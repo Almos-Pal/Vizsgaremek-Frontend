@@ -25,4 +25,5 @@ export { default as PlayDownIcon } from "./PlayDownIcon";
 export { default as HomeIcon} from "./HomeIcon";
 export { default as DumbellIcon } from "./DumbellIcon";
 export { default as LogoutIcon } from "./LogoutIcon";
+export { default as PenPaperIcon } from "./PenPaperIcon";
 

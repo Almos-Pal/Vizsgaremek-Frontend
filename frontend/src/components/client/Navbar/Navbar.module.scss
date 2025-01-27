@@ -10,39 +10,114 @@
     top: 0;
     left: 0;
     border-radius: 0 1rem 1rem 0;
+    z-index: 1000;
 
+    width: 9rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    
     @include mobile {
         display: none;
     }
 
-    @include desktop {
-        width: 9rem;
+    
+
+
+    .menu {
+        z-index: 1;
+        position: fixed;
+        top: 0;
+        left: 8.25rem;
+        width: 25rem;
         height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
+        text-align: center;
+        background-color: var(--color-grey-400);
+        padding-top: 2rem;
+    
+        /* Hidden by default: off‐screen, invisible, unclickable */
+        transform: translateX(-21rem);
+        opacity: 0;
+        pointer-events: none;
+    
+        /* Animate transform & opacity changes over 0.3s */
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
+
+        
+      }
+      
+
+     
+      .menuOpen {
+        /* Slide in from the left: transform => 0, fully visible, clickable */
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      
+
 }
 
 
 
 .mobilenavbar {
     @include mobile {
-      width: 100%;
-      position: fixed;
-      bottom: 0;
-  
-      display: flex;
-      justify-content: space-around; 
-      align-items: center;
-      padding: 1rem 0;
-      background-color: var(--color-grey-500);
-      border-top: 0.5rem solid var(--color-primary-50);
-      border-radius: 1rem 1rem 0 0;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 1rem 0;
+        background-color: var(--color-grey-500);
+        border-top: 0.5rem solid var(--color-primary-50);
+        border-radius: 1rem 1rem 0 0;
     }
-  
+
     @include desktop {
-      display: none;
+        display: none;
     }
+
+
+    .menu {
+        z-index: 1;
+        position: fixed;
+        bottom:6rem;
+        width: 100vw;
+        height: fit-content;
+        text-align: center;
+        background-color: var(--color-grey-400);
+        padding-top: 2rem;
+        border-radius: 1rem 1rem 0 0;
+        border-top: 0.5rem solid var(--color-primary-50);
+
+    
+        /* Hidden by default: off‐screen, invisible, unclickable */
+        transform: translateY(5rem);
+        opacity: 0;
+        pointer-events: none;
+    
+        /* Animate transform & opacity changes over 0.3s */
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+    
+      .menuOpen {
+        /* Slide in from the left: transform => 0, fully visible, clickable */
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+
+      .innerMenu {
+        
+        margin-left: 5%;
+        margin-right: 5%;
+      }
 }
 
 .navItem {
