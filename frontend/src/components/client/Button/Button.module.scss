@@ -49,10 +49,37 @@
     padding: 12px 12px;
     justify-content: center;
     align-items: center;
+
     &.noPadding {
       padding: 0;
       width: auto;
       height: auto;
+    }
+  }
+
+  &.noBackground {
+    background-color: transparent !important;
+    border: none !important;
+
+    p {
+      color: inherit !important;
+    }
+
+    path {
+      fill: var(--color-light) !important;
+    }
+
+    &:hover {
+      background-color: transparent !important;
+      border: none !important;
+
+      p {
+        color: var(--color-hover) !important;
+      }
+      path {
+        fill: var(--color-primary-50) !important;
+
+      }
     }
   }
 }

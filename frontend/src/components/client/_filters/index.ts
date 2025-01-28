@@ -1,0 +1,1 @@
+export {default as GyakorlatFilter} from './GyakorlatFilter/GyakorlatFilter';

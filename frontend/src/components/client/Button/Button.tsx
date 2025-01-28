@@ -18,10 +18,12 @@ interface ButtonProps {
   iconOnly?: boolean;
   iconProps?: { size?: number; color?: string; filled?: boolean };
   noPadding?: boolean;
+  noBackground?: boolean; // New prop
   style?: React.CSSProperties;
   type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
   width?: number | string;
   disabled?: boolean;
+  additionalClassName?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -34,27 +36,21 @@ const Button: React.FC<ButtonProps> = ({
   rightIcon,
   iconOnly = false,
   noPadding = false,
+  noBackground = false, // Default false
   iconProps,
   style,
   type,
   width,
   disabled,
+  additionalClassName,
 }) => {
-  //   const [hover, setHover] = useState(false);
-
-  //   const handleMouseEnter = () => {
-  //     setHover(true);
-  //   };
-
-  //   const handleMouseLeave = () => {
-  //     setHover(false);
-  //   };
-
   const className = clsx(
     styles.button,
     styles[color],
     iconOnly && styles.iconOnly,
-    noPadding && styles.noPadding
+    noPadding && styles.noPadding,
+    noBackground && styles.noBackground ,
+    additionalClassName && additionalClassName
   );
 
   const fullStyle = { ...style, width: width ?? undefined };
@@ -93,12 +89,7 @@ const Button: React.FC<ButtonProps> = ({
   if (href) {
     return (
       <Link href={href} {...(hrefProps && hrefProps)}>
-        <span
-          className={className}
-          //   onMouseEnter={handleMouseEnter}
-          //   onMouseLeave={handleMouseLeave}
-          style={fullStyle}
-        >
+        <span className={className} style={fullStyle}>
           {renderContent()}
         </span>
       </Link>
@@ -109,8 +100,6 @@ const Button: React.FC<ButtonProps> = ({
     <button
       className={className}
       onClick={onClick}
-      //   onMouseEnter={handleMouseEnter}
-      //   onMouseLeave={handleMouseLeave}
       style={fullStyle}
       type={type}
       disabled={disabled}

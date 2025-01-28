@@ -28,7 +28,7 @@ const TestPage: React.FC = () => {
       <Text variant="caption">Test Page</Text>
       <div className="flex flex-row gap-2 ">
         <Button>Test Button</Button>
-        <Button leftIcon="ArrowLeftIcon">Test Button</Button>
+        <Button leftIcon="ArrowLeftIcon" >Test Button</Button>
         <Button iconOnly leftIcon="ArrowLeftIcon" />
         <Button color="secondary">Test Button</Button>
         <Button color="secondary" leftIcon="ArrowLeftIcon">
