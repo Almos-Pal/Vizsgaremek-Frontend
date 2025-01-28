@@ -40,21 +40,11 @@ const Button: React.FC<ButtonProps> = ({
   width,
   disabled,
 }) => {
-  //   const [hover, setHover] = useState(false);
-
-  //   const handleMouseEnter = () => {
-  //     setHover(true);
-  //   };
-
-  //   const handleMouseLeave = () => {
-  //     setHover(false);
-  //   };
-
   const className = clsx(
     styles.button,
     styles[color],
     iconOnly && styles.iconOnly,
-    noPadding && styles.noPadding
+    noPadding && styles.noPadding,
   );
 
   const fullStyle = { ...style, width: width ?? undefined };
@@ -79,26 +69,32 @@ const Button: React.FC<ButtonProps> = ({
   const finalIconProps = { size: iconSize, color: iconColor, ...iconProps };
 
   const renderContent = () => (
-    <>
-      {leftIcon && React.createElement(Icons[leftIcon], finalIconProps)}
+    <div className={styles.content}>
+      {/* Left placeholder or icon */}
+      <div className={styles.leftBlock}>
+        {leftIcon && React.createElement(Icons[leftIcon], finalIconProps)}
+      </div>
+  
+      {/* Center text */}
       {!iconOnly && (
-        <Text variant="button" color={textColor}>
-          {children}
-        </Text>
+        <div className={styles.centerBlock}>
+          <Text variant="button" color={textColor}>
+            {children}
+          </Text>
+        </div>
       )}
-      {rightIcon && React.createElement(Icons[rightIcon], finalIconProps)}
-    </>
+  
+      {/* Right placeholder or icon */}
+      <div className={styles.rightBlock}>
+        {rightIcon && React.createElement(Icons[rightIcon], finalIconProps)}
+      </div>
+    </div>
   );
 
   if (href) {
     return (
       <Link href={href} {...(hrefProps && hrefProps)}>
-        <span
-          className={className}
-          //   onMouseEnter={handleMouseEnter}
-          //   onMouseLeave={handleMouseLeave}
-          style={fullStyle}
-        >
+        <span className={className} style={fullStyle}>
           {renderContent()}
         </span>
       </Link>
@@ -109,8 +105,6 @@ const Button: React.FC<ButtonProps> = ({
     <button
       className={className}
       onClick={onClick}
-      //   onMouseEnter={handleMouseEnter}
-      //   onMouseLeave={handleMouseLeave}
       style={fullStyle}
       type={type}
       disabled={disabled}

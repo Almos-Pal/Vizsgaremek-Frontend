@@ -57,9 +57,9 @@ const Navbar: React.FC = () => {
 
                 <div id='deskptopMenu'   className={`${styles.menu} ${menuOpen ? styles.menuOpen : ''}`}                >
                     {/* Menu items go here */}
-                    <Button  rightIcon='DumbellIcon' iconProps={{ size: 45 }} width={350} style={{marginBottom: 20}}>Edzés Kezdése</Button>
-                    <Button rightIcon='PenPaperIcon' iconProps={{ size: 45 }} width={350} color='secondary' style={{marginBottom: 20}}>Edzéstervező</Button>
-                    <Button rightIcon='CalendarIcon' iconProps={{ size: 45 }} width={350} color='secondary'style={{marginBottom: 20}} >Edzésterv-tervező</Button>
+                    <Button  rightIcon='DumbellIcon' iconProps={{ size: 45 }} width={350} style={{marginBottom: 20}}   >Edzés Kezdése</Button>
+                    <Button rightIcon='PenPaperIcon' iconProps={{ size: 45 }} width={350} color='secondary' style={{marginBottom: 20}} >Edzéstervező</Button>
+                    <Button rightIcon='CalendarIcon' iconProps={{ size: 50 }} width={350} color='secondary'style={{marginBottom: 20}} >Edzésterv-tervező</Button>
 
                     <Text variant='h5' style={{marginBottom: 20}}> Saját gyűlytemény</Text>
 
@@ -130,7 +130,7 @@ const Navbar: React.FC = () => {
                 <div id='mobileMenu'  className={`${styles.menu} ${menuOpen ? styles.menuOpen : ''}`}                >
                     <div className={styles.innerMenu}>
                         {/* Menu items go here */}
-                        <Button  rightIcon='DumbellIcon' iconProps={{ size: 45 }} width={"100%"} style={{marginBottom: 20}}>Edzés Kezdése</Button>
+                        <Button  rightIcon='DumbellIcon' iconProps={{ size: 45 }} width={"100%"} style={{marginBottom: 20}} >Edzés Kezdése</Button>
                         <Button rightIcon='PenPaperIcon' iconProps={{ size: 45 }} width={"100%"} color='secondary' style={{marginBottom: 20}}>Edzéstervező</Button>
                         <Button rightIcon='CalendarIcon' iconProps={{ size: 45 }} width={"100%"} color='secondary'style={{marginBottom: 20}} >Edzésterv-tervező</Button>
                         <Text variant='h5' style={{marginBottom: 20}}> Saját gyűlytemény</Text>

@@ -3,11 +3,40 @@
   height: 50px;
   padding: 12px 24px;
   justify-content: center;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
   border-radius: 12px;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+ 
+  
+ 
+
+  .content {
+    display: flex;
+    align-items: center;
+    width: 100%; 
+  }
+  
+  
+  .leftBlock,
+  .rightBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px; 
+  }
+  
+  
+  .centerBlock {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
 
   &.primary {
     border: 2px solid var(--color-primary-10);
