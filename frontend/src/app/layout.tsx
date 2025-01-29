@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ReactQueryProvider } from "@/utils";
+import { ReactSessionProvider } from "@/utils";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,9 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.variable}>
-        <ReactQueryProvider>
-          <main>{children}</main>
-        </ReactQueryProvider>
+        
+        <ReactSessionProvider>
+          <ReactQueryProvider>
+            <main>{children}</main>
+          </ReactQueryProvider>
+        </ReactSessionProvider>
+        
       </body>
     </html>
   );

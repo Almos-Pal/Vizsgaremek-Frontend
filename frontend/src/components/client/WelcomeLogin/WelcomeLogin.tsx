@@ -11,6 +11,7 @@ import { Button } from "@/components/client";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text } from "@/components/server";
+import { signIn } from 'next-auth/react';
 
 const initialValues = {
     email: '',
@@ -24,8 +25,15 @@ const validationSchema = Yup.object().shape({
 
 const WelcomeLogin: React.FC = () => {
 
-    const handleSubmit = (values: typeof initialValues) => {
+    const handleSubmit = async (values: typeof initialValues) => {
         console.log(values.email, values.password);
+
+        const result = await signIn('credentials', {
+            email: values.email,
+            password: values.password, 
+            redirect: true,
+            callbackUrl: '/gyakorlat'
+        })
     };
 
     return (
@@ -82,7 +90,7 @@ const WelcomeLogin: React.FC = () => {
                         style={{ marginTop: '1rem' }}
                         color="secondary"
                         type="button"
-                        href={'/regisztralas'}
+                        href={'/regisztracio'}
                     >
                         Regisztráció
                     </Button>
