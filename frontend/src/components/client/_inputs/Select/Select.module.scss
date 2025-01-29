@@ -1,0 +1,18 @@
+.selectWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .labelWrapper {
+    display: flex;
+    align-items: center;
+  }
+  
+  .selectedValueDisplay{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+  }
+
+    
