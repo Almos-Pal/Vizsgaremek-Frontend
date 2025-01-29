@@ -59,7 +59,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
             {data.izomcsoportok.map((izomcsoport, index) => (
               <span key={izomcsoport}>
               {getMuscleNameById(izomcsoport)}
-              {index < testdata.length - 1 && ", "}
+              {data.izomcsoportok.length > 1 && index < data.izomcsoportok.length - 1 && ", "}
               </span>
             ))}
             </Text>

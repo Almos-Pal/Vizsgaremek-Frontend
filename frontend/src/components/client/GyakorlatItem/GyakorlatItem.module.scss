@@ -15,6 +15,15 @@
     min-height: 100px;
     padding: 0px 8px;
     border-radius: 1rem;
+    text-decoration: none;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+
+    @include mobile {
+        &:hover {
+            transform: translateY(-2px);
+            background-color: var(--color-grey-400);
+        }
+    }
   }
   
   .body-image {
@@ -29,6 +38,7 @@
     width: 100%;
     padding-left: 8px;
   }
+
 .gyakorlat-button{
  
     @include mobile{

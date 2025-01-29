@@ -15,9 +15,10 @@ interface FormikSelectProps {
   placeholder?: string;
   label?: string;
   isRequired?: boolean;
+  isClearable?: boolean;
 }
 
-const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = false, placeholder,label,isRequired }) => {
+const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = false, placeholder,label,isRequired,isClearable = false }) => {
   const { setFieldValue, values } = useFormikContext<any>(); // Get Formik context values
 
   const handleChange = (selectedOptions: any) => {
@@ -64,6 +65,7 @@ const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = fa
           placeholder={placeholder}
           value={currentValue}
           onChange={handleChange}
+          isClearable={isClearable}
           />
         )}
     </Field>
