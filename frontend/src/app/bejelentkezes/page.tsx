@@ -1,5 +1,7 @@
+"use client"
+
 import React from 'react';
-import WelcomeLogin from '../../components/client/WelcomeLogin/WelcomeLogin';
+import { WelcomeLogin } from '@/components/client';
 
 const Bejelentkezes: React.FC = () => {
     return (
