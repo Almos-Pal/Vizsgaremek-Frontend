@@ -120,6 +120,7 @@ const Navbar: React.FC = () => {
                         icon="LogoutIcon"
                         color="transparent"
                         iconProps={{ size: 30 }}
+                        href={"/api/auth/signout"}
                     />
                     <Text variant="caption" color="var(--color-grey-300)">
                         Kilépés

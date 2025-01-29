@@ -1,17 +1,18 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from "yup";
 
-import styles from './WelcomeLogin.module.scss'; // import the SCSS module
+import styles from './WelcomeLogin.module.scss';
 
 // Components
 import { Button } from "@/components/client";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text } from "@/components/server";
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/dist/client/components/navigation';
 
 const initialValues = {
     email: '',
@@ -19,21 +20,36 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-    email: Yup.string().required("Email megadása kötelező"),
+    email: Yup.string().email("Helytelen email formátum").required("Email megadása kötelező"),
     password: Yup.string().required("Jelszó megadása kötelező"),
 });
 
 const WelcomeLogin: React.FC = () => {
+    const [errorMessage, setErrorMessage] = useState("");
+    const router = useRouter();
+    const { data: session } = useSession();
 
     const handleSubmit = async (values: typeof initialValues) => {
-        console.log(values.email, values.password);
+        // Example signIn call to trigger your CredentialsProvider authorize() function
 
+        setErrorMessage("");
         const result = await signIn('credentials', {
             email: values.email,
-            password: values.password, 
-            redirect: true,
-            callbackUrl: '/gyakorlat'
-        })
+            password: values.password,
+            // If you want an immediate redirect upon success, set redirect to true.
+            // If you want to handle the result manually, set redirect to false and check result.error/result.ok.
+            redirect: false,
+        });
+
+        if (result?.error) {
+            
+            setErrorMessage("Hibás email vagy jelszó!");
+        } else {
+            // If sign-in is successful, navigate where you want
+            console.log('siker')
+            router.push("/bejelentkezes");
+        }
+       
     };
 
     return (
@@ -67,6 +83,8 @@ const WelcomeLogin: React.FC = () => {
                         isRequired={true}
                         style={{ marginTop: '1rem' }}
                     />
+                    
+                    <h1>{errorMessage}</h1>
 
                     <Button
                         width="100%"
