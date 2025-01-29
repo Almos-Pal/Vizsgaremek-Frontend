@@ -82,7 +82,7 @@ const WelcomeLogin: React.FC = () => {
                         style={{ marginTop: '1rem' }}
                         color="secondary"
                         type="button"
-                        href={'/regisztralas'}
+                        href={'/regisztracio'}
                     >
                         Regisztráció
                     </Button>
