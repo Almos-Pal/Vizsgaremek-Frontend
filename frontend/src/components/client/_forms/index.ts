@@ -1,0 +1,1 @@
+export {default as GyakorlatCreateEditForm} from './GyakorlatCreateEditForm/GyakorlatCreateEditForm';

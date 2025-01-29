@@ -1,0 +1,23 @@
+.content-layout{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.content-layout__container{
+    max-width: 1040px;
+    width: 100%;
+    padding: 0rem 0.5rem;
+    margin: 0 0.5rem;
+}
+
+
+.header{
+    padding-bottom: 5rem;
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+

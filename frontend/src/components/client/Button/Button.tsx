@@ -18,10 +18,12 @@ interface ButtonProps {
   iconOnly?: boolean;
   iconProps?: { size?: number; color?: string; filled?: boolean };
   noPadding?: boolean;
+  noBackground?: boolean; // New prop
   style?: React.CSSProperties;
   type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
   width?: number | string;
   disabled?: boolean;
+  additionalClassName?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -34,17 +36,21 @@ const Button: React.FC<ButtonProps> = ({
   rightIcon,
   iconOnly = false,
   noPadding = false,
+  noBackground = false, // Default false
   iconProps,
   style,
   type,
   width,
   disabled,
+  additionalClassName,
 }) => {
   const className = clsx(
     styles.button,
     styles[color],
     iconOnly && styles.iconOnly,
     noPadding && styles.noPadding,
+    noBackground && styles.noBackground ,
+    additionalClassName && additionalClassName,
   );
 
   const fullStyle = { ...style, width: width ?? undefined };
