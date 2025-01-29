@@ -16,7 +16,6 @@ const TestPage: React.FC = () => {
   });
   return (
     <div>
-      <Navbar />
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>
       <Text variant="h3">Test Page</Text>
