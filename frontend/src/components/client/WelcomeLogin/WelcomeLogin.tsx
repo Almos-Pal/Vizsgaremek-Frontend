@@ -29,6 +29,7 @@ const WelcomeLogin: React.FC = () => {
     const router = useRouter();
     const { data: session } = useSession();
 
+    console.log(session);
     const handleSubmit = async (values: typeof initialValues) => {
         // Example signIn call to trigger your CredentialsProvider authorize() function
 
@@ -47,7 +48,7 @@ const WelcomeLogin: React.FC = () => {
         } else {
             // If sign-in is successful, navigate where you want
             console.log('siker')
-            router.push("/bejelentkezes");
+            router.push("/test/akos");
         }
        
     };
@@ -84,7 +85,7 @@ const WelcomeLogin: React.FC = () => {
                         style={{ marginTop: '1rem' }}
                     />
                     
-                    <h1>{errorMessage}</h1>
+                    <Text variant='subtitle-15' color="var(--color-error)" style={{textAlign: 'center', marginTop: '1rem'}}>{errorMessage} </Text>
 
                     <Button
                         width="100%"
