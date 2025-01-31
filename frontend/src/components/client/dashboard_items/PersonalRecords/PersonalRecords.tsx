@@ -79,7 +79,7 @@ function PersonalRecords() {
 
     return (
 
-        <div id="mainDiv" className={clsx(styles.mainDiv, "max-w-[496px]  max-h-[291px] w-full flex-col m-2.5 p-5 rounded-lg ")}>
+        <div id="mainDiv" className={clsx(styles.mainDiv, "max-w-[496px]  max-h-[291px] w-full flex flex-col m-2.5 p-5 rounded-lg ")}>
             <div className="mb-5">
                 <Text variant="h4" className="max-w-[496px] text-center">Rekordok</Text>
             </div>

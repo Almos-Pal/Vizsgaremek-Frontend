@@ -14,19 +14,12 @@ const TestPage: React.FC = () => {
       .min(3, "Name must be at least 3 characters"),
   });
   return (
-    <div>
-      <div className="max-w-[1440] max-h-[768] flex">
-     <TodaysWorkout/>
-     <WeeklyTotal/>
+    <div className="max-w-[1440] max-h-[768] flex flex-wrap" >
+      <TodaysWorkout/>
+      <WeeklyTotal/>
       <CalendarWidget/>
-      </div>
-      <div className="flex">
-        <PersonalRecords/>
-        <Stats/>
-      </div>
-
-
-
+      <PersonalRecords/>
+      <Stats/>
     </div>
   );
 };
