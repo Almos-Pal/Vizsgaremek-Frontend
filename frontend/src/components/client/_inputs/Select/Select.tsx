@@ -9,9 +9,10 @@ interface Option {
 interface SelectInputProps extends SelectProps<Option, boolean, GroupBase<Option>> {
   options: Option[]; // Options for the dropdown
   isMulti?: boolean; // Multi-select support
+  isClearable?: boolean;
 }
 
-const SelectInput: React.FC<SelectInputProps> = ({ options, isMulti = false, ...props }) => {
+const SelectInput: React.FC<SelectInputProps> = ({ options, isMulti = false, isClearable = false, ...props }) => {
     const customStyles = {
         control: (provided: any, state: any) => ({
           ...provided,
@@ -54,8 +55,9 @@ const SelectInput: React.FC<SelectInputProps> = ({ options, isMulti = false, ...
         }),
         clearIndicator: (provided: any) => ({
           ...provided,
-          color: "var(--color-light)", // Clear button color
+          color: "var(--color-dark)", // Clear button color
           padding: "8px", // Add some spacing for better visibility
+          cursor: "pointer",
           "&:hover": {
             color: "var(--color-primary-50)",
           },
@@ -99,10 +101,10 @@ const SelectInput: React.FC<SelectInputProps> = ({ options, isMulti = false, ...
       
     return (
     <Select
-
         styles={customStyles} // Custom
       options={options} 
       isMulti={isMulti} // Single or multiple selection
+      isClearable={isClearable}
       className="basic-single" // Add classes if needed
       classNamePrefix="select" // Prefix for styling
       {...props} // Spread any additional props

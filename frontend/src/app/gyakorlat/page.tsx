@@ -14,13 +14,22 @@ const GyakorlatPage: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Extract `page` from the URL or default to 1
+  // Extract query parameters
   const initialPage = parseInt(searchParams.get("page") || "1", 10);
   const [page, setPage] = useState(initialPage);
+
+  // Get filter values from URL
+  const filterValues = {
+    nev: searchParams.get("nev") || undefined,
+    izomcsoportId: searchParams.get("izomcsoportId") ? Number(searchParams.get("izomcsoportId")) : undefined,
+    izomcsoportok: searchParams.get("izomcsoportok")?.split(",").map(Number).filter(Boolean) || undefined,
+    eszkoz: searchParams.get("eszkoz") || undefined,
+  };
 
   const { data: gyakorlatok, isLoading } = useGyakorlat.getGyakorlatok({
     page,
     limit: 10,
+    ...filterValues
   });
   const { mutate: createGyakorlat } = useGyakorlat.createGyakorlat();
   const { mutate: deleteGyakorlat } = useGyakorlat.deleteGyakorlat();
@@ -35,33 +44,37 @@ const GyakorlatPage: React.FC = () => {
     deleteGyakorlat(id);
   };
 
-  useEffect(() => {
-    router.push(`?page=${page}`);
-  }, [page, router]);
+  const handleFilterChange = (values: any) => {
+    // The URL update is handled in the GyakorlatFilter component
+    setPage(1); // Reset to first page when filters change
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <ContentLayout header="Gyakorlatok" filter={<GyakorlatFilter filter="filter" />}>
-
-
-    <SubHeader header="Gyakorlatok" />
+    <ContentLayout 
+      header="Gyakorlatok" 
+      filter={<GyakorlatFilter onFilterChange={handleFilterChange} />}
+    >
+      <SubHeader header="Gyakorlatok" />
 
       <div className={"flex flex-col gap-6 mb-12"}>
-
         {gyakorlatok?.items?.map((gyakorlat: any) => (
-            <GyakorlatItem key={gyakorlat.gyakorlat_id} gyakorlat={gyakorlat} />
+          <GyakorlatItem key={gyakorlat.gyakorlat_id} gyakorlat={gyakorlat} />
         ))}
-        </div>
+      </div>
      
       <Pagination
         value={page}
         total={gyakorlatok?.meta?.totalPages || 1}
-        onChange={(newPage) => setPage(newPage)}
+        onChange={(newPage) => {
+          setPage(newPage);
+          const params = new URLSearchParams(searchParams.toString());
+          params.set("page", newPage.toString());
+          router.push(`?${params.toString()}`);
+        }}
       />
-   
     </ContentLayout>
-
   );
 };
 

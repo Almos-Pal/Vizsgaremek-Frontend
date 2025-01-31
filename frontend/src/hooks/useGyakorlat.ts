@@ -1,13 +1,28 @@
 import { gyakorlatApi } from '@/lib/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-
+interface GetGyakorlatokParams {
+  page?: number;
+  limit?: number;
+  userId?: number | null;
+  nev?: string;
+  izomcsoportId?: number;
+  izomcsoportok?: number[];
+  eszkoz?: string;
+}
 
 const useGyakorlat = {
-  getGyakorlatok: ({ page = 1, limit = 10, userId = null } = {}) => {
+  getGyakorlatok: (params: GetGyakorlatokParams = {}) => {
     return useQuery({
-      queryKey: ['gyakorlatok', { page, limit, userId }],
-      queryFn: () => gyakorlatApi.fetchGyakorlatok({ page, limit, userId }),
+      queryKey: ['gyakorlatok', params],
+      queryFn: () => gyakorlatApi.fetchGyakorlatok(params),
+    });
+  },
+
+  getIzomcsoportok: () => {
+    return useQuery({
+      queryKey: ['izomcsoportok'],
+      queryFn: () => gyakorlatApi.getIzomcsoportok(),
     });
   },
 
