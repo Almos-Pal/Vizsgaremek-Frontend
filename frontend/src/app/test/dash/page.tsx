@@ -1,5 +1,5 @@
 "use client";
-import { Button,CalendarWidget,TodaysWorkout, WeeklyTotal } from "@/components/client";
+import { Button,CalendarWidget,PersonalRecords,Stats,TodaysWorkout, WeeklyTotal } from "@/components/client";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text ,Icons} from "@/components/server";
@@ -19,7 +19,10 @@ const TestPage: React.FC = () => {
      <TodaysWorkout/>
      <WeeklyTotal/>
       <CalendarWidget/>
-      
+      </div>
+      <div className="flex">
+        <PersonalRecords/>
+        <Stats/>
       </div>
 
 
