@@ -19,6 +19,19 @@ const initialValues = {
     password: ''
 };
 
+
+//way to get session data
+//const session = getServerSession(authOptions);
+//sessions are stored in cookies
+// session contains user data, token, etc.
+//place this in a fetch request's header to get user data
+// authorization: `Bearer ${session.backendTokens.accessToken}`
+
+
+//middleware:
+// export { default } from 'next-auth/middleware';
+// export const config = { matcher: ["/((?!bejelentkezes|regisztracio).*)"]};
+
 const validationSchema = Yup.object().shape({
     email: Yup.string().email("Helytelen email formátum").required("Email megadása kötelező"),
     password: Yup.string().required("Jelszó megadása kötelező"),
@@ -43,14 +56,11 @@ const WelcomeLogin: React.FC = () => {
         });
 
         if (result?.error) {
-            
-            setErrorMessage("Hibás email vagy jelszó!");
+            setErrorMessage("Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.");
         } else {
-            // If sign-in is successful, navigate where you want
-            console.log('siker')
             router.push("/test/akos");
         }
-       
+
     };
 
     return (
@@ -84,8 +94,10 @@ const WelcomeLogin: React.FC = () => {
                         isRequired={true}
                         style={{ marginTop: '1rem' }}
                     />
-                    
-                    <Text variant='subtitle-15' color="var(--color-error)" style={{textAlign: 'center', marginTop: '1rem'}}>{errorMessage} </Text>
+
+                    <div className='error-message'>
+                        <Text variant='subtitle-15' color="var(--color-error)" style={{ textAlign: 'center', marginTop: '1rem', maxWidth: '100%' }}>{errorMessage} </Text>
+                    </div>
 
                     <Button
                         width="100%"
@@ -109,7 +121,7 @@ const WelcomeLogin: React.FC = () => {
                         style={{ marginTop: '1rem' }}
                         color="secondary"
                         type="button"
-                        href={'/regisztracio'}
+                        href={"/regisztracio"}
                     >
                         Regisztráció
                     </Button>

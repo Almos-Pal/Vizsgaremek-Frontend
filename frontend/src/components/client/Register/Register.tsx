@@ -1,3 +1,6 @@
+"use client";
+
+
 import React from 'react';
 import styles from './Register.module.scss';
 import { Text } from "@/components/server";
@@ -6,6 +9,8 @@ import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import { useRouter } from 'next/dist/client/components/navigation';
+
 
 const initialValues = {
     email: '',
@@ -25,10 +30,36 @@ const validationSchema = Yup.object().shape({
 
 const Register: React.FC = () => {
 
+    const router = useRouter();
+
+    const handleSubmit = async (values: typeof initialValues) => {
+        const res = (await fetch('http://localhost:8000/auth/register', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: values.email,
+                username: values.username,
+                password: values.password,
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }));
+
+        if (!res.ok) {
+            alert(res.statusText);
+            return;
+        } 
+        else {
+
+            const response = await res.json();
+            console.log('Sikeres regisztráció');
+            console.log({response})
+    
+            
+            router.push('/bejelentkezes')
+        }
 
 
-    const handleSubmit = (values: typeof initialValues) => {
-        console.log(values.email, values.password);
     };
 
 
@@ -41,7 +72,11 @@ const Register: React.FC = () => {
 
             <Formik
                 initialValues={initialValues}
-                onSubmit={handleSubmit}
+                onSubmit={(values, actions) => {
+                    console.log("Formik onSubmit triggered!");  // Debugging log
+                    handleSubmit(values);
+                    actions.setSubmitting(false);
+                }}
                 validationSchema={validationSchema}
             >
                 <Form>
@@ -90,7 +125,7 @@ const Register: React.FC = () => {
                         style={{ marginTop: '1.5rem' }}
                         color="secondary"
                         type="submit"
-                        href={'/bejelentkezes'}
+                        
                     >
                         Regisztrálás
                     </Button>

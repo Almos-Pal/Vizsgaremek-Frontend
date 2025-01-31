@@ -6,9 +6,7 @@ import { WelcomeLogin } from '@/components/client';
 const Bejelentkezes: React.FC = () => {
     return (
         <>
-           
             <WelcomeLogin />
-        
         </>
     );
 };

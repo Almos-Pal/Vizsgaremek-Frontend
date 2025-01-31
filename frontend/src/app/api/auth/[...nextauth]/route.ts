@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
                     },
                 });
                 if (res.status == 401) {
-                    console.log(res.statusText);
+                    console.log(`Login failed: ${res.statusText}`);
                     return null;
                 }
                 const user = await res.json();
