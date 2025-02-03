@@ -7,13 +7,28 @@ import { Form, Formik } from "formik";
 import { Navbar } from "@/components/client";
 
 import * as Yup from "yup";
+import BodySVG from "@/components/server/BodySVG/BodySVG";
+import {  useEffect, useState } from "react";
 
 const TestPage: React.FC = () => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Name is required")
       .min(3, "Name must be at least 3 characters"),
-  });
+  }); 
+
+  const [state, setState] = useState("front");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setState((prevState) => (prevState === "front" ? "back" : "front"));
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <div>
       <Text variant="h1">Test Page</Text>
@@ -85,6 +100,15 @@ const TestPage: React.FC = () => {
       <Icons.TrashCanIcon  size={100}  />
       <Icons.PlayUpIcon  size={100}  />
       <Icons.PlayDownIcon  size={100}  />
+      <BodySVG 
+  size={300}
+  
+  view={"front"} // "front" or "back"
+  selectedMuscleIds={[4]} // Primary highlights (hasizom, mellizom)
+  secondaryMuscleIds={[2, 6]} // Secondary highlights (combhajlito, tricepsz)
+  highlightColor="var(--color-error)" // Primary highlight color
+  secondaryHighlightColor="var(--color-warning)" // Secondary highlight color
+/>
     </div>
   );
 };
