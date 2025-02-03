@@ -11,6 +11,7 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/dist/client/components/navigation';
 
+import { registerSchema } from '@/utils/Validations/registerSchema';
 
 const initialValues = {
     email: '',
@@ -18,15 +19,6 @@ const initialValues = {
     password: '',
     passwordConfirm: ''
 };
-
-const validationSchema = Yup.object().shape({
-    email: Yup.string().required("Email megadása kötelező"),
-    username: Yup.string().required("Felhasználónév megadása kötelező"),
-    password: Yup.string().required("Jelszó megadása kötelező"),
-    passwordConfirm: Yup.string().oneOf([Yup.ref('password'), undefined], 'A jelszavaknak egyezniük kell')
-});
-
-
 
 const Register: React.FC = () => {
 
@@ -48,14 +40,12 @@ const Register: React.FC = () => {
         if (!res.ok) {
             alert(res.statusText);
             return;
-        } 
+        }
         else {
 
             const response = await res.json();
             console.log('Sikeres regisztráció');
-            console.log({response})
-    
-            
+            //console.log({ response })
             router.push('/bejelentkezes')
         }
 
@@ -77,7 +67,7 @@ const Register: React.FC = () => {
                     handleSubmit(values);
                     actions.setSubmitting(false);
                 }}
-                validationSchema={validationSchema}
+                validationSchema={registerSchema}
             >
                 <Form>
                     <FormField
@@ -125,10 +115,12 @@ const Register: React.FC = () => {
                         style={{ marginTop: '1.5rem' }}
                         color="secondary"
                         type="submit"
-                        
+
                     >
                         Regisztrálás
                     </Button>
+
+
                 </Form>
             </Formik>
         </div>

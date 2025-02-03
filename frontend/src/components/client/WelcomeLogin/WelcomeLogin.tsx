@@ -6,13 +6,14 @@ import * as Yup from "yup";
 
 import styles from './WelcomeLogin.module.scss';
 
-// Components
 import { Button } from "@/components/client";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text } from "@/components/server";
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/dist/client/components/navigation';
+
+import { loginSchema } from '@/utils/Validations/loginSchema';
 
 const initialValues = {
     email: '',
@@ -32,41 +33,30 @@ const initialValues = {
 // export { default } from 'next-auth/middleware';
 // export const config = { matcher: ["/((?!bejelentkezes|regisztracio).*)"]};
 
-const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Helytelen email formátum").required("Email megadása kötelező"),
-    password: Yup.string().required("Jelszó megadása kötelező"),
-});
+
 
 const WelcomeLogin: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
-    const { data: session } = useSession();
 
     //console.log(session);
     const handleSubmit = async (values: typeof initialValues) => {
-        // Example signIn call to trigger your CredentialsProvider authorize() function
         //console.log("Submitting credentials:", values);
         setErrorMessage("");
         const result = await signIn('credentials', {
             email: values.email,
             password: values.password,
-            // If you want an immediate redirect upon success, set redirect to true.
-            // If you want to handle the result manually, set redirect to false and check result.error/result.ok.
             redirect: false,
-            callbackUrl: "/test/akos",
+            callbackUrl: "/test/akos", //Here you can change where to immidiately redirect after login
         });
         //console.log("SignIn result:", result);
 
-       
-
+    
         if (result?.error) {
             //console.error("Login error:", result.error);
             setErrorMessage("Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.");
-            // Optionally, display an error message to the user here.
         } else if (result?.ok) {
-            // After a successful login, wait a brief moment to let NextAuth set the session.
             setTimeout(() => {
-                // Make sure this route exists and is not blocked by middleware.
                 router.push("/test/akos");
             }, 500);
 
@@ -83,7 +73,7 @@ const WelcomeLogin: React.FC = () => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
-                validationSchema={validationSchema}
+                validationSchema={loginSchema}
             >
                 <Form>
                     <FormField
@@ -107,7 +97,7 @@ const WelcomeLogin: React.FC = () => {
                     />
 
                     <div className='error-message'>
-                        <Text variant='subtitle-15' color="var(--color-error)" style={{ textAlign: 'center', marginTop: '1rem', maxWidth: '100%' }}>{errorMessage} </Text>
+                        <Text variant='subtitle-15' color="var(--color-error)" style={{ textAlign: 'center', marginTop: '1rem', maxWidth: '275px' }}>{errorMessage} </Text>
                     </div>
 
                     <Button
