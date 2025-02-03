@@ -42,10 +42,10 @@ const WelcomeLogin: React.FC = () => {
     const router = useRouter();
     const { data: session } = useSession();
 
-    console.log(session);
+    //console.log(session);
     const handleSubmit = async (values: typeof initialValues) => {
         // Example signIn call to trigger your CredentialsProvider authorize() function
-
+        //console.log("Submitting credentials:", values);
         setErrorMessage("");
         const result = await signIn('credentials', {
             email: values.email,
@@ -53,13 +53,24 @@ const WelcomeLogin: React.FC = () => {
             // If you want an immediate redirect upon success, set redirect to true.
             // If you want to handle the result manually, set redirect to false and check result.error/result.ok.
             redirect: false,
+            callbackUrl: "/test/akos",
         });
+        //console.log("SignIn result:", result);
+
+       
 
         if (result?.error) {
+            //console.error("Login error:", result.error);
             setErrorMessage("Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.");
-        } else {
-            router.push("/test/akos");
-        }
+            // Optionally, display an error message to the user here.
+        } else if (result?.ok) {
+            // After a successful login, wait a brief moment to let NextAuth set the session.
+            setTimeout(() => {
+                // Make sure this route exists and is not blocked by middleware.
+                router.push("/test/akos");
+            }, 500);
+
+        };
 
     };
 

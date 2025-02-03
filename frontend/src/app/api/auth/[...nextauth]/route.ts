@@ -1,9 +1,29 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
+import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 
-export const authOptions: NextAuthOptions = {
+async function refreshToken(token: JWT): Promise<JWT> {
+    const res = await fetch('http://localhost:8000/auth/refresh', {
+        method: 'POST',
+        headers: {
+            authorization: `Refresh ${token.backendTokens.refreshToken}`,
+        }
+    });
 
+    const response = await res.json();
+    console.log('refreshed')
+
+    return {
+        ...token,
+        backendTokens: response,
+    };
+}
+
+
+export const authOptions: NextAuthOptions = {
+    
+    secret: process.env.NEXTAUTH_SECRET, // Automatically loaded from .env.local
     providers: [
         CredentialsProvider({
             name: 'Credentials',
@@ -27,7 +47,7 @@ export const authOptions: NextAuthOptions = {
                         email,
                         password,
                     }),
-                    headers: {
+                    headers: {  
                         'Content-Type': 'application/json'
                     },
                 });
@@ -36,6 +56,7 @@ export const authOptions: NextAuthOptions = {
                     return null;
                 }
                 const user = await res.json();
+                console.log("Backend returned user:", user);
                 return user;
             },
 
@@ -44,21 +65,24 @@ export const authOptions: NextAuthOptions = {
 
     callbacks: {
         async jwt({token,user}) {
-            console.log({token,user});
             if (user) return {...token, ...user};
-            return token;
+            //console.log("JWT callback, adding user to token:", user);
+            if (new Date().getTime() < token.backendTokens.expiresIn) return token;
+            
+            return await refreshToken(token);
         },
 
         async session({session, token}) {
             session.user = token.user;
             session.backendTokens = token.backendTokens;
+            //console.log("Session callback, session:", session);
             return session;
         }
     }
 
+    
+
 }
 
 const handler = NextAuth(authOptions);
-
-
 export {handler as GET, handler as POST};
