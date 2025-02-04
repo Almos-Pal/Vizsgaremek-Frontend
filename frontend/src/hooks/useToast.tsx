@@ -29,40 +29,44 @@ const icons = (type: string) => {
 };
 
 const useToast = () => {
+  const getMessage = (defaultMsg: string, field?: string) =>
+    field ? `${field} sikeresen ${defaultMsg}.` : `${defaultMsg}.`;
+
   return {
-    success: (message: string) =>
-      toast.success(message, { ...toastOptions, icon: icons("success") }),
-    successCreate: (message = "Sikeres létrehozás.") =>
-      toast.success(message, { ...toastOptions, icon: icons("success") }),
-    successDelete: (message = "Sikeres törlés.") =>
-      toast.success(message, { ...toastOptions, icon: icons("success") }),
-    successModify: (message = "Sikeres módosítás.") =>
-      toast.success(message, { ...toastOptions, icon: icons("success") }),
-    successAdd: (message = "Sikeres hozzáadás.") =>
-      toast.success(message, { ...toastOptions, icon: icons("success") }),
-    successSend: (message = "Sikeres küldés.") =>
-      toast.success(message, { ...toastOptions, icon: icons("success") }),
-    successSave: (message = "Sikeres mentés.") =>
-      toast.success(message, { ...toastOptions, icon: icons("success") }),
-    errorCreate: (message = "Sikertelen létrehozás.") =>
-      toast.error(message, { ...toastOptions, icon: icons("error") }),
-    errorDelete: (message = "Sikertelen törlés.") =>
-      toast.error(message, { ...toastOptions, icon: icons("error") }),
-    errorModify: (message = "Sikertelen módosítás.") =>
-      toast.error(message, { ...toastOptions, icon: icons("error") }),
-    errorAdd: (message = "Sikertelen hozzáadás.") =>
-      toast.error(message, { ...toastOptions, icon: icons("error") }),
-    errorSend: (message = "Sikertelen küldés.") =>
-      toast.error(message, { ...toastOptions, icon: icons("error") }),
-    errorSave: (message = "Sikertelen mentés.") =>
-      toast.error(message, { ...toastOptions, icon: icons("error") }),
-    error: (message: string) =>
-      toast.error(message, { ...toastOptions, icon: icons("error") }),
-    info: (message?: string) =>
-      toast.info(message, { ...toastOptions, icon: icons("info") }),
-    warning: (message?: string) =>
-      toast.warning(message, { ...toastOptions, icon: icons("warning") }),
+    success: (message: string, field?: string) =>
+      toast.success(getMessage(message, field), { ...toastOptions, icon: icons("success") }),
+    successCreate: (message = "létrehozva", field?: string) =>
+      toast.success(getMessage(message, field), { ...toastOptions, icon: icons("success") }),
+    successDelete: (message = "törölve", field?: string) =>
+      toast.success(getMessage(message, field), { ...toastOptions, icon: icons("success") }),
+    successModify: (message = "módosítva", field?: string) =>
+      toast.success(getMessage(message, field), { ...toastOptions, icon: icons("success") }),
+    successAdd: (message = "hozzáadva", field?: string) =>
+      toast.success(getMessage(message, field), { ...toastOptions, icon: icons("success") }),
+    successSend: (message = "elküldve", field?: string) =>
+      toast.success(getMessage(message, field), { ...toastOptions, icon: icons("success") }),
+    successSave: (message = "elmentve", field?: string) =>
+      toast.success(getMessage(message, field), { ...toastOptions, icon: icons("success") }),
+    errorCreate: (message = "létrehozása sikertelen", field?: string) =>
+      toast.error(getMessage(message, field), { ...toastOptions, icon: icons("error") }),
+    errorDelete: (message = "törlése sikertelen", field?: string) =>
+      toast.error(getMessage(message, field), { ...toastOptions, icon: icons("error") }),
+    errorModify: (message = "módosítása sikertelen", field?: string) =>
+      toast.error(getMessage(message, field), { ...toastOptions, icon: icons("error") }),
+    errorAdd: (message = "hozzáadása sikertelen", field?: string) =>
+      toast.error(getMessage(message, field), { ...toastOptions, icon: icons("error") }),
+    errorSend: (message = "elküldése sikertelen", field?: string) =>
+      toast.error(getMessage(message, field), { ...toastOptions, icon: icons("error") }),
+    errorSave: (message = "mentése sikertelen", field?: string) =>
+      toast.error(getMessage(message, field), { ...toastOptions, icon: icons("error") }),
+    error: (message: string, field?: string) =>
+      toast.error(getMessage(message, field), { ...toastOptions, icon: icons("error") }),
+    info: (message?: string, field?: string) =>
+      toast.info(getMessage(message || "", field), { ...toastOptions, icon: icons("info") }),
+    warning: (message?: string, field?: string) =>
+      toast.warning(getMessage(message || "", field), { ...toastOptions, icon: icons("warning") }),
   };
 };
+
 
 export default useToast;

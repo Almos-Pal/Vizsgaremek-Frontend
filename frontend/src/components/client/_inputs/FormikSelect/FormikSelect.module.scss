@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+
+  label {
+    margin-bottom: 4px;
+  }
+}
+
+.error {
+  [class*="select__control"] {
+    border-color: var(--color-error) !important;
+    &:hover {
+      border-color: var(--color-error) !important;
+    }
+  }
+}
+
+.errorMessage {
+  margin-top: 4px;
+  font-size: 12px;
+} 

@@ -2,6 +2,7 @@ import React from "react";
 import { Field, useFormikContext } from "formik";
 import { Select } from "../../_inputs"; // Assuming this is your existing Select component
 import {Text} from "@/components/server"
+import styles from "./FormikSelect.module.scss";
 
 interface Option {
   value: string;
@@ -18,8 +19,9 @@ interface FormikSelectProps {
   isClearable?: boolean;
 }
 
-const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = false, placeholder,label,isRequired,isClearable = false }) => {
-  const { setFieldValue, values } = useFormikContext<any>(); // Get Formik context values
+const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = false, placeholder,label,isRequired,isClearable = false, }) => {
+  const { setFieldValue, values, errors, touched } = useFormikContext<any>(); // Get Formik context values
+  const error = touched[name] && errors[name] ? String(errors[name]) : undefined;
 
   const handleChange = (selectedOptions: any) => {
     const value = isMulti
@@ -36,39 +38,42 @@ const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = fa
     : options.find((option) => option.value === values[name]) || null;
 
   return (
-    <div>
-
-
-{label && (
-          <label htmlFor={name}>
-            <div className="inline-flex items-center">
-              <Text variant="body-16">{label}</Text>
-              {isRequired && (
-                <Text
-                  variant="caption"
-                  color="var(--color-error)"
-                
-                >
-                  *
-                </Text>
-              )}
-            </div>
-          </label>
-        )}
-    <Field name={name} isRequired={isRequired} >
-      {() => (
+    <div className={styles.container}>
+      {label && (
+        <label htmlFor={name}>
+          <div className="inline-flex items-center">
+            <Text variant="body-16">{label}</Text>
+            {isRequired && (
+              <Text
+                variant="caption"
+                color="var(--color-error)"
+              >
+                *
+              </Text>
+            )}
+          </div>
+        </label>
+      )}
+      <Field name={name} isRequired={isRequired} >
+        {() => (
           <Select
-          instanceId={name}
-          name={name}
-          options={options}
-          isMulti={isMulti}
-          placeholder={placeholder}
-          value={currentValue}
-          onChange={handleChange}
-          isClearable={isClearable}
+            instanceId={name}
+            name={name}
+            options={options}
+            isMulti={isMulti}
+            placeholder={placeholder}
+            value={currentValue}
+            onChange={handleChange}
+            isClearable={isClearable}
+            className={error ? styles.error : ""}
           />
         )}
-    </Field>
+      </Field>
+      {error && (
+        <div className={styles.errorMessage}>
+          <Text color="var(--color-error)">{error}</Text>
+        </div>
+      )}
     </div>
   );
 };
