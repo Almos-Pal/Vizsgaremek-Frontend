@@ -1,4 +1,4 @@
-@import "../../../styles/breakpoints.scss";
+@use "styles/breakpoints.scss" as *;
 
 .button {
     display: inline-flex;

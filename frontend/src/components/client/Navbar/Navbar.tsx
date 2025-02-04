@@ -2,11 +2,9 @@
 
 import React, { useState } from 'react';
 import styles from './Navbar.module.scss';
-import { Icons } from '@/components/server';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 import { Text } from '@/components/server';
-import { on } from 'events';
 
 
 

@@ -12,7 +12,7 @@ interface GyakorlatDataSheetProps {
   data: Gyakorlat; 
 }
 
-const testdata = [1,2,3,4]
+// const testdata = [1,2,3,4]
 
 const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
   return (

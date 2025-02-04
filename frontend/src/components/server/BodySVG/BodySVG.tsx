@@ -1,6 +1,4 @@
 import React from "react";
-import styles from "./test.module.scss";
-import { muscleGroups } from "../../../utils/izomcsoportParse";
 
 type ViewType = 'front' | 'back' | 'both';
 
@@ -252,8 +250,8 @@ const BodySVG: React.FC<BodySVGProps> = ({
             id="Polygon 61"
             d="M246.42 143.911l-4.938-.841-.375 3.363-.5 3.98.938 8.802 3.5 8.072.437.336 4.781-21.19-3.843-2.522z"
           />
-        </g>
-      </g>
+    </g>
+    </g>
       <g id="ember_front" style={getFrontStyle()}>
         <g id="skin front" fill="#CCC">
           <path d="M74.088 0h1.8L78.9 135.008h-7.086L74.088 0z" />
@@ -406,10 +404,10 @@ const BodySVG: React.FC<BodySVGProps> = ({
             id="Polygon 32"
             d="M125.27 96.734l-6.185-6.925-.781 3.12-1.201 2.12-3.422-1.06 5.764 9.732 8.047 13.416 4.563 7.363 3.423 2.558 2.522.749-4.203-7.175-3.303-6.177-1.982-6.616-3.242-11.105z"
           />
-        </g>
-      </g>
     </g>
-  </svg>
+    </g>
+    </g>
+    </svg>
   );
 };
 

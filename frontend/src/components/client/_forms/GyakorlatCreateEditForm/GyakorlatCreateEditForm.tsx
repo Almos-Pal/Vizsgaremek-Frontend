@@ -6,11 +6,8 @@ import { GyakorlatCreate } from "@/types";
 import { muscleGroups } from "@/utils";
 import useGyakorlat from "@/hooks/useGyakorlat";
 import { useRouter } from "next/navigation";
-import Modal from "../../_modal/Modal/Modal";
 import useModal from "@/hooks/useModal";
-import {Text} from "@/components/server";
 import { ConfirmationModal } from "../../_modal";
-import { on } from "events";
 interface GyakorlatCreateEditFormProps {
   initialData: GyakorlatCreate;
   id?: number;

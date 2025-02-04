@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({
   isRelative,
 }) => {
   if (!visible) return null;
-
+console.log(title)
   return (
     <div
       className={clsx(isRelative ? styles.relative : styles.backdrop)}

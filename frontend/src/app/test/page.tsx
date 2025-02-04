@@ -4,11 +4,11 @@ import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text ,Icons} from "@/components/server";
 import { Form, Formik } from "formik";
-import { Navbar } from "@/components/client";
 
 import * as Yup from "yup";
 import BodySVG from "@/components/server/BodySVG/BodySVG";
-import {  useEffect, useState } from "react";
+import {  useState } from "react";
+import { useToast } from "@/hooks";
 
 const TestPage: React.FC = () => {
   const validationSchema = Yup.object().shape({
@@ -17,20 +17,16 @@ const TestPage: React.FC = () => {
       .min(3, "Name must be at least 3 characters"),
   }); 
 
-  const [state, setState] = useState("front");
+  const toast = useToast();
+//  const [state, setState] = useState("front");
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setState((prevState) => (prevState === "front" ? "back" : "front"));
-    }, 1000);
+  const handleClick = () => {
+    toast.info("asd");
+  }
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   return (
-    <div>
+    <div className="flex flex-wrap">
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>
       <Text variant="h3">Test Page</Text>
@@ -42,7 +38,7 @@ const TestPage: React.FC = () => {
       <Text variant="body-16">Test Page</Text>
       <Text variant="button">Test Page</Text>
       <Text variant="caption">Test Page</Text>
-      <div className="flex flex-row gap-2 ">
+      <div className="flex flex-row gap-2 flex-wrap ">
         <Button>Test Button</Button>
         <Button leftIcon="ArrowLeftIcon" >Test Button</Button>
         <Button iconOnly leftIcon="ArrowLeftIcon" />
@@ -57,6 +53,7 @@ const TestPage: React.FC = () => {
         initialValues={{ name: "" }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
+          toast.success("asd");
           console.log(values);
         }}
       >
@@ -76,6 +73,7 @@ const TestPage: React.FC = () => {
         </Form>
       </Formik>
 
+        <Button onClick={handleClick}>Toast</Button>
       
       <Icons.WarningIcon  size={100}  />
       <Icons.InfoIcon  size={100}  />
@@ -109,6 +107,7 @@ const TestPage: React.FC = () => {
   highlightColor="var(--color-error)" // Primary highlight color
   secondaryHighlightColor="var(--color-warning)" // Secondary highlight color
 />
+
     </div>
   );
 };
