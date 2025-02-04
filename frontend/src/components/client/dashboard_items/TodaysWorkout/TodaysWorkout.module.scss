@@ -13,11 +13,18 @@
   grid-area: 3/11/3/11;
   z-index: 1;
 }
-.human{
+.humanA{
   grid-area:1/4/6/10;
   justify-items: start;
   align-items: start;
-  background-color: var(--color-grey-100);
+  background-color: var(--color-info);
+  border-radius: 8px;
+}
+.humanB{
+  grid-area:1/4/6/10;
+  justify-items: start;
+  align-items: start;
+  background-color: var(--color-error);
   border-radius: 8px;
 }
 .leftbuttonDesk{
@@ -28,10 +35,17 @@
   grid-area: 3/11/3/11;
   z-index: 1;
 }
-.humanDesk{
+.humanDeskA{
   grid-area:1/2/6/12;
   justify-items: start;
   align-items: start;
-  background-color: var(--color-grey-100);
+  background-color: var(--color-info);
+  border-radius: 8px;
+}
+.humanDeskB{
+  grid-area:1/2/6/12;
+  justify-items: start;
+  align-items: start;
+  background-color: var(--color-error);
   border-radius: 8px;
 }
