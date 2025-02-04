@@ -1,10 +1,37 @@
-
 .mainDiv{
   background-color: var(--color-grey-500);
   width: 100%;
-  
 }
 .humanDiv{
-  background-color: var(--color-grey-400);
   width: 100%;
+}
+.leftbutton{
+    grid-area: 3/2/3/2;
+    z-index: 1;
+}
+.rightbutton{
+  grid-area: 3/11/3/11;
+  z-index: 1;
+}
+.human{
+  grid-area:1/4/6/10;
+  justify-items: start;
+  align-items: start;
+  background-color: var(--color-grey-100);
+  border-radius: 8px;
+}
+.leftbuttonDesk{
+  grid-area: 3/2/3/2;
+  z-index: 1;
+}
+.rightbuttonDesk{
+  grid-area: 3/11/3/11;
+  z-index: 1;
+}
+.humanDesk{
+  grid-area:1/2/6/12;
+  justify-items: start;
+  align-items: start;
+  background-color: var(--color-grey-100);
+  border-radius: 8px;
 }

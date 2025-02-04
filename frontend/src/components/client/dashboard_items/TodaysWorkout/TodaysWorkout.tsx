@@ -4,6 +4,7 @@ import { Button } from "../../index";
 import { Text } from "@/components/server";
 import styles from './TodaysWorkout.module.scss';
 import clsx from "clsx";
+import { SearchIcon } from "@/components/server/Icons";
 
 
 interface WorkoutProps {
@@ -41,46 +42,98 @@ function TodaysWorkout() {
             reps: 10
         },
     ]
+
     return (
-        <div id="mainDiv" className={clsx(styles.mainDiv, "max-w-[496px]  max-h-[388px] w-full flex-wrap m-2.5 p-5 rounded-lg ")}>
-            <div className="w-full max-w-[496px] flex-row mb-8">
+        <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[500px] max-w-[325px] flex flex-wrap sm:flex-nowrap sm:flex-col sm:justify-normal justify-center  sm:m-2.5 sm:p-5 rounded-lg ")}>
+            <div className="w-full max-w-[500px] flex-row mb-8">
                 <div className="max-h-[30px] text-center">
-                    <Text variant="h4"   >Mai Edzés</Text>
+                    <Text variant="h4">Mai Edzés</Text>
                 </div>
             </div>
-            <div className="max-w-[496px]  max-h-[285px] flex flex-row basis-full gap-2 p-0">
-                <div className="max-w-[300px]  max-h-[388px] w-full basis-2/3 flex-row mr-4 p-0 ">
-                    <div className="mr-6">
-                        {
-                            list.slice(0, 5).map((item) => {
-                                return (
-                                    <div key={item.name} className=" max-h-[22.77px] flex flex-row mt-0 mb-6 p-0  ">
-                                        <div className="flex flex-row max-w-[150px] mr-0  pr-0 w-full">
-                                            <Text variant="body-16">{item.name}</Text>
-                                        </div>
-                                        <div className="flex flex-row max-w-[105px]  ml-0 w-full">
-                                            <div className=" w-full sm:text-right">
-                                                <Text variant="body-16" >{item.sets}x{item.reps}</Text>
+            <div className="flex sm:flex-row flex-col justify-center  max-w-[500px]">  
+                    <div className="max-w-[300px]  hidden  sm:flex sm flex-wrap justify-center flex-row mr-4 p-0 ">
+                        <div className="mr-6">
+                            {
+                                list.slice(0, 5).map((item) => {
+                                    return (
+                                        <div key={item.name} className=" max-h-[25px] flex flex-row justify-between gap-0 mb-5 ">
+                                            <div className="flex flex-row min-w-[150px]  ">
+                                                <Text variant="body-16">{item.name}</Text>
                                             </div>
-                                        </div >
-                                    </div>
+                                            <div className="flex flex-row min-w-[105px]  ">
+                                                <div className=" w-full text-right">
+                                                    <Text variant="body-16" >{item.sets}x{item.reps}</Text>
+                                                </div>
+                                            </div >
+                                        </div>
 
-                                )
-                            })
+                                    )
+                                })
+                            }
+                        </div>
+                        {
+                            list.length - 5 > 0 &&
+                            <div className="w-max-[200px]">
+                                <Button width={"100%"} color={"secondary"} >További Gyakorlatok: {list.length - 5}</Button>
+                            </div>
+                            ||
+                            <div className="w-max-[200px]">  
+                                <Button width={"100%"} color={"secondary"} >Gyakorlatok</Button>
+                            </div>
                         }
                     </div>
-                    {
-                        list.length - 5 > 0 &&
-                        <div className="">
-                            <Button width={"100%"} color={"secondary"} >További Gyakorlatok: {list.length - 5}</Button>
+                    <div className="max-w-[300px] min-w-[300px] sm:hidden visible w-full flex flex-row justify-center mr-4 p-0 ">
+                        <div className="mr-6 flex flex-col gap-5">
+                            {
+                                list.slice(0, 3).map((item) => {
+                                    return (
+                                        <div key={item.name} className=" max-w-[300px] flex flex-row justify-between  gap-10 ">
+                                            <div className="content-start">
+                                                <Text variant="body-16">{item.name}</Text>
+                                            </div>
+                                            <div className="justify-end">
+                                                    <Text variant="body-16" >{item.sets}x{item.reps}</Text>    
+                                            </div >
+                                        </div>
+
+                                    )
+                                })
+                            }
+                        <Text variant="caption" className="text-pretty mt-0">Anyád</Text>
                         </div>
-                        ||
-                        <div className="">
-                            <Button width={"100%"} color={"secondary"} >Gyakorlatok</Button>
-                        </div>
-                    }
+                        {
+                            list.length - 5 > 0 &&
+                            <div className="sm:visible hidden">
+                                <Button width={"100%"} color={"secondary"} >További Gyakorlatok: {list.length - 5}</Button>
+                            </div>
+                            ||
+                            <div className="sm:visible hidden">
+                                <Button width={"100%"} color={"secondary"} >Gyakorlatok</Button>
+                            </div>
+                        }
+                    </div>       
+                <div className={clsx(styles.humanDiv, "max-w-[300px] min-w-[200px] w-full sm:grid grid-rows-5 grid-cols-12 hidden justify-center sm:p-0 sm:m-0   rounded-lg")}>
+                    <div className={clsx(styles.leftbuttonDesk,"justify-self-end")}>
+                        <Button color="secondary" width={"40px"} style={{borderRadius:"50%",width:"30px",height:"40px",padding:"0"}} iconOnly leftIcon="ArrowLeftIcon"></Button>
+                    </div>
+                    <div className={styles.humanDesk}>
+
+                    </div>
+                    <div className={clsx(styles.rightbuttonDesk,"justify-self-start")}>
+                        <Button color="secondary" width={"40px"} style={{borderRadius:"50%",width:"30px",height:"40px",padding:"0"}} iconOnly leftIcon="ArrowRightIcon"></Button>
+                    </div>
                 </div>
-                <div className={clsx(styles.humanDiv, "max-w-[162px] max-h-[285px] min-w-[129px]  flex-row basis-1//3 ml-0 rounded-lg mr-4 ")}></div>
+                <div className={clsx(styles.humanDiv, "min-h-[300px] sm:hidden grid grid-rows-5 grid-cols-12  ml-0 mb-3 rounded-lg mr-4 ")}>
+                    <div className={clsx(styles.leftbutton,"justify-self-end")}>
+                        <Button color="secondary" width={"40px"} style={{borderRadius:"50%",width:"30px",height:"40px",padding:"0"}} iconOnly leftIcon="ArrowLeftIcon"></Button>
+                    </div>
+                    <div className={styles.human}>
+
+                    </div>
+                    <div className={clsx(styles.rightbutton,"justify-self-start")}>
+                        <Button color="secondary" width={"40px"} style={{borderRadius:"50%",width:"30px",height:"40px",padding:"0"}} iconOnly leftIcon="ArrowRightIcon" iconProps={{"size":25}}></Button>
+                    </div>
+                    </div>
             </div>
         </div>
     )

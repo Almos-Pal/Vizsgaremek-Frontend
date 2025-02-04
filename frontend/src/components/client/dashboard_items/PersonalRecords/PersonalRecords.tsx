@@ -79,11 +79,11 @@ function PersonalRecords() {
 
     return (
 
-        <div id="mainDiv" className={clsx(styles.mainDiv, "max-w-[496px]  max-h-[291px] w-full flex flex-col m-2.5 p-5 rounded-lg ")}>
+        <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[540px] max-w-[325px] w-full flex flex-col m-2.5 p-5 rounded-lg ")}>
             <div className="mb-5">
-                <Text variant="h4" className="max-w-[496px] text-center">Rekordok</Text>
+                <Text variant="h4" className="max-w-[500px] text-center">Rekordok</Text>
             </div>
-            <div className="max-w-[496px] max-h-[100 px] grid grid-cols-2 gap-5 ml-2">
+            <div className="max-w-[540px] hidden sm:grid  max-h-[100 px] grid grid-cols-2 gap-5 ml-2">
                 {
                     list.slice(0, 6).map((item) => {
                         return (
@@ -98,12 +98,25 @@ function PersonalRecords() {
                         )
                     })
                 }
-
-
-
+            </div>
+            <div className="max-w-[500px] sm:hidden visible grid grid-cols-1 gap-5 ml-2">
+                {
+                    list.slice(0, 3).map((item) => {
+                        return (
+                            <div className="flex flex-row gap-0 justify-between" key={item.name}>
+                            <div className="text-left">
+                                <Text variant="body-16">{item.name} max :</Text>
+                            </div>
+                            <div className="text-right">
+                                <Text variant="body-16"><span className={styles.greenify}>{item.weight}kg</span></Text>
+                            </div>
+                            </div>
+                        )
+                    })
+                }
             </div>
             <div className="flex justify-center mt-5">
-                <Button color={"secondary"} rightIcon="SearchIcon" ><Text variant="button">További Rekordok   </Text> </Button>
+                <Button color={"secondary"} rightIcon="SearchIcon" >További Rekordok </Button>
             </div>
 
         </div>
