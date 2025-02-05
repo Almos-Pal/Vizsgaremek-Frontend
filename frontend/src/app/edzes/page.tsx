@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import useEdzes from '@/hooks/useEdzes';
 import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout';
 import EdzesBlock from '@/components/client/EdzesBlock/EdzesBlock';
-import { useRouter ,useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, Pagination } from '@/components/client';
 
 function EdzesekPage() {
@@ -36,7 +36,9 @@ function EdzesekPage() {
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
 
-        <Button  style={{margin: "auto"}} width={225} color='secondary' rightIcon='AddIcon'>Edzés</Button>
+            <div className='flex justify-center mt-4 pb-4'>
+                <Button width={225} color='secondary' rightIcon='AddIcon'>Edzés</Button>
+            </div>
 
             <Pagination
                 value={page}
