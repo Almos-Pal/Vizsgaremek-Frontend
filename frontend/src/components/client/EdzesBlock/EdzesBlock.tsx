@@ -16,17 +16,21 @@ interface EdzesBlockProps {
             };
             total_sets: number;
         }[];
+        datum: string;
     };
 }
+
 
 const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
     const [visibleCount, setVisibleCount] = useState(3);
     const exercisesLeft = edzes.gyakorlatok.length - visibleCount;
-
+    const formattedDate = edzes.datum.slice(0, 10).replace(/-/g, '/');
+    
     return (
         <div className={styles["edzes-block"]}>
             <div className={styles["edzes-header"]}>
                 <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{edzes.edzes_neve}:</Text>
+                <Text style={{marginRight: '2rem'}} variant='body-15'>{formattedDate}</Text>
             </div>
             <div className={styles["content-wrapper"]}>
                 <ul className={styles["gyakorlat-list"]}>
@@ -43,7 +47,7 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
 
                     {exercisesLeft > 0 && (
                         <a 
-                        href="/edzes/" className={styles["show-more-button"]} >
+                        href={`/edzes/${edzes.edzes_id}`} className={styles["show-more-button"]}>
                             további {exercisesLeft}... 
                         </a>
 

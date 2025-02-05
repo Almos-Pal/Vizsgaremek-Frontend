@@ -18,7 +18,6 @@ function EdzesekPage() {
         page,
         limit: 3,
     });
-
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading workouts</div>;
 
@@ -50,8 +49,6 @@ function EdzesekPage() {
                     router.push(`?${params.toString()}`);
                 }}
             />
-
-
         </ContentLayout>
 
 

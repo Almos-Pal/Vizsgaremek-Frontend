@@ -14,6 +14,14 @@ const useEdzes = {
       queryFn: () => edzesAPI.fetchEdzesek(params),
     });
   },
+
+
+  getEdzes: (id: number) => {
+    return useQuery({
+      queryKey: ['edzes', id],
+      queryFn: () => edzesAPI.fetchEdzes(id),
+    });
+  },
 };
 
 export default useEdzes;
