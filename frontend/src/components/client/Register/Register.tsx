@@ -59,8 +59,9 @@ const Register: React.FC = () => {
                 Regisztráció
             </Text>
 
-
+            <div style={{maxWidth: '275px'}}>
             <Formik
+                className={styles.form}
                 initialValues={initialValues}
                 onSubmit={(values, actions) => {
                     console.log("Formik onSubmit triggered!");  // Debugging log
@@ -77,7 +78,8 @@ const Register: React.FC = () => {
                         label="Email cím"
                         placeholder="Email cím"
                         isRequired={true}
-                        style={{ marginTop: '5%' }}
+                        style={{ marginTop: '5%'}}
+                        
                     />
 
                     <FormField
@@ -115,7 +117,6 @@ const Register: React.FC = () => {
                         style={{ marginTop: '1.5rem' }}
                         color="secondary"
                         type="submit"
-
                     >
                         Regisztrálás
                     </Button>
@@ -123,6 +124,7 @@ const Register: React.FC = () => {
 
                 </Form>
             </Formik>
+            </div>
         </div>
     );
 };
