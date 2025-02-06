@@ -5,6 +5,8 @@ import styles from './Navbar.module.scss';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 import { Text } from '@/components/server';
+import { on } from 'events';
+import { signOut } from 'next-auth/react';
 
 
 
@@ -13,10 +15,14 @@ const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
 
+    const handleLogout = () => {
+        signOut({ callbackUrl: "/bejelentkezes" }); // or "/" or any other route
+    };
+
     const toggleMenu = () => {
         setMenuOpen((prevOpen) => !prevOpen);
-        console.log('Menu clicked');
-        console.log(menuOpen)
+        
+        //console.log(menuOpen)
     };
 
 
@@ -51,18 +57,19 @@ const Navbar: React.FC = () => {
                     color="transparent"
                     iconProps={{ size: 40 }}
                     style={{ paddingLeft: '15px' }}
+                    onClick={handleLogout}
                 />
 
-                <div id='deskptopMenu'   className={`${styles.menu} ${menuOpen ? styles.menuOpen : ''}`}                >
+                <div id='deskptopMenu' className={`${styles.menu} ${menuOpen ? styles.menuOpen : ''}`}                >
                     {/* Menu items go here */}
-                    <Button  rightIcon='DumbellIcon' iconProps={{ size: 45 }} width={350} style={{marginBottom: 20}}   >Edzés Kezdése</Button>
-                    <Button rightIcon='PenPaperIcon' iconProps={{ size: 45 }} width={350} color='secondary' style={{marginBottom: 20}} >Edzéstervező</Button>
-                    <Button rightIcon='CalendarIcon' iconProps={{ size: 50 }} width={350} color='secondary'style={{marginBottom: 20}} >Edzésterv-tervező</Button>
+                    <Button rightIcon='DumbellIcon' iconProps={{ size: 45 }} width={350} style={{ marginBottom: 20 }}   >Edzés Kezdése</Button>
+                    <Button rightIcon='PenPaperIcon' iconProps={{ size: 45 }} width={350} color='secondary' style={{ marginBottom: 20 }} >Edzéstervező</Button>
+                    <Button rightIcon='CalendarIcon' iconProps={{ size: 50 }} width={350} color='secondary' style={{ marginBottom: 20 }} >Edzésterv-tervező</Button>
 
-                    <Text variant='h5' style={{marginBottom: 20}}> Saját gyűlytemény</Text>
+                    <Text variant='h5' style={{ marginBottom: 20 }}> Saját gyűlytemény</Text>
 
-                    <Button width={350} style={{marginBottom: 20}}>Edzéstervek</Button>
-                    <Button width={350} color='secondary' style={{marginBottom: 20}}>Gyakorlatok</Button>
+                    <Button width={350} style={{ marginBottom: 20 }}>Edzéstervek</Button>
+                    <Button width={350} color='secondary' style={{ marginBottom: 20 }}>Gyakorlatok</Button>
                     {/* ...and so on */}
                 </div>
             </nav>
@@ -118,6 +125,7 @@ const Navbar: React.FC = () => {
                         icon="LogoutIcon"
                         color="transparent"
                         iconProps={{ size: 30 }}
+                        onClick={handleLogout}
                     />
                     <Text variant="caption" color="var(--color-grey-300)">
                         Kilépés
@@ -125,15 +133,15 @@ const Navbar: React.FC = () => {
                 </div>
 
 
-                <div id='mobileMenu'  className={`${styles.menu} ${menuOpen ? styles.menuOpen : ''}`}                >
+                <div id='mobileMenu' className={`${styles.menu} ${menuOpen ? styles.menuOpen : ''}`}                >
                     <div className={styles.innerMenu}>
                         {/* Menu items go here */}
-                        <Button  rightIcon='DumbellIcon' iconProps={{ size: 45 }} width={"100%"} style={{marginBottom: 20}} >Edzés Kezdése</Button>
-                        <Button rightIcon='PenPaperIcon' iconProps={{ size: 45 }} width={"100%"} color='secondary' style={{marginBottom: 20}}>Edzéstervező</Button>
-                        <Button rightIcon='CalendarIcon' iconProps={{ size: 45 }} width={"100%"} color='secondary'style={{marginBottom: 20}} >Edzésterv-tervező</Button>
-                        <Text variant='h5' style={{marginBottom: 20}}> Saját gyűlytemény</Text>
-                        <Button width={"100%"} style={{marginBottom: 20}}>Edzéstervek</Button>
-                        <Button width={"100%"} color='secondary' style={{marginBottom: 20}}>Gyakorlatok</Button>
+                        <Button rightIcon='DumbellIcon' iconProps={{ size: 45 }} width={"100%"} style={{ marginBottom: 20 }} >Edzés Kezdése</Button>
+                        <Button rightIcon='PenPaperIcon' iconProps={{ size: 45 }} width={"100%"} color='secondary' style={{ marginBottom: 20 }}>Edzéstervező</Button>
+                        <Button rightIcon='CalendarIcon' iconProps={{ size: 45 }} width={"100%"} color='secondary' style={{ marginBottom: 20 }} >Edzésterv-tervező</Button>
+                        <Text variant='h5' style={{ marginBottom: 20 }}> Saját gyűlytemény</Text>
+                        <Button width={"100%"} style={{ marginBottom: 20 }}>Edzéstervek</Button>
+                        <Button width={"100%"} color='secondary' style={{ marginBottom: 20 }}>Gyakorlatok</Button>
                         {/* ...and so on */}
                     </div>
                 </div>
