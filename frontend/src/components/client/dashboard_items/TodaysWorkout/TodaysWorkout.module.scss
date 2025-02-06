@@ -32,20 +32,25 @@
   z-index: 1;
 }
 .rightbuttonDesk{
-  grid-area: 3/11/3/11;
+  grid-area: 3/10/3/10;
   z-index: 1;
 }
 .humanDeskA{
-  grid-area:1/2/6/12;
+  grid-area:1/2/6/11;
   justify-items: start;
   align-items: start;
   background-color: var(--color-info);
   border-radius: 8px;
 }
 .humanDeskB{
-  grid-area:1/2/6/12;
+  grid-area:1/2/6/11;
   justify-items: start;
   align-items: start;
   background-color: var(--color-error);
   border-radius: 8px;
+}
+.aClass{
+  color: var(--color-grey-400);
+  text-decoration: underline;
+  font-size: 12px;
 }

@@ -99,7 +99,7 @@ function PersonalRecords() {
                     })
                 }
             </div>
-            <div className="max-w-[500px] sm:hidden visible grid grid-cols-1 gap-5 ml-2">
+            <div className="max-w-[500px] sm:hidden visible grid grid-cols-1 gap-5 ml-0">
                 {
                     list.slice(0, 3).map((item) => {
                         return (

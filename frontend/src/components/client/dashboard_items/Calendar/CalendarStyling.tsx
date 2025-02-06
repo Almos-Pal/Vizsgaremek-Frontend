@@ -101,6 +101,7 @@ const CalendarContainer = styled.div`
   .react-calendar__month-view__days__day--weekend, .react-calendar__month-view__days__day, react-calendar__tile {
     margin: 10px;
     margin-top: 5px;
+    padding-top: 7px !important;
     border: 0;
     outline: none;
     max-width: 30px !important;
@@ -112,6 +113,7 @@ const CalendarContainer = styled.div`
         margin: 11px;
       max-width: 34px !important;
       max-height: 34px !important;
+      padding-top: 9px !important;
     }
   }
 
