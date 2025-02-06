@@ -10,9 +10,6 @@ type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-
-//   <Calendar   onChange={onChange} value={value} />
-
 function CalendarWidget() {
     const [value, onChange] = useState<Value>(new Date());
     const [isClient, setIsClient] = useState(false);
@@ -26,8 +23,6 @@ function CalendarWidget() {
                  {isClient ? (<Calendar onChange={onChange} value={value} />) : (<p>Loading</p>)}
                  </CalendarContainer>
         </div>
-
     )
 }
-
 export default CalendarWidget;

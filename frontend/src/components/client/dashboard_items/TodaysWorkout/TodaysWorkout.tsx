@@ -107,7 +107,6 @@ function TodaysWorkout() {
                         }
                         {
                             list.length - 3 > 0 &&
-                            //<Text variant="caption" className="text-pretty mt-0 underline">További gyakorlatok: {list.length - 3}</Text>
                             <a className={styles.aClass}>További gyakorlatok: {list.length - 3}</a>
                             ||
                             <a className={styles.aClass}>Gyakorlatok</a>

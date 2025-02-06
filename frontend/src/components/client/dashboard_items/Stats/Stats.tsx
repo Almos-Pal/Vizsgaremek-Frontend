@@ -8,7 +8,6 @@ import clsx from "clsx";
 function Stats() {
 
     return (
-
         <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[500px]  max-w-[325px] w-full flex flex-col m-2.5 p-5 rounded-lg ")}>
             <div className="mb-5">
                 <Text variant="h4" className="max-w-[500px] text-center">Statisztika</Text>
@@ -23,10 +22,7 @@ function Stats() {
             <div className="flex justify-center mt-5">
                 <Button color={"secondary"} rightIcon="SearchIcon" >Statisztikák</Button>
             </div>
-
         </div>
     )
-
 }
-
 export default Stats;
