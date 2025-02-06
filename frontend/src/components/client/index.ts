@@ -6,3 +6,5 @@ export { default as GyakorlatDataSheet } from "./GyakorlatDataSheet/GyakorlatDat
 export {default as Navbar} from "./Navbar/Navbar";
 export {default as WelcomeLogin} from "./WelcomeLogin/WelcomeLogin";
 export {default as Register} from "./Register/Register";
+export {default as EdzesView} from "./EdzesView/EdzesView";
+export {default as UnderLinedText} from "./UnderLinedText/UnderLinedText";

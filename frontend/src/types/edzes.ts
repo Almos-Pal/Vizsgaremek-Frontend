@@ -4,9 +4,9 @@ export interface Edzes {
     datum: Date;
     user_id?: number;
     ido: number;
-    edzestervek: number[];
+    edzestervek?: number[];
     gyakrolatok: number[];
-    cardiok: number[];
+    cardiok?: number[];
 }
 
 export interface EdzesCreate {

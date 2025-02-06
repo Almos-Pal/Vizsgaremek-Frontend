@@ -4,6 +4,9 @@ import React, { use } from 'react'
 import { Text } from '@/components/server'
 import useEdzes from '@/hooks/useEdzes'
 import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout';
+import { EdzesView } from "@/components/client";
+
+
 
 interface PageParams {
   edzesID: string;
@@ -42,9 +45,20 @@ const EdzesViewPage: React.FC<EdzesViewPageProps> = ({ params }) => {
       </div>
     )
   }
+  
+  if (!data) {
+    return (
+      <div>
+        <Text>No data available</Text>
+      </div>
+    );
+  }
+
   return (<>
 
-      
+      <EdzesView data={data}>
+
+      </EdzesView>
     </>
   )
 }
