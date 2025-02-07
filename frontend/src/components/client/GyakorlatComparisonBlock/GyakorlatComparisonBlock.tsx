@@ -1,5 +1,5 @@
 import { Gyakorlat } from '@/types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Text } from '@/components/server';
 import styles from './GyakorlatComparisonBlock.module.scss';
 
@@ -11,7 +11,22 @@ interface GyakorlatComparisonBlockProps {
 
 const GyakorlatComparisonBlock: React.FC<GyakorlatComparisonBlockProps> = ({ data }) => {
 
+
   const previousHistoryArray = Array.isArray(data.previous_history) ? data.previous_history : [];
+
+  const calculateWeightedImprovement = (currentSet: any, previousSet: any) => {
+    if (!previousSet) return "var(--color-light)";
+    
+    const weightDifference = (currentSet.weight - previousSet.weight) * 1.5; 
+    const repsDifference = (currentSet.reps - previousSet.reps) *1.2;
+  
+    const totalScore = weightDifference + repsDifference;
+    console.log(totalScore);
+    if (totalScore > 0) return "var(--color-success)"; // Improvement
+    if (totalScore < 0) return "var(--color-error)"; // Regression
+    return "var(--color-light)"; // No change
+  };
+
 
   console.log(data);
   return (
@@ -70,13 +85,31 @@ const GyakorlatComparisonBlock: React.FC<GyakorlatComparisonBlockProps> = ({ dat
               {data.szettek.map((set, index) => (
                 <tr key={index}>
                   <td>
-                    <Text variant='body-16'>{set.set_szam}</Text>
+                    <Text variant="body-16">{set.set_szam}</Text>
                   </td>
                   <td>
-                    <Text variant='body-16' style={{ color: set.weight > previousHistoryArray[index] ? 'green' : 'red' }}>{set.weight}</Text>
+                    <Text
+                      variant="body-16"
+                      style={{
+                        color: previousHistoryArray[index]
+                          ? calculateWeightedImprovement(set, previousHistoryArray[index])
+                          : "var(--color-light)"
+                      }}
+                    >
+                      {set.weight}
+                    </Text>
                   </td>
                   <td>
-                    <Text variant='body-16'>{set.reps}</Text>
+                    <Text
+                      variant="body-16"
+                      style={{
+                        color: previousHistoryArray[index]
+                          ? calculateWeightedImprovement(set, previousHistoryArray[index])
+                          : "var(--color-light)"
+                      }}
+                    >
+                      {set.reps}
+                    </Text>
                   </td>
                 </tr>
               ))}

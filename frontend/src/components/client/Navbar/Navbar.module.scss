@@ -1,129 +1,129 @@
 @import "../../../styles/breakpoints.scss";
 
+// =======================
+// Desktop Navbar & Menu
+// =======================
+
 .desktopnavbar {
-    background-color: var(--color-grey-500);
-    align-items: center;
-    padding: 1rem 0;
-    justify-content: center;
-    gap: 3rem;
-    position: fixed;
-    top: 0;
-    left: 0;
-    border-radius: 0 1rem 1rem 0;
-    z-index: 1000;
+  background-color: var(--color-grey-500);
+  align-items: center;
+  padding: 1rem 0;
+  justify-content: center;
+  gap: 3rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 0 1rem 1rem 0;
+  width: 9rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 10000;
+  
 
-    width: 9rem;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-
-    
-    @include mobile {
-        display: none;
-    }
-
-    
-
-
-    .menu {
-        z-index: 1;
-        position: fixed;
-        top: 0;
-        left: 8.25rem;
-        width: 25rem;
-        height: 100vh;
-        text-align: center;
-        background-color: var(--color-grey-400);
-        padding-top: 2rem;
-    
-        /* Hidden by default: off‐screen, invisible, unclickable */
-        transform: translateX(-21rem);
-        opacity: 0;
-        pointer-events: none;
-    
-        /* Animate transform & opacity changes over 0.3s */
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-
-
-        
-      }
-      
-
-     
-      .menuOpen {
-        /* Slide in from the left: transform => 0, fully visible, clickable */
-        transform: translateX(0);
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      
-
+  @include mobile {
+    display: none;
+  }
 }
 
+// Use separate classes for the desktop menu:
+.desktopMenu {
+  position: fixed;
+  top: 0;
+  left: 8.25rem;
+  width: 25rem;
+  height: 100vh;
+  text-align: center;
+  background-color: var(--color-grey-400);
+  padding-top: 2rem;
+  border-radius: 0 1rem 1rem 0;
+  border-right: 0.5rem solid var(--color-primary-50);
 
+
+  /* Initially hidden (off-screen) */
+  transform: translateX(-21rem);
+  opacity: 0;
+  pointer-events: none;
+
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  z-index: 1000;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.desktopMenuOpen {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+// =======================
+// Mobile Navbar & Menu
+// =======================
 
 .mobilenavbar {
-    @include mobile {
-        width: 100%;
-        position: fixed;
-        bottom: 0;
+  @include mobile {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem 0;
+    background-color: var(--color-grey-500);
+    border-top: 0.5rem solid var(--color-primary-50);
+    border-radius: 1rem 1rem 0 0;
+    z-index: 1000; // Ensure the navbar sits above the mobile menu
+  }
 
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 1rem 0;
-        background-color: var(--color-grey-500);
-        border-top: 0.5rem solid var(--color-primary-50);
-        border-radius: 1rem 1rem 0 0;
-    }
+  @include desktop {
+    display: none;
+  }
 
-    @include desktop {
-        display: none;
-    }
+  
+}
 
+// Create separate classes for the mobile menu:
+.mobileMenu {
+  position: fixed;
+  bottom: 6rem;
+  width: 100vw;
+  height: fit-content;
+  text-align: center;
+  background-color: var(--color-grey-400);
+  padding-top: 2rem;
+  border-radius: 1rem 1rem 0 0;
+  border-top: 0.5rem solid var(--color-primary-50);
 
-    .menu {
-        z-index: 1;
-        position: fixed;
-        bottom:6rem;
-        width: 100vw;
-        height: fit-content;
-        text-align: center;
-        background-color: var(--color-grey-400);
-        padding-top: 2rem;
-        border-radius: 1rem 1rem 0 0;
-        border-top: 0.5rem solid var(--color-primary-50);
+  /* Initially hidden (off-screen below) */
+  transform: translateY(5rem);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 
-    
-        /* Hidden by default: off‐screen, invisible, unclickable */
-        transform: translateY(5rem);
-        opacity: 0;
-        pointer-events: none;
-    
-        /* Animate transform & opacity changes over 0.3s */
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-      }
-    
-      .menuOpen {
-        /* Slide in from the left: transform => 0, fully visible, clickable */
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
-      }
+  z-index: 900; // Lower than the mobilenavbar so it appears behind it
 
+  @include desktop {
+    display: none;
+  }
 
-      .innerMenu {
-        
-        margin-left: 5%;
-        margin-right: 5%;
-      }
+  .mobilenutton {
+    width: 80%;
+  }
+}
+
+.mobileMenuOpen {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .navItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
 }

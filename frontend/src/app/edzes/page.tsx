@@ -34,7 +34,7 @@ function EdzesekPage() {
             {workouts?.map((edzes: any) => (
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
-
+            
             <div className='flex justify-center mt-4 pb-4'>
                 <Button width={225} color='secondary' rightIcon='AddIcon'>Edzés</Button>
             </div>
