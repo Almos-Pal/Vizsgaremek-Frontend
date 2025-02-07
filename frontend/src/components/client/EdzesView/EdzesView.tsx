@@ -13,27 +13,44 @@ interface EdzesViewProps {
 
 const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
-
     return <>
         <ContentLayout header={data.edzes_neve}>
-            <div>
-                <Button width={420} rightIcon="PlayRightIcon">Edzés Kezdése</Button>
-                <Button color="secondary" rightIcon="EditIcon">Módosítás</Button>
-                <Button color="secondary" rightIcon="EditIcon">Törlés</Button>
+            <div className={styles.edzesView}>
+
+                <div className={styles.buttons}>
+
+
+
+                    <Button additionalClassName={styles.singleButtonDesktop} width={420} rightIcon="PlayRightIcon">Edzés Kezdése</Button>
+
+
+                    <div className={styles.doubleButtonDesktop} >
+                        <Button  width={200} color="secondary" rightIcon="EditIcon">Módosítás</Button>
+                        <Button  width={200} color="secondary" rightIcon="EditIcon">Törlés</Button>
+                    </div>
+
+                    <Button additionalClassName={styles.singleButtonMobile}  rightIcon="PlayRightIcon">Edzés Kezdése</Button>
+
+                    <div className={styles.doubleButtonMobile} >
+                        <Button additionalClassName={styles.btnmobileresponsive}  color="secondary" rightIcon="EditIcon">Módosítás</Button>
+                        <Button additionalClassName={styles.btnmobileresponsive}  color="secondary" rightIcon="EditIcon">Törlés</Button>
+                    </div>
+                </div>
 
                 <div className={styles.humanContainment}>
 
                 </div>
 
-                <UnderLinedText lineLength={220} text="Gyakorlatok" ></UnderLinedText>
+                <div className={styles.underlinedText}>
+                    <UnderLinedText lineLength={220} text="Gyakorlatok"></UnderLinedText>
+                </div>
 
-                {data.gyakrolatok.map((gyakorlat) => (
+                {data.gyakorlatok.map((gyakorlat) => (
                     <GyakorlatComparisonBlock
                         key={gyakorlat.gyakorlat_id}
                         data={gyakorlat}
                     />
                 ))}
-                <UnderLinedText lineLength={220} text="Gyakorlatok Összehasonlítása" ></UnderLinedText>
 
 
             </div>

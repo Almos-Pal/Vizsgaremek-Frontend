@@ -1,10 +1,27 @@
 export interface Gyakorlat {
-    eszkoz: string;
-    fo_izomcsoport: number;
     gyakorlat_id: number;
-    gyakorlat_leiras: string;
-    gyakorlat_neve: string;
-    izomcsoportok: number[]
+    gyakorlat: {
+        eszkoz: string;
+        fo_izomcsoport: number;
+        gyakorlat_id: number;
+        gyakorlat_leiras: string;
+        gyakorlat_neve: string;
+        izomcsoportok: Array<{
+            gyakorlat_id: number;
+            izomcsoport_id: number;
+            izomcsoport: Record<string, any>;
+        }>;
+    };
+    previous_history: any[];
+    szettek: Array<{
+        id: number;
+        edzes_id: number;
+        gyakorlat_id: number;
+        set_szam: number;
+        weight: number;
+        reps: number;
+    }>;
+    total_sets: number;
 }
 
 export interface GyakorlatCreate {

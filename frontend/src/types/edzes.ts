@@ -1,3 +1,5 @@
+import { Gyakorlat } from './gyakorlat';
+
 export interface Edzes {
     edzes_id: number;
     edzes_neve: string;
@@ -5,7 +7,7 @@ export interface Edzes {
     user_id?: number;
     ido: number;
     edzestervek?: number[];
-    gyakrolatok: number[];
+    gyakorlatok: Gyakorlat[];
     cardiok?: number[];
 }
 
@@ -17,3 +19,5 @@ export interface EdzesCreate {
     gyakrolatok: number[];
     cardiok: number[];
 }
+
+

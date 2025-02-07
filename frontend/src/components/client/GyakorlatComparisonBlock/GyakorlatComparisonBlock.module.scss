@@ -1,0 +1,92 @@
+@use "styles/breakpoints.scss" as *;
+
+
+
+.edzes-block {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-grey-500);
+  border-radius: 1rem;
+  align-items: stretch;
+
+
+  @include desktop {
+    margin-bottom: 42px;
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @include mobile {
+    margin-bottom: 35px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .edzes-header {
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: var(--color-grey-400);
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .content-wrapper {
+
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+
+    .gyakorlat-list {
+      margin: 2rem;
+      flex: 1;
+
+      .gyakorlat-item {
+        padding-bottom: 1rem;
+      }
+    }
+
+
+    .list {
+      width: 50%;
+      margin: auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1rem !important;
+
+
+      table {
+        width: 90%;
+        margin: 1rem auto;
+        text-align: center;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        text-align: center;
+        padding: 0.5rem;
+      }
+      
+    }
+
+
+    .line {
+      border: var(--color-grey-400) 2px solid;
+      height: auto;
+      width: 2px;
+      align-self: stretch ;
+    }
+
+    
+  }
+
+
+
+
+}

@@ -55,7 +55,6 @@ const EdzesViewPage: React.FC<EdzesViewPageProps> = ({ params }) => {
   }
 
   return (<>
-
       <EdzesView data={data}>
 
       </EdzesView>

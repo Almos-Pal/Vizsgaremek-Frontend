@@ -1,6 +1,110 @@
-.humanContainment {
-    width: 750px;
-    height: 330px;
-    background-color: var(--color-grey-300);
-    border-radius: 1rem;
+@use "styles/breakpoints.scss" as *;
+
+.edzesView {
+    display: flex;
+    flex-direction: column;
+
+    .buttons {
+        margin-left: auto;
+        margin-right: auto;
+
+
+        .singleButtonDesktop {
+            margin-bottom: 1rem;
+            margin-left: auto;
+            margin-right: auto;
+
+            
+            @include mobile {   
+                display: none;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .singleButtonMobile {
+            margin-bottom: 1rem;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1rem;
+
+            width: 87vw;
+            
+            @include desktop {
+                display: none;
+            }
+        }
+
+
+
+
+        .doubleButtonDesktop {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2rem;
+
+            @include mobile {
+                display: none; 
+            }
+
+            
+
+        }
+
+        .doubleButtonMobile {
+            display: none;
+            margin-bottom: 2rem;
+            align-items: center;
+
+
+            @include mobile {
+                display: flex; 
+                flex-direction: column;
+                gap: 1rem;
+                margin-left: auto;
+                margin-right: auto;
+
+            }
+
+            .btnmobileresponsive {
+                width: 87vw;
+
+            }
+        }
+    }
+
+    .humanContainment {
+        height: 330px;
+        background-color: var(--color-grey-300);
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+
+        @include desktop {
+            width: 750px;
+        }
+
+        @include mobile {
+            margin-left: 20px !important;
+            margin-right: 20px !important;
+        }
+    }
+
+    .underlinedText {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+
+        @include desktop {
+            width: 750px;
+        }
+
+        @include mobile {
+            margin-left: 20px !important;
+            margin-right: 20px !important;
+        }
+    }
 }
