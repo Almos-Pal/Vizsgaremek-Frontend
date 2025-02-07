@@ -1,18 +1,16 @@
 "use client";
-
 import React, { useState } from 'react';
 import styles from './Navbar.module.scss';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 import { Text } from '@/components/server';
-import { on } from 'events';
-import { signOut } from 'next-auth/react';
-
+import { signOut, useSession } from 'next-auth/react';
 
 
 const Navbar: React.FC = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
+    const { data: session } = useSession();
 
 
     const handleLogout = () => {
@@ -24,7 +22,7 @@ const Navbar: React.FC = () => {
         
         //console.log(menuOpen)
     };
-
+console.log(session?.user.user_id)
 
     return (
         <>
@@ -38,6 +36,7 @@ const Navbar: React.FC = () => {
                 <IconButton
                     icon="ProfileIcon"
                     color="transparent"
+                    href={`/profil/${session?.user.user_id}`}
                     iconProps={{ size: 50 }}
                 />
                 <IconButton
@@ -95,6 +94,8 @@ const Navbar: React.FC = () => {
                         icon="ProfileIcon"
                         color="transparent"
                         iconProps={{ size: 40 }}
+                        href={`/profil/${session?.user.user_id}`}
+
                     />
                     <Text variant="caption" color="var(--color-grey-300)">
                         Profil
@@ -125,6 +126,7 @@ const Navbar: React.FC = () => {
                         icon="LogoutIcon"
                         color="transparent"
                         iconProps={{ size: 30 }}
+                        href={"/bejelentkezes"}
                         onClick={handleLogout}
                     />
                     <Text variant="caption" color="var(--color-grey-300)">

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { ReactQueryProvider } from "@/utils";
+import { ReactQueryProvider, ReactSessionProvider } from "@/utils";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Suspense } from "react";
@@ -27,6 +27,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.variable}>
+        <ReactSessionProvider>
+
         <ReactQueryProvider>
         <Suspense fallback={<div>Loading...</div>}>
             
@@ -34,6 +36,8 @@ export default function RootLayout({
         <ToastContainer />
         </Suspense>
         </ReactQueryProvider>
+        </ReactSessionProvider>
+
       </body>
     </html>
   );

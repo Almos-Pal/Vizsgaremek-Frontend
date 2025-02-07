@@ -14,6 +14,8 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/dist/client/components/navigation';
 
 import { loginSchema } from '@/utils/Validations/loginSchema';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 const initialValues = {
     email: '',
@@ -22,16 +24,12 @@ const initialValues = {
 
 
 //way to get session data
-//const session = getServerSession(authOptions);
 //sessions are stored in cookies
 // session contains user data, token, etc.
 //place this in a fetch request's header to get user data
 // authorization: `Bearer ${session.backendTokens.accessToken}`
 
 
-//middleware:
-// export { default } from 'next-auth/middleware';
-// export const config = { matcher: ["/((?!bejelentkezes|regisztracio).*)"]};
 
 
 

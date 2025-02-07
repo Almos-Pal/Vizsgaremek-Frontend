@@ -1,5 +1,6 @@
 import { Text } from "@/components/server/";
 import styles from "./ContentLayout.module.scss";
+import { Navbar } from "@/components/client";
 
 interface ContentLayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,8 @@ interface ContentLayoutProps {
 
 export default function ContentLayout({ children, header,filter  }: ContentLayoutProps) {
   return (
+    <>
+    <Navbar/>
     <div className={styles["content-layout"]}>
       <div className={styles["content-layout__container"]}>
 
@@ -25,5 +28,7 @@ export default function ContentLayout({ children, header,filter  }: ContentLayou
       </div>
 
     </div>
+    </>
+
   );
 }
