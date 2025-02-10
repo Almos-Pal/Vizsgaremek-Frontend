@@ -20,7 +20,7 @@ function Stats() {
             
             </div>
             <div className="flex justify-center mt-5">
-                <Button color={"secondary"} rightIcon="SearchIcon" >Statisztikák</Button>
+                <Button color={"secondary"} href={"/gyakorlat"} rightIcon="SearchIcon" >Statisztikák</Button>
             </div>
         </div>
     )
