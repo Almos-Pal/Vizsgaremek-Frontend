@@ -44,7 +44,8 @@
         /* Animate transform & opacity changes over 0.3s */
         transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 
-
+        border-radius: 0 1rem 1rem 0;
+        border-right: 0.5rem solid var(--color-primary-50);
         
       }
       
