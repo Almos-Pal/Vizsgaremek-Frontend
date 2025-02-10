@@ -36,7 +36,7 @@ function EdzesekPage() {
             ))}
             
             <div className='flex justify-center mt-4 pb-4'>
-                <Button width={225} color='secondary' rightIcon='AddIcon'>Edzés</Button>
+                <Button href={'/edzes/uj/szerkeszt'} width={225} color='secondary' rightIcon='AddIcon'>Edzés</Button>
             </div>
 
             <Pagination
