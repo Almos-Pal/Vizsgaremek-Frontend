@@ -1,0 +1,73 @@
+@use "styles/breakpoints.scss" as *;
+
+
+.bmiContainer{
+    background-color: var(--color-grey-500);
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 1rem;
+    padding: 1rem;
+    @include mobile {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+.bmiSmallItemContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 86px;
+}
+.container {
+    display: grid;
+    grid-template-columns: 0.6fr 1fr; // Two equal columns
+    gap: 20px;
+    justify-content: center;
+    align-items: start; // Aligns content properly without forcing full viewport height
+    @include mobile {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto; // Stacks elements on mobile
+        align-items: center; 
+    }
+}
+
+.leftPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%; // Makes sure it fills the height
+    justify-content: space-between; // Balances spacing inside
+    @include mobile {
+        width: 100%;
+        height: auto; // Allows it to shrink naturally
+    }
+}
+
+.rightPanel {
+    background-color: var(--color-grey-500);
+    border-radius: 16px;
+    text-align: center;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // Centers content properly
+    height: 100%; // Matches the left panel
+    min-height: 100%; // Ensures balance
+    @include mobile {
+        width: 100%;
+        height: auto;
+    }
+}

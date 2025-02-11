@@ -4,7 +4,13 @@ import { Text } from "@/components/server";
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
 import { useToast, useUser } from "@/hooks";
 import { useSession } from "next-auth/react";
-import { use, useEffect, useRef } from "react";
+import React, { use, useEffect, useRef } from "react";
+import styles from "./page.module.scss";
+import { Form, Formik } from "formik";
+import { on } from "events";
+import FormField from "@/components/client/_forms/FormField/FormField";
+import { Input } from "@/components/client/_inputs";
+import { BMITable, Button } from "@/components/client";
 
 interface PageParams {
   userID: string;
@@ -30,10 +36,115 @@ const UserPage: React.FC<userPageProps> = ({ params }) => {
 const {data:userData, isLoading:isLoadingUser, error:errorUser} = useUser.getUser(userID);
 
 
+interface BMISmallContainerProps {
+  data: any;
+  bmi: string;
+}
+
+const BMISmallContainer: React.FC<BMISmallContainerProps> = ({ data, bmi }) => {
+
+  console.log("data", data);
+  return (
+    <div className={styles.bmiContainer}>
+
+      <Text variant="h4">Adatok</Text>
+    <div className={styles.bmiSmallItemContainer}>
+      <div className={styles.item}>
+
+      <Text variant="subtitle-15">Testsúly</Text>
+      <Text variant="body-15">{data.suly === null ? "-": data.suly+"kg"}</Text>
+      </div>
+      <div className={styles.item}>
+
+      <Text variant="subtitle-15">Magasság</Text>
+      <Text variant="body-15">{data.magassag === null ? "-": data.magassag+'cm'}</Text>
+      </div>
+      <div className={styles.item}>
+
+      <Text variant="subtitle-15">BMI</Text>
+      <Text variant="body-15">{bmi}</Text>
+      </div>
+
+    </div>
+    </div>
+  );
+}
+
+
+
+interface UserData {
+  suly: number | null;
+  magassag: number | null;
+  user_id: number;
+}
+
+const EditUserData: React.FC<UserData & { isDisabled: boolean }> = (userData) => {
+  const initialValues = {
+    suly: userData.suly || "",
+    magassag: userData.magassag || "",
+  };
+
+  const {mutate: updateUser} = useUser.updateUser();
+
+  const onSubmit = async (values: UserData & { suly: number; magassag: number }) => {
+    try {
+      updateUser(
+        { 
+          values: {
+            ...values,
+            suly: values.suly ? values.suly : undefined,
+            magassag: values.magassag ? values.magassag : undefined,
+          }, 
+          id: userData.user_id 
+        },
+        {
+          onSuccess: () => {
+            refetch();
+            toast.success("Sikeres adatmódosítás");
+          },
+          onError: () => {
+            toast.error("Hiba történt az adatmódosítás során");
+          }
+        }
+      );
+      
+    } catch (e) {
+      toast.error("Hiba történt az adatmódosítás során");
+    }
+  }
+  
+
+  return (
+    <Formik
+    initialValues={initialValues}
+    onSubmit={(values)=> onSubmit({ ...values, user_id: userData.user_id, suly: Number(values.suly), magassag: Number(values.magassag) })}
+
+    >
+      <div className={styles.bmiContainer}>
+      <Text variant="h4">Adatok módosítása</Text>
+
+      <Form>
+        <div className="flex flex-col gap-4">
+
+        <FormField name="suly" label="Testsúly" type="number" as={Input} disabled={userData.isDisabled} />
+        <FormField name="magassag" label="Magasság" type="number" as={Input} disabled={userData.isDisabled} />
+          </div>
+
+<div className="pt-10">
+
+        <Button additionalClassName="w-full " type="submit">Mentés</Button>
+</div>
+      </Form>
+          </div>
+    </Formik>
+    
+  );
+}
+
 const {data:session} = useSession();
 console.log(session?.backendTokens.accessToken);
 
-  const { data, isLoading, error } = useUser.getBmi(userID);
+  const { data, isLoading, error,refetch } = useUser.getBmi(userID);
 
   const hasShownToastRef = useRef(false);
 
@@ -68,15 +179,28 @@ if(isLoadingUser){
 
     <ContentLayout header={userData?  userData.username + " Adatai": "Felhasználó Adatai"}  >
 
-        {isLoading ? (
-            <Text>Loading...</Text>
-        ) : (
-            <div>
-                <Text variant="h2">BMI: {data ? data.bmi: "-"}</Text>
-                <Text variant="h2">Type: {data ? data.type: "-"}</Text>
-            </div>
-        )}
+      <div className={styles.container}>
+        <div className={styles.leftPanel}>
+        <BMISmallContainer data={userData} bmi={data ? data.bmi: "-"} />
+{userData && (
+  <EditUserData 
+    suly={userData.suly ?? null} 
+    magassag={userData.magassag ?? null} 
+    user_id={userID} 
+    isDisabled={isLoading}
+  />
+)}
+        </div>
 
+<div className={styles.rightPanel}>
+<BMITable bmi={parseFloat(data?.bmi ?? "-")} />
+</div>
+
+
+
+   
+
+      </div>
         
     </ContentLayout>
   );

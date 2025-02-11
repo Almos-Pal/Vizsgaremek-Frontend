@@ -17,8 +17,18 @@ const useUser = {
         return useQuery({
             queryKey: ['bmi', id],
             queryFn: () => userApi.getBmi(id),
-            refetchOnWindowFocus: false, // Prevents refetch on window focus
+            refetchOnWindowFocus: false, 
             staleTime: 5 * 60 * 1000, 
+        });
+    },
+    updateUser: () => {
+        const queryClient = useQueryClient();
+        return useMutation({
+            mutationKey: ['updateUser'],
+            mutationFn: ({ id, values }: { id: number, values: Bmi }) => userApi.updateUser(id, values),
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['user'] });
+            },
         });
     }
 };
