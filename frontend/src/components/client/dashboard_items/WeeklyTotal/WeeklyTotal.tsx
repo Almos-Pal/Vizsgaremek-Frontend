@@ -22,7 +22,7 @@ function WeeklyTotal() {
                     </a>
             </div>
             <div className="sm:visible hidden sm:flex justify-center">
-                <Button  color={"secondary"} href={"/gyakorlat"} >Több a hetemről</Button>
+                <Button  color={"secondary"} href={"/osszesito"} >Több a hetemről</Button>
             </div>
         </div>
     )

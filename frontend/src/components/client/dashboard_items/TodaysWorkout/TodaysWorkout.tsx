@@ -79,11 +79,11 @@ function TodaysWorkout() {
                     {
                         list.length - 5 > 0 &&
                         <div className="w-max-[200px]">
-                            <Button width={"100%"} color={"secondary"} href={"/gyakorlat"} >További Gyakorlatok: {list.length - 5}</Button>
+                            <Button width={"100%"} color={"secondary"} href={"/edzes"} >További Gyakorlatok: {list.length - 5}</Button>
                         </div>
                         ||
                         <div className="w-max-[200px]">
-                            <Button width={"100%"} color={"secondary"} href={"/gyakorlat"} >Gyakorlatok</Button>
+                            <Button width={"100%"} color={"secondary"} href={"/edzes"} >Gyakorlatok</Button>
                         </div>
                     }
                 </div>
@@ -106,9 +106,9 @@ function TodaysWorkout() {
                         }
                         {
                             list.length - 3 > 0 &&
-                            <a className={styles.aClass} href="/gyakorlat">További gyakorlatok: {list.length - 3}</a>
+                            <a className={styles.aClass} href="/edzes">További gyakorlatok: {list.length - 3}</a>
                             ||
-                            <a className={styles.aClass} href="/gyakorlat">Gyakorlatok</a>
+                            <a className={styles.aClass} href="/edzes">Gyakorlatok</a>
                         }
                     </div>
                     {

@@ -9,12 +9,17 @@ import CalendarContainer from "./CalendarStyling";
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
-function consoleling(value: Date) {
-    console.log(value.getFullYear(), value.getMonth()+1, value.getDate());
+function exercise(value: ValuePiece) {
+    console.log(value);
+  
     
 }
 
 function CalendarWidget() {
+
+
+
+    
     const [value, onChange] = useState<Value>(new Date());
     const [isClient, setIsClient] = useState(false);
     useEffect(() => {
@@ -24,8 +29,10 @@ function CalendarWidget() {
     return (
         <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[360px]  max-w-[325px] w-full flex flex-col m-2.5 p-0 rounded-lg ")}>            
                 <CalendarContainer>
-                 {isClient ? (<Calendar onChange={onChange} onClickDay={consoleling.bind(value)} value={value} />) : (<p>Loading</p>)}
+                 {isClient ? (<Calendar onChange={onChange} onClickDay={exercise.bind(value)} value={value} />) : (<p>Loading</p>)}
                  </CalendarContainer>
+
+                 <div className="overlay"></div>
         </div>
     )
 }

@@ -116,7 +116,7 @@ function PersonalRecords() {
                 }
             </div>
             <div className="flex justify-center mt-5">
-                <Button color={"secondary"} href={"/gyakorlat"} rightIcon="SearchIcon" >További Rekordok </Button>
+                <Button color={"secondary"} href={"/rekordok"} rightIcon="SearchIcon" >További Rekordok </Button>
             </div>
 
         </div>
