@@ -178,7 +178,20 @@ if(isLoadingUser){
   return (
 
     <ContentLayout header={userData?  userData.username + " Adatai": "Felhasználó Adatai"}  >
+      <div className={styles.buttonContainer}>
+        <Button color="secondary" href={`/profil/${userData?.user_id}/uj-jelszo`} >
+        Új jelszó
+        </Button>
+          {/* // TODO */}
+        <Button  rightIcon="FavoriteIcon" href={"#"}> 
+        Kedvenc edzések
+        </Button>
+          {/* // TODO */}
 
+        <Button color="secondary" href={`#`} rightIcon="PenPaperIcon" >
+        Edzéstervező
+        </Button>
+      </div>
       <div className={styles.container}>
         <div className={styles.leftPanel}>
         <BMISmallContainer data={userData} bmi={data ? data.bmi: "-"} />

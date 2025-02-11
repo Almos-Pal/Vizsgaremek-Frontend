@@ -33,14 +33,15 @@
 }
 .container {
     display: grid;
-    grid-template-columns: 0.6fr 1fr; // Two equal columns
+    grid-template-columns: 0.6fr 1fr;
     gap: 20px;
     justify-content: center;
-    align-items: start; // Aligns content properly without forcing full viewport height
+    align-items: start; 
     @include mobile {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto; // Stacks elements on mobile
+        grid-template-rows: auto auto;
         align-items: center; 
+        margin-bottom: 10rem;
     }
 }
 
@@ -48,11 +49,11 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    height: 100%; // Makes sure it fills the height
-    justify-content: space-between; // Balances spacing inside
+    height: 100%; 
+    justify-content: space-between;
     @include mobile {
         width: 100%;
-        height: auto; // Allows it to shrink naturally
+        height: auto; 
     }
 }
 
@@ -63,11 +64,30 @@
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: center; // Centers content properly
-    height: 100%; // Matches the left panel
-    min-height: 100%; // Ensures balance
+    justify-content: center; 
+    height: 100%;
+    min-height: 100%;
     @include mobile {
         width: 100%;
         height: auto;
+    }
+}
+.buttonContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: -2rem; //
+    margin-bottom: 4rem;
+    @include mobile {
+        flex-direction: column;
+        width: 100%;
+    margin-bottom: 2rem;
+        
+
+        button{
+            width: 100%;
+        }
     }
 }
