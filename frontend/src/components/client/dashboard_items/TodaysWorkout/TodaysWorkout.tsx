@@ -79,11 +79,11 @@ function TodaysWorkout() {
                     {
                         list.length - 5 > 0 &&
                         <div className="w-max-[200px]">
-                            <Button width={"100%"} color={"secondary"} >További Gyakorlatok: {list.length - 5}</Button>
+                            <Button width={"100%"} color={"secondary"} href={"/edzes"} >További Gyakorlatok: {list.length - 5}</Button>
                         </div>
                         ||
                         <div className="w-max-[200px]">
-                            <Button width={"100%"} color={"secondary"} >Gyakorlatok</Button>
+                            <Button width={"100%"} color={"secondary"} href={"/edzes"} >Gyakorlatok</Button>
                         </div>
                     }
                 </div>
@@ -106,9 +106,9 @@ function TodaysWorkout() {
                         }
                         {
                             list.length - 3 > 0 &&
-                            <a className={styles.aClass}>További gyakorlatok: {list.length - 3}</a>
+                            <a className={styles.aClass} href="/edzes">További gyakorlatok: {list.length - 3}</a>
                             ||
-                            <a className={styles.aClass}>Gyakorlatok</a>
+                            <a className={styles.aClass} href="/edzes">Gyakorlatok</a>
                         }
                     </div>
                     {
@@ -124,7 +124,7 @@ function TodaysWorkout() {
                 </div>
                 <div className={clsx(styles.humanDiv, "sm:max-w-[200px] max-w-[325px] w-full sm:grid grid-rows-5 grid-cols-12 hidden justify-center sm:p-0 sm:m-0   rounded-lg")}>
                     <div className={clsx(styles.leftbuttonDesk, "justify-self-end")}>
-                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "0" }} iconOnly leftIcon="ArrowLeftIcon"></Button>
+                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "5.5px" }} iconOnly leftIcon="ArrowLeftIcon"></Button>
                     </div>
                     {
                         human == false &&
@@ -135,12 +135,12 @@ function TodaysWorkout() {
                         </div>
                     }
                     <div className={clsx(styles.rightbuttonDesk, "justify-self-start")}>
-                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "0" }} iconOnly leftIcon="ArrowRightIcon"></Button>
+                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "5.5px" }} iconOnly leftIcon="ArrowRightIcon"></Button>
                     </div>
                 </div>
                 <div className={clsx(styles.humanDiv, "max-w-[200px] sm:hidden grid grid-rows-5 grid-cols-12  ml-0 mb-3 rounded-lg mr-4 ")}>
-                    <div className={clsx(styles.leftbutton, "justify-self-end")}>
-                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "0" }} iconOnly leftIcon="ArrowLeftIcon"></Button>
+                    <div className={clsx(styles.leftbutton, "justify-self-center")}>
+                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "5.5px" }} iconOnly leftIcon="ArrowLeftIcon"></Button>
                     </div>
                     {
                         human == false &&
@@ -150,13 +150,13 @@ function TodaysWorkout() {
                         <div className={styles.humanB}>
                         </div>
                     }
-                    <div className={clsx(styles.rightbutton, "justify-self-start")}>
-                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "0" }} iconOnly leftIcon="ArrowRightIcon" iconProps={{ "size": 25 }}></Button>
+                    <div className={clsx(styles.rightbutton, "")}>
+                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "5.5px" }} iconOnly leftIcon="ArrowRightIcon" iconProps={{ "size": 25 }}></Button>
                     </div>
                 </div>
             </div>
         </div>
     )
 }
-
+//BelaBela-1990.
 export default TodaysWorkout;

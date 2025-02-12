@@ -47,7 +47,7 @@ const WelcomeLogin: React.FC = () => {
             email: values.email,
             password: values.password,
             redirect: false,
-            callbackUrl: "/test/akos", //Here you can change where to immidiately redirect after login
+            callbackUrl: "/dashboard", //Here you can change where to immidiately redirect after login
         });
         //console.log("SignIn result:", result);
 
@@ -57,7 +57,7 @@ const WelcomeLogin: React.FC = () => {
             setErrorMessage("Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.");
         } else if (result?.ok) {
             setTimeout(() => {
-                router.push("/test/akos");
+                router.push("/dashboard");
             }, 500);
 
         };
