@@ -21,18 +21,18 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
 
 
-                    <Button additionalClassName={styles.singleButtonDesktop} width={420} rightIcon="PlayRightIcon">Edzés Kezdése</Button>
+                    <Button additionalClassName={styles.singleButtonDesktop} href={`/edzes/${data.edzes_id}/szerkeszt`} width={420} rightIcon="PlayRightIcon">Edzés Kezdése</Button>
 
 
                     <div className={styles.doubleButtonDesktop} >
-                        <Button  width={200} color="secondary" href={`/edzes/${data.edzes_id}/szerkeszt`} rightIcon="EditIcon">Módosítás</Button>
+                        <Button  width={200} color="secondary"  rightIcon="EditIcon">Módosítás</Button>
                         <Button  width={200} color="secondary" rightIcon="EditIcon">Törlés</Button>
                     </div>
 
                     <Button additionalClassName={styles.singleButtonMobile}  rightIcon="PlayRightIcon">Edzés Kezdése</Button>
 
                     <div className={styles.doubleButtonMobile} >
-                        <Button additionalClassName={styles.btnmobileresponsive} href={`/edzes/${data.edzes_id}/szerkeszt`} color="secondary" rightIcon="EditIcon">Módosítás</Button>
+                        <Button additionalClassName={styles.btnmobileresponsive}  color="secondary" rightIcon="EditIcon">Módosítás</Button>
                         <Button additionalClassName={styles.btnmobileresponsive}  color="secondary" rightIcon="EditIcon">Törlés</Button>
                     </div>
                 </div>

@@ -6,12 +6,16 @@ import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayou
 import EdzesBlock from '@/components/client/EdzesBlock/EdzesBlock';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, Pagination } from '@/components/client';
+import { Modal } from '@/components/client/_modal';
+import { NewEdzesForm } from '@/components/client/_forms';
 
 function EdzesekPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialPage = parseInt(searchParams.get("page") || "1", 10);
     const [page, setPage] = useState(initialPage);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     // Fetch workouts with the provided page and limit parameters
     const { data: edzesek, isLoading, error } = useEdzes.getEdzesek({
@@ -29,16 +33,30 @@ function EdzesekPage() {
         ? edzesek.items.flat()
         : edzesek?.items;
 
+
+
     return (
         <ContentLayout header="Edzések">
             {workouts?.map((edzes: any) => (
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
-            
+            {/* href={'/edzes/uj/szerkeszt'} */}
             <div className='flex justify-center mt-4 pb-4'>
-                <Button href={'/edzes/uj/szerkeszt'} width={225} color='secondary' rightIcon='AddIcon'>Edzés</Button>
+                <Button width={225} color='secondary' rightIcon='AddIcon' onClick={() => setIsModalOpen(true)} >Edzés</Button>
             </div>
 
+            <Modal
+                visible={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title="Új edzés létrehozása"
+                width={250}
+                showCloseButton={false}
+                
+            >
+                {/* <NewEdzesForm onSuccess={() => setIsModalOpen(false)} /> */}
+                <NewEdzesForm onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />
+
+            </Modal>
             <Pagination
                 value={page}
                 total={edzesek?.meta?.totalPages || 1}
@@ -49,7 +67,7 @@ function EdzesekPage() {
                     router.push(`?${params.toString()}`);
                 }}
             />
-        </ContentLayout>
+        </ContentLayout >
 
 
 
