@@ -1,0 +1,70 @@
+@use "styles/breakpoints.scss" as *;
+
+.container {
+  .edzes-block {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-grey-500);
+    border-radius: 1rem;
+    align-items: stretch;
+
+    @include desktop {
+      margin-bottom: 42px;
+      width: 750px;
+      margin-left: auto;
+      margin-right: auto;
+      color: var(--color-light);
+    }
+
+    @include mobile {
+      margin-bottom: 35px;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    .edzes-header {
+      height: 50px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0.5rem;
+      background-color: var(--color-grey-400);
+      border-radius: 1rem 1rem 0 0;
+    }
+
+
+    .set-table {
+      padding: 1rem;
+
+
+      &>* {
+        padding: 0.5rem;
+      }
+    }
+
+
+
+
+    .exerciseName {
+      margin-left: 2rem;
+      font-weight: bold;
+    }
+
+    .set-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-left: 2rem;
+
+
+
+      .set-table {
+        th, td {
+          margin: 12rem;
+        }
+      }
+    }
+
+
+  }
+}

@@ -31,6 +31,7 @@ interface InputProps {
   };
   isRequired?: boolean;
   disabled?: boolean;
+  isSet?: boolean;
 }
 
 const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
@@ -53,6 +54,7 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
       iconProps = {},
       isRequired,
       disabled,
+      isSet = false,
       ...props
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -112,7 +114,7 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
         )}
         <div
           className={clsx(
-            styles.input,
+            isSet ? styles.inputSet : styles.input, // Ensuring correct class application
             className,
             error && styles.inputError,
             disabled && styles.disabled

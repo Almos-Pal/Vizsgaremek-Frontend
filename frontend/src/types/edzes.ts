@@ -1,4 +1,4 @@
-import { Gyakorlat } from './gyakorlat';
+import { Gyakorlat, GyakorlatCreate } from './gyakorlat';
 
 export interface Edzes {
     edzes_id: number;
@@ -13,11 +13,9 @@ export interface Edzes {
 
 export interface EdzesCreate {
     edzes_neve: string;
-    datum: Date;
-    ido: number;
-    edzestervek: number[];
-    gyakrolatok: number[];
-    cardiok: number[];
+    datum?: Date;
+    ido?: number;
+    user_id: number;
 }
 
 

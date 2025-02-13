@@ -13,7 +13,7 @@ interface ContentLayoutProps {
 export default function ContentLayout({ children, header, filter }: ContentLayoutProps) {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className={styles["content-layout"]}>
         <div className={styles["content-layout__container"]}>
           <div className={styles.header}>
