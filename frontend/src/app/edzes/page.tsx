@@ -49,8 +49,9 @@ function EdzesekPage() {
                 visible={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 title="Új edzés létrehozása"
-                width={250}
+                width={350}
                 showCloseButton={false}
+                
                 
             >
                 {/* <NewEdzesForm onSuccess={() => setIsModalOpen(false)} /> */}

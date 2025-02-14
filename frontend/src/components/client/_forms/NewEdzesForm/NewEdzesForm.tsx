@@ -25,7 +25,7 @@ interface NewEdzesFormProps {
 
 
 const validationSchema = Yup.object().shape({
-    edzes_neve: Yup.string().required("Az edzés neve megadása kötelező").min(3, "Az edzés nevének legalább 3 karakter hosszúnak kell lennie"),
+    edzes_neve: Yup.string().required("Az edzés nevének megadása kötelező").min(3, "Az edzés nevének legalább 3 karakter hosszúnak kell lennie"),
 });
 
 const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
@@ -39,15 +39,14 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
             edzes_neve: values.edzes_neve,
             datum: new Date(),
             user_id: 5, //IMPORTANT MAJD A USER ID-T KELL BEÁLLÍTANI SESSIONBŐL
-            ido: 0, 
+            ido: 0,
         };
 
         createEdzes(newEdzesPayload, {
             onSuccess: (newEdzes: any) => {
-                // Redirect to the szerkeszt page for the new edzés.
-                // Assuming the backend returns the new edzés id as `edzes_id`
+                
                 router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
-                onSuccess(); // Close the modal
+                onSuccess(); 
             },
             onError: (error: any) => {
                 console.error("Error creating edzés:", error);
@@ -60,22 +59,24 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
             <Formik validationSchema={validationSchema} initialValues={initialValues} onSubmit={handleSubmit}>
                 {({ isSubmitting }) => (
                     <Form>
-                        <div style={{ marginBottom: "1.5rem" }}>
-                            <Text style={{marginBottom: '1.5rem'}} variant="h4">Adja meg az edzés nevét</Text>
-                            <FormField
-                                id="edzes_neve"
-                                name="edzes_neve"
-                                placeholder="Edzés neve"
-                                as={Input}
-                            />
-                        </div>
-                        <div className="flex justify-center gap-5">
-                            <Button type="submit"  disabled={isSubmitting} color="primary">
-                                Létrehozás
-                            </Button>
-                            <Button type="button" onClick={onCancel} color="secondary">
-                                Mégse
-                            </Button>
+                        <div style={{ marginBottom: "1.5rem"}}>
+                            <Text style={{ marginBottom: '1.5rem' }} variant="h4">Adja meg az edzés nevét</Text>
+                            <div style={{ marginBottom: "1.5rem", width: "90%", marginLeft: "auto" , marginRight: "auto"}}>
+                                <FormField
+                                    id="edzes_neve"
+                                    name="edzes_neve"
+                                    placeholder="Edzés neve"
+                                    as={Input}
+                                />
+                            </div>
+                            <div className="flex justify-center gap-5">
+                                <Button type="submit" disabled={isSubmitting} color="primary">
+                                    Létrehozás
+                                </Button>
+                                <Button width={145} type="button" onClick={onCancel} color="secondary">
+                                    Mégse
+                                </Button>
+                            </div>
                         </div>
                     </Form>
                 )}

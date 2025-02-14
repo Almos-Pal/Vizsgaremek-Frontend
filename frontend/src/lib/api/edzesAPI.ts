@@ -11,7 +11,6 @@ interface FetchEdzesekParams {
   //izomcsoportId?: number;
   //izomcsoportok?: number[];
 }
-
 const edzesAPI = {
   fetchEdzesek: async ({
     page = 1,
@@ -88,11 +87,46 @@ const edzesAPI = {
         'Content-Type': 'application/json',
       },
     });
-  
+
     if (!response.ok) {
       throw new Error('Error deleting edzes');
     }
+
+    return response.json();
+  },
+
   
+  addGyakorlatToEdzes: async (edzesId: number, userId: number, gyakorlatId: number) => {
+    const response = await fetch(`http://localhost:8000/edzes/${edzesId}/gyakorlat/${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ gyakorlat_id: gyakorlatId }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error adding gyakorlat to edzes');
+    }
+
+    return response.json();
+  },
+
+  deleteGyakorlatFromEdzes: async (edzesId: number, gyakorlatId: number, userId: number) => {
+    const response = await fetch(
+      `http://localhost:8000/edzes/${edzesId}/gyakorlat/${gyakorlatId}/${userId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Error deleting gyakorlat from edzes');
+    }
+
     return response.json();
   },
 
@@ -152,15 +186,13 @@ const edzesAPI = {
         },
       }
     );
-  
+
     if (!response.ok) {
       throw new Error('Error deleting set from edzes');
     }
-  
+
     return response.json();
   },
+};
 
-
-}
-
-export default edzesAPI
+export default edzesAPI;

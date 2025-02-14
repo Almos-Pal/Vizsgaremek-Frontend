@@ -13,6 +13,7 @@ interface ModalProps {
   showCloseButton?: boolean;
   allowScroll?: boolean;
   width?: number;
+  height?: number; 
   disableBackdropClick?: boolean;
   footerComponent?: React.ReactNode;
   isRelative?: boolean;
@@ -28,6 +29,7 @@ const Modal: React.FC<ModalProps> = ({
   disableBackdropClick = false,
   footerComponent,
   width,
+  height,
   isRelative,
 }) => {
   if (!visible) return null;
@@ -57,6 +59,7 @@ const Modal: React.FC<ModalProps> = ({
             // overflowX: "hidden",
             maxHeight: allowScroll ? "80vh" : undefined,
             width: width ?? undefined,
+            height: height ?? undefined,
           }}
         >
           {children}

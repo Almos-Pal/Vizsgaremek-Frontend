@@ -1,4 +1,4 @@
-import edzesAPI from '@/lib/api/edzesAPI'
+import edzesAPI from '@/lib/api/edzesAPI';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 const useEdzes = {
@@ -15,14 +15,12 @@ const useEdzes = {
     });
   },
 
-
   getEdzes: (id: number) => {
     return useQuery({
       queryKey: ['edzes', id],
       queryFn: () => edzesAPI.fetchEdzes(id),
     });
   },
-
 
   createEdzes: () => {
     const queryClient = useQueryClient();
@@ -40,7 +38,7 @@ const useEdzes = {
       mutationFn: ({ id, updatedEdzes }: { id: number; updatedEdzes: any }) =>
         edzesAPI.updateEdzes(id, updatedEdzes),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['edzesek'] }); 
+        queryClient.invalidateQueries({ queryKey: ['edzesek'] });
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
       },
     });
@@ -51,7 +49,37 @@ const useEdzes = {
     return useMutation({
       mutationFn: (id: number) => edzesAPI.deleteEdzes(id),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['edzesek'] }); 
+        queryClient.invalidateQueries({ queryKey: ['edzesek'] });
+      },
+    });
+  },
+
+  addGyakorlatToEdzes: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: ({ edzesId, userId, gyakorlatId }: { edzesId: number; userId: number; gyakorlatId: number }) =>
+        edzesAPI.addGyakorlatToEdzes(edzesId, userId, gyakorlatId),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['edzes'] });
+      },
+    });
+  },
+  
+  deleteGyakorlatFromEdzes: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: ({
+        edzesId,
+        gyakorlatId,
+        userId,
+      }: {
+        edzesId: number;
+        gyakorlatId: number;
+        userId: number;
+      }) =>
+        edzesAPI.deleteGyakorlatFromEdzes(edzesId, gyakorlatId, userId),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['edzes'] });
       },
     });
   },
@@ -136,7 +164,6 @@ const useEdzes = {
       },
     });
   },
-
 };
 
 export default useEdzes;

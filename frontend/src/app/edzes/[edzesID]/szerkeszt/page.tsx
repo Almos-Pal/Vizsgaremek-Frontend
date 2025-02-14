@@ -51,7 +51,7 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
     return (
         <ContentLayout header={isNew? "Új edzés létrehozása": "Edzés Szerkesztése"}>
             {/* <EdzesCreateEditForm initialData={initialValues} id={data?.edzes_id}/> */}
-            <EdzesCreateEditForm initialData={initialValues} id={data?.edzes_id} gyakorlatok={data?.gyakorlatok}>
+            <EdzesCreateEditForm  initialData={initialValues} id={data?.edzes_id}>
 
             </EdzesCreateEditForm>
 
