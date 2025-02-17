@@ -5,7 +5,7 @@ import { Gyakorlat } from "@/types";
 import styles from "./GyakorlatDataSheet.module.scss";
 import {Button} from "@/components/client";
 import Link from "next/link";
-import { Text } from "@/components/server";
+import { BodySVG, Text } from "@/components/server";
 import getMuscleNameById from "@/utils/izomcsoportParse";
 
 interface GyakorlatDataSheetProps {
@@ -84,6 +84,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
             </div>
           </div>
           <div className={styles.svg}>
+          <BodySVG size={300}  selectedMuscleIds={[data.fo_izomcsoport]} secondaryMuscleIds={data.izomcsoportok}/>
 
           </div>
         </div>
