@@ -18,8 +18,11 @@ function CalendarWidget() {
       
 
     function handleDayClick(value: Date) {
-       
-        router.push(`/edzes/${value.toISOString().split('T')[0]}`);
+        const year = value.getFullYear();
+        const month = String(value.getMonth() + 1).padStart(2, '0');
+        const day = String(value.getDate()).padStart(2, '0');
+        let calendarDate = year + "-" + month + "-" + day;
+        router.push(`/edzes/${calendarDate}`);
     }
 
 
