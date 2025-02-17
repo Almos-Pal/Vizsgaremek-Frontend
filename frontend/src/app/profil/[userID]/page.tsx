@@ -11,6 +11,7 @@ import { on } from "events";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import { Input } from "@/components/client/_inputs";
 import { BMITable, Button } from "@/components/client";
+import { bmiSchema } from "@/utils/Validations";
 
 interface PageParams {
   userID: string;
@@ -117,6 +118,8 @@ const EditUserData: React.FC<UserData & { isDisabled: boolean }> = (userData) =>
   return (
     <Formik
     initialValues={initialValues}
+    validationSchema={bmiSchema}
+
     onSubmit={(values)=> onSubmit({ ...values, user_id: userData.user_id, suly: Number(values.suly), magassag: Number(values.magassag) })}
 
     >

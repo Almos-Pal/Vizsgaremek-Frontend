@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import useModal from "@/hooks/useModal";
 import { ConfirmationModal } from "../../_modal";
 import { useToast } from "@/hooks";
-import { gyakorlatSchema } from "@/utils/Validations/GyakorlatSchema";
+import { gyakorlatSchema } from "@/utils/Validations/gyakorlatSchema";
 interface GyakorlatCreateEditFormProps {
   initialData: GyakorlatCreate;
   id?: number;
