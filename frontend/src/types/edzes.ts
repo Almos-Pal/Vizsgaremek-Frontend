@@ -22,6 +22,9 @@ export interface EdzesCreate {
 export interface EdzesFormValues {
     edzes_id?: number; // only if editing an existing edzés
     edzes_neve: string;
+    datum: Date;
+    ido: number;
+    user_id: number;
     // you may include other top-level fields (e.g. datum, ido)
     gyakorlatok: {
       // You might store the gyakorlat id if already created on backend

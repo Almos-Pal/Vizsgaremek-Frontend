@@ -1,64 +1,48 @@
-"use client"
+"use client";
 
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
 import useEdzes from '@/hooks/useEdzes';
-import React, { use } from 'react'
+import React, { use } from 'react';
 import { Text } from "@/components/server";
 import { EdzesCreateEditForm } from "@/components/client/_forms";
-import { EdzesCreate } from "@/types/edzes";
+import { Edzes } from "@/types/edzes";
 
 interface PageParams {
-    edzesID: string;
+  edzesID: string;
 }
 
 interface EdzesSzerkesztPageProps {
-    params: Promise<PageParams>;
+  params: Promise<PageParams>;
 }
-
 
 const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
-    const resolvedParams = use(params);
-    const edzesID = parseInt(resolvedParams.edzesID);
-    const isNew = resolvedParams.edzesID === "uj";
+  const resolvedParams = use(params);
+  const edzesID = parseInt(resolvedParams.edzesID);
 
-    const { data, isLoading, error } = !isNew ? useEdzes.getEdzes(edzesID) : { data: null, isLoading: false, error: null };
+  const { data, isLoading, error } = useEdzes.getEdzes(edzesID);
 
-
-    let initialValues: EdzesCreate = {
-        edzes_neve: data?.edzes_neve || "",
-        datum: data?.datum || new Date(),
-        ido: data?.ido || 0,
-        user_id: data?.user_id || 0
-    };
-
-    if (!isNew &&  isLoading) {
-        return (
-          <div>
-            <Text>Loading...</Text>
-          </div>
-        );
-      }
-    
-      if (!isNew && error) {
-        return (
-          <div>
-            <Text>Error fetching gyakorlat data. Please try again later.</Text>
-          </div>
-        );
-      }
-    
-
+  if (isLoading) {
     return (
-        <ContentLayout header={isNew? "Új edzés létrehozása": "Edzés Szerkesztése"}>
-            {/* <EdzesCreateEditForm initialData={initialValues} id={data?.edzes_id}/> */}
-            <EdzesCreateEditForm  initialData={initialValues} id={data?.edzes_id}>
+      <div>
+        <Text>Loading...</Text>
+      </div>
+    );
+  }
 
-            </EdzesCreateEditForm>
+  if (error || !data) {
+    return (
+      <div>
+        <Text>Error fetching edzés data. Please try again later.</Text>
+      </div>
+    );
+  }
 
-        </ContentLayout>
-    )
-    
-}
+  return (
+    <ContentLayout header="Edzés Szerkesztése">
+      {/* Pass the whole edzés object as a prop */}
+      <EdzesCreateEditForm data={data} />
+    </ContentLayout>
+  );
+};
 
-
-export default EdzesSzerkesztPage
+export default EdzesSzerkesztPage;

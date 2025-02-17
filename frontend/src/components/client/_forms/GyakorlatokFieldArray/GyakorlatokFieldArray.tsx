@@ -42,7 +42,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
           return;
         }
         // Assume the current user ID is available (here hardcoded as 0)
-        const userId = 5; //IMPORTANT CHANGE IN THE FUTURE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        const userId = 1; //IMPORTANT CHANGE IN THE FUTURE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         // Iterate over each set in the exercise and add it via the API
         gyakorlat.szettek.forEach((set, setIndex) => {
