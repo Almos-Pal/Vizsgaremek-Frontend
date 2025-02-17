@@ -1,4 +1,4 @@
-import {Text} from "@/components/server";
+import {BodySVG, Text} from "@/components/server";
 import {Button} from "@/components/client";
 import styles from "./GyakorlatItem.module.scss";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -16,7 +16,7 @@ export const GyakorlatItem: React.FC<GyakorlatItemProps> = ({ gyakorlat }) => {
             <div className={styles["gyakorlat-name"]}>
                 <Text variant="subtitle-16">{gyakorlat.gyakorlat_neve}</Text>
             </div>
-            <div className={styles["body-image"]}></div>
+                <BodySVG size={130}  selectedMuscleIds={[gyakorlat.fo_izomcsoport]} secondaryMuscleIds={gyakorlat.izomcsoportok}/>
             {!isMobile && (
                 <div className={styles["gyakorlat-button"]}>
                     <Button color="secondary" href={`/gyakorlat/${gyakorlat.gyakorlat_id}`}>

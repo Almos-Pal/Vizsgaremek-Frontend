@@ -37,6 +37,8 @@ const GyakorlatPage: React.FC = () => {
 
   if (isLoading) return <div>Loading...</div>;
 
+
+  console.log(gyakorlatok);
   return (
     
     <ContentLayout 

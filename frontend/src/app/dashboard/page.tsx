@@ -1,11 +1,5 @@
 "use client";
-import { Button,CalendarWidget,PersonalRecords,Stats,TodaysWorkout, WeeklyTotal } from "@/components/client";
-import FormField from "@/components/client/_forms/FormField/FormField";
-import Input from "@/components/client/_inputs/Input/Input";
-import { Text ,Icons} from "@/components/server";
-import { Form, Formik } from "formik";
-import dynamic  from "next/dynamic";
-
+import {CalendarWidget,PersonalRecords,Stats,TodaysWorkout, WeeklyTotal } from "@/components/client";
 
 import * as Yup from "yup";
 
