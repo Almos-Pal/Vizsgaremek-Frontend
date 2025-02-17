@@ -21,8 +21,8 @@ function WeeklyTotal() {
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8_PtzGb9XgU_eXXauI4a56O3yuB5wqCpD2IZyFeMLFOsCoYnB72WUHnu7N7jhDMdlmyc&usqp=CAU" alt="" />
                     </a>
             </div>
-            <div className="sm:visible hidden sm:flex justify-center">
-                <Button  color={"secondary"} href={"/osszesito"} >Több a hetemről</Button>
+            <div className="sm:visible hidden sm:flex justify-center whitespace-nowrap mt-4">
+                <Button color={"secondary"} additionalClassName="w-[200px]" href={"/osszesito"}>Több a hetemről</Button>
             </div>
         </div>
     )
