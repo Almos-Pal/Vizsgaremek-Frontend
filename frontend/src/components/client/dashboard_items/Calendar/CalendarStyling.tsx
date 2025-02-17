@@ -214,7 +214,7 @@ const CalendarContainer = styled.div`
     width: 100%;}
 
     .highlighted {
-    background: red !important;}
+    background: var(--color-primary-50) !important;}
 `;
 
 export default CalendarContainer;
