@@ -172,13 +172,13 @@ const CalendarContainer = styled.div`
   }
 
   .react-calendar__tile--now {
-    background: #ffff76;
+    background: var(--color-info) ;
     width: 100px;
   }
 
   .react-calendar__tile--now:enabled:hover,
   .react-calendar__tile--now:enabled:focus {
-    background: #ffffa9;
+    background: red;
     width: 100px;
   }
 
@@ -194,7 +194,7 @@ const CalendarContainer = styled.div`
   }
 
   .react-calendar__tile--active {
-    background: #006edc;
+    background: red;
     color: white;
     width: 100px;
   }
@@ -212,6 +212,9 @@ const CalendarContainer = styled.div`
   .react-calendar__year-view__months{
   min-width: 2em; !important;
     width: 100%;}
+
+    .highlighted {
+    background: red !important;}
 `;
 
 export default CalendarContainer;
