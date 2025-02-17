@@ -6,6 +6,7 @@ import styles from './Calendar.module.scss';
 import Calendar from "react-calendar";
 import CalendarContainer from "./CalendarStyling";
 import { useRouter } from "next/navigation";
+import { DateParse } from "@/utils";
 
 type ValuePiece = Date | null;
 
@@ -18,23 +19,15 @@ function CalendarWidget() {
       
 
     function handleDayClick(value: Date) {
-        const year = value.getFullYear();
-        const month = String(value.getMonth() + 1).padStart(2, '0');
-        const day = String(value.getDate()).padStart(2, '0');
-        let calendarDate = year + "-" + month + "-" + day;
-        router.push(`/edzes/${calendarDate}`);
+        router.push(`/edzes/${DateParse(value)}`);
     }
 
 
     function tileClassName({date}: {date: Date}) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        let calendarDate = year + "-" + month + "-" + day;
        let help = "";
         datums.map((exerciseDate) => {
             let parsedExerciseDate = new Date(exerciseDate).toISOString().split('T')[0];
-            if (parsedExerciseDate === calendarDate) {
+            if (parsedExerciseDate === DateParse(date)) {
               help = "highlighted";
             }
         })
