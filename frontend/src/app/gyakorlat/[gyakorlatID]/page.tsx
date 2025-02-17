@@ -4,6 +4,7 @@ import { GyakorlatDataSheet } from "@/components/client";
 import useGyakorlat from "@/hooks/useGyakorlat";
 import { Text } from "@/components/server";
 import { use } from "react";
+import { Loading } from "@/components/client/Loading/Loading";
 
 interface PageParams {
   gyakorlatID: string;
@@ -29,9 +30,7 @@ const GyakorlatDataSheetPage: React.FC<GyakorlatDataSheetPageProps> = ({ params 
 
   if (isLoading) {
     return (
-      <div>
-        <Text>Loading...</Text>
-      </div>
+       <Loading />
     );
   }
 

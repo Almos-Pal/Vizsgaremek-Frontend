@@ -12,6 +12,7 @@ import FormField from "@/components/client/_forms/FormField/FormField";
 import { Input } from "@/components/client/_inputs";
 import { BMITable, Button } from "@/components/client";
 import { bmiSchema } from "@/utils/Validations";
+import { Loading } from "@/components/client/Loading/Loading";
 
 interface PageParams {
   userID: string;
@@ -162,9 +163,7 @@ console.log(session?.backendTokens.accessToken);
 
 if(isLoadingUser){
     return (
-        <div>
-        <Text>Loading...</Text>
-        </div>
+   <Loading />
     );
 }
 
@@ -209,7 +208,8 @@ if(isLoadingUser){
         </div>
 
 <div className={styles.rightPanel}>
-<BMITable bmi={parseFloat(data?.bmi ?? "-")} />
+  {isLoading ? <Loading  hasParent/>: <BMITable bmi={parseFloat(data?.bmi ?? "-")} />}
+
 </div>
 
 

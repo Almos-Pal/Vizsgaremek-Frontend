@@ -6,6 +6,7 @@ import { use } from "react";
 import { GyakorlatCreate } from "@/types";
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
 import { GyakorlatCreateEditForm } from "@/components/client/_forms";
+import { Loading } from "@/components/client/Loading/Loading";
 
 interface PageParams {
   gyakorlatID: string;
@@ -37,9 +38,7 @@ const GyakorlatSzerkesztPage: React.FC<GyakorlatSzerkesztPageProps> = ({ params 
 
   if (!isNew &&  isLoading) {
     return (
-      <div>
-        <Text>Loading...</Text>
-      </div>
+      <Loading />
     );
   }
 
