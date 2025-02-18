@@ -9,8 +9,9 @@ import UnderLinedText from "../../UnderLinedText/UnderLinedText";
 import { EdzesFormValues, Edzes } from "@/types/edzes";
 import { Input } from "../../_inputs";
 import useEdzes from "@/hooks/useEdzes";
-import { AddGyakorlatModal, Modal } from "../../_modal";
+import {  Modal } from "../../_modal";
 import { mapEdzesToFormValues } from "@/utils/mapEdzesToFormValues"; // adjust path if needed
+import AddGyakorlatModal from "../AddGyakorlatModalForm/AddGyakorlatModalForm";
 
 interface EdzesCreateEditFormProps {
   data: Edzes;
@@ -84,13 +85,12 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                     height={400}
                   >
                     <AddGyakorlatModal
+                      existingGyakorlatIds={values.gyakorlatok.map((g) => g.gyakorlat_id || 0)}
                       onAdd={(selectedGyakorlat) => {
-                        // Call the API to add the gyakorlat to the edzés.
-                        // Note: since this edzés already exists, values.edzes_id is defined.
                         addGyakorlatToEdzes(
                           {
                             edzesId: values.edzes_id!,
-                            userId: 5, // Replace with your current user ID logic
+                            userId: 1, // CURRENTLY STATIC, update as needed
                             gyakorlatId: selectedGyakorlat.gyakorlat_id,
                           },
                           {

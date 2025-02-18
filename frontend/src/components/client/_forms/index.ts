@@ -2,3 +2,4 @@ export {default as GyakorlatCreateEditForm} from './GyakorlatCreateEditForm/Gyak
 export {default as EdzesCreateEditForm} from './EdzesCreateEditForm/EdzesCreateEditForm';
 export {default as GyakorlatokFieldArray} from './GyakorlatokFieldArray/GyakorlatokFieldArray'
 export {default as NewEdzesForm } from './NewEdzesForm/NewEdzesForm'
+export {default as AddGyakorlatModalForm} from './AddGyakorlatModalForm/AddGyakorlatModalForm'

@@ -1,10 +1,11 @@
 "use client";
 
-import { Icons } from "@/components/server";
-import clsx from "clsx";
 import React from "react";
+import ReactDOM from "react-dom";
+import clsx from "clsx";
+import { Icons } from "@/components/server";
 import styles from "./Modal.module.scss";
-
+import { Text } from "@/components/server";
 interface ModalProps {
   visible: boolean;
   onClose: () => void;
@@ -13,7 +14,7 @@ interface ModalProps {
   showCloseButton?: boolean;
   allowScroll?: boolean;
   width?: number;
-  height?: number; 
+  height?: number;
   disableBackdropClick?: boolean;
   footerComponent?: React.ReactNode;
   isRelative?: boolean;
@@ -34,16 +35,18 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   if (!visible) return null;
 
-  return (
+  const modalContent = (
     <div
       className={clsx(isRelative ? styles.relative : styles.backdrop)}
       onMouseDown={disableBackdropClick ? () => {} : onClose}
     >
       <div
         className={styles.modalContent}
-        onMouseDown={(e) => {
-          e.stopPropagation();
+        style={{
+          height: height ? `${height}px` : undefined,
+          width: width ? `${width}px` : undefined,
         }}
+        onMouseDown={(e) => e.stopPropagation()}
       >
         <div className={styles.header}>
           {showCloseButton && (
@@ -51,15 +54,13 @@ const Modal: React.FC<ModalProps> = ({
               <Icons.CancelIcon size={28} color="var(--color-light)" />
             </button>
           )}
+          {title && <Text variant="h5" style={{margin: 'auto'}}>{title}</Text>}
         </div>
         <div
           className={styles.body}
           style={{
             overflowY: allowScroll ? "scroll" : undefined,
-            // overflowX: "hidden",
             maxHeight: allowScroll ? "80vh" : undefined,
-            width: width ?? undefined,
-            height: height ?? undefined,
           }}
         >
           {children}
@@ -68,6 +69,8 @@ const Modal: React.FC<ModalProps> = ({
       </div>
     </div>
   );
+
+  return ReactDOM.createPortal(modalContent, document.body);
 };
 
 export default Modal;

@@ -39,7 +39,7 @@ const Button: React.FC<ButtonProps> = ({
   noBackground = false, // Default false
   iconProps,
   style,
-  type,
+  type = "button",
   width,
   disabled,
   additionalClassName,

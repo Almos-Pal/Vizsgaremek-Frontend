@@ -38,7 +38,7 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
         const newEdzesPayload = {
             edzes_neve: values.edzes_neve,
             datum: new Date(),
-            user_id: 5, //IMPORTANT MAJD A USER ID-T KELL BEÁLLÍTANI SESSIONBŐL
+            user_id: 1, //IMPORTANT MAJD A USER ID-T KELL BEÁLLÍTANI SESSIONBŐL
             ido: 0,
         };
 
