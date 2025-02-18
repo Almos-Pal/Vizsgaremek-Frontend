@@ -122,13 +122,22 @@ const edzesAPI = {
         },
       }
     );
-
+  
     if (!response.ok) {
       throw new Error('Error deleting gyakorlat from edzes');
     }
-
+  
+    // Handle empty response body:
+    if (response.status === 204) {
+      return null;
+    }
+  
     return response.json();
   },
+  
+  
+  
+  
 
   addSetToGyakorlatInEdzes: async (edzes_id: number, gyakorlatId: number, userId: number, setDetails: { set_szam: number; weight: number; reps: number }) => {
     const response = await fetch(`http://localhost:8000/edzes/${edzes_id}/gyakorlat/${gyakorlatId}/set/${userId}`, {

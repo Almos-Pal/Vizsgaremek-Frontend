@@ -15,6 +15,7 @@ interface Gyakorlat {
     set_szam?: number;
     weight: number;
     reps: number;
+    id?: number;
   }[];
 }
 
@@ -25,54 +26,108 @@ interface GyakorlatokFieldArrayProps {
 }
 
 const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gyakorlat, arrayHelpers }) => {
-
-
-  const preventRefresh = () => {
-    return "data will get lost"
-  };
-
+  
+  
   const { values } = useFormikContext<any>();
-
+  
   const { mutate: addSetToGyakorlatInEdzes } = useEdzes.addSetToGyakorlatInEdzes();
   const { mutate: deleteGyakorlatFromEdzes } = useEdzes.deleteGyakorlatFromEdzes();
+  const { mutate: updateSetInGyakorlatInEdzes } = useEdzes.updateSetInGyakorlatInEdzes();
+  const { mutate: deleteSetFromGyakorlatInEdzes } = useEdzes.deleteSetFromGyakorlatInEdzes();
 
-  const handleGyakorlatBefejezese = () => {
-    // Make sure edzes_id exists in the form values and that the exercise has an id
-    if (!values.edzes_id) {
-      console.error("edzes_id not found in form values.");
+
+  const handleAddSet = () => {
+    if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
+      console.error("Missing required IDs for adding set");
       return;
     }
-    if (!gyakorlat.gyakorlat_id) {
-      console.error("gyakorlat_id not found for this exercise.");
+    const userId = 1; // Replace with your actual user ID
+    const newSetData = { weight: 0, reps: 0 };
+    const setNumber = gyakorlat.szettek.length + 1;
+
+    addSetToGyakorlatInEdzes(
+      {
+        edzes_id: values.edzes_id,
+        gyakorlatId: gyakorlat.gyakorlat_id,
+        userId,
+        setDetails: { set_szam: setNumber, ...newSetData },
+      },
+      {
+        onSuccess: (returnedSet) => {
+          console.log(`Set ${setNumber} added successfully.`);
+          // Push the returned set (which should include an id) into the form state.
+          arrayHelpers.push(returnedSet);
+        },
+        onError: (error) => {
+          console.error("Error adding set:", error);
+        },
+      }
+    );
+  };
+
+  const handleDeleteSet = (setIndex: number, setItem: any) => {
+    if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
+      console.error("Missing required IDs for deleting set");
       return;
     }
-    // Assume the current user ID is available (here hardcoded as 0)
-    const userId = 1; //IMPORTANT CHANGE IN THE FUTURE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    // Iterate over each set in the exercise and add it via the API
-    gyakorlat.szettek.forEach((set, setIndex) => {
-      const setDetails = {
-        set_szam: set.set_szam || setIndex + 1,
-        weight: set.weight,
-        reps: set.reps,
-      };
-
-      addSetToGyakorlatInEdzes(
+    const userId = 1; // Replace with actual user id
+    if (setItem.id) {
+      deleteSetFromGyakorlatInEdzes(
         {
           edzes_id: values.edzes_id,
-          gyakorlatId: gyakorlat.gyakorlat_id!,
+          gyakorlatId: gyakorlat.gyakorlat_id,
+          setId: setItem.id,
           userId,
-          setDetails,
         },
         {
           onSuccess: () => {
-            console.log(`Set ${setDetails.set_szam} added successfully.`);
+            console.log(`Set ${setItem.set_szam} deleted successfully.`);
+            arrayHelpers.remove(setIndex);
           },
           onError: (error) => {
-            console.error("Error adding set:", error);
+            console.error("Error deleting set:", error);
           },
         }
       );
+    } else {
+      // If the set doesn't have an id, simply remove it.
+      arrayHelpers.remove(setIndex);
+    }
+  };
+
+
+  const handleGyakorlatBefejezese = () => {
+    if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
+      console.error("Missing required IDs for finalizing exercise");
+      return;
+    }
+    const userId = 1; // Replace with actual user id
+    // For each set that has been added (with an id), update its values on the backend.
+    gyakorlat.szettek.forEach((set, setIndex) => {
+      if (set.id) {
+        const updateDetails = {
+          weight: set.weight,
+          reps: set.reps,
+        };
+        updateSetInGyakorlatInEdzes(
+          {
+            edzes_id: values.edzes_id,
+            gyakorlatId: gyakorlat.gyakorlat_id!,
+            setId: set.id,
+            userId,
+            updateDetails,
+          },
+          {
+            onSuccess: () => {
+              console.log(`Set ${set.set_szam} updated successfully.`);
+            },
+            onError: (error) => {
+              console.error("Error updating set:", error);
+            },
+          }
+        );
+      }
     });
   };
 
@@ -85,7 +140,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
 
     const userId = 1; // HARD CODED REPLCACE WITH THE REAL USERID IN THE FUTURE
 
-
+    console.log('edzesId: ',values.edzes_id,"gyakorlatId: " ,gyakorlat.gyakorlat_id,'userId: ', userId);
     deleteGyakorlatFromEdzes(
       {
         edzesId: values.edzes_id,
@@ -133,7 +188,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
                 </tr>
               </thead>
               <tbody>
-                {gyakorlat.szettek.map((set, setIndex) => (
+                {(gyakorlat.szettek || []).map((set, setIndex) => (
                   <tr key={setIndex}>
                     <td>
                       <Text variant="body-16">{setIndex + 1}</Text>
@@ -144,6 +199,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
                         placeholder="KG"
                         type="number"
                         as={Input}
+                        isSet
                       />
                     </td>
                     <td>
@@ -152,13 +208,14 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
                         placeholder="Ism."
                         type="number"
                         as={Input}
+                        isSet
                       />
                     </td>
                     <td>
                       <IconButton
                         icon="MinusIcon"
                         color="secondary"
-                        onClick={() => setHelpers.remove(setIndex)}
+                        onClick={() => handleDeleteSet(setIndex, set)}
                       />
                     </td>
                   </tr>
@@ -168,7 +225,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
 
             <Button
               type="button"
-              onClick={() => setHelpers.push({ weight: 0, reps: 0 })}
+              onClick={handleAddSet}
               color="secondary"
             >
               Set Hozzáadása

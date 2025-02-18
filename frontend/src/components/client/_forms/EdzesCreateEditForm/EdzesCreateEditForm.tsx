@@ -9,7 +9,7 @@ import UnderLinedText from "../../UnderLinedText/UnderLinedText";
 import { EdzesFormValues, Edzes } from "@/types/edzes";
 import { Input } from "../../_inputs";
 import useEdzes from "@/hooks/useEdzes";
-import {  Modal } from "../../_modal";
+import { Modal } from "../../_modal";
 import { mapEdzesToFormValues } from "@/utils/mapEdzesToFormValues"; // adjust path if needed
 import AddGyakorlatModal from "../AddGyakorlatModalForm/AddGyakorlatModalForm";
 
@@ -96,9 +96,9 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                           {
                             onSuccess: (returnedGyakorlat) => {
                               arrayHelpers.push({
-                                gyakorlat_neve: returnedGyakorlat.gyakorlat_neve,
-                                gyakorlat_id: returnedGyakorlat.gyakorlat_id,
-                                szettek: [],
+                                gyakorlat_id: returnedGyakorlat.gyakorlat_id || 0,
+                                gyakorlat_neve: returnedGyakorlat.gyakorlat_neve || "",
+                                szettek: returnedGyakorlat.szettek || [],
                               });
                               setIsGyakorlatModalOpen(false);
                             },
