@@ -1,5 +1,5 @@
 import { FieldArray, useFormikContext } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { Input } from "../../_inputs";
 import Button from "../../Button/Button";
 import FormField from "../FormField/FormField";
@@ -7,6 +7,8 @@ import styles from './GyakorlatFieldArray.module.scss';
 import IconButton from "../../IconButton/IconButton";
 import { Text } from "@/components/server";
 import useEdzes from '@/hooks/useEdzes';
+import ConfirmationModal from "../../_modal/ConfirmationModal/ConfirmationModal";
+
 
 interface Gyakorlat {
   gyakorlat_id?: number; // May be undefined if newly added
@@ -19,21 +21,36 @@ interface Gyakorlat {
   }[];
 }
 
+interface PrevHistory {
+  id: number;
+  user_id: number;
+  gyakorlat_id: number;
+  weight: number;
+  reps: number;
+  date: Date;
+}
+
 interface GyakorlatokFieldArrayProps {
   index: number;
   gyakorlat: Gyakorlat;
   arrayHelpers: any;
+  prevHistory: PrevHistory[];
 }
 
-const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gyakorlat, arrayHelpers }) => {
-  
-  
+const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
+  index,
+  gyakorlat,
+  prevHistory,
+  arrayHelpers,
+}) => {
   const { values } = useFormikContext<any>();
-  
+
   const { mutate: addSetToGyakorlatInEdzes } = useEdzes.addSetToGyakorlatInEdzes();
   const { mutate: deleteGyakorlatFromEdzes } = useEdzes.deleteGyakorlatFromEdzes();
   const { mutate: updateSetInGyakorlatInEdzes } = useEdzes.updateSetInGyakorlatInEdzes();
   const { mutate: deleteSetFromGyakorlatInEdzes } = useEdzes.deleteSetFromGyakorlatInEdzes();
+
+  const [isGyakorlatConfirmModalOpen, setIsGyakorlatConfirmModalOpen] = useState(false);
 
 
   const handleAddSet = () => {
@@ -41,9 +58,11 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
       console.error("Missing required IDs for adding set");
       return;
     }
+    // Create a safe copy of szettek
+    const safeSzetek = gyakorlat.szettek || [];
     const userId = 1; // Replace with your actual user ID
     const newSetData = { weight: 0, reps: 0 };
-    const setNumber = gyakorlat.szettek.length + 1;
+    const setNumber = safeSzetek.length + 1;
 
     addSetToGyakorlatInEdzes(
       {
@@ -55,7 +74,6 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
       {
         onSuccess: (returnedSet) => {
           console.log(`Set ${setNumber} added successfully.`);
-          // Push the returned set (which should include an id) into the form state.
           arrayHelpers.push(returnedSet);
         },
         onError: (error) => {
@@ -70,8 +88,8 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
       console.error("Missing required IDs for deleting set");
       return;
     }
-
     const userId = 1; // Replace with actual user id
+
     if (setItem.id) {
       deleteSetFromGyakorlatInEdzes(
         {
@@ -91,11 +109,10 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
         }
       );
     } else {
-      // If the set doesn't have an id, simply remove it.
+      // Remove from the form state if there's no id.
       arrayHelpers.remove(setIndex);
     }
   };
-
 
   const handleGyakorlatBefejezese = () => {
     if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
@@ -103,8 +120,9 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
       return;
     }
     const userId = 1; // Replace with actual user id
-    // For each set that has been added (with an id), update its values on the backend.
-    gyakorlat.szettek.forEach((set, setIndex) => {
+    const safeSzetek = gyakorlat.szettek || [];
+
+    safeSzetek.forEach((set) => {
       if (set.id) {
         const updateDetails = {
           weight: set.weight,
@@ -131,16 +149,23 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
     });
   };
 
+  const handleOpenDeleteConfirm = () => {
+    setIsGyakorlatConfirmModalOpen(true);
+  };
 
-  const handleDeleteGyakorlat = () => {
+  const handleDeleteGyakorlatCancel = () => {
+    setIsGyakorlatConfirmModalOpen(false);
+  };
+
+  // 3) Actually delete if user confirms
+  const handleDeleteGyakorlatConfirm = () => {
+    setIsGyakorlatConfirmModalOpen(false); // close modal
     if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
       console.error("Missing required IDs");
       return;
     }
+    const userId = 1; // Hardcode or get from auth
 
-    const userId = 1; // HARD CODED REPLCACE WITH THE REAL USERID IN THE FUTURE
-
-    console.log('edzesId: ',values.edzes_id,"gyakorlatId: " ,gyakorlat.gyakorlat_id,'userId: ', userId);
     deleteGyakorlatFromEdzes(
       {
         edzesId: values.edzes_id,
@@ -161,95 +186,177 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({ index, gy
 
   return (
     <div className={styles["edzes-block"]}>
+      {/* Gyakorlat name input */}
       <div className={styles["edzes-header"]}>
-        <FormField
-          name={`gyakorlatok[${index}].gyakorlat_neve`}
-          placeholder="Gyakorlat neve"
-          as={Input}
-        />
+        <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{gyakorlat.gyakorlat_neve}:</Text>
+        <IconButton color='secondary' icon={'CancelIcon'} onClick={handleOpenDeleteConfirm} />
       </div>
+      
+      {/* Confirmation Modal (conditionally rendered) */}
+      {isGyakorlatConfirmModalOpen && (
+        <ConfirmationModal
+          visible={isGyakorlatConfirmModalOpen}
+          title="Biztos, hogy törölni akarod ezt a gyakorlatot?"
+          onConfirm={handleDeleteGyakorlatConfirm}
+          onCancel={handleDeleteGyakorlatCancel}
+          confirmText="Igen"
+          cancelText="Nem"
+        />
+      )}
+
 
       <FieldArray name={`gyakorlatok[${index}].szettek`}>
-        {(setHelpers) => (
-          <div className={styles["set-container"]}>
-            <table className={styles["set-table"]}>
-              <thead>
-                <tr>
-                  <th>
-                    <Text>Set</Text>
-                  </th>
-                  <th>
-                    <Text>Súly</Text>
-                  </th>
-                  <th>
-                    <Text>Reps</Text>
-                  </th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {(gyakorlat.szettek || []).map((set, setIndex) => (
-                  <tr key={setIndex}>
-                    <td>
-                      <Text variant="body-16">{setIndex + 1}</Text>
-                    </td>
-                    <td>
-                      <FormField
-                        name={`gyakorlatok[${index}].szettek[${setIndex}].weight`}
-                        placeholder="KG"
-                        type="number"
-                        as={Input}
-                        isSet
-                      />
-                    </td>
-                    <td>
-                      <FormField
-                        name={`gyakorlatok[${index}].szettek[${setIndex}].reps`}
-                        placeholder="Ism."
-                        type="number"
-                        as={Input}
-                        isSet
-                      />
-                    </td>
-                    <td>
-                      <IconButton
-                        icon="MinusIcon"
-                        color="secondary"
-                        onClick={() => handleDeleteSet(setIndex, set)}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {(setHelpers) => {
+          // Create safe arrays for both sets and previous history
+          const safeSzetek = gyakorlat.szettek || [];
+          const safePrevHistory = prevHistory || [];
+          const maxRows = Math.max(safePrevHistory.length, safeSzetek.length);
 
-            <Button
-              type="button"
-              onClick={handleAddSet}
-              color="secondary"
-            >
-              Set Hozzáadása
-            </Button>
-          </div>
-        )}
+          return (
+            <div className={styles["set-container"]}>
+              {safeSzetek.length === 0 ? (
+                <Text style={{textAlign: 'left', marginTop: '0.5rem'}} variant="h5">Gyakorlat jelenleg üres </Text>
+
+              ) : (
+                <table className={styles["set-table"]}>
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colSpan={2}>
+                        <Text style={{ marginBottom: '1rem' }} variant="h5">Előző alkalom</Text>
+                      </th>
+                      <th colSpan={2}>
+                        <Text style={{ marginBottom: '1rem' }} variant="h5">Most</Text>
+                      </th>
+                      <th></th>
+                      <th />
+                    </tr>
+                    <tr>
+                      <th>
+                        <Text> </Text>
+                      </th>
+                      <th>
+                        <Text style={{ textAlign: 'center' }}>KG</Text>
+                      </th>
+                      <th>
+                        <Text style={{ textAlign: 'center' }}>Ism.</Text>
+                      </th>
+                      <th>
+                        <Text style={{ textAlign: 'center' }}>KG</Text>
+                      </th>
+                      <th>
+                        <Text style={{ textAlign: 'center' }}>Ism.</Text>
+                      </th>
+                      <th />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.from({ length: maxRows }).map((_, rowIndex) => {
+                      const prev = safePrevHistory[rowIndex];
+                      const currSet = safeSzetek[rowIndex];
+
+                      return (
+                        <tr key={rowIndex}>
+                          {/* Previous session columns */}
+                          <td>
+                            <Text variant="body-16">{rowIndex + 1}</Text>
+                          </td>
+                          <td>
+                            {prev ? (
+                              <Text className={styles["prev-reps"]} variant="body-16">{prev.weight}</Text>
+                            ) : (
+                              <Text className={styles["prev-reps"]} variant="body-16">-</Text>
+                            )}
+                          </td>
+                          <td>
+                            {prev ? (
+                              <Text className={styles["prev-reps"]} variant="body-16">{prev.reps}</Text>
+                            ) : (
+                              <Text className={styles["prev-reps"]} variant="body-16">-</Text>
+                            )}
+                          </td>
+                          {/* Current session columns */}
+                          <td>
+                            {currSet ? (
+                              <FormField
+                                name={`gyakorlatok[${index}].szettek[${rowIndex}].weight`}
+                                placeholder="KG"
+                                type="number"
+                                as={Input}
+                                isSet
+                              />
+                            ) : (
+                              "-"
+                            )}
+                          </td>
+                          <td>
+                            {currSet ? (
+                              <FormField
+                                name={`gyakorlatok[${index}].szettek[${rowIndex}].reps`}
+                                placeholder="Ism."
+                                type="number"
+                                as={Input}
+                                isSet
+                              />
+                            ) : (
+                              "-"
+                            )}
+                          </td>
+                          {/* Minus icon for current sets */}
+                          <td>
+                            {currSet && (
+                              <IconButton
+                                icon="MinusIcon"
+                                color="secondary"
+                                onClick={() => handleDeleteSet(rowIndex, currSet)}
+                              />
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
+              <Button
+                type="button"
+                onClick={handleAddSet}
+                color="primary"
+                rightIcon='AddIcon'
+                additionalClassName={styles["addset-desktop"]}
+              >
+                Set
+              </Button>
+            </div>
+          );
+        }}
       </FieldArray>
 
-      <div className={styles["exercise-actions"]}>
-        <Button
-          type="button"
-          onClick={handleDeleteGyakorlat}
+      <div>
 
-          color="secondary"
-        >
-          Gyakorlat Törlése
-        </Button>
-        <Button
-          type="button"
-          onClick={handleGyakorlatBefejezese}
-          color="primary"
-        >
-          Gyakorlat Befejezése
-        </Button>
+
+        <div className={styles["exercise-actions"]}>
+
+          <Button
+            type="button"
+            onClick={handleAddSet}
+            color="primary"
+            rightIcon='AddIcon'
+            additionalClassName={styles["addset-mobile"]}
+          >
+            Set
+          </Button>
+
+          <Button
+            type="button"
+            onClick={handleGyakorlatBefejezese}
+            color="secondary"
+            additionalClassName={styles["finalize-button"]}
+          >
+            Gyakorlat Befejezése
+          </Button>
+        </div>
+
       </div>
     </div>
   );

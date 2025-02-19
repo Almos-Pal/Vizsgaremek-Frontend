@@ -60,20 +60,21 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
                 {({ isSubmitting }) => (
                     <Form>
                         <div style={{ marginBottom: "1.5rem"}}>
-                            <Text style={{ marginBottom: '1.5rem' }} variant="h4">Adja meg az edzés nevét</Text>
-                            <div style={{ marginBottom: "1.5rem", width: "90%", marginLeft: "auto" , marginRight: "auto"}}>
+                            <Text style={{ marginBottom: '1.5rem' }}  variant="h4">Adja meg az edzés nevét</Text>
+                            <div style={{ marginBottom: "1.5rem", width: "100%", marginLeft: "auto" , marginRight: "auto"}}>
                                 <FormField
                                     id="edzes_neve"
                                     name="edzes_neve"
                                     placeholder="Edzés neve"
                                     as={Input}
+                                    
                                 />
                             </div>
-                            <div className="flex justify-center gap-5">
-                                <Button type="submit" disabled={isSubmitting} color="primary">
+                            <div className="flex justify-center gap-2">
+                                <Button width={'50%'} type="submit" disabled={isSubmitting} color="primary">
                                     Létrehozás
                                 </Button>
-                                <Button width={145} type="button" onClick={onCancel} color="secondary">
+                                <Button width={'50%'} type="button" onClick={onCancel} color="secondary">
                                     Mégse
                                 </Button>
                             </div>

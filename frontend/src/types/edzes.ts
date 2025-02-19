@@ -16,27 +16,36 @@ export interface EdzesCreate {
     datum?: Date;
     ido?: number;
     user_id: number;
-    gyakorlatok?: any[]; // Add the appropriate type for gyakorlatok
+    gyakorlatok?: any[]; 
+}
+
+interface PrevHistory {
+  id: number;
+  user_id: number;
+  gyakorlat_id: number;
+  weight: number;
+  reps: number;
+  date: Date;
 }
 
 export interface EdzesFormValues {
-    edzes_id?: number; // only if editing an existing edzés
+    edzes_id?: number; 
     edzes_neve: string;
     datum: Date;
     ido: number;
     user_id: number;
-    // you may include other top-level fields (e.g. datum, ido)
+
     gyakorlatok: {
-      // You might store the gyakorlat id if already created on backend
-      // For new gyakorlatok, you may leave it undefined
+  
       gyakorlat_id?: number;
       gyakorlat_neve: string;
       szettek: {
-        // Each set
+
         set_szam?: number;
         weight: number;
         reps: number;
       }[];
+      previous_history?: PrevHistory[];
     }[];
   }
   

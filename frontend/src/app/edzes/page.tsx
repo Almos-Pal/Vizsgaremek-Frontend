@@ -48,7 +48,6 @@ function EdzesekPage() {
             <Modal
                 visible={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title="Új edzés létrehozása"
                 width={350}
                 showCloseButton={false}
                 

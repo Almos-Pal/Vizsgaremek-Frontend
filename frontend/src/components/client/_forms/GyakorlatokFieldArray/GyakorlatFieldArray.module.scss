@@ -1,6 +1,10 @@
 @use "styles/breakpoints.scss" as *;
 
-.container {
+@mixin tablet {
+  @media (max-width: 705px) {
+    @content;
+  }
+}
   .edzes-block {
     display: flex;
     flex-direction: column;
@@ -25,11 +29,12 @@
     .edzes-header {
       height: 50px;
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
       padding: 0.5rem;
       background-color: var(--color-grey-400);
       border-radius: 1rem 1rem 0 0;
+      
     }
 
 
@@ -54,17 +59,78 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-left: 2rem;
+      
+      @include desktop {
+        margin-left: 7rem;
+      }
 
+      @include mobile {
+        margin-left: 3rem
+      }
+
+      @include tablet {
+
+        margin: auto;
+      }
 
 
       .set-table {
-        th, td {
-          margin: 12rem;
+        border-collapse: separate; // Ensure border-spacing works
+        border-spacing: 1rem 0.1rem; // 1rem horizontal, 0.5rem vertical gap
+        padding: 1rem;
+      
+       
+
+        .prev-reps {
+          padding-left: 0.5rem;
+          text-align: center;
         }
       }
+
+      .addset-desktop {
+        margin-right: 2rem;
+        vertical-align: auto;
+        margin-top: 1rem;
+      
+        @include tablet {
+          display: none;
+        }
+      }
+
+    }
+    
+    .exercise-actions {
+      align-items: center;
+
+      
+      .addset-mobile {
+        display: none;
+        
+        @include tablet {
+          display: block;
+          
+          width: 70%;
+          margin: auto;
+          margin-top: 1rem;
+        }
+      }
+
+      .finalize-button {
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        width: 70%;
+
+        @include desktop {
+          width: 300px;
+        }
+
+
+      }
+      
     }
 
 
   }
-}

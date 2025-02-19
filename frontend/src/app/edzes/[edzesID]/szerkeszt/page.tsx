@@ -38,7 +38,7 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
   }
 
   return (
-    <ContentLayout header="Edzés Szerkesztése">
+    <ContentLayout header={data.edzes_neve}>
       {/* Pass the whole edzés object as a prop */}
       <EdzesCreateEditForm data={data} />
     </ContentLayout>

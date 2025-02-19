@@ -43,31 +43,33 @@ const AddGyakorlatModal: React.FC<AddGyakorlatModalProps> = ({ onAdd, onCancel, 
       onAdd(selectedGyakorlat);
     }
     setSubmitting(false);
-  };
+  };  
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {({ isSubmitting }) => (
-        <Form>
-          <FormikSelect
-            name="gyakorlat"
-            placeholder="Válassz gyakorlatot"
-            label="Gyakorlat"
-            options={filteredOptions}
-            isClearable
-          />
+        <Form style={{marginTop: '1rem'}}>
+          <div >
+            <FormikSelect
+              name="gyakorlat"
+              placeholder="Válassz gyakorlatot"
+              options={filteredOptions}
+              isClearable
+            />
+          </div>
           <div
             style={{
               display: "flex",
-              gap: "1rem",
-              justifyContent: "flex-end",
+              gap: '1rem',
+              justifyContent: "center",
               marginTop: "1rem",
+              
             }}
           >
-            <Button type="button" onClick={onCancel} color="secondary">
+            <Button width={'45%'} type="button" onClick={onCancel} color="secondary">
               Mégse
             </Button>
-            <Button type="submit" disabled={isSubmitting} color="primary">
+            <Button width={'45%'} type="submit" disabled={isSubmitting} color="primary">
               Hozzáadás
             </Button>
           </div>

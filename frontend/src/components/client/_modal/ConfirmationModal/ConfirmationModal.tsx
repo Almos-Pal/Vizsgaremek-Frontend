@@ -1,4 +1,5 @@
 
+import ReactDOM from 'react-dom';
 import Button from "../../Button/Button";
 
 import Modal from "../../_modal/Modal/Modal";
@@ -29,8 +30,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       onClose={onCancel}
     >
       <div className="flex flex-col gap-8 align-center justify-center text-center">
-        <Text variant="h5">{title}</Text>
-        <div className="flex gap-8 align-center justify-center">
+        
+        <div className="flex gap-8 align-center justify-center mt-7">
           <Button
             type="button"
             onClick={onConfirm}
