@@ -9,9 +9,8 @@ import { Text } from "@/components/server";
 import useEdzes from '@/hooks/useEdzes';
 import ConfirmationModal from "../../_modal/ConfirmationModal/ConfirmationModal";
 
-
 interface Gyakorlat {
-  gyakorlat_id?: number; // May be undefined if newly added
+  gyakorlat_id?: number;
   gyakorlat_neve: string;
   szettek: {
     set_szam?: number;
@@ -53,13 +52,38 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
   const [isGyakorlatConfirmModalOpen, setIsGyakorlatConfirmModalOpen] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
 
+  const handleSetBlur = (rowIndex: number) => {
+    const currentSet = values.gyakorlatok?.[index]?.szettek?.[rowIndex];
+    if (currentSet && currentSet.id) {
+      const updateDetails = {
+        weight: currentSet.weight,
+        reps: currentSet.reps,
+      };
+      updateSetInGyakorlatInEdzes(
+        {
+          edzes_id: values.edzes_id,
+          gyakorlatId: gyakorlat.gyakorlat_id!,
+          setId: currentSet.id,
+          userId: 1, // Replace with actual user id logic
+          updateDetails,
+        },
+        {
+          onSuccess: () => {
+            console.log(`Set ${currentSet.set_szam} updated on blur.`);
+          },
+          onError: (error) => {
+            console.error("Error updating set on blur:", error);
+          },
+        }
+      );
+    }
+  };
 
   const handleAddSet = () => {
     if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
       console.error("Missing required IDs for adding set");
       return;
     }
-    // Create a safe copy of szettek
     const safeSzetek = gyakorlat.szettek || [];
     const userId = 1; // Replace with your actual user ID
     const newSetData = { weight: 0, reps: 0 };
@@ -110,7 +134,6 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
         }
       );
     } else {
-      // Remove from the form state if there's no id.
       arrayHelpers.remove(setIndex);
     }
   };
@@ -160,9 +183,8 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
     setIsGyakorlatConfirmModalOpen(false);
   };
 
-  // 3) Actually delete if user confirms
   const handleDeleteGyakorlatConfirm = () => {
-    setIsGyakorlatConfirmModalOpen(false); // close modal
+    setIsGyakorlatConfirmModalOpen(false);
     if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
       console.error("Missing required IDs");
       return;
@@ -187,17 +209,29 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
     );
   };
 
+
+  const safeSzetek = gyakorlat.szettek || [];
+  const safePrevHistory = prevHistory || [];
+
+  const maxRows = Math.max(safePrevHistory.length, safeSzetek.length);
+ 
+  const hasData = safeSzetek.length > 0 || safePrevHistory.length > 0;
+
   return (
     <div className={`${styles["edzes-block"]} ${isLocked ? styles["locked"] : ""}`}>
-
       {isLocked && <div className={styles["overlay"]}></div>}
-      {/* Gyakorlat name input */}
       <div className={styles["edzes-header"]}>
-        <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{gyakorlat.gyakorlat_neve}:</Text>
-        <IconButton color='secondary' icon={'CancelIcon'} type='button' onClick={handleOpenDeleteConfirm} />
+        <Text style={{ marginLeft: '2rem' }} variant="subtitle-16">
+          {gyakorlat.gyakorlat_neve}:
+        </Text>
+        <IconButton
+          color="secondary"
+          icon="CancelIcon"
+          type="button"
+          onClick={handleOpenDeleteConfirm}
+        />
       </div>
 
-      {/* Confirmation Modal (conditionally rendered) */}
       {isGyakorlatConfirmModalOpen && (
         <ConfirmationModal
           visible={isGyakorlatConfirmModalOpen}
@@ -209,161 +243,162 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
         />
       )}
 
-
       <FieldArray name={`gyakorlatok[${index}].szettek`}>
-        {(setHelpers) => {
-          // Create safe arrays for both sets and previous history
-          const safeSzetek = gyakorlat.szettek || [];
-          const safePrevHistory = prevHistory || [];
-          const maxRows = Math.max(safePrevHistory.length, safeSzetek.length);
-
-          return (
-            <div className={styles["set-container"]}>
-              {safeSzetek.length === 0 ? (
-                <Text style={{ textAlign: 'left', marginTop: '0.5rem' }} variant="h5">Gyakorlat jelenleg üres </Text>
-
-              ) : (
-                <table className={styles["set-table"]}>
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th colSpan={2}>
-                        <Text style={{ marginBottom: '1rem' }} variant="h5">Előző alkalom</Text>
-                      </th>
-                      <th colSpan={2}>
-                        <Text style={{ marginBottom: '1rem' }} variant="h5">Most</Text>
-                      </th>
-                      <th></th>
-                      <th />
-                    </tr>
-                    <tr>
-                      <th>
-                        <Text> </Text>
-                      </th>
-                      <th>
-                        <Text style={{ textAlign: 'center' }}>KG</Text>
-                      </th>
-                      <th>
-                        <Text style={{ textAlign: 'center' }}>Ism.</Text>
-                      </th>
-                      <th>
-                        <Text style={{ textAlign: 'center' }}>KG</Text>
-                      </th>
-                      <th>
-                        <Text style={{ textAlign: 'center' }}>Ism.</Text>
-                      </th>
-                      <th />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.from({ length: maxRows }).map((_, rowIndex) => {
-                      const prev = safePrevHistory[rowIndex];
-                      const currSet = safeSzetek[rowIndex];
-
-                      return (
-                        <tr key={rowIndex}>
-                          {/* Previous session columns */}
-                          <td>
-                            <Text className={styles["prev-reps"]} variant="body-16">{rowIndex + 1}</Text>
-                          </td>
-                          <td>
-                            {prev ? (
-                              <Text className={styles["prev-reps"]} variant="body-16">{prev.weight}</Text>
-                            ) : (
-                              <Text className={styles["prev-reps"]} variant="body-16">-</Text>
-                            )}
-                          </td>
-                          <td>
-                            {prev ? (
-                              <Text className={styles["prev-reps"]} variant="body-16">{prev.reps}</Text>
-                            ) : (
-                              <Text className={styles["prev-reps"]} variant="body-16">-</Text>
-                            )}
-                          </td>
-                          {/* Current session columns */}
-                          <td>
-                            {currSet ? (
-                              <div className={styles["set-input"]}>
-                                <FormField
-                                  name={`gyakorlatok[${index}].szettek[${rowIndex}].weight`}
-                                  placeholder="KG"
-                                  type="number"
-                                  as={Input}
-                                  isSet
-                                  disabled={isLocked}
-
-                                />
-                              </div>
-                            ) : (
-                              <Text style={{ paddingTop: '1rem' }} className={styles["prev-reps"]} variant="body-16">-</Text>
-                            )}
-                          </td>
-                          <td>
-                            {currSet ? (
-                              <div className={styles["set-input"]}>
-                                <FormField
-                                  name={`gyakorlatok[${index}].szettek[${rowIndex}].reps`}
-                                  placeholder="Ism."
-                                  type="number"
-                                  as={Input}
-                                  isSet
-                                  disabled={isLocked}
-
-                                />
-                              </div>
-                            ) : (
-                              <Text style={{ paddingTop: '1rem' }} className={styles["prev-reps"]} variant="body-16">-</Text>
-                            )}
-                          </td>
-                          {/* Minus icon for current sets */}
-                          <td>
-                            {currSet && (
-                              <div className={styles["set-input"]}>
-                                <IconButton
-                                  icon="MinusIcon"
-                                  color="secondary"
-                                  type="button"
-                                  onClick={() => handleDeleteSet(rowIndex, currSet)}
-                                />
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              )}
-              <Button
-                type="button"
-                onClick={handleAddSet}
-                color="primary"
-                rightIcon='AddIcon'
-                additionalClassName={styles["addset-desktop"]}
-                
-              >
-                Set
-              </Button>
-            </div>
-          );
-        }}
+        {(setHelpers) => (
+          <div className={styles["set-container"]}>
+            {safeSzetek.length === 0 ? (
+              <Text style={{ marginTop: '0.5rem', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', }} variant="h5">
+                Gyakorlat jelenleg üres
+              </Text>
+            ) : (
+              <table className={styles["set-table"]}>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th colSpan={2}>
+                      <Text style={{ marginBottom: '1rem' }} variant="h5">
+                        Előző alkalom
+                      </Text>
+                    </th>
+                    <th colSpan={2}>
+                      <Text style={{ marginBottom: '1rem' }} variant="h5">
+                        Most
+                      </Text>
+                    </th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <Text> </Text>
+                    </th>
+                    <th>
+                      <Text style={{ textAlign: 'center' }}>KG</Text>
+                    </th>
+                    <th>
+                      <Text style={{ textAlign: 'center' }}>Ism.</Text>
+                    </th>
+                    <th>
+                      <Text style={{ textAlign: 'center' }}>KG</Text>
+                    </th>
+                    <th>
+                      <Text style={{ textAlign: 'center' }}>Ism.</Text>
+                    </th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.from({ length: maxRows }).map((_, rowIndex) => {
+                    const prev = safePrevHistory[rowIndex];
+                    const currSet = safeSzetek[rowIndex];
+                    return (
+                      <tr key={rowIndex}>
+                        <td>
+                          <Text className={styles["prev-reps"]} variant="body-16">
+                            {rowIndex + 1}
+                          </Text>
+                        </td>
+                        <td>
+                          {prev ? (
+                            <Text className={styles["prev-reps"]} variant="body-16">
+                              {prev.weight}
+                            </Text>
+                          ) : (
+                            <Text className={styles["prev-reps"]} variant="body-16">
+                              -
+                            </Text>
+                          )}
+                        </td>
+                        <td>
+                          {prev ? (
+                            <Text className={styles["prev-reps"]} variant="body-16">
+                              {prev.reps}
+                            </Text>
+                          ) : (
+                            <Text className={styles["prev-reps"]} variant="body-16">
+                              -
+                            </Text>
+                          )}
+                        </td>
+                        <td>
+                          {currSet ? (
+                            <div className={styles["set-input"]}>
+                              <FormField
+                                name={`gyakorlatok[${index}].szettek[${rowIndex}].weight`}
+                                placeholder="KG"
+                                type="number"
+                                as={Input}
+                                isSet
+                                disabled={isLocked}
+                                onBlur={() => handleSetBlur(rowIndex)}
+                              />
+                            </div>
+                          ) : (
+                            <Text style={{ paddingTop: '1rem' }} className={styles["prev-reps"]} variant="body-16">
+                              -
+                            </Text>
+                          )}
+                        </td>
+                        <td>
+                          {currSet ? (
+                            <div className={styles["set-input"]}>
+                              <FormField
+                                name={`gyakorlatok[${index}].szettek[${rowIndex}].reps`}
+                                placeholder="Ism."
+                                type="number"
+                                as={Input}
+                                isSet
+                                disabled={isLocked}
+                                onBlur={() => handleSetBlur(rowIndex)}
+                              />
+                            </div>
+                          ) : (
+                            <Text style={{ paddingTop: '1rem' }} className={styles["prev-reps"]} variant="body-16">
+                              -
+                            </Text>
+                          )}
+                        </td>
+                        <td>
+                          {currSet && (
+                            <div className={styles["set-input"]}>
+                              <IconButton
+                                icon="MinusIcon"
+                                color="secondary"
+                                type="button"
+                                onClick={() => handleDeleteSet(rowIndex, currSet)}
+                              />
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+            <Button
+              type="button"
+              onClick={handleAddSet}
+              color="primary"
+              rightIcon="AddIcon"
+              additionalClassName={styles["addset-desktop"]}
+            >
+              Set
+            </Button>
+          </div>
+        )}
       </FieldArray>
 
       <div>
-
-
         <div className={styles["exercise-actions"]}>
-
           <Button
             type="button"
             onClick={handleAddSet}
             color="primary"
-            rightIcon='AddIcon'
+            rightIcon="AddIcon"
             additionalClassName={styles["addset-mobile"]}
           >
             Set
           </Button>
-
           <Button
             type="button"
             onClick={handleGyakorlatBefejezese}
@@ -373,7 +408,6 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
             Gyakorlat Befejezése
           </Button>
         </div>
-
       </div>
     </div>
   );

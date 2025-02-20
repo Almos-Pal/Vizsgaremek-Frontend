@@ -134,10 +134,6 @@ const edzesAPI = {
   
     return response.json();
   },
-  
-  
-  
-  
 
   addSetToGyakorlatInEdzes: async (edzes_id: number, gyakorlatId: number, userId: number, setDetails: { set_szam: number; weight: number; reps: number }) => {
     const response = await fetch(`http://localhost:8000/edzes/${edzes_id}/gyakorlat/${gyakorlatId}/set/${userId}`, {
@@ -198,6 +194,22 @@ const edzesAPI = {
 
     if (!response.ok) {
       throw new Error('Error deleting set from edzes');
+    }
+
+    return response.json();
+  },
+
+  changeEdzesFinalizedStatus: async (edzesId: number, userId: number, finalized: boolean) => {
+    const response = await fetch(`http://localhost:8000/edzes/${edzesId}/finalize/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ finalized }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error updating edzés finalized status');
     }
 
     return response.json();

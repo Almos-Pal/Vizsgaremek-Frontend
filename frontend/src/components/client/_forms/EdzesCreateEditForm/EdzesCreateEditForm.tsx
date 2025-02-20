@@ -30,26 +30,26 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
   const { mutate: updateEdzes } = useEdzes.updateEdzes();
   const { mutate: addGyakorlatToEdzes } = useEdzes.addGyakorlatToEdzes();
 
-  // Map the edzés to the form values shape
+  const { mutate: changeFinalizedStatus } = useEdzes.changeEdzesFinalizedStatus();
+
+
   const initialValues: EdzesFormValues = mapEdzesToFormValues(data);
 
   const handleSubmit = (values: EdzesFormValues) => {
-    // Retrieve start time from localStorage
     const storedStartTime = localStorage.getItem('edzesStartTime');
     const startTime = storedStartTime ? parseInt(storedStartTime, 10) : Date.now();
     const elapsedTime = Date.now() - startTime;
-    // Optionally clear the stored start time once done
     localStorage.removeItem('edzesStartTime');
-
+  
     const submissionValues = {
       ...values,
       datum: new Date(),
-      user_id: 1, // HARD CODED REPLACE WITH ACTUAL USER ID
-      ido: elapsedTime / 60000, // sending elapsed time (in ms) to the backend
+      user_id: 1, // HARD CODED - REPLACE WITH ACTUAL USER ID
+      ido: elapsedTime / 60000, 
     };
-
+  
     console.log('Edzés submitted with elapsed time:', elapsedTime);
-
+  
     updateEdzes(
       { id: submissionValues.edzes_id!, updatedEdzes: submissionValues },
       {
@@ -59,7 +59,21 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
         },
       }
     );
+
+    changeFinalizedStatus(
+      { edzesId: submissionValues.edzes_id!, userId: 1, finalized: true },
+        {
+            onSuccess: () => {
+            console.log("Edzés finalized");
+            },
+        }
+    );
+
+    
+
+
   };
+  
 
   return (
 

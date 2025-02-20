@@ -1,14 +1,15 @@
 import { Gyakorlat, GyakorlatCreate } from './gyakorlat';
 
 export interface Edzes {
-    edzes_id: number;
-    edzes_neve: string;
-    datum: Date;
-    user_id?: number;
-    ido: number;
-    edzestervek?: number[];
-    gyakorlatok: Gyakorlat[];
-    cardiok?: number[];
+  edzes_id: number;
+  edzes_neve: string;
+  datum: Date;
+  user_id?: number;
+  ido: number;
+  edzestervek?: number[];
+  gyakorlatok: Gyakorlat[];
+  cardiok?: number[];
+  isFinalized?: boolean;
 }
 
 export interface EdzesCreate {

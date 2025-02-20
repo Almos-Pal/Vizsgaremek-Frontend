@@ -64,7 +64,7 @@ const useEdzes = {
       },
     });
   },
-  
+
   deleteGyakorlatFromEdzes: () => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -161,6 +161,26 @@ const useEdzes = {
         ),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
+      },
+    });
+  },
+
+  changeEdzesFinalizedStatus: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: ({
+        edzesId,
+        userId,
+        finalized,
+      }: {
+        edzesId: number;
+        userId: number;
+        finalized: boolean;
+      }) =>
+        edzesAPI.changeEdzesFinalizedStatus(edzesId, userId, finalized),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['edzes'] });
+        queryClient.invalidateQueries({ queryKey: ['edzesek'] });
       },
     });
   },
