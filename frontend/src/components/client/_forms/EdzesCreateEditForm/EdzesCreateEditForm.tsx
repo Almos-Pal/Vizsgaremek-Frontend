@@ -10,23 +10,21 @@ import { EdzesFormValues, Edzes } from "@/types/edzes";
 import { Input } from "../../_inputs";
 import useEdzes from "@/hooks/useEdzes";
 import { Modal } from "../../_modal";
-import { mapEdzesToFormValues } from "@/utils/mapEdzesToFormValues"; // adjust path if needed
+import { mapEdzesToFormValues } from "@/utils/mapEdzesToFormValues";
 import AddGyakorlatModal from "../AddGyakorlatModalForm/AddGyakorlatModalForm";
 import ConfirmationModal from "../../_modal/ConfirmationModal/ConfirmationModal";
 import { useRouter } from "next/navigation";
 
-import styles from './EdzesCreateEditForm.module.scss'
+import styles from './EdzesCreateEditForm.module.scss';
+import Stopwatch from "../../Stopwatch/Stopwatch";
 
 interface EdzesCreateEditFormProps {
   data: Edzes;
 }
 
 const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
-  
   const [isConfirmFinalModalOpen, setIsConfirmFinalModalOpen] = useState(false);
   const [isGyakorlatModalOpen, setIsGyakorlatModalOpen] = useState(false);
-  
-
 
   const router = useRouter();
   const { mutate: updateEdzes } = useEdzes.updateEdzes();
@@ -36,13 +34,21 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
   const initialValues: EdzesFormValues = mapEdzesToFormValues(data);
 
   const handleSubmit = (values: EdzesFormValues) => {
+    // Retrieve start time from localStorage
+    const storedStartTime = localStorage.getItem('edzesStartTime');
+    const startTime = storedStartTime ? parseInt(storedStartTime, 10) : Date.now();
+    const elapsedTime = Date.now() - startTime;
+    // Optionally clear the stored start time once done
+    localStorage.removeItem('edzesStartTime');
+
     const submissionValues = {
       ...values,
       datum: new Date(),
-      user_id: 1, // CURRENTLY STATIC, update with your authentication logic
-      ido: values.ido,
+      user_id: 1, // HARD CODED REPLACE WITH ACTUAL USER ID
+      ido: elapsedTime / 60000, // sending elapsed time (in ms) to the backend
     };
-    console.log('edzes submited for some reason')
+
+    console.log('Edzés submitted with elapsed time:', elapsedTime);
 
     updateEdzes(
       { id: submissionValues.edzes_id!, updatedEdzes: submissionValues },
@@ -56,6 +62,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
   };
 
   return (
+
 
     <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
       {({ values, submitForm }) => (
@@ -71,7 +78,6 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
               <UnderLinedText text="Gyakorlatok" lineLength={220} />
             </div>
           </div>
-
           <FieldArray name="gyakorlatok">
             {(arrayHelpers) => (
               <>
@@ -84,7 +90,6 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                     prevHistory={gyakorlat.previous_history || []}
                   />
                 ))}
-
                 <div style={{ display: 'flex', marginBottom: '1rem', justifyContent: 'center', marginTop: '2rem' }}>
                   <Button
                     type="button"
@@ -95,17 +100,14 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                     Gyakorlat Hozzáadása
                   </Button>
                 </div>
-
                 {isGyakorlatModalOpen && (
                   <Modal
                     visible={isGyakorlatModalOpen}
                     onClose={() => setIsGyakorlatModalOpen(false)}
                     title="Gyakorlat kiválasztása"
                     width={350}
-                    height={475 }
+                    height={475}
                     showCloseButton={false}
-
-                    
                   >
                     <AddGyakorlatModal
                       existingGyakorlatIds={values.gyakorlatok.map((g) => g.gyakorlat_id || 0)}
@@ -113,7 +115,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                         addGyakorlatToEdzes(
                           {
                             edzesId: values.edzes_id!,
-                            userId: 1, // CURRENTLY STATIC, update as needed
+                            userId: 1, // update as needed
                             gyakorlatId: selectedGyakorlat.gyakorlat_id,
                           },
                           {
@@ -138,8 +140,6 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
               </>
             )}
           </FieldArray>
-
-
           <div className={styles['submit-button-div']}>
             <Button
               type="button"
@@ -148,7 +148,6 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
             >
               Edzés Véglegesítése
             </Button>
-
             {isConfirmFinalModalOpen && (
               <ConfirmationModal
                 visible={isConfirmFinalModalOpen}

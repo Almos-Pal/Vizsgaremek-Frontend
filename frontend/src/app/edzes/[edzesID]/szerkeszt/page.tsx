@@ -6,6 +6,7 @@ import React, { use } from 'react';
 import { Text } from "@/components/server";
 import { EdzesCreateEditForm } from "@/components/client/_forms";
 import { Edzes } from "@/types/edzes";
+import Stopwatch from "@/components/client/Stopwatch/Stopwatch";
 
 interface PageParams {
   edzesID: string;
@@ -38,8 +39,7 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
   }
 
   return (
-    <ContentLayout header={data.edzes_neve}>
-      {/* Pass the whole edzés object as a prop */}
+    <ContentLayout header={data.edzes_neve} subheader={ <Stopwatch />}>
       <EdzesCreateEditForm data={data} />
     </ContentLayout>
   );

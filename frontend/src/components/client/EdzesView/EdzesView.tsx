@@ -48,8 +48,18 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
         router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
     };
 
+
+    const formatTime = (minutes: number) => {
+        const hrs = Math.floor(minutes / 60);
+        const mins = Math.floor(minutes % 60);
+        const secs = Math.floor((minutes * 60) % 60);
+        return `${hrs}:${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
+    const formattedTime = formatTime(data.ido);
+
     return <>
-        <ContentLayout header={data.edzes_neve}>
+        <ContentLayout header={data.edzes_neve} subheader={formattedTime}>
             <div className={styles.edzesView}>
 
                 <div className={styles.buttons}>

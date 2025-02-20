@@ -1,0 +1,16 @@
+@use "styles/breakpoints.scss" as *;
+
+
+.stopwatch {
+
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 40px;
+
+    @include mobile {
+        font-size: 1.5rem;
+
+    }
+
+
+}

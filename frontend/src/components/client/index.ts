@@ -8,3 +8,6 @@ export {default as WelcomeLogin} from "./WelcomeLogin/WelcomeLogin";
 export {default as Register} from "./Register/Register";
 export {default as EdzesView} from "./EdzesView/EdzesView";
 export {default as UnderLinedText} from "./UnderLinedText/UnderLinedText";
+export {default as GyakorlatComparisonBlock} from "./GyakorlatComparisonBlock/GyakorlatComparisonBlock";
+export {default as EdzesBlock} from "./EdzesBlock/EdzesBlock";
+export {default as StopWatch} from "./Stopwatch/Stopwatch";
