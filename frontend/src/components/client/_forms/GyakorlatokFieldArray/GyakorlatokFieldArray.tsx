@@ -259,7 +259,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
                         <tr key={rowIndex}>
                           {/* Previous session columns */}
                           <td>
-                            <Text variant="body-16">{rowIndex + 1}</Text>
+                            <Text className={styles["prev-reps"]} variant="body-16">{rowIndex + 1}</Text>
                           </td>
                           <td>
                             {prev ? (
@@ -278,38 +278,46 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
                           {/* Current session columns */}
                           <td>
                             {currSet ? (
-                              <FormField
-                                name={`gyakorlatok[${index}].szettek[${rowIndex}].weight`}
-                                placeholder="KG"
-                                type="number"
-                                as={Input}
-                                isSet
-                              />
+                              <div className={styles["set-input"]}>
+                                <FormField 
+                                  name={`gyakorlatok[${index}].szettek[${rowIndex}].weight`}
+                                  placeholder="KG"
+                                  type="number"
+                                  as={Input}
+                                  isSet
+                                  
+                                />
+                              </div>
                             ) : (
-                              "-"
+                              <Text style={{paddingTop: '1rem'}}  className={styles["prev-reps"]} variant="body-16">-</Text>
                             )}
                           </td>
                           <td>
                             {currSet ? (
-                              <FormField
-                                name={`gyakorlatok[${index}].szettek[${rowIndex}].reps`}
-                                placeholder="Ism."
-                                type="number"
-                                as={Input}
-                                isSet
-                              />
+                              <div className={styles["set-input"]}>
+                                <FormField
+                                  name={`gyakorlatok[${index}].szettek[${rowIndex}].reps`}
+                                  placeholder="Ism."
+                                  type="number"
+                                  as={Input}
+                                  isSet
+                                 
+                                />
+                              </div>
                             ) : (
-                              "-"
+                              <Text style={{paddingTop: '1rem'}} className={styles["prev-reps"]} variant="body-16">-</Text>
                             )}
                           </td>
                           {/* Minus icon for current sets */}
                           <td>
                             {currSet && (
-                              <IconButton
-                                icon="MinusIcon"
-                                color="secondary"
-                                onClick={() => handleDeleteSet(rowIndex, currSet)}
-                              />
+                              <div className={styles["set-input"]}>
+                                <IconButton
+                                  icon="MinusIcon"
+                                  color="secondary"
+                                  onClick={() => handleDeleteSet(rowIndex, currSet)}
+                                />
+                              </div>
                             )}
                           </td>
                         </tr>

@@ -70,20 +70,26 @@
 
       @include tablet {
 
-        margin: auto;
+        margin-left: 0rem;
+        padding-left: 0;
       }
 
 
       .set-table {
-        border-collapse: separate; // Ensure border-spacing works
-        border-spacing: 1rem 0.1rem; // 1rem horizontal, 0.5rem vertical gap
-        padding: 1rem;
+        border-collapse: separate; 
+        border-spacing: 1rem 0.1rem; 
+        padding-left: 0;
       
        
 
         .prev-reps {
           padding-left: 0.5rem;
           text-align: center;
+          padding-top: 0.5rem;
+        }
+
+        .set-input {
+          padding-top: 0.5rem;  
         }
       }
 
