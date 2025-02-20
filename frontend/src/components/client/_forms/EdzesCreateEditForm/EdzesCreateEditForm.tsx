@@ -55,7 +55,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
       {
         onSuccess: () => {
           console.log("Edzés updated");
-          router.push("/edzes");
+          router.push(`/edzes/${data.edzes_id}`);
         },
       }
     );
@@ -96,6 +96,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                     onClick={() => setIsGyakorlatModalOpen(true)}
                     color="secondary"
                     additionalClassName={styles['gyakorlatPlusButton']}
+                    width={250}
                   >
                     Gyakorlat Hozzáadása
                   </Button>
@@ -145,6 +146,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
               type="button"
               onClick={() => setIsConfirmFinalModalOpen(true)}
               color="primary"
+              width={250}
             >
               Edzés Véglegesítése
             </Button>
