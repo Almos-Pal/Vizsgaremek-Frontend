@@ -194,7 +194,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
       {/* Gyakorlat name input */}
       <div className={styles["edzes-header"]}>
         <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{gyakorlat.gyakorlat_neve}:</Text>
-        <IconButton color='secondary' icon={'CancelIcon'} onClick={handleOpenDeleteConfirm} />
+        <IconButton color='secondary' icon={'CancelIcon'} type='button' onClick={handleOpenDeleteConfirm} />
       </div>
 
       {/* Confirmation Modal (conditionally rendered) */}
@@ -322,6 +322,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
                                 <IconButton
                                   icon="MinusIcon"
                                   color="secondary"
+                                  type="button"
                                   onClick={() => handleDeleteSet(rowIndex, currSet)}
                                 />
                               </div>

@@ -19,13 +19,15 @@ import styles from './EdzesCreateEditForm.module.scss'
 
 interface EdzesCreateEditFormProps {
   data: Edzes;
-  // since we always have an edzés_id, no need for an "id" prop separately
 }
 
 const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
   
   const [isConfirmFinalModalOpen, setIsConfirmFinalModalOpen] = useState(false);
   const [isGyakorlatModalOpen, setIsGyakorlatModalOpen] = useState(false);
+  
+
+
   const router = useRouter();
   const { mutate: updateEdzes } = useEdzes.updateEdzes();
   const { mutate: addGyakorlatToEdzes } = useEdzes.addGyakorlatToEdzes();

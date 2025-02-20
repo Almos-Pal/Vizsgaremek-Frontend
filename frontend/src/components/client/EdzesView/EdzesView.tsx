@@ -29,7 +29,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
             edzes_neve: data.edzes_neve,
             datum: new Date(),
             user_id: 1, //HARD CODED USER_ID FIX IN THE FUTURE
-            ido: data.ido,
+            ido: 0
         };
 
         // Create the new edzés.
