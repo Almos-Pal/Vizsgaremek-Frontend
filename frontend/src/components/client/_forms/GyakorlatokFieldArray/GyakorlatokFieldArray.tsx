@@ -51,6 +51,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
   const { mutate: deleteSetFromGyakorlatInEdzes } = useEdzes.deleteSetFromGyakorlatInEdzes();
 
   const [isGyakorlatConfirmModalOpen, setIsGyakorlatConfirmModalOpen] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
 
 
   const handleAddSet = () => {
@@ -122,6 +123,8 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
     const userId = 1; // Replace with actual user id
     const safeSzetek = gyakorlat.szettek || [];
 
+    setIsLocked(true);
+
     safeSzetek.forEach((set) => {
       if (set.id) {
         const updateDetails = {
@@ -185,13 +188,15 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
   };
 
   return (
-    <div className={styles["edzes-block"]}>
+    <div className={`${styles["edzes-block"]} ${isLocked ? styles["locked"] : ""}`}>
+
+      {isLocked && <div className={styles["overlay"]}></div>}
       {/* Gyakorlat name input */}
       <div className={styles["edzes-header"]}>
         <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{gyakorlat.gyakorlat_neve}:</Text>
         <IconButton color='secondary' icon={'CancelIcon'} onClick={handleOpenDeleteConfirm} />
       </div>
-      
+
       {/* Confirmation Modal (conditionally rendered) */}
       {isGyakorlatConfirmModalOpen && (
         <ConfirmationModal
@@ -215,7 +220,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
           return (
             <div className={styles["set-container"]}>
               {safeSzetek.length === 0 ? (
-                <Text style={{textAlign: 'left', marginTop: '0.5rem'}} variant="h5">Gyakorlat jelenleg üres </Text>
+                <Text style={{ textAlign: 'left', marginTop: '0.5rem' }} variant="h5">Gyakorlat jelenleg üres </Text>
 
               ) : (
                 <table className={styles["set-table"]}>
@@ -279,17 +284,18 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
                           <td>
                             {currSet ? (
                               <div className={styles["set-input"]}>
-                                <FormField 
+                                <FormField
                                   name={`gyakorlatok[${index}].szettek[${rowIndex}].weight`}
                                   placeholder="KG"
                                   type="number"
                                   as={Input}
                                   isSet
-                                  
+                                  disabled={isLocked}
+
                                 />
                               </div>
                             ) : (
-                              <Text style={{paddingTop: '1rem'}}  className={styles["prev-reps"]} variant="body-16">-</Text>
+                              <Text style={{ paddingTop: '1rem' }} className={styles["prev-reps"]} variant="body-16">-</Text>
                             )}
                           </td>
                           <td>
@@ -301,11 +307,12 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
                                   type="number"
                                   as={Input}
                                   isSet
-                                 
+                                  disabled={isLocked}
+
                                 />
                               </div>
                             ) : (
-                              <Text style={{paddingTop: '1rem'}} className={styles["prev-reps"]} variant="body-16">-</Text>
+                              <Text style={{ paddingTop: '1rem' }} className={styles["prev-reps"]} variant="body-16">-</Text>
                             )}
                           </td>
                           {/* Minus icon for current sets */}
@@ -332,6 +339,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
                 color="primary"
                 rightIcon='AddIcon'
                 additionalClassName={styles["addset-desktop"]}
+                
               >
                 Set
               </Button>

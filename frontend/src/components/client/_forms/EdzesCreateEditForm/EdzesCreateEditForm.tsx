@@ -37,7 +37,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
     const submissionValues = {
       ...values,
       datum: new Date(),
-      user_id: 5, // CURRENTLY STATIC, update with your authentication logic
+      user_id: 1, // CURRENTLY STATIC, update with your authentication logic
       ido: values.ido,
     };
     console.log('edzes submited for some reason')
