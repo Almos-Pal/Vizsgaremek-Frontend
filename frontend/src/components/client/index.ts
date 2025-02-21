@@ -13,4 +13,4 @@ export { CalendarWidget } from "./dashboard_items/index"
 export { PersonalRecords } from "./dashboard_items/index"
 export { Stats } from "./dashboard_items/index"
 export {default as BMITable} from "./BMITable/BMITable";
-export {default as Flag} from "./Flags/Flag";
+export {default as Flag} from "../server/Flags/Flag";

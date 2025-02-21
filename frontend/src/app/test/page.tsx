@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/client";
-import Flag from "@/components/client/Flags/Flag";
+import Flag from "@/components/server/Flags/Flag";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text ,Icons} from "@/components/server";
