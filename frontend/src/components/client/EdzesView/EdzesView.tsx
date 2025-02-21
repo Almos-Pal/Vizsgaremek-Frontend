@@ -53,7 +53,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
         const hrs = Math.floor(minutes / 60);
         const mins = Math.floor(minutes % 60);
         const secs = Math.floor((minutes * 60) % 60);
-        return `${hrs}:${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        return `00:${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
     };
 
     const formattedTime = formatTime(data.ido);

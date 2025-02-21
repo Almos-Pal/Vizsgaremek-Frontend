@@ -96,7 +96,6 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
   }
   const safeSzetek = gyakorlat.szettek || [];
   const userId = 1; // Replace with your actual user ID
-  // Initialize new set with empty values so that the fields are blank.
   const newSetData = { weight: 0, reps: 0 };
   const setNumber = safeSzetek.length + 1;
 
@@ -150,43 +149,8 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
     }
   };
 
-  const handleGyakorlatBefejezese = () => {
-    if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
-      console.error("Missing required IDs for finalizing exercise");
-      return;
-    }
-    const userId = 1; // Replace with actual user id
-    const safeSzetek = gyakorlat.szettek || [];
-
-    setIsLocked(true);
-
-    safeSzetek.forEach((set) => {
-      if (set.id) {
-        const updateDetails = {
-          weight: set.weight,
-          reps: set.reps,
-        };
-        updateSetInGyakorlatInEdzes(
-          {
-            edzes_id: values.edzes_id,
-            gyakorlatId: gyakorlat.gyakorlat_id!,
-            setId: set.id,
-            userId,
-            updateDetails,
-          },
-          {
-            onSuccess: () => {
-              console.log(`Set ${set.set_szam} updated successfully.`);
-            },
-            onError: (error) => {
-              console.error("Error updating set:", error);
-            },
-          }
-        );
-      }
-    });
-  };
-
+  
+ 
   const handleOpenDeleteConfirm = () => {
     setIsGyakorlatConfirmModalOpen(true);
   };
@@ -230,63 +194,61 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
  
 
   return (
-    <div className={`${styles["edzes-block"]} ${isLocked ? styles["locked"] : ""}`}>
-      {isLocked && <div className={styles["overlay"]}></div>}
+    <div className={styles["edzes-block"]}>
+      
       <div className={styles["edzes-header"]}>
-        <Text style={{ marginLeft: '2rem' }} variant="subtitle-16">
-          {gyakorlat.gyakorlat_neve}:
-        </Text>
-        <IconButton
-          color="secondary"
-          icon="CancelIcon"
-          type="button"
-          onClick={handleOpenDeleteConfirm}
-        />
+      <Text style={{ marginLeft: '2rem' }} variant="subtitle-16">
+        {gyakorlat.gyakorlat_neve}:
+      </Text>
+      <IconButton
+        color="secondary"
+        icon="CancelIcon"
+        type="button"
+        onClick={handleOpenDeleteConfirm}
+      />
       </div>
 
       {isGyakorlatConfirmModalOpen && (
-        <ConfirmationModal
-          visible={isGyakorlatConfirmModalOpen}
-          title="Biztos, hogy törölni akarod ezt a gyakorlatot?"
-          onConfirm={handleDeleteGyakorlatConfirm}
-          onCancel={handleDeleteGyakorlatCancel}
-          confirmText="Igen"
-          cancelText="Nem"
-        />
+      <ConfirmationModal
+        visible={isGyakorlatConfirmModalOpen}
+        title="Biztos, hogy törölni akarod ezt a gyakorlatot?"
+        onConfirm={handleDeleteGyakorlatConfirm}
+        onCancel={handleDeleteGyakorlatCancel}
+        confirmText="Igen"
+        cancelText="Nem"
+      />
       )}
 
       <FieldArray name={`gyakorlatok[${index}].szettek`}>
-        {(setHelpers) => (
-          <div className={styles["set-container"]}>
-            {safeSzetek.length === 0 ? (
-              <Text style={{ marginTop: '0.5rem', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', }} variant="h5">
-                Gyakorlat jelenleg üres
+      {(setHelpers) => (
+        <div className={`${styles["set-container"]} ${safeSzetek.length === 0 ? styles["empty"] : ""}`}>
+        {safeSzetek.length === 0 ? (
+          <div></div>
+        ) : (
+          <table className={styles["set-table"]}>
+          <thead>
+            <tr>
+            <th></th>
+            <th colSpan={2}>
+              <Text style={{ marginBottom: '1rem' }} variant="h5">
+              Előző alkalom
               </Text>
-            ) : (
-              <table className={styles["set-table"]}>
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th colSpan={2}>
-                      <Text style={{ marginBottom: '1rem' }} variant="h5">
-                        Előző alkalom
-                      </Text>
-                    </th>
-                    <th colSpan={2}>
-                      <Text style={{ marginBottom: '1rem' }} variant="h5">
-                        Most
-                      </Text>
-                    </th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th>
-                      <Text> </Text>
-                    </th>
-                    <th>
-                      <Text style={{ textAlign: 'center' }}>KG</Text>
-                    </th>
-                    <th>
+            </th>
+            <th colSpan={2}>
+              <Text style={{ marginBottom: '1rem' }} variant="h5">
+              Most
+              </Text>
+            </th>
+            <th></th>
+            </tr>
+            <tr>
+            <th>
+              <Text> </Text>
+            </th>
+            <th>
+              <Text style={{ textAlign: 'center' }}>KG</Text>
+            </th>
+            <th>
                       <Text style={{ textAlign: 'center' }}>Ism.</Text>
                     </th>
                     <th>
@@ -412,14 +374,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
           >
             Set
           </Button>
-          <Button
-            type="button"
-            onClick={handleGyakorlatBefejezese}
-            color="secondary"
-            additionalClassName={styles["finalize-button"]}
-          >
-            Gyakorlat Befejezése
-          </Button>
+          
         </div>
       </div>
     </div>

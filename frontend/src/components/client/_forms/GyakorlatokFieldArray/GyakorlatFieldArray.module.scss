@@ -11,6 +11,7 @@
     background-color: var(--color-grey-500);
     border-radius: 1rem;
     align-items: stretch;
+    padding-bottom: 1.5rem;
 
     @include desktop {
       margin-bottom: 42px;
@@ -141,12 +142,6 @@
 
   }
 
-  .locked {
-    opacity: 0.8;
-    pointer-events: none;
-   
-
-
-    
+  .empty {
     
   }
