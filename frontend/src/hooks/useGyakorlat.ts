@@ -52,6 +52,8 @@ const useGyakorlat = {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['gyakorlatok'] });
       },
+
+      
     });
   },
 

@@ -6,11 +6,10 @@ import { GyakorlatCreate } from "@/types";
 import { muscleGroups } from "@/utils";
 import useGyakorlat from "@/hooks/useGyakorlat";
 import { useRouter } from "next/navigation";
-import Modal from "../../_modal/Modal/Modal";
 import useModal from "@/hooks/useModal";
-import {Text} from "@/components/server";
 import { ConfirmationModal } from "../../_modal";
-import { on } from "events";
+import { useToast } from "@/hooks";
+import { gyakorlatSchema } from "@/utils/Validations/gyakorlatSchema";
 interface GyakorlatCreateEditFormProps {
   initialData: GyakorlatCreate;
   id?: number;
@@ -24,11 +23,15 @@ interface FormValues {
   eszkoz: string;
 }
 
+
+
+
 const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProps) => {
   const muscleOptions = Object.entries(muscleGroups).map(([key, value]) => ({
     value: key,
     label: value
   }));
+
 
   const { mutate: createGyakorlat } = useGyakorlat.createGyakorlat();
   const {mutate: updateGyakorlat} = useGyakorlat.updateGyakorlat();
@@ -36,6 +39,7 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
 
  const router = useRouter();
  const modal = useModal();
+ const toast = useToast();
 
   const initialValues: FormValues = {
     fo_izomcsoport: initialData?.fo_izomcsoport?.toString() || "",
@@ -61,7 +65,14 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
   const handleDelete = () => {
     console.log("Delete button clicked");
     if (id !== undefined) {
-      deleteGyakorlat(id);
+      deleteGyakorlat(id,{
+        onSuccess: () => {
+          toast.successDelete(undefined, initialData.gyakorlat_neve);
+        },
+        onError: () => {
+          toast.errorDelete(undefined, initialData.gyakorlat_neve || "Gyakorlat");
+        }
+      });
     } else {
       console.error("ID is undefined, cannot delete");
     }
@@ -80,13 +91,19 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
         {
           onSuccess: () => {
             router.push(`/gyakorlat/${id}`);
+            toast.successModify(undefined, submissionValues.gyakorlat_neve);
           },
+          onError: () => {
+            toast.errorModify(undefined, submissionValues.gyakorlat_neve || "Gyakorlat");
+          }
         }
       );
     } else {
+
       createGyakorlat(submissionValues, {
         onSuccess: () => {
           router.push("/gyakorlat");
+          toast.successCreate(undefined, submissionValues.gyakorlat_neve);
         },
       });
     }
@@ -94,7 +111,7 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
   };
 
   return (
-    <Formik<FormValues> initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
+    <Formik<FormValues> initialValues={initialValues} validationSchema={gyakorlatSchema} onSubmit={handleSubmit} enableReinitialize>
       {({ values }) => (
         <Form>
           <div className="flex flex-col align-center justify-center gap-10 pb-14">
@@ -147,7 +164,7 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
               <Button type="button" onClick={handleBack} color="primary" additionalClassName="w-32">
                 Mégse
               </Button>
-              <Button type="submit" color="secondary" additionalClassName="w-32">
+              <Button type="submit" color="secondary" additionalClassName="w-36">
                 {id ? "Mentés" : "Létrehozás"}
               </Button>
             </div>

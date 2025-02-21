@@ -1,4 +1,4 @@
-@import "@/styles/breakpoints.scss";
+@use "styles/breakpoints.scss" as *;
 
 
 .h1 {
@@ -6,14 +6,14 @@
   font-weight: 700;
   line-height: 48px;
   letter-spacing: 4%;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 
   @media (max-width: $screen-mobile-max) {
     font-size: 32px;
     font-weight: 600;
     line-height: 40px;
   }
-  text-transform: uppercase;
-  letter-spacing: 2px;
 }
 .h2 {
   font-size: 40px;

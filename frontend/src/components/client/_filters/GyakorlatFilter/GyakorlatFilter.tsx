@@ -6,7 +6,6 @@ import Button from "../../Button/Button";
 import { FormikSelect } from "../../_inputs";
 import useGyakorlat from "@/hooks/useGyakorlat";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 
 interface GyakorlatFilterProps {
   onFilterChange: (values: any) => void;

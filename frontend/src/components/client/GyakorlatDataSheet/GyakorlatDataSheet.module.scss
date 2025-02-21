@@ -1,4 +1,6 @@
-@import "@/styles/breakpoints.scss";
+@use "styles/breakpoints.scss" as *;
+
+
 
 
 
@@ -127,6 +129,9 @@
             background-color: var(--color-grey-400);
             height: 400px;
             border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 }

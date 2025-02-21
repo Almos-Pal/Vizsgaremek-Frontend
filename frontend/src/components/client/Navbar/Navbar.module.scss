@@ -1,8 +1,4 @@
-@import "../../../styles/breakpoints.scss";
-
-// =======================
-// Desktop Navbar & Menu
-// =======================
+@use "styles/breakpoints.scss" as *;
 
 .desktopnavbar {
   background-color: var(--color-grey-500);

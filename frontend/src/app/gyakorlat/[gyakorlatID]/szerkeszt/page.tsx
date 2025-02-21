@@ -24,7 +24,7 @@ const GyakorlatSzerkesztPage: React.FC<GyakorlatSzerkesztPageProps> = ({ params 
   const { data, isLoading, error } = !isNew ? useGyakorlat.getGyakorlat(gyakorlatID) : { data: null, isLoading: false, error: null };
 
 
-  let initialValues:GyakorlatCreate = {
+  const initialValues:GyakorlatCreate = {
     fo_izomcsoport: data?.fo_izomcsoport || 0,
     izomcsoportok: data?.izomcsoportok || [],
     gyakorlat_neve: data?.gyakorlat_neve || "",

@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import useGyakorlat from "@/hooks/useGyakorlat";
-import { Text } from "@/components/server";
-import { Button, GyakorlatFilter, Pagination } from "@/components/client";
+import {GyakorlatFilter, Pagination } from "@/components/client";
 import { GyakorlatItem } from "@/components/client/GyakorlatItem/GyakorlatItem";
 
 import styles from "./page.module.scss";
@@ -31,27 +30,17 @@ const GyakorlatPage: React.FC = () => {
     limit: 10,
     ...filterValues
   });
-  const { mutate: createGyakorlat } = useGyakorlat.createGyakorlat();
-  const { mutate: deleteGyakorlat } = useGyakorlat.deleteGyakorlat();
-  const [newGyakorlat, setNewGyakorlat] = useState("");
-
-  const handleCreate = () => {
-    createGyakorlat({ name: newGyakorlat });
-    setNewGyakorlat("");
-  };
-
-  const handleDelete = (id: number) => {
-    deleteGyakorlat(id);
-  };
 
   const handleFilterChange = (values: any) => {
-    // The URL update is handled in the GyakorlatFilter component
-    setPage(1); // Reset to first page when filters change
+    setPage(1); 
   };
 
   if (isLoading) return <div>Loading...</div>;
 
+
+  console.log(gyakorlatok);
   return (
+    
     <ContentLayout 
       header="Gyakorlatok" 
       filter={<GyakorlatFilter onFilterChange={handleFilterChange} />}

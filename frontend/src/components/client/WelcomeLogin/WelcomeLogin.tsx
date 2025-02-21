@@ -1,31 +1,65 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
 import * as Yup from "yup";
 
-import styles from './WelcomeLogin.module.scss'; // import the SCSS module
+import styles from './WelcomeLogin.module.scss';
 
-// Components
 import { Button } from "@/components/client";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text } from "@/components/server";
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/dist/client/components/navigation';
+
+import { loginSchema } from '@/utils/Validations/loginSchema';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 const initialValues = {
     email: '',
     password: ''
 };
 
-const validationSchema = Yup.object().shape({
-    email: Yup.string().required("Email megadása kötelező"),
-    password: Yup.string().required("Jelszó megadása kötelező"),
-});
+
+//way to get session data
+//sessions are stored in cookies
+// session contains user data, token, etc.
+//place this in a fetch request's header to get user data
+// authorization: `Bearer ${session.backendTokens.accessToken}`
+
+
+
+
 
 const WelcomeLogin: React.FC = () => {
+    const [errorMessage, setErrorMessage] = useState("");
+    const router = useRouter();
 
-    const handleSubmit = (values: typeof initialValues) => {
-        console.log(values.email, values.password);
+    //console.log(session);
+    const handleSubmit = async (values: typeof initialValues) => {
+        //console.log("Submitting credentials:", values);
+        setErrorMessage("");
+        const result = await signIn('credentials', {
+            email: values.email,
+            password: values.password,
+            redirect: false,
+            callbackUrl: "/dashboard", //Here you can change where to immidiately redirect after login
+        });
+        //console.log("SignIn result:", result);
+
+    
+        if (result?.error) {
+            //console.error("Login error:", result.error);
+            setErrorMessage("Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.");
+        } else if (result?.ok) {
+            setTimeout(() => {
+                router.push("/dashboard");
+            }, 500);
+
+        };
+
     };
 
     return (
@@ -37,7 +71,7 @@ const WelcomeLogin: React.FC = () => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
-                validationSchema={validationSchema}
+                validationSchema={loginSchema}
             >
                 <Form>
                     <FormField
@@ -59,6 +93,10 @@ const WelcomeLogin: React.FC = () => {
                         isRequired={true}
                         style={{ marginTop: '1rem' }}
                     />
+
+                    <div className='error-message'>
+                        <Text variant='subtitle-15' color="var(--color-error)" style={{ textAlign: 'center', marginTop: '1rem', maxWidth: '275px' }}>{errorMessage} </Text>
+                    </div>
 
                     <Button
                         width="100%"
@@ -82,7 +120,7 @@ const WelcomeLogin: React.FC = () => {
                         style={{ marginTop: '1rem' }}
                         color="secondary"
                         type="button"
-                        href={'/regisztralas'}
+                        href={"/regisztracio"}
                     >
                         Regisztráció
                     </Button>
