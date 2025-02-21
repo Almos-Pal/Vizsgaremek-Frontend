@@ -14,13 +14,40 @@ import { mapEdzesToFormValues } from "@/utils/mapEdzesToFormValues";
 import AddGyakorlatModal from "../AddGyakorlatModalForm/AddGyakorlatModalForm";
 import ConfirmationModal from "../../_modal/ConfirmationModal/ConfirmationModal";
 import { useRouter } from "next/navigation";
-
-import styles from './EdzesCreateEditForm.module.scss';
-import Stopwatch from "../../Stopwatch/Stopwatch";
+import * as Yup from "yup";
+import styles from "./EdzesCreateEditForm.module.scss";
 
 interface EdzesCreateEditFormProps {
   data: Edzes;
 }
+
+const validationSchema = Yup.object().shape({
+  edzes_neve: Yup.string()
+    .required("Az edzés nevének megadása kötelező")
+    .min(3, "Az edzés nevének legalább 3 karakter hosszúnak kell lennie"),
+  gyakorlatok: Yup.array().of(
+    Yup.object().shape({
+      gyakorlat_id: Yup.number().required("A gyakorlat kiválasztása kötelező"),
+      gyakorlat_neve: Yup.string().required("A gyakorlat nevének megadása kötelező"),
+      szettek: Yup.array().of(
+        Yup.object().shape({
+          reps: Yup.number()
+            .transform((value, originalValue) =>
+              String(originalValue).trim() === "" ? undefined : value
+            )
+            .required("Az ismétlések számának megadása kötelező")
+            .min(1, "Az ismétlések számának legalább 1-nek kell lennie"),
+          weight: Yup.number()
+            .transform((value, originalValue) =>
+              String(originalValue).trim() === "" ? undefined : value
+            )
+            .required("A súly megadása kötelező")
+            .min(1, "A súlynak legalább 1-nak kell lennie"),
+        })
+      ),
+    })
+  ),
+});
 
 const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
   const [isConfirmFinalModalOpen, setIsConfirmFinalModalOpen] = useState(false);
@@ -29,27 +56,25 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
   const router = useRouter();
   const { mutate: updateEdzes } = useEdzes.updateEdzes();
   const { mutate: addGyakorlatToEdzes } = useEdzes.addGyakorlatToEdzes();
-
   const { mutate: changeFinalizedStatus } = useEdzes.changeEdzesFinalizedStatus();
-
 
   const initialValues: EdzesFormValues = mapEdzesToFormValues(data);
 
   const handleSubmit = (values: EdzesFormValues) => {
-    const storedStartTime = localStorage.getItem('edzesStartTime');
+    const storedStartTime = localStorage.getItem("edzesStartTime");
     const startTime = storedStartTime ? parseInt(storedStartTime, 10) : Date.now();
     const elapsedTime = Date.now() - startTime;
-    localStorage.removeItem('edzesStartTime');
-  
+    localStorage.removeItem("edzesStartTime");
+
     const submissionValues = {
       ...values,
       datum: new Date(),
       user_id: 1, // HARD CODED - REPLACE WITH ACTUAL USER ID
-      ido: elapsedTime / 60000, 
+      ido: elapsedTime / 60000, // elapsed time in minutes
     };
-  
-    console.log('Edzés submitted with elapsed time:', elapsedTime);
-  
+
+    console.log("Edzés submitted with elapsed time:", elapsedTime);
+
     updateEdzes(
       { id: submissionValues.edzes_id!, updatedEdzes: submissionValues },
       {
@@ -62,33 +87,32 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
 
     changeFinalizedStatus(
       { edzesId: submissionValues.edzes_id!, userId: 1, finalized: true },
-        {
-            onSuccess: () => {
-            console.log("Edzés finalized");
-            },
-        }
+      {
+        onSuccess: () => {
+          console.log("Edzés finalized");
+        },
+      }
     );
-
-    
-
-
   };
-  
 
   return (
-
-
-    <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
+    <Formik
+      validationSchema={validationSchema}
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      enableReinitialize
+    >
       {({ values, submitForm }) => (
         <Form>
-          <div className={styles['container']}>
+          <div className={styles["container"]}>
             <FormField
               name="edzes_neve"
               label="Edzés neve"
               placeholder="Edzés neve"
               as={Input}
+              isRequired
             />
-            <div style={{ marginTop: '2rem' }}>
+            <div style={{ marginTop: "2rem" }}>
               <UnderLinedText text="Gyakorlatok" lineLength={220} />
             </div>
           </div>
@@ -104,12 +128,19 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                     prevHistory={gyakorlat.previous_history || []}
                   />
                 ))}
-                <div style={{ display: 'flex', marginBottom: '1rem', justifyContent: 'center', marginTop: '2rem' }}>
+                <div
+                  style={{
+                    display: "flex",
+                    marginBottom: "1rem",
+                    justifyContent: "center",
+                    marginTop: "2rem",
+                  }}
+                >
                   <Button
                     type="button"
                     onClick={() => setIsGyakorlatModalOpen(true)}
                     color="secondary"
-                    additionalClassName={styles['gyakorlatPlusButton']}
+                    additionalClassName={styles["gyakorlatPlusButton"]}
                     width={250}
                   >
                     Gyakorlat Hozzáadása
@@ -125,7 +156,9 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                     showCloseButton={false}
                   >
                     <AddGyakorlatModal
-                      existingGyakorlatIds={values.gyakorlatok.map((g) => g.gyakorlat_id || 0)}
+                      existingGyakorlatIds={values.gyakorlatok.map(
+                        (g) => g.gyakorlat_id || 0
+                      )}
                       onAdd={(selectedGyakorlat) => {
                         addGyakorlatToEdzes(
                           {
@@ -137,7 +170,8 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                             onSuccess: (returnedGyakorlat) => {
                               arrayHelpers.push({
                                 gyakorlat_id: returnedGyakorlat.gyakorlat_id || 0,
-                                gyakorlat_neve: returnedGyakorlat.gyakorlat_neve || "",
+                                gyakorlat_neve:
+                                  returnedGyakorlat.gyakorlat_neve || "",
                                 szettek: returnedGyakorlat.szettek || [],
                               });
                               setIsGyakorlatModalOpen(false);
@@ -155,7 +189,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
               </>
             )}
           </FieldArray>
-          <div className={styles['submit-button-div']}>
+          <div className={styles["submit-button-div"]}>
             <Button
               type="button"
               onClick={() => setIsConfirmFinalModalOpen(true)}
@@ -181,7 +215,6 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
         </Form>
       )}
     </Formik>
-
   );
 };
 

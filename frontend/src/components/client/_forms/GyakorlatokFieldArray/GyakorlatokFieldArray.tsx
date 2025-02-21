@@ -8,6 +8,8 @@ import IconButton from "../../IconButton/IconButton";
 import { Text } from "@/components/server";
 import useEdzes from '@/hooks/useEdzes';
 import ConfirmationModal from "../../_modal/ConfirmationModal/ConfirmationModal";
+import * as Yup from 'yup';
+
 
 interface Gyakorlat {
   gyakorlat_id?: number;
@@ -52,8 +54,15 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
   const [isGyakorlatConfirmModalOpen, setIsGyakorlatConfirmModalOpen] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
 
+
   const handleSetBlur = (rowIndex: number) => {
     const currentSet = values.gyakorlatok?.[index]?.szettek?.[rowIndex];
+
+    if (currentSet.weight < 1 || currentSet.reps < 1) {
+      
+      return;
+    }
+
     if (currentSet && currentSet.id) {
       const updateDetails = {
         weight: currentSet.weight,
@@ -77,36 +86,39 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
         }
       );
     }
+    
   };
 
   const handleAddSet = () => {
-    if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
-      console.error("Missing required IDs for adding set");
-      return;
-    }
-    const safeSzetek = gyakorlat.szettek || [];
-    const userId = 1; // Replace with your actual user ID
-    const newSetData = { weight: 0, reps: 0 };
-    const setNumber = safeSzetek.length + 1;
+  if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
+    console.error("Missing required IDs for adding set");
+    return;
+  }
+  const safeSzetek = gyakorlat.szettek || [];
+  const userId = 1; // Replace with your actual user ID
+  // Initialize new set with empty values so that the fields are blank.
+  const newSetData = { weight: 0, reps: 0 };
+  const setNumber = safeSzetek.length + 1;
 
-    addSetToGyakorlatInEdzes(
-      {
-        edzes_id: values.edzes_id,
-        gyakorlatId: gyakorlat.gyakorlat_id,
-        userId,
-        setDetails: { set_szam: setNumber, ...newSetData },
+  addSetToGyakorlatInEdzes(
+    {
+      edzes_id: values.edzes_id,
+      gyakorlatId: gyakorlat.gyakorlat_id,
+      userId,
+      setDetails: { set_szam: setNumber, ...newSetData },
+    },
+    {
+      onSuccess: (returnedSet) => {
+        console.log(`Set ${setNumber} added successfully.`);
+        arrayHelpers.push(returnedSet);
       },
-      {
-        onSuccess: (returnedSet) => {
-          console.log(`Set ${setNumber} added successfully.`);
-          arrayHelpers.push(returnedSet);
-        },
-        onError: (error) => {
-          console.error("Error adding set:", error);
-        },
-      }
-    );
-  };
+      onError: (error) => {
+        console.error("Error adding set:", error);
+      },
+    }
+  );
+};
+
 
   const handleDeleteSet = (setIndex: number, setItem: any) => {
     if (!values.edzes_id || !gyakorlat.gyakorlat_id) {
@@ -210,12 +222,12 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
   };
 
 
+
   const safeSzetek = gyakorlat.szettek || [];
   const safePrevHistory = prevHistory || [];
 
   const maxRows = Math.max(safePrevHistory.length, safeSzetek.length);
  
-  const hasData = safeSzetek.length > 0 || safePrevHistory.length > 0;
 
   return (
     <div className={`${styles["edzes-block"]} ${isLocked ? styles["locked"] : ""}`}>
@@ -330,6 +342,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
                                 isSet
                                 disabled={isLocked}
                                 onBlur={() => handleSetBlur(rowIndex)}
+                                isRequired
                               />
                             </div>
                           ) : (
