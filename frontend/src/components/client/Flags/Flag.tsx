@@ -16,8 +16,8 @@ return(
 
         flags.map((flag) => {
             return(
-                <div className={clsx(styles.flag)} style={{color:flag.color,backgroundColor:flag.background}}>
-            <Text variant='caption'>{flag.value}</Text>
+                <div key={flag.value} className={clsx(styles.flag)} style={{backgroundColor:flag.background}}>
+            <Text variant='caption' color={flag.color}>{flag.value}</Text>
           </div>
             )
         })
