@@ -7,9 +7,8 @@ import clsx from "clsx";
 
 
 
-export default function Flag({izomcsoportok} : {izomcsoportok: number[]}){
-   
- const flags = FlagValidator(izomcsoportok);
+export default function Flag({izomcsoportok,foizomcsoport} : {izomcsoportok: number[],foizomcsoport:number}){
+ const flags = FlagValidator([...izomcsoportok,foizomcsoport]);
 return(
 <div className={styles.flagContainer}>
     {
@@ -17,7 +16,7 @@ return(
         flags.map((flag) => {
             return(
                 <div key={flag.value} className={clsx(styles.flag)} style={{backgroundColor:flag.background}}>
-            <Text variant='caption' color={flag.color}>{flag.value}</Text>
+            <Text variant='caption' className="h-[20px]" color={flag.color}>{flag.value}</Text>
           </div>
             )
         })

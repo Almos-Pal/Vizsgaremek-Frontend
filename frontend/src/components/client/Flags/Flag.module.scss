@@ -5,7 +5,13 @@
     height: 20px;
     text-align: center;
     border-radius: 4px;
+    justify-content: center;
+    align-items: center;
 }
 .flagContainer{
     display: flex;
+    flex-wrap: wrap;
+    max-width: 210px;
+    gap: 13;
+
 }

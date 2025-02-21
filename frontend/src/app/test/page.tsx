@@ -109,7 +109,7 @@ const TestPage: React.FC = () => {
   secondaryHighlightColor="var(--color-warning)" // Secondary highlight color
 />
 <div>
-  <Flag izomcsoportok={[1,2,3,4]} />
+  <Flag izomcsoportok={[1,2,3,4]} foizomcsoport={8} />
   
 </div>
     </div>
