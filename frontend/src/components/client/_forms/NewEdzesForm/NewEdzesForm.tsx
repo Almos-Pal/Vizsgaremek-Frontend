@@ -10,6 +10,7 @@ import FormField from "../FormField/FormField";
 import { Input } from "../../_inputs";
 import style from "./NewEdzesForm.module.scss";
 import * as Yup from "yup";
+import { useSession } from "next-auth/react";
 
 
 
@@ -32,13 +33,14 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
     const router = useRouter();
     const { mutate: createEdzes } = useEdzes.createEdzes();
 
+    const { data: session } = useSession();
     const initialValues: FormValues = { edzes_neve: "" };
 
     const handleSubmit = (values: FormValues) => {
         const newEdzesPayload = {
             edzes_neve: values.edzes_neve,
             datum: new Date(),
-            user_id: 1, //IMPORTANT MAJD A USER ID-T KELL BEÁLLÍTANI SESSIONBŐL
+            user_id: session?.user.user_id!, //dont touch
             ido: 0,
         };
 

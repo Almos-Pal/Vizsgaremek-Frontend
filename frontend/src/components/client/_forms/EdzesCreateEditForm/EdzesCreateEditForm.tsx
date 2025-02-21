@@ -16,42 +16,18 @@ import ConfirmationModal from "../../_modal/ConfirmationModal/ConfirmationModal"
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import styles from "./EdzesCreateEditForm.module.scss";
+import { edzesSchema } from "@/utils/Validations/edzesSchema";
+import { useSession } from "next-auth/react";
 
 interface EdzesCreateEditFormProps {
   data: Edzes;
 }
 
-const validationSchema = Yup.object().shape({
-  edzes_neve: Yup.string()
-    .required("Az edzés nevének megadása kötelező")
-    .min(3, "Az edzés nevének legalább 3 karakter hosszúnak kell lennie"),
-  gyakorlatok: Yup.array().of(
-    Yup.object().shape({
-      gyakorlat_id: Yup.number().required("A gyakorlat kiválasztása kötelező"),
-      gyakorlat_neve: Yup.string().required("A gyakorlat nevének megadása kötelező"),
-      szettek: Yup.array().of(
-        Yup.object().shape({
-          reps: Yup.number()
-            .transform((value, originalValue) =>
-              String(originalValue).trim() === "" ? undefined : value
-            )
-            .required("Az ismétlések számának megadása kötelező")
-            .min(1, "Az ismétlések számának legalább 1-nek kell lennie"),
-          weight: Yup.number()
-            .transform((value, originalValue) =>
-              String(originalValue).trim() === "" ? undefined : value
-            )
-            .required("A súly megadása kötelező")
-            .min(1, "A súlynak legalább 1-nak kell lennie"),
-        })
-      ),
-    })
-  ),
-});
-
 const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
   const [isConfirmFinalModalOpen, setIsConfirmFinalModalOpen] = useState(false);
   const [isGyakorlatModalOpen, setIsGyakorlatModalOpen] = useState(false);
+
+  const { data: session } = useSession();
 
   const router = useRouter();
   const { mutate: updateEdzes } = useEdzes.updateEdzes();
@@ -69,7 +45,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
     const submissionValues = {
       ...values,
       datum: new Date(),
-      user_id: 1, // HARD CODED - REPLACE WITH ACTUAL USER ID
+      user_id: session?.user.user_id, // HARD CODED - REPLACE WITH ACTUAL USER ID
       ido: elapsedTime / 60000, // elapsed time in minutes
     };
 
@@ -86,7 +62,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
     );
 
     changeFinalizedStatus(
-      { edzesId: submissionValues.edzes_id!, userId: 1, finalized: true },
+      { edzesId: submissionValues.edzes_id!, userId: session?.user.user_id!, finalized: true },
       {
         onSuccess: () => {
           console.log("Edzés finalized");
@@ -97,7 +73,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
 
   return (
     <Formik
-      validationSchema={validationSchema}
+      validationSchema={edzesSchema}
       initialValues={initialValues}
       onSubmit={handleSubmit}
       enableReinitialize
@@ -163,7 +139,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                         addGyakorlatToEdzes(
                           {
                             edzesId: values.edzes_id!,
-                            userId: 1, // update as needed
+                            userId: session?.user.user_id!, // this code is a work of art. don't ever dare to touch it
                             gyakorlatId: selectedGyakorlat.gyakorlat_id,
                           },
                           {

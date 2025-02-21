@@ -9,6 +9,7 @@ import { Text } from "@/components/server";
 import useEdzes from '@/hooks/useEdzes';
 import ConfirmationModal from "../../_modal/ConfirmationModal/ConfirmationModal";
 import * as Yup from 'yup';
+import { useSession } from 'next-auth/react';
 
 
 interface Gyakorlat {
@@ -45,6 +46,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
   arrayHelpers,
 }) => {
   const { values } = useFormikContext<any>();
+  const { data: session } = useSession();
 
   const { mutate: addSetToGyakorlatInEdzes } = useEdzes.addSetToGyakorlatInEdzes();
   const { mutate: deleteGyakorlatFromEdzes } = useEdzes.deleteGyakorlatFromEdzes();
@@ -73,7 +75,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
           edzes_id: values.edzes_id,
           gyakorlatId: gyakorlat.gyakorlat_id!,
           setId: currentSet.id,
-          userId: 1, // Replace with actual user id logic
+          userId: session?.user.user_id!, //perfection
           updateDetails,
         },
         {
@@ -95,7 +97,6 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
     return;
   }
   const safeSzetek = gyakorlat.szettek || [];
-  const userId = 1; // Replace with your actual user ID
   const newSetData = { weight: 0, reps: 0 };
   const setNumber = safeSzetek.length + 1;
 
@@ -103,7 +104,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
     {
       edzes_id: values.edzes_id,
       gyakorlatId: gyakorlat.gyakorlat_id,
-      userId,
+      userId: session?.user.user_id!,
       setDetails: { set_szam: setNumber, ...newSetData },
     },
     {
@@ -124,7 +125,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
       console.error("Missing required IDs for deleting set");
       return;
     }
-    const userId = 1; // Replace with actual user id
+   
 
     if (setItem.id) {
       deleteSetFromGyakorlatInEdzes(
@@ -132,7 +133,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
           edzes_id: values.edzes_id,
           gyakorlatId: gyakorlat.gyakorlat_id,
           setId: setItem.id,
-          userId,
+          userId: session?.user.user_id!, // perfection
         },
         {
           onSuccess: () => {
@@ -165,13 +166,12 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
       console.error("Missing required IDs");
       return;
     }
-    const userId = 1; // Hardcode or get from auth
 
     deleteGyakorlatFromEdzes(
       {
         edzesId: values.edzes_id,
         gyakorlatId: gyakorlat.gyakorlat_id,
-        userId,
+        userId: session?.user.user_id!, // perfection
       },
       {
         onSuccess: () => {

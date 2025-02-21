@@ -8,8 +8,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, Pagination } from '@/components/client';
 import { Modal } from '@/components/client/_modal';
 import { NewEdzesForm } from '@/components/client/_forms';
+import { useSession } from 'next-auth/react';
 
 function EdzesekPage() {
+    const { data: session } = useSession();
+    console.log('edzes user session data: ',session?.user.user_id)
+    
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialPage = parseInt(searchParams.get("page") || "1", 10);
@@ -21,7 +25,10 @@ function EdzesekPage() {
     const { data: edzesek, isLoading, error } = useEdzes.getEdzesek({
         page,
         limit: 3,
+        user_id: 3
     });
+
+
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading workouts</div>;
 

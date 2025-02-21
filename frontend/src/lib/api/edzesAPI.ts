@@ -5,7 +5,7 @@ interface FetchEdzesekParams {
   page?: number;
   limit?: number;
   // other properties
-  userId?: number | null;
+  user_id?: number | null;
   edzes_neve?: string;
   gyakorlatok?: number[];
   //izomcsoportId?: number;
@@ -15,7 +15,7 @@ const edzesAPI = {
   fetchEdzesek: async ({
     page = 1,
     limit = 3,
-    userId = null,
+    user_id ,
     edzes_neve,
     gyakorlatok,
   }: FetchEdzesekParams = {}): Promise<PaginatedResponse<Edzes>> => {
@@ -24,7 +24,7 @@ const edzesAPI = {
       limit: limit.toString(),
     };
 
-    if (userId !== null) params.userId = userId.toString();
+    if (user_id ) params.user_id = user_id.toString();
     if (edzes_neve) params.edzes_neve = edzes_neve;
     if (gyakorlatok?.length) params.gyakorlatok = gyakorlatok.join(',');
 

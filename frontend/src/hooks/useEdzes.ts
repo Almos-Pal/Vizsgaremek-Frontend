@@ -5,7 +5,7 @@ const useEdzes = {
   getEdzesek: (params: {
     page?: number;
     limit?: number;
-    userId?: number | null;
+    user_id?: number | null;
     edzes_neve?: string;
     gyakorlatok?: number[];
   } = {}) => {
