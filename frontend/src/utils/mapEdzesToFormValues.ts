@@ -9,9 +9,8 @@ export const mapEdzesToFormValues = (edzes: Edzes): EdzesFormValues => ({
   user_id: edzes.user_id || 0,
   gyakorlatok: edzes.gyakorlatok.map((gy) => ({
     gyakorlat_id: gy.gyakorlat_id,
-    // If your backend nests the gyakorlat info, adjust accordingly:
     gyakorlat_neve: gy.gyakorlat?.gyakorlat_neve,
     szettek: gy.szettek || [],
-    previous_history: (gy as any).previous_history || [], // Cast or default to empty array
+    previous_history: (gy as any).previous_history || [], 
   })),
 });

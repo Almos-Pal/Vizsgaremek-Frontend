@@ -11,6 +11,7 @@ import { Input } from "../../_inputs";
 import style from "./NewEdzesForm.module.scss";
 import * as Yup from "yup";
 import { useSession } from "next-auth/react";
+import { useToast } from "@/hooks";
 
 
 
@@ -31,6 +32,7 @@ const validationSchema = Yup.object().shape({
 
 const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
     const router = useRouter();
+    const toast = useToast();
     const { mutate: createEdzes } = useEdzes.createEdzes();
 
     const { data: session } = useSession();
@@ -49,9 +51,11 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
                 
                 router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
                 onSuccess(); 
+                toast.success("Edzés sikeresen elkezdve");
             },
             onError: (error: any) => {
                 console.error("Error creating edzés:", error);
+                toast.error("Hiba történt az edzés létrehozása közben");
             }
         });
     };

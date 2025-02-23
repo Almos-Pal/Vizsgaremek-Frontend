@@ -18,6 +18,7 @@ import * as Yup from "yup";
 import styles from "./EdzesCreateEditForm.module.scss";
 import { edzesSchema } from "@/utils/Validations/edzesSchema";
 import { useSession } from "next-auth/react";
+import { useToast } from "@/hooks";
 
 interface EdzesCreateEditFormProps {
   data: Edzes;
@@ -27,6 +28,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
   const [isConfirmFinalModalOpen, setIsConfirmFinalModalOpen] = useState(false);
   const [isGyakorlatModalOpen, setIsGyakorlatModalOpen] = useState(false);
 
+  const toast = useToast();
   const { data: session } = useSession();
 
   const router = useRouter();
@@ -56,7 +58,12 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
       {
         onSuccess: () => {
           console.log("Edzés updated");
+          toast.success("Edzés Befejezve");
           router.push(`/edzes/${data.edzes_id}`);
+        },
+        onError: (error) => {
+          console.error("Error updating edzés", error);
+          toast.error("Hiba az edzés frissítésekor");
         },
       }
     );
@@ -151,9 +158,12 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                                 szettek: returnedGyakorlat.szettek || [],
                               });
                               setIsGyakorlatModalOpen(false);
+
+                              toast.success("Gyakorlat hozzáadva");
                             },
                             onError: (error) => {
                               console.error("Error adding gyakorlat to edzés", error);
+                              toast.error("Hiba a gyakorlat hozzáadásakor");
                             },
                           }
                         );
@@ -177,7 +187,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
             {isConfirmFinalModalOpen && (
               <ConfirmationModal
                 visible={isConfirmFinalModalOpen}
-                title="Biztosan véglegesíteni szeretnéd az edzést?"
+                title="Biztosan véglegesíteni szeretné az edzést?"
                 onConfirm={() => {
                   setIsConfirmFinalModalOpen(false);
                   submitForm();

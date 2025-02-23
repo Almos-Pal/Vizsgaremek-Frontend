@@ -10,6 +10,7 @@ import useEdzes from '@/hooks/useEdzes';
 import ConfirmationModal from "../../_modal/ConfirmationModal/ConfirmationModal";
 import * as Yup from 'yup';
 import { useSession } from 'next-auth/react';
+import { useToast } from '@/hooks';
 
 
 interface Gyakorlat {
@@ -47,6 +48,8 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
 }) => {
   const { values } = useFormikContext<any>();
   const { data: session } = useSession();
+  const toast = useToast();
+
 
   const { mutate: addSetToGyakorlatInEdzes } = useEdzes.addSetToGyakorlatInEdzes();
   const { mutate: deleteGyakorlatFromEdzes } = useEdzes.deleteGyakorlatFromEdzes();
@@ -138,6 +141,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
         {
           onSuccess: () => {
             console.log(`Set ${setItem.set_szam} deleted successfully.`);
+            toast.success("Set törölve");
             arrayHelpers.remove(setIndex);
           },
           onError: (error) => {
@@ -211,7 +215,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
       {isGyakorlatConfirmModalOpen && (
       <ConfirmationModal
         visible={isGyakorlatConfirmModalOpen}
-        title="Biztos, hogy törölni akarod ezt a gyakorlatot?"
+        title="Biztos, hogy törölni akarja ezt a gyakorlatot?"
         onConfirm={handleDeleteGyakorlatConfirm}
         onCancel={handleDeleteGyakorlatCancel}
         confirmText="Igen"

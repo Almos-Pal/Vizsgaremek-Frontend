@@ -9,6 +9,9 @@ import GyakorlatComparisonBlock from "../GyakorlatComparisonBlock/GyakorlatCompa
 import useEdzes from "@/hooks/useEdzes";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useToast } from "@/hooks";
+import ConfirmationModal from "../_modal/ConfirmationModal/ConfirmationModal";
+import { useState } from "react";
 
 
 interface EdzesViewProps {
@@ -20,6 +23,7 @@ interface EdzesViewProps {
 const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
     const { data: session } = useSession();
     const router = useRouter();
+    const toast = useToast();
     const { mutateAsync: createEdzesAsync } = useEdzes.createEdzes();
     const { mutateAsync: addGyakorlatAsync } = useEdzes.addGyakorlatToEdzes();
 
@@ -35,19 +39,29 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
             ido: 0
         };
 
-        // Create the new edzés.
-        const newEdzes = await createEdzesAsync(newEdzesPayload);
+
+        const newEdzes = await createEdzesAsync(newEdzesPayload, {
+            onSuccess: (newEdzes: any) => {
+                console.log("Edzés sikeresen elkezdve");
+                toast.success("Edzés sikeresen elkezdve");
+            },
+            onError: (error: any) => {
+                console.error("Error creating edzés:", error);
+                toast.error("Hiba történt az edzés létrehozása közben");
+            }
+        });
+
 
         // Add each gyakorlat (without sets) to the new edzés.
         for (const gyakorlat of data.gyakorlatok) {
             await addGyakorlatAsync({
                 edzesId: newEdzes.edzes_id,
-                userId: session?.user.user_id!, 
+                userId: session?.user.user_id!,
                 gyakorlatId: gyakorlat.gyakorlat_id,
             });
         }
 
-        // Redirect to the edit page of the new edzés.
+       
         router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
     };
 
@@ -61,10 +75,53 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
     const formattedTime = formatTime(data.ido);
 
+
+    const { mutateAsync: deleteEdzesAsync } = useEdzes.deleteEdzes();
+
+    const handleDeleteEdzesConfirm = async () => {
+        setIsDeleteEdzesConfirmModalOpen(false);
+        try {
+            await deleteEdzesAsync(data.edzes_id, {
+                onSuccess: () => {
+                    console.log("Edzés törölve");
+                    toast.success("Edzés törölve");
+                },
+                onError: (error) => {
+                    console.error("Error deleting edzés:", error);
+                    toast.error("Hiba történt az edzés törlésekor");
+                }
+            });
+
+            router.push("/edzes");
+        } catch (error) {
+            console.error("Error deleting edzés:", error);
+            toast.error("Hiba történt az edzés törlésekor");
+        }
+    };
+
+    const handleOpenDeleteConfirm = () => {
+        setIsDeleteEdzesConfirmModalOpen(true);
+    }
+
+    const DeleteEdzesConfirmModalCancel = () => {
+        setIsDeleteEdzesConfirmModalOpen(false);
+    }
+
+    const [isDeleteEdzesConfirmModalOpen, setIsDeleteEdzesConfirmModalOpen] = useState(false);
+
     return <>
         <ContentLayout header={data.edzes_neve} subheader={formattedTime}>
             <div className={styles.edzesView}>
 
+
+                <ConfirmationModal
+                    visible={isDeleteEdzesConfirmModalOpen}
+                    title="Biztos, hogy törölni akarja ezt a gyakorlatot?"
+                    onConfirm={handleDeleteEdzesConfirm}
+                    onCancel={DeleteEdzesConfirmModalCancel}
+                    confirmText="Igen"
+                    cancelText="Nem"
+                />
                 <div className={styles.buttons}>
 
 
@@ -74,14 +131,14 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
                     <div className={styles.doubleButtonDesktop} >
                         <Button width={200} color="secondary" rightIcon="EditIcon">Módosítás</Button>
-                        <Button width={200} color="secondary" rightIcon="EditIcon">Törlés</Button>
+                        <Button width={200} color="secondary" onClick={handleOpenDeleteConfirm} rightIcon="EditIcon">Törlés</Button>
                     </div>
 
                     <Button additionalClassName={styles.singleButtonMobile} onClick={cloneEdzesWithoutSets} rightIcon="PlayRightIcon">Edzés Kezdése</Button>
 
                     <div className={styles.doubleButtonMobile} >
                         <Button additionalClassName={styles.btnmobileresponsive} color="secondary" rightIcon="EditIcon">Módosítás</Button>
-                        <Button additionalClassName={styles.btnmobileresponsive} color="secondary" rightIcon="EditIcon">Törlés</Button>
+                        <Button additionalClassName={styles.btnmobileresponsive} onClick={handleOpenDeleteConfirm} color="secondary" rightIcon="EditIcon">Törlés</Button>
                     </div>
                 </div>
 

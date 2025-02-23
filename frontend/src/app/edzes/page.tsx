@@ -21,7 +21,7 @@ function EdzesekPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-    // Fetch workouts with the provided page and limit parameters
+    
     const { data: edzesek, isLoading, error } = useEdzes.getEdzesek({
         page,
         limit: 3,
@@ -32,10 +32,7 @@ function EdzesekPage() {
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading workouts</div>;
 
-    // Log the fetched data for debugging
-    console.log('Fetched edzesek:', edzesek);
-
-    // If items is a nested array, flatten it.
+   
     const workouts = Array.isArray(edzesek?.items?.[0])
         ? edzesek.items.flat()
         : edzesek?.items;
@@ -47,7 +44,7 @@ function EdzesekPage() {
             {workouts?.map((edzes: any) => (
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
-            {/* href={'/edzes/uj/szerkeszt'} */}
+           
             <div className='flex justify-center mt-4 pb-4'>
                 <Button width={225} color='secondary' rightIcon='AddIcon' onClick={() => setIsModalOpen(true)} >Edzés</Button>
             </div>
@@ -60,7 +57,7 @@ function EdzesekPage() {
                 
                 
             >
-                {/* <NewEdzesForm onSuccess={() => setIsModalOpen(false)} /> */}
+
                 <NewEdzesForm onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />
 
             </Modal>
