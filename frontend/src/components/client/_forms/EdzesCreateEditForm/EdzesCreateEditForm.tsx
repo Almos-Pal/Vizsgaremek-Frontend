@@ -45,8 +45,8 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
     const submissionValues = {
       ...values,
       datum: new Date(),
-      user_id: session?.user.user_id, // HARD CODED - REPLACE WITH ACTUAL USER ID
-      ido: elapsedTime / 60000, // elapsed time in minutes
+      user_id: session?.user.user_id, 
+      ido: elapsedTime / 60000, 
     };
 
     console.log("Edzés submitted with elapsed time:", elapsedTime);

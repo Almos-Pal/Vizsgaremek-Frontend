@@ -25,10 +25,9 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
 
   const { data, isLoading, error } = useEdzes.getEdzes(edzesID);
   
-  // Once data is loaded, check if the edzés is finalized.
+  
   useEffect(() => {
     if (data && data.isFinalized) {
-      // Redirect the user back to the edzés view page.
       router.push(`/edzes/${edzesID}`);
     }
   }, [data, router, edzesID]);

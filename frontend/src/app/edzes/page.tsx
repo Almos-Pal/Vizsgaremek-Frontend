@@ -25,7 +25,7 @@ function EdzesekPage() {
     const { data: edzesek, isLoading, error } = useEdzes.getEdzesek({
         page,
         limit: 3,
-        user_id: 3
+        user_id: session?.user.user_id
     });
 
 

@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
                     Edzésterv-tervező
                 </Button>
                 <Text variant="h5" style={{ marginBottom: 20 }}>Saját gyűlytemény</Text>
-                <Button width={350} style={{ marginBottom: 20 }}>Edzéstervek</Button>
+                <Button width={350} style={{ marginBottom: 20 }} href={'/edzes'}>Edzéstervek</Button>
                 <Button width={350} color="secondary" style={{ marginBottom: 20 }}>Gyakorlatok</Button>
             </div>
 
@@ -118,7 +118,7 @@ const Navbar: React.FC = () => {
                     <Text variant="h5" style={{ marginBottom: 20 }}>
                         Saját gyűlytemény
                     </Text>
-                    <Button additionalClassName={styles.mobilebutton} width="100%" style={{ marginBottom: 20 }}>
+                    <Button additionalClassName={styles.mobilebutton} href={'/edzes'} width="100%" style={{ marginBottom: 20 }}>
                         Edzéstervek
                     </Button>
                     <Button additionalClassName={styles.mobilebutton} width="100%" color="secondary" style={{ marginBottom: 20 }}>

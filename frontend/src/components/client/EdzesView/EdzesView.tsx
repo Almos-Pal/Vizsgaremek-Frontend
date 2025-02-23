@@ -8,6 +8,7 @@ import UnderLinedText from "../UnderLinedText/UnderLinedText";
 import GyakorlatComparisonBlock from "../GyakorlatComparisonBlock/GyakorlatComparisonBlock";
 import useEdzes from "@/hooks/useEdzes";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 
 interface EdzesViewProps {
@@ -17,10 +18,12 @@ interface EdzesViewProps {
 
 
 const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
-
+    const { data: session } = useSession();
     const router = useRouter();
     const { mutateAsync: createEdzesAsync } = useEdzes.createEdzes();
     const { mutateAsync: addGyakorlatAsync } = useEdzes.addGyakorlatToEdzes();
+
+
 
     console.log(data.user_id);
     const cloneEdzesWithoutSets = async () => {
@@ -28,7 +31,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
         const newEdzesPayload = {
             edzes_neve: data.edzes_neve,
             datum: new Date(),
-            user_id: 1, //HARD CODED USER_ID FIX IN THE FUTURE
+            user_id: session?.user.user_id,
             ido: 0
         };
 
@@ -39,7 +42,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
         for (const gyakorlat of data.gyakorlatok) {
             await addGyakorlatAsync({
                 edzesId: newEdzes.edzes_id,
-                userId: 1, //HARD CODED USER_ID FIX IN THE FUTURE
+                userId: session?.user.user_id!, 
                 gyakorlatId: gyakorlat.gyakorlat_id,
             });
         }

@@ -6,6 +6,17 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    
+
+    
+    @include desktop {
+        //solves the navbar overlapping problem, might be a bad solution look into it in the future
+        margin-left: 10rem;
+    }
+    @include mobile {
+        //same solution just this time for the mobile navbar 
+        margin-bottom: 7.5rem;
+    }
 }
 .content-layout__container{
     max-width: 1040px;
