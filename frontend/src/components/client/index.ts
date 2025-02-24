@@ -13,3 +13,4 @@ export { CalendarWidget } from "./dashboard_items/index"
 export { PersonalRecords } from "./dashboard_items/index"
 export { Stats } from "./dashboard_items/index"
 export {default as BMITable} from "./BMITable/BMITable";
+export {default as ProgressChart} from "./ProgressChart/ProgressChart";
