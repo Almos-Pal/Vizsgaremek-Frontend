@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/client";
+import Flag from "@/components/server/Flags/Flag";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text ,Icons} from "@/components/server";
@@ -107,7 +108,10 @@ const TestPage: React.FC = () => {
   highlightColor="var(--color-error)" // Primary highlight color
   secondaryHighlightColor="var(--color-warning)" // Secondary highlight color
 />
-
+<div>
+  <Flag izomcsoportok={[1,2,3,4]} foizomcsoport={8} />
+  
+</div>
     </div>
   );
 };

@@ -4,4 +4,5 @@ export { default as ReactQueryProvider } from './Providers/ReactQueryProvider';
 export { default as ReactSessionProvider } from './Providers/ReactSessionProvider';
 export * from "./url";
 export  *  from './izomcsoportParse'; 
+export {default as flagValidator} from './flagValidator';
 export {default as DateParse} from './dateParse';   
