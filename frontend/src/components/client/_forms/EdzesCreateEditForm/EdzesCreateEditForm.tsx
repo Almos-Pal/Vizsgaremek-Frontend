@@ -65,6 +65,8 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
           console.error("Error updating edzés", error);
           toast.error("Hiba az edzés frissítésekor");
         },
+   
+
       }
     );
 
@@ -84,8 +86,9 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
       initialValues={initialValues}
       onSubmit={handleSubmit}
       enableReinitialize
+   
     >
-      {({ values, submitForm }) => (
+      {({ values, submitForm ,validateForm }) => (
         <Form>
           <div className={styles["container"]}>
             <FormField
@@ -176,12 +179,19 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
             )}
           </FieldArray>
           <div className={styles["submit-button-div"]}>
-            <Button
-              type="button"
-              onClick={() => setIsConfirmFinalModalOpen(true)}
-              color="primary"
-              width={250}
-            >
+          <Button
+          type="button"
+          onClick={async () => {
+            const errors = await validateForm();
+            if (Object.keys(errors).length > 0) {
+              toast.error("Hiba: Ellenőrizd az űrlap mezőit");
+              return;
+            }
+            setIsConfirmFinalModalOpen(true);
+          }}
+          color="primary"
+          width={250}
+        >
               Edzés Véglegesítése
             </Button>
             {isConfirmFinalModalOpen && (

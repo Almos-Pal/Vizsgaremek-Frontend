@@ -32,6 +32,7 @@ interface InputProps {
   isRequired?: boolean;
   disabled?: boolean;
   isSet?: boolean;
+  isDirty?: boolean;
 }
 
 const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
@@ -55,6 +56,7 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
       isRequired,
       disabled,
       isSet = false,
+      isDirty = false,
       ...props
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -116,6 +118,7 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
           className={clsx(
             isSet ? styles.inputSet : styles.input, // Ensuring correct class application
             className,
+            isSet && isDirty && error && styles.inputSetError,
             error && styles.inputError,
             disabled && styles.disabled
           )}
@@ -149,14 +152,18 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
               type={type === "password" && showPassword ? "text" : type}
               disabled={disabled}
               {...props}
+              className={clsx(
+          isSet && error && styles.inputSetError,
+          error && styles.inputError
+              )}
             />
           )}
           {type === "password" && (
             <div onClick={toggleShowPassword} style={{ cursor: "pointer" }}>
               {showPassword ? (
-                <Icons.VisibilityOnIcon {...iconPropsLocal} />
+          <Icons.VisibilityOnIcon {...iconPropsLocal} />
               ) : (
-                <Icons.VisibilityOffIcon {...iconPropsLocal} />
+          <Icons.VisibilityOffIcon {...iconPropsLocal} />
               )}
             </div>
           )}
@@ -165,7 +172,7 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
           )}
         </div>
 
-        {error && (
+        { error && !isSet &&  (
           <div className={styles.error}>
             <Text color="var(--color-error)">{error}</Text>
           </div>

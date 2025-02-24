@@ -21,7 +21,7 @@ const edzesSchema = Yup.object().shape({
               String(originalValue).trim() === "" ? undefined : value
             )
             .required("A súly megadása kötelező")
-            .min(1, "A súlynak legalább 1-nak kell lennie"),
+            .min(0, "A súlynak legalább 1kg-nak  kell lennie"),
         })
       ),
     })

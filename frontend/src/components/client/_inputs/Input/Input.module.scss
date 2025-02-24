@@ -74,6 +74,16 @@
   }
 }
 
+.inputSetError {
+  border: 1px solid var(--color-error) !important;
+  color: var(--color-error) !important;
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-error) !important;
+  }
+}
+
 .inputSet {
   display: flex;
   align-items: center;
@@ -87,6 +97,7 @@
   height: 30px !important;
   outline: none;
   border: none;
+
 
   input,
   textarea {
@@ -105,7 +116,7 @@
 
   input::placeholder,
   textarea::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-grey-300)
   }
 
   &:focus-within {

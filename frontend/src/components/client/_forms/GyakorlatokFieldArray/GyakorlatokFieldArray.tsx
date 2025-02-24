@@ -58,14 +58,17 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
 
   const [isGyakorlatConfirmModalOpen, setIsGyakorlatConfirmModalOpen] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
+  const {errors,dirty} = useFormikContext<any>();
 
 
   const handleSetBlur = (rowIndex: number) => {
     const currentSet = values.gyakorlatok?.[index]?.szettek?.[rowIndex];
 
-    if (currentSet.weight < 1 || currentSet.reps < 1) {
+    if (currentSet.weight < 0 || currentSet.reps < 1) {
       
+      // toast.error("A súly és az ismétlés számának nagyobbnak kell lennie, mint 0");
       return;
+
     }
 
     if (currentSet && currentSet.id) {
@@ -305,6 +308,8 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
                                 placeholder="KG"
                                 type="number"
                                 as={Input}
+                                error={(errors as any).gyakorlatok?.[index]?.szettek?.[rowIndex]?.weight}
+
                                 isSet
                                 disabled={isLocked}
                                 onBlur={() => handleSetBlur(rowIndex)}
@@ -324,7 +329,10 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
                                 name={`gyakorlatok[${index}].szettek[${rowIndex}].reps`}
                                 placeholder="Ism."
                                 type="number"
+                                min={0}
+                                error={(errors as any).gyakorlatok?.[index]?.szettek?.[rowIndex]?.reps}
                                 as={Input}
+                                isDirty={dirty}
                                 isSet
                                 disabled={isLocked}
                                 onBlur={() => handleSetBlur(rowIndex)}
