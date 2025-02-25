@@ -6,33 +6,36 @@ import Button from "../Button/Button";
 import styles from "./EdzesView.module.scss";
 import useEdzes from "@/hooks/useEdzes";
 import { useRouter } from "next/navigation";
+import { get } from "http";
+import { useSession } from "next-auth/react";
+
 
 
 export default function ProgressChart(){
 
-    interface EdzesBlockProps {
-        edzes: {
-            edzes_neve: string;
-            edzes_id: number;
-            gyakorlatok: {
-                gyakorlat_id: number;
-                gyakorlat: {
-                    gyakorlat_neve: string;
-                };
-                total_sets: number;
-            }[];
-            datum: string;
-        };
-    }
+    const {data:session} = useSession();
+    const now = new Date();
+    const past = new Date(new Date().getTime() - 240 * 60 * 60 * 1000);
+    const getIntervall = useEdzes.getEdzesekIntervallum(session?.user.user_id!,now.toISOString(), past.toISOString()).data;
+
+    const progress:Edzes[] = []
+     getIntervall?.map((edzes:Edzes) => {
+        progress.push(edzes)
+    });
 
 
 
-    let asd:EdzesBlockProps[] = []
-    fetch('http://localhost:8000/edzes/intervallum?user_id=1&startDate=1111-11-11&endDate=2025-11-11').then(response => response.json()).then(data => console.log(data))
 
     return (
         <div>
-            
+      <ul>
+        {progress.map((edzes:Edzes) => (
+          <li key={edzes.edzes_id}>
+            {edzes.edzes_neve}
+          </li>
+        ))}
+      </ul>
+         
         </div>
     )
 }

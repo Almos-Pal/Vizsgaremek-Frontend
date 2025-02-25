@@ -220,10 +220,19 @@ const edzesAPI = {
     if (!response.ok) {
       throw new Error('Error fetching data');
     }
-
+    
     return response.json() as unknown as Edzes[];
   },
+  fetchTenDays: async (userId: number,gyakorlat:string) => {
+    const response = await fetch(`http://localhost:8000/edzes/ten?userId=${userId}&gyakorlat=${gyakorlat}`);
 
+    if (!response.ok) {
+      throw new Error('Error fetching data');
+    }
+    
+    return response.json() as unknown as Edzes[];
+  }
+  
 };
 
 export default edzesAPI;
