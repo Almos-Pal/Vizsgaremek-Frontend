@@ -27,7 +27,9 @@
             margin-right: auto;
             margin-bottom: 1rem;
 
-            width: 87vw;
+            width: 70vw;
+            min-width: 245px;
+           
             
             @include desktop {
                 display: none;
@@ -63,14 +65,15 @@
             @include mobile {
                 display: flex; 
                 flex-direction: column;
-                gap: 1rem;
+               
                 margin-left: auto;
                 margin-right: auto;
 
             }
 
             .btnmobileresponsive {
-                width: 87vw;
+                width: 70vw;
+                min-width: 245px;
 
             }
         }

@@ -41,7 +41,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
         };
 
 
-        
+
         const currentEdzesID = localStorage.getItem("currentEdzesID");
         currentEdzesID ? localStorage.removeItem("currentEdzesID") : null;
         const storedStartTime = localStorage.getItem("edzesStartTime");
@@ -70,7 +70,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
             });
         }
 
-       
+
         router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
     };
 
@@ -82,12 +82,12 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
         return `${hrs < 10 ? '0' : ''}${hrs}:${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
     };
 
-    
+
 
     const checkifEdzesIsCurrent = () => {
-        if ( localStorage.getItem("currentEdzesID") == data.edzes_id.toString() && data.isFinalized == false) {
+        if (localStorage.getItem("currentEdzesID") == data.edzes_id.toString() && data.isFinalized == false) {
             console.log("Edzés fut",);
-            return <StopWatch/>
+            return <StopWatch />
         }
 
         return formattedTime;
@@ -129,9 +129,11 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
     const [isDeleteEdzesConfirmModalOpen, setIsDeleteEdzesConfirmModalOpen] = useState(false);
 
+
+
     return <>
         <ContentLayout header={data.edzes_neve} subheader={checkifEdzesIsCurrent()}>
-0            <div className={styles.edzesView}>
+            0            <div className={styles.edzesView}>
 
 
                 <ConfirmationModal
@@ -149,15 +151,25 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
 
                     <div className={styles.doubleButtonDesktop} >
-                    <Button additionalClassName={styles.singleButtonDesktop} onClick={cloneEdzesWithoutSets} width={420} rightIcon="PlayRightIcon">Edzés Kezdése</Button>
+                        {data.isFinalized ? (
+                            <Button additionalClassName={styles.singleButtonDesktop} onClick={cloneEdzesWithoutSets} width={420} rightIcon="PlayRightIcon">Új Edzés Kezdése</Button>
+                        ) : (
+                            <Button additionalClassName={styles.singleButtonDesktop} href={`/edzes/${data.edzes_id}/szerkeszt`} width={420} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
+                        )}
+
                         <Button width={420} color="secondary" onClick={handleOpenDeleteConfirm} rightIcon="TrashCanIcon">Törlés</Button>
-                       
+
                     </div>
 
-                    <Button additionalClassName={styles.singleButtonMobile} onClick={cloneEdzesWithoutSets} rightIcon="PlayRightIcon">Edzés Kezdése</Button>
 
                     <div className={styles.doubleButtonMobile} >
-                       
+                        {data.isFinalized ? (
+                            <Button additionalClassName={styles.singleButtonMobile} onClick={cloneEdzesWithoutSets} rightIcon="PlayRightIcon">Új Edzés Kezdése</Button>
+                        ) : (
+                            <Button additionalClassName={styles.singleButtonMobile} href={`/edzes/${data.edzes_id}/szerkeszt`}  onClick={cloneEdzesWithoutSets} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
+                        )}
+
+
                         <Button additionalClassName={styles.btnmobileresponsive} onClick={handleOpenDeleteConfirm} color="secondary" rightIcon="TrashCanIcon">Törlés</Button>
                     </div>
                 </div>
