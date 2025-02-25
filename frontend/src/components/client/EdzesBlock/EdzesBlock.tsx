@@ -42,7 +42,7 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
                             </li>
                         ))
                     ) : (
-                        <li>No exercises available</li>
+                        <Text variant="body-16">Nincsenek gyakorlatok</Text>
                     )}
 
                     {exercisesLeft > 0 && (

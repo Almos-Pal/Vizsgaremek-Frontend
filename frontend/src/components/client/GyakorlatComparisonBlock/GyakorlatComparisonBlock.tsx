@@ -42,7 +42,7 @@ const GyakorlatComparisonBlock: React.FC<GyakorlatComparisonBlockProps> = ({ dat
           <table className={styles["table"]}>
             <thead>
               <tr>
-                <th><Text color='var(--color-grey-200)' variant='caption'>Set</Text></th>
+                <th><Text color='var(--color-grey-200)' variant='caption'>Szett</Text></th>
                 <th><Text color='var(--color-grey-200)' variant='caption'>KG</Text></th>
                 <th><Text color='var(--color-grey-200)' variant='caption'>Ism.</Text></th>
               </tr>
@@ -76,7 +76,7 @@ const GyakorlatComparisonBlock: React.FC<GyakorlatComparisonBlockProps> = ({ dat
           <table className={styles["table"]}>
             <thead>
               <tr>
-                <th><Text color='var(--color-grey-200)' variant='caption'>Set</Text></th>
+                <th><Text color='var(--color-grey-200)' variant='caption'>Szett</Text></th>
                 <th><Text color='var(--color-grey-200)' variant='caption'>KG</Text></th>
                 <th><Text color='var(--color-grey-200)' variant='caption'>Ism.</Text></th>
               </tr>

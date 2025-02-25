@@ -39,6 +39,15 @@ function EdzesekPage() {
 
 
 
+    const handleNewEdzes = () => {
+        setIsModalOpen(true)
+
+        const currentEdzesID = localStorage.getItem("currentEdzesID");
+        currentEdzesID ? localStorage.removeItem("currentEdzesID") : null;
+        const storedStartTime = localStorage.getItem("edzesStartTime");
+        storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
+    }
+
     return (
         <ContentLayout header="Edzések">
             {workouts?.map((edzes: any) => (
@@ -46,7 +55,7 @@ function EdzesekPage() {
             ))}
            
             <div className='flex justify-center mt-4 pb-4'>
-                <Button width={225} color='secondary' rightIcon='AddIcon' onClick={() => setIsModalOpen(true)} >Edzés</Button>
+                <Button width={225} color='secondary' rightIcon='AddIcon' onClick={(handleNewEdzes)} >Edzés</Button>
             </div>
 
             <Modal

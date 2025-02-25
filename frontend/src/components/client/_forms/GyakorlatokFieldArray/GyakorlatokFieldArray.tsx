@@ -346,7 +346,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
                         </td>
                         <td>
                           {currSet && (
-                            <div className={styles["set-input"]}>
+                            <div className={styles["set-minus"]}>
                               <IconButton
                                 icon="MinusIcon"
                                 color="secondary"
@@ -369,7 +369,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
               rightIcon="AddIcon"
               additionalClassName={styles["addset-desktop"]}
             >
-              Set
+              Szett
             </Button>
           </div>
         )}

@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks";
 import ConfirmationModal from "../_modal/ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
+import { StopWatch } from "..";
 
 
 interface EdzesViewProps {
@@ -40,6 +41,14 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
         };
 
 
+        
+        const currentEdzesID = localStorage.getItem("currentEdzesID");
+        currentEdzesID ? localStorage.removeItem("currentEdzesID") : null;
+        const storedStartTime = localStorage.getItem("edzesStartTime");
+        storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
+
+
+
         const newEdzes = await createEdzesAsync(newEdzesPayload, {
             onSuccess: (newEdzes: any) => {
                 console.log("Edzés sikeresen elkezdve");
@@ -66,12 +75,23 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
     };
 
 
-    const formatTime = (minutes: number) => {
-        const hrs = Math.floor(minutes / 60);
-        const mins = Math.floor(minutes % 60);
-        const secs = Math.floor((minutes * 60) % 60);
-        return `00:${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    const formatTime = (seconds: number) => {
+        const hrs = Math.floor(seconds / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${hrs < 10 ? '0' : ''}${hrs}:${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
     };
+
+    
+
+    const checkifEdzesIsCurrent = () => {
+        if ( localStorage.getItem("currentEdzesID") == data.edzes_id.toString() && data.isFinalized == false) {
+            console.log("Edzés fut",);
+            return <StopWatch/>
+        }
+
+        return formattedTime;
+    }
 
     const formattedTime = formatTime(data.ido);
 
@@ -110,8 +130,8 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
     const [isDeleteEdzesConfirmModalOpen, setIsDeleteEdzesConfirmModalOpen] = useState(false);
 
     return <>
-        <ContentLayout header={data.edzes_neve} subheader={formattedTime}>
-            <div className={styles.edzesView}>
+        <ContentLayout header={data.edzes_neve} subheader={checkifEdzesIsCurrent()}>
+0            <div className={styles.edzesView}>
 
 
                 <ConfirmationModal
@@ -126,19 +146,19 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
 
 
-                    <Button additionalClassName={styles.singleButtonDesktop} onClick={cloneEdzesWithoutSets} width={420} rightIcon="PlayRightIcon">Edzés Kezdése</Button>
 
 
                     <div className={styles.doubleButtonDesktop} >
-                        <Button width={200} color="secondary" rightIcon="EditIcon">Módosítás</Button>
-                        <Button width={200} color="secondary" onClick={handleOpenDeleteConfirm} rightIcon="EditIcon">Törlés</Button>
+                    <Button additionalClassName={styles.singleButtonDesktop} onClick={cloneEdzesWithoutSets} width={420} rightIcon="PlayRightIcon">Edzés Kezdése</Button>
+                        <Button width={420} color="secondary" onClick={handleOpenDeleteConfirm} rightIcon="TrashCanIcon">Törlés</Button>
+                       
                     </div>
 
                     <Button additionalClassName={styles.singleButtonMobile} onClick={cloneEdzesWithoutSets} rightIcon="PlayRightIcon">Edzés Kezdése</Button>
 
                     <div className={styles.doubleButtonMobile} >
-                        <Button additionalClassName={styles.btnmobileresponsive} color="secondary" rightIcon="EditIcon">Módosítás</Button>
-                        <Button additionalClassName={styles.btnmobileresponsive} onClick={handleOpenDeleteConfirm} color="secondary" rightIcon="EditIcon">Törlés</Button>
+                       
+                        <Button additionalClassName={styles.btnmobileresponsive} onClick={handleOpenDeleteConfirm} color="secondary" rightIcon="TrashCanIcon">Törlés</Button>
                     </div>
                 </div>
 

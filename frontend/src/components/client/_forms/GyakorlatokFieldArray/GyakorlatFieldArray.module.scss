@@ -81,7 +81,13 @@
         border-spacing: 1rem 0.1rem; 
         padding-left: 0;
       
+      
        
+       @include tablet {
+        border-spacing: 0.25rem 0rem;
+        
+        margin: auto;
+       }
 
         .prev-reps {
           padding-left: 0.5rem;
@@ -91,6 +97,12 @@
 
         .set-input {
           padding-top: 0.5rem;  
+        }
+        .set-minus {
+          padding-top: 0.5rem;  
+          @include tablet {
+            padding-left: 0.25rem;
+          }
         }
       }
 

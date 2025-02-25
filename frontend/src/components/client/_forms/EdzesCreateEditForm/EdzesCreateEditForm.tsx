@@ -47,8 +47,8 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
     const submissionValues = {
       ...values,
       datum: new Date(),
-      user_id: session?.user.user_id, 
-      ido: elapsedTime / 60000, 
+      user_id: session?.user.user_id,
+      ido: Math.floor(elapsedTime / 1000),
     };
 
     console.log("Edzés submitted with elapsed time:", elapsedTime);
@@ -65,7 +65,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
           console.error("Error updating edzés", error);
           toast.error("Hiba az edzés frissítésekor");
         },
-   
+
 
       }
     );
@@ -86,9 +86,9 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
       initialValues={initialValues}
       onSubmit={handleSubmit}
       enableReinitialize
-   
+
     >
-      {({ values, submitForm ,validateForm }) => (
+      {({ values, submitForm, validateForm }) => (
         <Form>
           <div className={styles["container"]}>
             <FormField
@@ -179,19 +179,25 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
             )}
           </FieldArray>
           <div className={styles["submit-button-div"]}>
-          <Button
-          type="button"
-          onClick={async () => {
-            const errors = await validateForm();
-            if (Object.keys(errors).length > 0) {
-              toast.error("Hiba: Ellenőrizd az űrlap mezőit");
-              return;
-            }
-            setIsConfirmFinalModalOpen(true);
-          }}
-          color="primary"
-          width={250}
-        >
+            <Button
+              type="button"
+              onClick={async () => {
+                const errors = await validateForm();
+                if (Object.keys(errors).length > 0) {
+                  toast.error("Hiba: Ellenőrizd az űrlap mezőit");
+                  return;
+                }
+
+
+                const currentEdzesID = localStorage.getItem("currentEdzesID");
+                currentEdzesID ? localStorage.removeItem("currentEdzesID") : null;
+
+                
+                setIsConfirmFinalModalOpen(true);
+              }}
+              color="primary"
+              width={250}
+            >
               Edzés Véglegesítése
             </Button>
             {isConfirmFinalModalOpen && (

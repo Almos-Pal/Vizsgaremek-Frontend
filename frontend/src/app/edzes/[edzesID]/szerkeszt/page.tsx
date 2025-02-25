@@ -32,6 +32,10 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
     }
   }, [data, router, edzesID]);
 
+  useEffect(() => {
+
+    localStorage.setItem("currentEdzesID", data?.edzes_id.toString()!);
+  },[data])
 
   if (isLoading) {
     return (
@@ -44,7 +48,7 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
   if (error || !data) {
     return (
       <div>
-        <Text>Error fetching edzés data. Please try again later.</Text>
+        <Text>Hiba akadt az edzések legkérdezésénél</Text>
       </div>
     );
   }
