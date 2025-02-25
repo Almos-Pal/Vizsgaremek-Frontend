@@ -8,32 +8,60 @@ import useEdzes from "@/hooks/useEdzes";
 import { useRouter } from "next/navigation";
 import { get } from "http";
 import { useSession } from "next-auth/react";
+import { isObject } from "formik";
+import { gyakorlatApi } from "@/lib/api";
+import dateParse from "@/utils/dateParse";
 
 
 
 export default function ProgressChart(){
+  interface chartDataProps{
+    id: number;
+    date: Date;
+    weight: number;
+  }
+  const {data:session} = useSession();
+  console.log(session?.user.user_id)
 
-    const {data:session} = useSession();
-    const now = new Date();
-    const past = new Date(new Date().getTime() - 240 * 60 * 60 * 1000);
-    const getIntervall = useEdzes.getEdzesekIntervallum(session?.user.user_id!,now.toISOString(), past.toISOString()).data;
+  const { data = [] } = useEdzes.getTenDayEdzesek(session?.user.user_id!, "Ab Roller"); 
 
-    const progress:Edzes[] = []
-     getIntervall?.map((edzes:Edzes) => {
-        progress.push(edzes)
-    });
+const getTenDay = data ?? [];
+
+let items:chartDataProps[] = []
 
 
+getTenDay.map((edzes) => {
+  let help:number = 0
+edzes.gyakorlatok.map((gyakorlat) => {
+//  console.log(gyakorlat.gyakorlat.gyakorlat_neve)
+  if(gyakorlat.gyakorlat.gyakorlat_neve === "Ab Roller"){
+    gyakorlat.szettek.map((set) => {
+      if(set.weight>help){
+        help = set.weight
+      }
+      
+    })
+
+    items.push({id:edzes.edzes_id, date: edzes.datum, weight : help})
+   }
+
+  })
+})
+
+items.map((item) => {
+  console.log( )
+})
 
 
     return (
         <div>
       <ul>
-        {progress.map((edzes:Edzes) => (
-          <li key={edzes.edzes_id}>
-            {edzes.edzes_neve}
-          </li>
-        ))}
+    {items.map((item) => (
+      <li key={item.id}>{item.weight} {new Date(item.date).toISOString().split('T')[0]}</li>
+        )
+      )
+    }
+
       </ul>
          
         </div>
