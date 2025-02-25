@@ -15,10 +15,10 @@ const Navbar: React.FC = () => {
     };
     const [menuOpen, setMenuOpen] = useState(false);
     const { data: session } = useSession();
-    console.log('navbar session: ', session?.user.user_id)
+    console.log('navbar session: ', session?.backendTokens);
 
     const handleLogout = () => {
-        signOut({ callbackUrl: "/bejelentkezes" }); // or "/" or any other route
+        signOut({ callbackUrl: "/bejelentkezes" }); 
     };
 
     return (

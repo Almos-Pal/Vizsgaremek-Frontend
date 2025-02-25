@@ -2,9 +2,16 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { useSession } from "next-auth/react";
 
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
+    const {data: session} = useSession();
+
+
+    // if (session?.user.isAdmin == false) {
+    //     pathname.includes("/admin") ? NextResponse.redirect("/dashboard") : NextResponse.next();
+    // }
 
     if (
         pathname.startsWith("/_next") ||
