@@ -1,7 +1,14 @@
-import React from 'react'
+"use client"
 
-export const page = () => {
-  return (
-    <div>Adminos</div>
-  )
-}
+import React from 'react';
+import { Navbar, WelcomeLogin } from '@/components/client';
+
+const Admin: React.FC = () => {
+    return (
+        <>
+          <h1>Admin Page. ONLY ADMINS ALLOWED</h1>
+        </>
+    );
+};
+
+export default Admin;

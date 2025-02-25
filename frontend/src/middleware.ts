@@ -6,12 +6,7 @@ import { useSession } from "next-auth/react";
 
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
-    const {data: session} = useSession();
 
-
-    // if (session?.user.isAdmin == false) {
-    //     pathname.includes("/admin") ? NextResponse.redirect("/dashboard") : NextResponse.next();
-    // }
 
     if (
         pathname.startsWith("/_next") ||
@@ -23,12 +18,19 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
+    
+
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     if (!token) {
         const loginUrl = req.nextUrl.clone();
         loginUrl.pathname = "/bejelentkezes";
         loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
         return NextResponse.redirect(loginUrl);
+    }
+
+
+    if (pathname.startsWith("/admin") && !token.user.isAdmin) {
+         return NextResponse.redirect(new URL("/dashboard", req.url));
     }
 
     return NextResponse.next();
