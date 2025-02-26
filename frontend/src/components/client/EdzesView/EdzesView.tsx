@@ -152,7 +152,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
     return <>
         <ContentLayout header={data.edzes_neve} subheader={checkifEdzesIsCurrent()}>
-            0            <div className={styles.edzesView}>
+                      <div className={styles.edzesView}>
 
 
                 <ConfirmationModal
