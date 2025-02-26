@@ -94,6 +94,16 @@
         @include mobile {
             margin-left: 20px !important;
             margin-right: 20px !important;
+            height: 300px;
+        }
+
+        .svg {
+            margin: auto;
+            padding-top: 2.5rem;
+
+            @include mobile {
+                padding-top: 2rem;
+            }
         }
     }
 

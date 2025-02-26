@@ -13,6 +13,7 @@ import { useToast } from "@/hooks";
 import ConfirmationModal from "../_modal/ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
 import { StopWatch } from "..";
+import { BodySVG } from "@/components/server";
 
 
 interface EdzesViewProps {
@@ -95,6 +96,24 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
     const formattedTime = formatTime(data.ido);
 
+    const edzesIzomcsoportok = (edzes: Edzes) => {
+        const foIzomcsoportok = new Set<number>();
+        const izomcsoportok = new Set<number>();
+    
+        edzes.gyakorlatok.forEach(gyakorlat => {
+            if (gyakorlat.gyakorlat.fo_izomcsoport) {
+                foIzomcsoportok.add(gyakorlat.gyakorlat.fo_izomcsoport);
+            }
+            if (gyakorlat.gyakorlat.izomcsoportok) {
+                gyakorlat.gyakorlat.izomcsoportok.forEach((izomcsoport) => izomcsoportok.add(izomcsoport.izomcsoport_id));
+            }
+        });
+    
+        return {
+            foIzomcsoportok: Array.from(foIzomcsoportok),
+            izomcsoportok: Array.from(izomcsoportok)
+        };
+    };
 
     const { mutateAsync: deleteEdzesAsync } = useEdzes.deleteEdzes();
 
@@ -146,10 +165,6 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                 />
                 <div className={styles.buttons}>
 
-
-
-
-
                     <div className={styles.doubleButtonDesktop} >
                         {data.isFinalized ? (
                             <Button additionalClassName={styles.singleButtonDesktop} onClick={cloneEdzesWithoutSets} width={420} rightIcon="PlayRightIcon">Új Edzés Kezdése</Button>
@@ -166,7 +181,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                         {data.isFinalized ? (
                             <Button additionalClassName={styles.singleButtonMobile} onClick={cloneEdzesWithoutSets} rightIcon="PlayRightIcon">Új Edzés Kezdése</Button>
                         ) : (
-                            <Button additionalClassName={styles.singleButtonMobile} href={`/edzes/${data.edzes_id}/szerkeszt`}  onClick={cloneEdzesWithoutSets} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
+                            <Button additionalClassName={styles.singleButtonMobile} href={`/edzes/${data.edzes_id}/szerkeszt`} onClick={cloneEdzesWithoutSets} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
                         )}
 
 
@@ -175,6 +190,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                 </div>
 
                 <div className={styles.humanContainment}>
+                <BodySVG size={'85%'} className={styles["svg"]}  selectedMuscleIds={edzesIzomcsoportok(data).foIzomcsoportok} secondaryMuscleIds={edzesIzomcsoportok(data).izomcsoportok}></BodySVG>
 
                 </div>
 

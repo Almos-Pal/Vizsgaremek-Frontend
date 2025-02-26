@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import styles from './EdzesBlock.module.scss';
-import { Text } from '@/components/server';
+import {BodySVG, Text } from '@/components/server';
 import Button from '../Button/Button';
 
 interface EdzesBlockProps {
@@ -13,6 +13,12 @@ interface EdzesBlockProps {
             gyakorlat_id: number;
             gyakorlat: {
                 gyakorlat_neve: string;
+                fo_izomcsoport: number;
+                izomcsoportok: {
+                    
+                    izomcsoport_id: number;
+                    
+                }[];
             };
             total_sets: number;
         }[];
@@ -20,6 +26,24 @@ interface EdzesBlockProps {
     };
 }
 
+const edzesIzomcsoportok = (edzes: EdzesBlockProps['edzes']) => {
+    const foIzomcsoportok = new Set<number>();
+    const izomcsoportok = new Set<number>();
+
+    edzes.gyakorlatok.forEach(gyakorlat => {
+        if (gyakorlat.gyakorlat.fo_izomcsoport) {
+            foIzomcsoportok.add(gyakorlat.gyakorlat.fo_izomcsoport);
+        }
+        if (gyakorlat.gyakorlat.izomcsoportok) {
+            gyakorlat.gyakorlat.izomcsoportok.forEach((izomcsoport) => izomcsoportok.add(izomcsoport.izomcsoport_id));
+        }
+    });
+
+    return {
+        foIzomcsoportok: Array.from(foIzomcsoportok),
+        izomcsoportok: Array.from(izomcsoportok)
+    };
+};
 
 const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
     const [visibleCount, setVisibleCount] = useState(3);
@@ -53,7 +77,9 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
 
                     )}
                 </ul>
-                <div className={styles["body-image"]}></div>
+                <div className={styles["body-image"]}>
+                    <BodySVG size={200} className={styles["svg"]}  selectedMuscleIds={edzesIzomcsoportok(edzes).foIzomcsoportok} secondaryMuscleIds={edzesIzomcsoportok(edzes).izomcsoportok}></BodySVG>
+                </div>
             </div>
 
             <div className={styles["footer-button"]}>
