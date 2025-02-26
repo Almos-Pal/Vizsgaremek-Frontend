@@ -191,7 +191,7 @@ const useEdzes = {
         queryFn: () => edzesAPI.fetchEdzesIntervallum(id,startDate,endDate),
       });
   },
-  getTenDayEdzesek: (userId:number,gyakorlat:string) => {
+  getTenDayEdzesek: (userId:number,gyakorlat:number) => {
     return useQuery({
         queryKey: ['edzes/ten', userId,gyakorlat],
         queryFn: () => edzesAPI.fetchTenDays(userId,gyakorlat),

@@ -223,7 +223,7 @@ const edzesAPI = {
     
     return response.json() as unknown as Edzes[];
   },
-  fetchTenDays: async (userId: number,gyakorlat:string) => {
+  fetchTenDays: async (userId: number,gyakorlat:number) => {
     const response = await fetch(`http://localhost:8000/edzes/ten?userId=${userId}&gyakorlat=${gyakorlat}`);
 
     if (!response.ok) {
