@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import BodySVG from "@/components/server/BodySVG/BodySVG";
 import {  useState } from "react";
 import { useToast } from "@/hooks";
+import Weight from "@/components/client/WeightSum/Weight";
 
 const TestPage: React.FC = () => {
   const validationSchema = Yup.object().shape({
@@ -25,9 +26,10 @@ const TestPage: React.FC = () => {
     toast.info("asd");
   }
 
-
+  
   return (
     <div className="flex flex-wrap">
+      <Weight weight={100} />
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>
       <Text variant="h3">Test Page</Text>
