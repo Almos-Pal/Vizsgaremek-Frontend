@@ -8,6 +8,7 @@ import { GyakorlatItem } from "@/components/client/GyakorlatItem/GyakorlatItem";
 import styles from "./page.module.scss";
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
 import { SubHeader } from "@/components/client/_common";
+import { Loading } from "@/components/client/Loading/Loading";
 
 const GyakorlatPage: React.FC = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const GyakorlatPage: React.FC = () => {
     setPage(1); 
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
 
   console.log(gyakorlatok);

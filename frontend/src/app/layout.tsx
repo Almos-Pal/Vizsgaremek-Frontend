@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Suspense } from "react";
 import "./globals.css";
+import { Loading } from "@/components/client/Loading/Loading";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,7 +31,7 @@ export default function RootLayout({
         <ReactSessionProvider>
 
         <ReactQueryProvider>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>loading...</div>}>
             
             {children}
         <ToastContainer />
