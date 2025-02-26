@@ -99,11 +99,8 @@
 
         .svg {
             margin: auto;
-            padding-top: 2.5rem;
+            margin-top: 1.5rem;
 
-            @include mobile {
-                padding-top: 2rem;
-            }
         }
     }
 
