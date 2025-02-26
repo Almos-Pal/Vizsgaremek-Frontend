@@ -5,143 +5,159 @@
     @content;
   }
 }
-  .edzes-block {
+
+.edzes-block {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-grey-500);
+  border-radius: 1rem;
+  align-items: stretch;
+  padding-bottom: 1.5rem;
+
+  @include desktop {
+    margin-bottom: 42px;
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--color-light);
+  }
+
+  @include mobile {
+    margin-bottom: 35px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .edzes-header {
+    height: 50px;
     display: flex;
-    flex-direction: column;
-    background-color: var(--color-grey-500);
-    border-radius: 1rem;
-    align-items: stretch;
-    padding-bottom: 1.5rem;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: var(--color-grey-400);
+    border-radius: 1rem 1rem 0 0;
+
+
+  }
+
+  .gyak-neve {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    margin-left: 1.5rem;
+
+    &:hover {
+      color: var(--color-grey-200);
+
+    }
+  }
+
+
+  .set-table {
+    padding: 1rem;
+
+
+    &>* {
+      padding: 0.5rem;
+    }
+  }
+
+
+
+
+  .exerciseName {
+    margin-left: 2rem;
+    font-weight: bold;
+  }
+
+  .set-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     @include desktop {
-      margin-bottom: 42px;
-      width: 750px;
-      margin-left: auto;
-      margin-right: auto;
-      color: var(--color-light);
+      margin-left: 7rem;
     }
 
     @include mobile {
-      margin-bottom: 35px;
-      margin-left: 20px;
-      margin-right: 20px;
+      margin-left: 3rem
     }
 
-    .edzes-header {
-      height: 50px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem;
-      background-color: var(--color-grey-400);
-      border-radius: 1rem 1rem 0 0;
-      
+    @include tablet {
+
+      margin-left: 0rem;
+      padding-left: 0;
     }
 
 
     .set-table {
-      padding: 1rem;
+      border-collapse: separate;
+      border-spacing: 1rem 0.1rem;
+      padding-left: 0;
 
 
-      &>* {
-        padding: 0.5rem;
-      }
-    }
-
-
-
-
-    .exerciseName {
-      margin-left: 2rem;
-      font-weight: bold;
-    }
-
-    .set-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      
-      @include desktop {
-        margin-left: 7rem;
-      }
-
-      @include mobile {
-        margin-left: 3rem
-      }
 
       @include tablet {
-
-        margin-left: 0rem;
-        padding-left: 0;
-      }
-
-
-      .set-table {
-        border-collapse: separate; 
-        border-spacing: 1rem 0.1rem; 
-        padding-left: 0;
-      
-      
-       
-       @include tablet {
         border-spacing: 0.25rem 0rem;
-        
+
         margin: auto;
-       }
-
-        .prev-reps {
-          padding-left: 0.5rem;
-          text-align: center;
-          padding-top: 0.5rem;
-        }
-
-        .set-input {
-          padding-top: 0.5rem;  
-        }
-        .set-minus {
-          padding-top: 0.5rem;  
-          @include tablet {
-            padding-left: 0.25rem;
-          }
-        }
       }
 
-      .addset-desktop {
-        margin-right: 2rem;
-        vertical-align: auto;
-        margin-top: 1rem;
-      
+      .prev-reps {
+        padding-left: 0.5rem;
+        text-align: center;
+        padding-top: 0.5rem;
+      }
+
+      .set-input {
+        padding-top: 0.5rem;
+      }
+
+      .set-minus {
+        padding-top: 0.5rem;
+
         @include tablet {
-          display: none;
+          padding-left: 0.25rem;
         }
       }
-
     }
-    
-    .exercise-actions {
-      align-items: center;
 
-      
-      .addset-mobile {
+    .addset-desktop {
+      margin-right: 2rem;
+      vertical-align: auto;
+      margin-top: 1rem;
+
+      @include tablet {
         display: none;
-        
-        @include tablet {
-          display: block;
-          
-          width: 70%;
-          margin: auto;
-          margin-top: 1rem;
-        }
       }
+    }
 
-      
-      
+  }
+
+  .exercise-actions {
+    align-items: center;
+
+
+    .addset-mobile {
+      display: none;
+
+      @include tablet {
+        display: block;
+
+        width: 70%;
+        margin: auto;
+        margin-top: 1rem;
+      }
     }
 
 
+
   }
 
-  .empty {
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-  }
+
+}
+
+.empty {
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}

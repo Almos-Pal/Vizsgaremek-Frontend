@@ -16,10 +16,10 @@ const GyakorlatComparisonBlock: React.FC<GyakorlatComparisonBlockProps> = ({ dat
 
   const calculateWeightedImprovement = (currentSet: any, previousSet: any) => {
     if (!previousSet) return "var(--color-light)";
-    
-    const weightDifference = (currentSet.weight - previousSet.weight) * 1.5; 
-    const repsDifference = (currentSet.reps - previousSet.reps) *1.2;
-  
+
+    const weightDifference = (currentSet.weight - previousSet.weight) * 1.5;
+    const repsDifference = (currentSet.reps - previousSet.reps) * 1.2;
+
     const totalScore = weightDifference + repsDifference;
     console.log(totalScore);
     if (totalScore > 0) return "var(--color-success)"; // Improvement
@@ -31,9 +31,13 @@ const GyakorlatComparisonBlock: React.FC<GyakorlatComparisonBlockProps> = ({ dat
   console.log(data);
   return (
     <div className={styles["edzes-block"]}>
-      <div className={styles["edzes-header"]}>
-        <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{data.gyakorlat.gyakorlat_neve}: </Text>
-      </div>
+      <a href={`/gyakorlat/${data.gyakorlat.gyakorlat_id}`}>
+        <div className={styles["edzes-header"]}>
+          <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{data.gyakorlat.gyakorlat_neve}: </Text>
+        </div>
+      </a>
+
+
       <div className={styles["content-wrapper"]}>
 
         <div className={styles["list"]}>

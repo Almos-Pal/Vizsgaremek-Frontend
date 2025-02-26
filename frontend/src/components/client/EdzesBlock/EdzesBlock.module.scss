@@ -81,6 +81,11 @@
   }
   .show-more-button {
     color: var(--color-grey-300);
+
+
+    &:hover {
+      color: var(--color-grey-100);
+    }
   }
 
 

@@ -204,9 +204,10 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
     <div className={styles["edzes-block"]}>
       
       <div className={styles["edzes-header"]}>
-      <Text style={{ marginLeft: '2rem' }} variant="subtitle-16">
-        {gyakorlat.gyakorlat_neve}:
-      </Text>
+      <a className={styles["gyak-neve"]}  href={`/gyakorlat/${gyakorlat.gyakorlat_id}`}>
+          {gyakorlat.gyakorlat_neve}:
+      </a>
+
       <IconButton
         color="secondary"
         icon="CancelIcon"
