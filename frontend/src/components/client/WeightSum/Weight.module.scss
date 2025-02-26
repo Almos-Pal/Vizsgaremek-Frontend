@@ -1,3 +1,5 @@
+@use "styles/breakpoints.scss" as *;
+
 .container {
     width: 500px;
     height: 200px;
@@ -7,11 +9,24 @@
     border-radius: 1rem;
     vertical-align: middle;
 
+    @include mobile {
+        width: 366px;
+        height: 150px;
+    }
+
     .title {
         margin-top: 1.5rem;
+
+        @include mobile {
+            margin-top: 1rem;
+        }
     }
 
     .value {
         margin-top: 2rem;
+
+        @include mobile {
+            margin-top: 1.5rem;
+        }
     }
 }
