@@ -19,6 +19,7 @@ const useUser = {
             queryFn: () => userApi.getBmi(id),
             refetchOnWindowFocus: false, 
             staleTime: 5 * 60 * 1000, 
+            retry: 1
         });
     },
     updateUser: () => {
