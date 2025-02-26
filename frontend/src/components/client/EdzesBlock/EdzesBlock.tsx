@@ -62,7 +62,7 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
                         edzes.gyakorlatok.slice(0, visibleCount).map((gyakorlat) => (
                             <li key={gyakorlat.gyakorlat_id} className={styles["gyakorlat-item"]}>
                                 <Text variant="body-16">{gyakorlat.gyakorlat.gyakorlat_neve}</Text>
-                                <Text variant="caption">{gyakorlat.total_sets} sets</Text>
+                                <Text variant="caption">{gyakorlat.total_sets} szett</Text>
                             </li>
                         ))
                     ) : (
