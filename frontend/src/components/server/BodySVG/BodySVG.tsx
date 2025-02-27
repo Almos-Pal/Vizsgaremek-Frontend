@@ -3,7 +3,7 @@ import React from "react";
 type ViewType = 'front' | 'back' | 'both';
 
 interface BodySVGProps extends React.SVGProps<SVGSVGElement> {
-  size?: number;
+  size?: any;
   selectedMuscleIds?: number[];
   secondaryMuscleIds?: number[];
   highlightColor?: string;

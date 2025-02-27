@@ -10,23 +10,32 @@
   border-radius: 12px;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 
+
+
+
+
  
   .content {
     display: flex;
     align-items: center;
-    width: 100%; 
+    width: 100%;
   }
-  
-  
+
+
   .leftBlock,
   .rightBlock {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px; 
+    width: 50px;
+
+    &:empty {
+      display: none;
+      /* Hide blocks if empty */
+    }
   }
-  
-  
+
+
   .centerBlock {
     flex: 1;
     display: flex;
@@ -46,6 +55,7 @@
       p {
         color: var(--color-light) !important;
       }
+
       path {
         fill: var(--color-light) !important;
       }
@@ -60,9 +70,11 @@
       background-color: var(--color-light);
 
       border: 2px solid var(--color-primary-50);
+
       p {
         color: var(--color-dark) !important;
       }
+
       path {
         fill: var(--color-dark) !important;
       }
@@ -102,6 +114,7 @@
       p {
         color: var(--color-hover) !important;
       }
+
       path {
         fill: var(--color-primary-50) !important;
 

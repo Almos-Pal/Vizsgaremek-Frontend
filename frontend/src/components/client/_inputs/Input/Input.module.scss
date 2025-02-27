@@ -73,3 +73,68 @@
     }
   }
 }
+
+.inputSetError {
+  border: 1px solid var(--color-error) !important;
+  color: var(--color-error) !important;
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-error) !important;
+  }
+}
+
+.inputSet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4a4a4a !important; // Dark background
+  color: white;
+  font-size: 14px; // Ensure proper text size
+  padding: 0;
+  text-align: center;
+  width: 50px !important;
+  height: 30px !important;
+  outline: none;
+  border: none;
+
+
+  input,
+  textarea {
+    background: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: inherit;
+    width: 100% !important;
+    height: 100% !important;
+    appearance: none; // Prevents default browser styles
+    -webkit-appearance: none; // For Safari
+    -moz-appearance: none; // For Firefox
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-grey-300)
+  }
+
+  &:focus-within {
+    outline: 2px solid white;
+    transition: outline 0.2s ease-in-out;
+  }
+}
+
+.inputSet input[type="number"] {
+  -moz-appearance: textfield; // Removes spinner for Firefox
+  appearance: textfield; // Standard
+  -webkit-appearance: textfield; // Removes spinner for Safari/Chrome
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+
