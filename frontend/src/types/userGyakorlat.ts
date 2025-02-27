@@ -1,9 +1,30 @@
-import { Gyakorlat } from "./gyakorlat";
+import { PaginationMeta } from "./meta";
 
-
-export interface UserGyakorlat {
-    user_id: number,
-    gyakorlatok:Gyakorlat[]
+interface History {
+  id: number;
+  user_id: number;
+  gyakorlat_id: number;
+  weight: number;
+  reps: number;
+  date: Date;
 }
 
+interface Gyakorlat {
+  gyakorlat_id: number;
+  gyakorlat_neve: string;
+  eszkoz: string;
+  gyakorlat_leiras: string;
+  fo_izomcsoport: number;
+  user_id: number;
+}
 
+export interface UserGyakorlatGyakorlat {
+  user_id: number;
+  gyakorlat_id: number;
+  personal_best: number;
+  last_weight: number;
+  last_reps: number;
+  total_sets: number;
+  gyakorlat: Gyakorlat;
+  history: History[];
+}

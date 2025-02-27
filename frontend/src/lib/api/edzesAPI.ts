@@ -1,4 +1,4 @@
-import { Edzes } from '@/types/edzes'
+import { Edzes, EdzesTenDays } from '@/types/edzes'
 import { PaginatedResponse } from '@/types';
 
 interface FetchEdzesekParams {
@@ -230,7 +230,7 @@ const edzesAPI = {
       throw new Error('Error fetching data');
     }
     
-    return response.json() as unknown as Edzes[];
+    return response.json() as unknown as EdzesTenDays[];
   }
   
 };
