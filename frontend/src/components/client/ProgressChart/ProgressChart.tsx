@@ -10,6 +10,8 @@ import { useUserGyakorlat } from "@/hooks";
 import { UserGyakorlatGyakorlat } from "@/types";
 import { Formik, Form } from "formik";
 import { FormikSelect } from "../_inputs";
+import { useRouter, useSearchParams } from "next/navigation";
+import { number } from "yup";
 
 export default function ProgressChart() {
   interface gyakorlatProps {
@@ -24,6 +26,8 @@ export default function ProgressChart() {
 
   const { data: session } = useSession();
   const userId = session?.user.user_id;
+  const queryParams = new URLSearchParams();
+  const router = useRouter();
 
   const { data: userGyakorlatData, isLoading: isloadingGyak } = useUserGyakorlat.getUserGyakorlatok({
     userId: userId!,
@@ -53,7 +57,7 @@ export default function ProgressChart() {
         response.data && response.data.map((edzes) => {
           let help: number = 0;
           edzes.gyakorlatok.map((gyakorlat) => {
-            if (gyakorlat.gyakorlat.gyakorlat_id===selectedGyakorlat) {
+            if (gyakorlat.gyakorlat.gyakorlat_id === selectedGyakorlat) {
               gyakorlat.szettek.map((set) => {
                 if (set.weight > help) {
                   help = set.weight;
@@ -89,6 +93,9 @@ export default function ProgressChart() {
         {({ setFieldValue, values }) => {
           useEffect(() => {
             if (values.gyakorlat) {
+              if (values.gyakorlat?.trim()) queryParams.set("gyakorlat_id", values.gyakorlat.trim());
+              const queryString = queryParams.toString();
+              router.push(queryString ? `?${queryString}` : window.location.pathname);
               setSelectedGyakorlat(parseInt(values.gyakorlat));
             }
           }, [values.gyakorlat]);
