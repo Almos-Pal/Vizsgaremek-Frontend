@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styles from './EdzesBlock.module.scss';
 import { BodySVG, Text } from '@/components/server';
 import Button from '../Button/Button';
+import Link from 'next/link';
 
 interface EdzesBlockProps {
     edzes: {
@@ -70,11 +71,11 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
                     )}
 
                     {exercisesLeft > 0 && (
-                        <a
+                        <Link
                             href={`/edzes/${edzes.edzes_id}`} className={styles["show-more-button"]}>
                             további {exercisesLeft}...
                             
-                        </a>
+                        </Link>
 
 
                     )}

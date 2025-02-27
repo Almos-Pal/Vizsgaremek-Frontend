@@ -11,6 +11,7 @@ import ConfirmationModal from "../../_modal/ConfirmationModal/ConfirmationModal"
 import * as Yup from 'yup';
 import { useSession } from 'next-auth/react';
 import { useToast } from '@/hooks';
+import Link from 'next/link';
 
 
 interface Gyakorlat {
@@ -204,9 +205,12 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
     <div className={styles["edzes-block"]}>
       
       <div className={styles["edzes-header"]}>
-      <a className={styles["gyak-neve"]}  href={`/gyakorlat/${gyakorlat.gyakorlat_id}`}>
+      <Link className={styles["gyak-neve"]}  href={`/gyakorlat/${gyakorlat.gyakorlat_id}`}>
+      <Text variant='subtitle-16'  >
+
           {gyakorlat.gyakorlat_neve}:
-      </a>
+      </Text>
+      </Link>
 
       <IconButton
         color="secondary"

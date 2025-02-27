@@ -2,6 +2,7 @@ import { Gyakorlat } from '@/types';
 import React, { useState } from 'react';
 import { Text } from '@/components/server';
 import styles from './GyakorlatComparisonBlock.module.scss';
+import Link from 'next/link';
 
 interface GyakorlatComparisonBlockProps {
   data: Gyakorlat;
@@ -31,11 +32,11 @@ const GyakorlatComparisonBlock: React.FC<GyakorlatComparisonBlockProps> = ({ dat
   console.log(data);
   return (
     <div className={styles["edzes-block"]}>
-      <a href={`/gyakorlat/${data.gyakorlat.gyakorlat_id}`}>
         <div className={styles["edzes-header"]}>
+      <Link href={`/gyakorlat/${data.gyakorlat.gyakorlat_id}`}>
           <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{data.gyakorlat.gyakorlat_neve}: </Text>
+      </Link>
         </div>
-      </a>
 
 
       <div className={styles["content-wrapper"]}>

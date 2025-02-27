@@ -5,6 +5,7 @@ import styles from './TodaysWorkout.module.scss';
 import clsx from "clsx";
 import { SearchIcon } from "@/components/server/Icons";
 import { useState } from "react";
+import Link from "next/link";
 
 
 interface WorkoutProps {
@@ -106,9 +107,9 @@ function TodaysWorkout() {
                         }
                         {
                             list.length - 3 > 0 &&
-                            <a className={styles.aClass} href="/edzes">További gyakorlatok: {list.length - 3}</a>
+                            <Link className={styles.aClass} href="/edzes">További gyakorlatok: {list.length - 3}</Link>
                             ||
-                            <a className={styles.aClass} href="/edzes">Gyakorlatok</a>
+                            <Link className={styles.aClass} href="/edzes">Gyakorlatok</Link>
                         }
                     </div>
                     {
