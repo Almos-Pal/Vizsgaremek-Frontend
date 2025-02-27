@@ -19,3 +19,4 @@ export {default as GyakorlatComparisonBlock} from "./GyakorlatComparisonBlock/Gy
 export {default as EdzesBlock} from "./EdzesBlock/EdzesBlock";
 export {default as StopWatch} from "./Stopwatch/Stopwatch";
 export {default as Flag} from "../server/Flags/Flag";
+export {default as MusclePieChart} from "./MusclePieChart/MusclePieChart";

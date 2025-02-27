@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import BodySVG from "@/components/server/BodySVG/BodySVG";
 import {  useState } from "react";
 import { useToast } from "@/hooks";
+import { MusclePieChart } from "@/components/client";
 
 const TestPage: React.FC = () => {
   const validationSchema = Yup.object().shape({
@@ -28,6 +29,8 @@ const TestPage: React.FC = () => {
 
   return (
     <div className="flex flex-wrap">
+
+     
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>
       <Text variant="h3">Test Page</Text>
