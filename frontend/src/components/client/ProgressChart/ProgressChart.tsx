@@ -8,6 +8,7 @@ import { Text } from "@/components/server";
 import dateParse from "@/utils/dateParse";
 import { useUserGyakorlat } from "@/hooks";
 import { UserGyakorlatGyakorlat } from "@/types";
+import styles from "./ProgressChart.module.scss";
 import { Formik, Form } from "formik";
 import { FormikSelect } from "../_inputs";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -63,7 +64,8 @@ export default function ProgressChart() {
                   help = set.weight;
                 }
               });
-              newItems.push({ id: edzes.edzes_id, date: dateParse(new Date(edzes.datum)), weight: help });
+             
+              newItems.push({ id: edzes.edzes_id, date: dateParse(new Date(edzes.datum)).split("-")[2], weight: help });
             }
           });
         });
@@ -85,7 +87,9 @@ export default function ProgressChart() {
   }
 
   return (
-    <div>
+    <div className={styles.container}>    
+    <div className={styles.main}>
+
       <Formik
         initialValues={{ gyakorlat: "" }}
         onSubmit={() => {}}
@@ -102,40 +106,42 @@ export default function ProgressChart() {
 
           return (
             <>
-              <Form>
+              <Form className={styles.form}>
+              <label>
+                  <Text variant="caption">Gyakorlat:</Text>
+              </label>
                 <FormikSelect
                   name="gyakorlat"
                   options={gyakorlatsOptions}
+                  
                 />
-                <ResponsiveContainer width={"100%"} height={300}>
+                </Form>
+                <ResponsiveContainer className={styles.bar} width={"100%"} height={300}>
                   <BarChart
                     width={1100}
                     height={400}
                     data={items}
+                    
                     margin={{
                       top: 5,
-                      right: 30,
-                      left: 20,
+                      left: 0,
+                      right: 0,
                       bottom: 5,
                     }}
                   >
-                    <XAxis dataKey="date" stroke="var(--color-light)" />
+                    <XAxis dataKey="date"fontSize={10}  stroke="var(--color-light)" />
                     <YAxis stroke="var(--color-light)" />
                     <Tooltip cursor={{ fill: 'none' }} />
-                    <Bar radius={[5, 5, 0, 0]} dataKey="weight" barSize={60} fill="var(--color-primary-50)" activeBar={<Rectangle fill="var(--color-primary-10)" />} />
+                    <Bar radius={[5, 5, 0, 0]} dataKey="weight"  barSize={"5%"} fill="var(--color-primary-50)" activeBar={<Rectangle fill="var(--color-primary-10)" />} />
                   </BarChart>
                 </ResponsiveContainer>
-              </Form>
+              
 
-              <div>
-                <Text>
-                  {values.gyakorlat}
-                </Text>
-              </div>
             </>
           );
         }}
       </Formik>
+    </div>
     </div>
   );
 }
