@@ -30,8 +30,8 @@ export default function ProgressChart() {
   const queryParams = new URLSearchParams();
   const router = useRouter();
   let [searchParams] = useSearchParams();
-  if(searchParams === undefined){
-    searchParams = ["0","0"];
+  if (searchParams === undefined) {
+    searchParams = ["0", "0"];
   }
 
   const { data: userGyakorlatData, isLoading: isloadingGyak } = useUserGyakorlat.getUserGyakorlatok({
@@ -49,8 +49,8 @@ export default function ProgressChart() {
     value: gyakorlat.gyakorlat_id.toString(),
     label: gyakorlat.gyakorlat_neve
   }));
-console.log(searchParams[1]);
-  const [selectedGyakorlat, setSelectedGyakorlat] = useState<number>(parseInt(searchParams[1])?parseInt(searchParams[1]):0);
+  console.log(searchParams[1]);
+  const [selectedGyakorlat, setSelectedGyakorlat] = useState<number>(parseInt(searchParams[1]) ? parseInt(searchParams[1]) : 0);
   const [items, setItems] = useState<chartDataProps[]>([]);
 
   const { data: tenDayData, isLoading: isLoadingUser, refetch, error } = useEdzes.getTenDayEdzesek(userId!, selectedGyakorlat);
@@ -68,9 +68,9 @@ console.log(searchParams[1]);
                   help = set.weight;
                 }
               });
-             
+
               newItems.push({ id: edzes.edzes_id, date: dateParse(new Date(edzes.datum)), weight: help });
-              
+
             }
           });
         });
@@ -93,61 +93,63 @@ console.log(searchParams[1]);
   }
 
   return (
-    <div className={styles.container}>    
-    <div className={styles.main}>
+    <div className={styles.container}>
+      <div className={styles.main}>
 
-      <Formik
-        initialValues={{ gyakorlat: "" }}
-        onSubmit={() => {}}
-      >
-        {({ setFieldValue, values }) => {
-          useEffect(() => {
-            if (values.gyakorlat) {
-              if (values.gyakorlat?.trim()) queryParams.set("gyakorlat_id", values.gyakorlat.trim());
-              const queryString = queryParams.toString();
-              router.push(queryString ? `?${queryString}` : window.location.pathname);
-              setSelectedGyakorlat(parseInt(values.gyakorlat));
-            }
-          }, [values.gyakorlat]);
+        <Formik
+          initialValues={{ gyakorlat: "" }}
+          onSubmit={() => { }}
+        >
+          {({ setFieldValue, values }) => {
+            useEffect(() => {
+              if (values.gyakorlat) {
+                if (values.gyakorlat?.trim()) queryParams.set("gyakorlat_id", values.gyakorlat.trim());
+                const queryString = queryParams.toString();
+                router.push(queryString ? `?${queryString}` : window.location.pathname);
+                setSelectedGyakorlat(parseInt(values.gyakorlat));
+              }
+            }, [values.gyakorlat]);
 
-          return (
-            <>
-              <Form className={styles.form}>
-              <label>
-                  <Text variant="caption">Gyakorlat:</Text>
-              </label>
-                <FormikSelect
-                  name="gyakorlat"
-                  options={gyakorlatsOptions}
-                  
-                />
+            return (
+              <>
+                <Form className={styles.form}>
+                  <label>
+                    <Text variant="caption">Gyakorlat:</Text>
+                  </label>
+                  <FormikSelect
+                    name="gyakorlat"
+                    options={gyakorlatsOptions}
+
+                  />
                 </Form>
+                
                 <ResponsiveContainer className={styles.bar} width={"100%"} height={400}>
                   <BarChart
                     width={1100}
                     height={400}
                     data={items}
-                    
+                    className={styles["bar-chart"]}
+
                     margin={{
                       top: 5,
                       left: 0,
-                      right: 0,
+                      right: 15,
                       bottom: 5,
                     }}
                   >
-                    <XAxis dataKey="date" interval={0} overflow={0} height={46}  fontFamily="manrope" angle={30} tickMargin={17} stroke="var(--color-light)" label={<Text variant="caption">ad</Text>} />
+                    <XAxis dataKey="date" className={styles["date"]} interval={0} overflow={0} height={46} fontFamily="manrope" angle={30} tickMargin={17} stroke="var(--color-light)" label={<Text variant="caption">ad</Text>} />
                     <YAxis stroke="var(--color-light)" />
                     <Tooltip cursor={{ fill: 'none' }} />
-                    <Bar radius={[5, 5, 0, 0]} dataKey="weight"  barSize={"5%"} fill="var(--color-primary-50)" activeBar={<Rectangle fill="var(--color-primary-10)" />} />
+                    <Bar radius={[5, 5, 0, 0]} dataKey="weight" barSize={"5%"} fill="var(--color-primary-50)" activeBar={<Rectangle fill="var(--color-primary-10)" />} />
                   </BarChart>
                 </ResponsiveContainer>
-              
 
-            </>
-          );
-        }}
-      </Formik>
-    </div>
+
+              </>
+            );
+          }}
+        </Formik>
+      </div>
     </div>
   );
 }
