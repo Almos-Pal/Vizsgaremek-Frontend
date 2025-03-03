@@ -3,6 +3,7 @@ export interface User {
     username: string;
     email: string;
     suly?: number;
+    isAdmin: boolean;
     magassag?: number;
 }
 

@@ -1,7 +1,9 @@
-import { userApi } from "@/lib/api";
+import { gyakorlatApi, userApi } from "@/lib/api";
 import { Bmi } from "@/types/user";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+
+type GetUsersParams = Parameters<typeof userApi.getUsers>[0];
 
 const useUser = {
     getUser: (id: number) => {
@@ -11,6 +13,12 @@ const useUser = {
         return useQuery({
             queryKey: ['user', id],
             queryFn: () => userApi.getUser(id, token),
+        });
+    },
+    getUsers: (params: GetUsersParams = {}) => {
+        return useQuery({
+          queryKey: ['users', params],
+          queryFn: () => userApi.getUsers(params),
         });
     },
     getBmi: (id: number) => {

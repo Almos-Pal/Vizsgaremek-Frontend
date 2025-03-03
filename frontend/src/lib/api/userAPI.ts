@@ -1,15 +1,38 @@
 import { Bmi, User } from "@/types/user";
+import { PaginatedResponse } from "@/types";
 
-
-
+interface GetUsersParams {
+  page?: number;
+  limit?: number;
+  username?: string;
+  email?: string;
+  isAdmin?: boolean;
+}
 
 const userApi = {
-    getUsers: async (): Promise<User[]> => {
-        const response = await fetch('http://localhost:8000/users');
-        if (!response.ok) {
-            throw new Error('Error fetching users');
-        }
-        return response.json();
+    getUsers: async ({ 
+      page = 1, 
+      limit = 10,
+      username,
+      email,
+      isAdmin
+    }: GetUsersParams = {}): Promise<PaginatedResponse<User>> => {
+      const params: Record<string, string> = {
+        page: page.toString(),
+        limit: limit.toString(),
+      };
+
+      if (username) params.username = username;
+      if (email) params.email = email;
+      if (isAdmin !== undefined) params.isAdmin = isAdmin.toString();
+
+      const query = new URLSearchParams(params).toString();
+      const response = await fetch(`http://localhost:8000/users?${query}`);
+      
+      if (!response.ok) {
+        throw new Error('Error fetching users');
+      }
+      return response.json();
     },
 
     getUser: async (id: number, token?: string): Promise<User> => {

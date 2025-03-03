@@ -1,0 +1,23 @@
+.user-item {
+    background-color: var(--color-grey-500);
+    min-height: 120px;
+    border-radius: 1rem;
+    /* Use Grid to create neat columns */
+    display: grid;
+    /* Adjust the columns as needed:
+       - The first two columns for email & username
+       - The third for the Admin button
+       - The fourth for the trash icon
+    */
+    grid-template-columns: 2fr 2fr auto auto;
+    
+    /* Make sure everything is centered vertically */
+    align-items: center;
+    
+    /* Spacing between columns */
+    gap: 16px;
+    
+    /* General padding */
+    padding: 0 8px;
+    padding-left: 24px;
+  }

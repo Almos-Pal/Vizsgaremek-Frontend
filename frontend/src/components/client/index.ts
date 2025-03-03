@@ -18,3 +18,4 @@ export {default as UnderLinedText} from "./UnderLinedText/UnderLinedText";
 export {default as GyakorlatComparisonBlock} from "./GyakorlatComparisonBlock/GyakorlatComparisonBlock";
 export {default as EdzesBlock} from "./EdzesBlock/EdzesBlock";
 export {default as StopWatch} from "./Stopwatch/Stopwatch";
+export {default as UserItem} from "./UserItem/UserItem";
