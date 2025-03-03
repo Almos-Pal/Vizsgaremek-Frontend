@@ -7,16 +7,16 @@ import { MusclePieChart } from "@/components/client";
 
 
 const izomcsoportCounts = {
-  "Hasizom": 9,
-  "Combfeszítő izom": 6,
-  "Combhajlító izom": 4,
-  "Vádli izom": 3,
-  "Alsó hátizom": 2,
-  "Combközelítő izom": 2,
-  "Combtávolító izom": 2,
-  "Középső hátizom": 1,
-  "Alkar izom": 1,
-  "Csuklyás izom": 1
+  11: 9,
+  13: 6,
+  12: 4,
+  10: 3,
+  9: 2,
+  1: 2,
+  6: 2,
+  2: 1,
+  4: 1,
+  3: 1
 }
 
 

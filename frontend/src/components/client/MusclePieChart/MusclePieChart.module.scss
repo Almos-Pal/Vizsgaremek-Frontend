@@ -5,14 +5,34 @@
     border-radius: 1rem;
 
     .title {
-       text-align: center;
-       padding-top: 1rem;
-       padding-bottom: 1rem;
+        text-align: center;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
     }
 
     .pieChart {
         margin: auto;
-        
+
     }
 
+
+    .tooltip {
+
+        background: var(--color-grey-400);
+
+        padding: 8px 12px;
+        border-radius: 0.5rem;
+        font-size: 14px;
+        width: 100px;
+        text-align: center;
+        margin-left: 11.5rem;
+        pointer-events: none;
+    }
+
+
+
+}
+
+.pieChart * {
+    outline: none;
 }

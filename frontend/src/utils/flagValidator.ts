@@ -10,7 +10,7 @@ interface MuscleGroups {
 }
 
 const legMuscles:MuscleGroups = {type:{value:"láb",color:"var(--color-grey-400)",background:"var(--color-primary-10)"} , muscleIds:[1, 5, 10, 13, 15, 16]};
-const chestMuscles:MuscleGroups = {type:{value:"mell",color:"var(--color-light)",background:"var(--color-primary-75"},muscleIds:[4]};
+const chestMuscles:MuscleGroups = {type:{value:"mell",color:"var(--color-light)",background:"var(--color-primary-75)"},muscleIds:[4]};
 const backMuscles:MuscleGroups = {type:{value:"hát",color:"var(--color-light)",background:"var(--color-info)"},muscleIds:[8, 9, 11, 14, 17 ]};
 const shoulderMuscles:MuscleGroups = {type:{value:"váll",color:"var(--color-light)",background:"var(--color-primary-50)"},muscleIds:[2]};
 const armMuscles:MuscleGroups = {type:{value:"kar",color:"var(--color-light)",background:"var(--color-primary)"},muscleIds:[6, 7, 12]};

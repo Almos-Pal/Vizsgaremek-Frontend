@@ -2,79 +2,88 @@
 
 import React, { useEffect, useState } from 'react'
 import { Cell, Legend, Pie, PieChart } from 'recharts'
-import styles from  './MusclePieChart.module.scss'
-import { Text} from '@/components/server'
+import styles from './MusclePieChart.module.scss'
+import { Text } from '@/components/server'
+import { groupIzomcsoportCounts } from "@/utils"
 
 
 
 
 
 interface MusclePieChartProps {
-    data: Record<string, number>[]
+  data: Record<number, number>[];
 }
-
-const COLORS = [
-  "#004a5f",
-  "#226375",
-  "#277389",
-  "#c5ebe5",
-  "#6db4a9",
-];
 
 const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
+  const groupedData = groupIzomcsoportCounts(data[0]);
 
-    const transformedIzomcsoportCounts = Object.entries(data[0]).map(([key, value]) => ({
-        name: key,
-        value: value,
-       
-    }))
+  const [isClient, setIsClient] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  const onPieClick = (event: React.MouseEvent, index: number) => {
+    event.preventDefault();
+    setActiveIndex(index === activeIndex ? null : index);
+  };
 
 
-    const [isClient, setIsClient] = useState(false);
-    console.log("My Data")
-    console.log(transformedIzomcsoportCounts)
-    
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
-    
-    if (!isClient) {
-        return null;
-    }
-    
+  const totalValue = groupedData.reduce((sum, item) => sum + item.value, 0);
 
-    return (
-        <div className={styles.container}>
-          <Text className={styles.title} variant="h4">
-            Edzett izmok aránya
-          </Text>
-          <PieChart className={styles["pieChart"]} width={400} height={250}>
-            <Pie
-              data={transformedIzomcsoportCounts}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={90}
-              labelLine={false}
-              stroke='none'
-            >
-              {transformedIzomcsoportCounts.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}  />
-              ))}
-            </Pie>
-    
-            
-            <Legend
-            className={styles["legend"]}
-              layout="vertical"
-              verticalAlign="middle"
-              align="right"
-              wrapperStyle={{ color: "#fff" }}
+  return (
+    <div className={styles.container}>
+      <Text className={styles.title} variant="h4">
+        Edzett izmok aránya
+      </Text>
+
+      <PieChart className={styles["pieChart"]} width={400} height={250}>
+        <Pie
+          data={groupedData}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={90}
+          labelLine={false}
+          stroke="none"
+        >
+          {groupedData.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={entry.color}
+              stroke={index === activeIndex ? "#fff" : "none"}
+              strokeWidth={index === activeIndex ? 3 : 1}
+              onClick={(event) => onPieClick(event, index)}
             />
-          </PieChart>
-        </div>
-      );
-}
+          ))}
+          
+        </Pie>
 
-export default MusclePieChart
+        <Legend
+          className={styles["legend"]}
+          layout="vertical"
+          verticalAlign="middle"
+          align="right"
+          wrapperStyle={{ color: "#fff" }}
+        />
+      </PieChart>
+
+      {activeIndex !== null && (
+        <div className={styles.tooltip}>
+          <Text>
+            {groupedData[activeIndex].name}:{" "}
+            {((groupedData[activeIndex].value / totalValue) * 100).toFixed(1)}%
+          </Text>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MusclePieChart;
