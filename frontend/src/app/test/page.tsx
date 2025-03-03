@@ -5,6 +5,7 @@ import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text ,Icons} from "@/components/server";
 import { Form, Formik } from "formik";
+import {useEdzes} from "@/hooks/index";
 
 import * as Yup from "yup";
 import BodySVG from "@/components/server/BodySVG/BodySVG";
@@ -25,7 +26,8 @@ const TestPage: React.FC = () => {
     toast.info("asd");
   }
 
-
+ const data = useEdzes.getEdzesByType(6,"all")
+console.log(data.data)
   return (
     <div className="flex flex-wrap">
       <Text variant="h1">Test Page</Text>
@@ -112,6 +114,7 @@ const TestPage: React.FC = () => {
   <Flag izomcsoportok={[1,2,3,4]} foizomcsoport={8} />
   
 </div>
+
     </div>
   );
 };

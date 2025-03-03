@@ -1,5 +1,7 @@
 import { Edzes } from '@/types/edzes'
 import { PaginatedResponse } from '@/types';
+import page from '@/app/test/akos/page';
+import { use } from 'react';
 
 interface FetchEdzesekParams {
   page?: number;
@@ -213,6 +215,24 @@ const edzesAPI = {
     }
 
     return response.json();
+  },
+
+  fetchEdzesekChosenDate: async (userId: number, type:string) => {
+    const params = {
+      page: "1",
+      limit:"100",
+      user_id:userId.toString(),
+    };
+    const query = new URLSearchParams(params).toString();
+
+    console.log(params.limit)
+    const response = await fetch(`http://localhost:8000/edzes/intervallum?${query}&type=${type}`);
+
+    if (!response.ok) {
+      throw new Error('Error fetching data');
+    }
+    
+    return response.json() as unknown as Edzes[];
   },
 };
 
