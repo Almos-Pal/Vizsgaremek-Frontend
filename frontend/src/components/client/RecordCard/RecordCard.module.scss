@@ -1,0 +1,24 @@
+.cardContainer {
+    width: 285px; // Set a fixed width
+    max-width: 285px; // Prevents stretching
+    min-width: 285px; // Prevents shrinking
+    background-color: var(--color-grey-400);
+    border-radius: 1rem;
+    padding:  8px;
+    min-height: 112px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    padding-bottom: 16px;
+}
+
+
+.cardText{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding-bottom: 8px;
+    gap: 8px;
+}
