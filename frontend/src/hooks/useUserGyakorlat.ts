@@ -5,15 +5,17 @@ interface GetRecordsParams {
     page?: number;
     limit?: number;
     isRecord?:  boolean;
+    search?: string;
+    userId?: number | null;
 
   }
 
 
 const useUserGyakorlat = {
-    getRecords: (id: number ) => {
+    getRecords: (params: GetRecordsParams) => {
         return useQuery({
-            queryKey: ['userGyakorlat', id],
-            queryFn: () => userGyakorlatAPI.fetchUserGyakorlatok({ userId: id, isRecord: true }),
+            queryKey: ['userGyakorlat', params],
+            queryFn: () => userGyakorlatAPI.fetchUserGyakorlatok(params),
         });
     },
     

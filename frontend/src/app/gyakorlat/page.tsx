@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import useGyakorlat from "@/hooks/useGyakorlat";
 import {GyakorlatFilter, Pagination } from "@/components/client";
 import { GyakorlatItem } from "@/components/client/GyakorlatItem/GyakorlatItem";
+import {Text} from "@/components/server";
 
 import styles from "./page.module.scss";
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
@@ -36,7 +37,6 @@ const GyakorlatPage: React.FC = () => {
     setPage(1); 
   };
 
-  if (isLoading) return <Loading />;
 
 
   console.log(gyakorlatok);
@@ -47,6 +47,7 @@ const GyakorlatPage: React.FC = () => {
       filter={<GyakorlatFilter onFilterChange={handleFilterChange} />}
     >
       <SubHeader header="Gyakorlatok" />
+      {isLoading && <Loading hasParent/>}
 
       <div className={"flex flex-col gap-6 mb-12"}>
         {gyakorlatok?.items?.map((gyakorlat: any) => (
@@ -54,7 +55,10 @@ const GyakorlatPage: React.FC = () => {
         ))}
       </div>
      
-      <Pagination
+      {gyakorlatok?.items.length === 0 && (
+            <Text>Nincs találat</Text>
+          )}
+         {!isLoading &&    <Pagination
         value={page}
         total={gyakorlatok?.meta?.totalPages || 1}
         onChange={(newPage) => {
@@ -64,6 +68,7 @@ const GyakorlatPage: React.FC = () => {
           router.push(`?${params.toString()}`);
         }}
       />
+}
     </ContentLayout>
   );
 };
