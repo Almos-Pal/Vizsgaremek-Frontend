@@ -12,7 +12,7 @@ import styles from "./ProgressChart.module.scss";
 import { Formik, Form } from "formik";
 import { FormikSelect } from "../_inputs";
 import { useRouter, useSearchParams } from "next/navigation";
-import { number } from "yup";
+import { date, number } from "yup";
 
 export default function ProgressChart() {
   interface gyakorlatProps {
@@ -28,6 +28,7 @@ export default function ProgressChart() {
   const { data: session } = useSession();
   const userId = session?.user.user_id;
   const queryParams = new URLSearchParams();
+  const [searchParams] = useSearchParams();
   const router = useRouter();
 
   const { data: userGyakorlatData, isLoading: isloadingGyak } = useUserGyakorlat.getUserGyakorlatok({
@@ -45,8 +46,8 @@ export default function ProgressChart() {
     value: gyakorlat.gyakorlat_id.toString(),
     label: gyakorlat.gyakorlat_neve
   }));
-
-  const [selectedGyakorlat, setSelectedGyakorlat] = useState<number>(0);
+console.log(searchParams[1]);
+  const [selectedGyakorlat, setSelectedGyakorlat] = useState<number>(parseInt(searchParams[1]));
   const [items, setItems] = useState<chartDataProps[]>([]);
 
   const { data: tenDayData, isLoading: isLoadingUser, refetch, error } = useEdzes.getTenDayEdzesek(userId!, selectedGyakorlat);
@@ -65,11 +66,13 @@ export default function ProgressChart() {
                 }
               });
              
-              newItems.push({ id: edzes.edzes_id, date: dateParse(new Date(edzes.datum)).split("-")[2], weight: help });
+              newItems.push({ id: edzes.edzes_id, date: dateParse(new Date(edzes.datum)), weight: help });
+              
             }
           });
         });
         setItems(newItems);
+        console.log(newItems);
       });
     }
   }, [selectedGyakorlat, refetch]);
@@ -116,7 +119,7 @@ export default function ProgressChart() {
                   
                 />
                 </Form>
-                <ResponsiveContainer className={styles.bar} width={"100%"} height={300}>
+                <ResponsiveContainer className={styles.bar} width={"100%"} height={400}>
                   <BarChart
                     width={1100}
                     height={400}
@@ -129,7 +132,7 @@ export default function ProgressChart() {
                       bottom: 5,
                     }}
                   >
-                    <XAxis dataKey="date"fontSize={10}  stroke="var(--color-light)" />
+                    <XAxis dataKey="date" interval={0} overflow={0} height={46}  fontFamily="manrope" angle={30} tickMargin={17} stroke="var(--color-light)" label={<Text variant="caption">ad</Text>} />
                     <YAxis stroke="var(--color-light)" />
                     <Tooltip cursor={{ fill: 'none' }} />
                     <Bar radius={[5, 5, 0, 0]} dataKey="weight"  barSize={"5%"} fill="var(--color-primary-50)" activeBar={<Rectangle fill="var(--color-primary-10)" />} />
