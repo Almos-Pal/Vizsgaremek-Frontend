@@ -28,8 +28,11 @@ export default function ProgressChart() {
   const { data: session } = useSession();
   const userId = session?.user.user_id;
   const queryParams = new URLSearchParams();
-  const [searchParams] = useSearchParams();
   const router = useRouter();
+  let [searchParams] = useSearchParams();
+  if(searchParams === undefined){
+    searchParams = ["0","0"];
+  }
 
   const { data: userGyakorlatData, isLoading: isloadingGyak } = useUserGyakorlat.getUserGyakorlatok({
     userId: userId!,
@@ -47,7 +50,7 @@ export default function ProgressChart() {
     label: gyakorlat.gyakorlat_neve
   }));
 console.log(searchParams[1]);
-  const [selectedGyakorlat, setSelectedGyakorlat] = useState<number>(parseInt(searchParams[1]));
+  const [selectedGyakorlat, setSelectedGyakorlat] = useState<number>(parseInt(searchParams[1])?parseInt(searchParams[1]):0);
   const [items, setItems] = useState<chartDataProps[]>([]);
 
   const { data: tenDayData, isLoading: isLoadingUser, refetch, error } = useEdzes.getTenDayEdzesek(userId!, selectedGyakorlat);
