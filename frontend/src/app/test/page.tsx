@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/client";
+import { Button, StatFilter } from "@/components/client";
 import Flag from "@/components/server/Flags/Flag";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
@@ -27,12 +27,17 @@ const TestPage: React.FC = () => {
     toast.info("asd");
   }
 
- const data = useEdzes.getEdzesByType(6,"all")
-console.log(data.data)
+
+
+const {data:data,refetch} = useEdzes.getEdzesByType(10,"all")
+  const handleFilterChange = (values: any) => {
+    refetch()
+    console.log(data)
+  };
   return (
     
     <div className="flex flex-wrap">
-
+      <StatFilter onFilterChange={handleFilterChange}/>
 
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>

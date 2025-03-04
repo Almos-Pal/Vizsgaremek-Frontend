@@ -222,11 +222,11 @@ const edzesAPI = {
       page: "1",
       limit:"100",
       user_id:userId.toString(),
+      type:type
     };
     const query = new URLSearchParams(params).toString();
 
-    console.log(params.limit)
-    const response = await fetch(`http://localhost:8000/edzes/intervallum?${query}&type=${type}`);
+    const response = await fetch(`http://localhost:8000/edzes/intervallum?${query}`);
 
     if (!response.ok) {
       throw new Error('Error fetching data');

@@ -1,39 +1,38 @@
 import { Form, Formik } from "formik";
 import { FormikSelect } from "../../_inputs";
+import { useEffect } from "react";
+interface StatFilterProps {
+    onFilterChange: (values: any) => void;
+  }
 
-function StatFilter(){
+const StatFilter: React.FC<StatFilterProps> = ({ onFilterChange }) => {
 const Option = [
     {label: "week", value: "week"},
     {label: "month", value: "month"},
     {label: "halfyear", value: "halfyear"},
     {label: "all", value: "all"},
 ]
-return (
-    <div className={styles.container}>
-      <div className={styles.main}>
 
+return (
         <Formik
           initialValues={{ idotartam: "" }}
           onSubmit={() => { }}
         >
           {({ setFieldValue, values }) => {
             useEffect(() => {
-              if (values.gyakorlat) {
-                if (values.gyakorlat?.trim()) queryParams.set("gyakorlat_id", values.gyakorlat.trim());
-                const queryString = queryParams.toString();
-                router.push(queryString ? `?${queryString}` : window.location.pathname);
-                setSelectedGyakorlat(parseInt(values.gyakorlat));
-              }
-            }, [values.gyakorlat]);
+                if (values.idotartam) {
+                  setFieldValue("idotartam", values.idotartam);
+                  onFilterChange(values.idotartam);
+                }
+              
+            }, [values.idotartam]);
 
             return (
               <>
-                <Form className={styles.form}>
-                  <label>
-                    <Text variant="caption">Gyakorlat:</Text>
-                  </label>
+                <Form>
                   <FormikSelect
                     name="idotartam"
+                    label="Időtartam:"
                     options={Option}
 
                   />
@@ -46,8 +45,6 @@ return (
             );
           }}
         </Formik>
-      </div>
-    </div>
   );
 
 }
