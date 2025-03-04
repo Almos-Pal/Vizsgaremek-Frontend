@@ -7,6 +7,7 @@ declare module "next-auth" {
             user_id: number;
             username: string;
             email: string;
+            isAdmin: boolean;
         };
 
         backendTokens: {
@@ -23,6 +24,7 @@ declare module "next-auth/jwt" {
             user_id: number;
             username: string;
             email: string;
+            isAdmin: boolean;
         };
 
         backendTokens: {

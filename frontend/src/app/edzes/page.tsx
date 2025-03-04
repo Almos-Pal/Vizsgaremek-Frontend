@@ -12,7 +12,7 @@ import { useSession } from 'next-auth/react';
 
 function EdzesekPage() {
     const { data: session } = useSession();
-    console.log('edzes user session data: ',session?.user.user_id)
+    console.log('edzes user session data: ',session?.user.isAdmin);
     
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -20,7 +20,7 @@ function EdzesekPage() {
     const [page, setPage] = useState(initialPage);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-
+    
     
     const { data: edzesek, isLoading, error } = useEdzes.getEdzesek({
         page,

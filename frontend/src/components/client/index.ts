@@ -20,3 +20,4 @@ export {default as EdzesBlock} from "./EdzesBlock/EdzesBlock";
 export {default as StopWatch} from "./Stopwatch/Stopwatch";
 export {default as Flag} from "../server/Flags/Flag";
 export {default as RecordCard} from "./RecordCard/RecordCard";
+export {default as UserItem} from "./UserItem/UserItem";
