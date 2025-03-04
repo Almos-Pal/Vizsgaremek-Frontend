@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import BodySVG from "@/components/server/BodySVG/BodySVG";
 import {  useState } from "react";
 import { useToast } from "@/hooks";
+import { FormikSelect } from "@/components/client/_inputs";
 
 const TestPage: React.FC = () => {
   const validationSchema = Yup.object().shape({
@@ -29,7 +30,10 @@ const TestPage: React.FC = () => {
  const data = useEdzes.getEdzesByType(6,"all")
 console.log(data.data)
   return (
+    
     <div className="flex flex-wrap">
+
+
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>
       <Text variant="h3">Test Page</Text>
