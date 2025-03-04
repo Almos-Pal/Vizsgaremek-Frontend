@@ -94,6 +94,7 @@ export default function ProgressChart() {
 
   return (
     <div className={styles.container}>
+        <Text style={{textAlign: "center"}} variant="h4">Fejlődési idővonal</Text>
       <div className={styles.main}>
 
         <Formik
