@@ -9,7 +9,6 @@ import { groupIzomcsoportCounts } from "@/utils"
 
 
 
-
 interface MusclePieChartProps {
   data: Record<number, number>[];
 }
@@ -19,9 +18,22 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
 
   const [isClient, setIsClient] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
     setIsClient(true);
+
+   
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 700);
+    };
+
+
+    handleResize();
+
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   if (!isClient) {
@@ -33,7 +45,6 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
 
-
   const totalValue = groupedData.reduce((sum, item) => sum + item.value, 0);
 
   return (
@@ -42,14 +53,18 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
         Edzett izmok aránya
       </Text>
 
-      <PieChart className={styles["pieChart"]} width={400} height={250}>
+      <PieChart
+        className={styles["pieChart"]}
+        width={isMobile ? 350 : 400}
+        height={isMobile ? 300 : 250}
+      >
         <Pie
           data={groupedData}
           dataKey="value"
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={90}
+          outerRadius={isMobile ? 90 : 90} 
           labelLine={false}
           stroke="none"
         >
@@ -62,14 +77,13 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
               onClick={(event) => onPieClick(event, index)}
             />
           ))}
-          
         </Pie>
 
         <Legend
           className={styles["legend"]}
-          layout="vertical"
-          verticalAlign="middle"
-          align="right"
+          layout={isMobile ? "horizontal" : "vertical"} 
+          verticalAlign={isMobile ? "bottom" : "middle"}
+          align={isMobile ? "center" : "right"} 
           wrapperStyle={{ color: "#fff" }}
         />
       </PieChart>
