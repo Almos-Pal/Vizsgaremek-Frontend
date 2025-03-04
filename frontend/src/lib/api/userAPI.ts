@@ -84,7 +84,22 @@ const userApi = {
         }
         return response.json();
       },
-    };
+
+    updateAdminAccess: async (id: number, isAdmin: boolean,token?:string): Promise<User> => {
+        const response = await fetch(`http://localhost:8000/users/${id}/admin`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({ isAdmin }),
+        });
+        if (!response.ok) {
+          throw new Error('Error updating user');
+      }
+      return response.json();
+        }
+};
     
 
 export default userApi;

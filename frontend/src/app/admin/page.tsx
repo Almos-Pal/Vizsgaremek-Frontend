@@ -12,9 +12,14 @@ const Admin: React.FC = () => {
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams.get("page") || "1", 10);
   const [page, setPage] = useState(initialPage);
-
+  const isAdminParam = searchParams.get("isAdmin");
+  const isAdmin = isAdminParam !== null ? isAdminParam === "true" : undefined;
+  
   const filterValues = {
-    isAdmin : searchParams.get("isAdmin") === "true" || undefined,
+    isAdmin: searchParams.has("isAdmin")
+    ? searchParams.get("isAdmin") === "true"
+    : undefined,
+  
     email: searchParams.get("email")  || undefined,
     username: searchParams.get("username") || undefined,
   };

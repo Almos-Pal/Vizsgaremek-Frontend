@@ -38,7 +38,29 @@ const useUser = {
                 queryClient.invalidateQueries({ queryKey: ['user'] });
             },
         });
-    }
+    },
+    deleteUser: () => {
+        const queryClient = useQueryClient();
+        return useMutation({
+            mutationKey: ['deleteUser'],
+            mutationFn: userApi.deleteUser,
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['users'] });
+            }
+        });
+    },
+    updateAdminAccess: () => {
+        const queryClient = useQueryClient();
+        const { data: session } = useSession();
+        const token = session?.backendTokens?.accessToken;
+        return useMutation({
+            mutationKey: ['updateAdminAccess'],
+            mutationFn:  ({ id, values }: { id: number, values: boolean }) => userApi.updateAdminAccess(id, values,token),
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['users'] });
+            }
+        });
+}
 };
 
 export default useUser;
