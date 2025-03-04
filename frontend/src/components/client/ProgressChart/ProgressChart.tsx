@@ -137,7 +137,7 @@ export default function ProgressChart() {
                       bottom: 5,
                     }}
                   >
-                    <XAxis dataKey="date" className={styles["date"]} interval={0} overflow={0} height={46} fontFamily="manrope" angle={30} tickMargin={17} stroke="var(--color-light)" label={<Text variant="caption">ad</Text>} />
+                    <XAxis reversed dataKey="date" className={styles["date"]} interval={0} overflow={0} height={46} fontFamily="manrope" angle={30} tickMargin={17} stroke="var(--color-light)" label={<Text variant="caption">ad</Text>} />
                     <YAxis stroke="var(--color-light)" />
                     <Tooltip cursor={{ fill: 'none' }} />
                     <Bar radius={[5, 5, 0, 0]} dataKey="weight" barSize={"5%"} fill="var(--color-primary-50)" activeBar={<Rectangle fill="var(--color-primary-10)" />} />
