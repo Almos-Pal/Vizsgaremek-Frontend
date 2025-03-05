@@ -18,9 +18,7 @@ const Regisztralas: React.FC = () => {
   if(useSession().data !== undefined){
     userId = session?.user.user_id || 0;
   }
-  //  const [state, setState] = useState("front");
-  
-  
+
   const filteredValues = searchParams.get("type") || "all";
   
   

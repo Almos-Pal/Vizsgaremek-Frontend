@@ -2,6 +2,7 @@ import { Form, Formik } from "formik";
 import { FormikSelect } from "../../_inputs";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import styles from "./StatisztikaFilter.module.scss";
 interface StatFilterProps {
     onFilterChange: (values: any) => void;
   }
@@ -18,6 +19,7 @@ const Option = [
 
 return (
         <Formik
+          classname={styles.formikInput} 
           initialValues={{ idotartam: "" }}
           onSubmit={() => { }}
         >
@@ -33,8 +35,9 @@ return (
 
             return (
               <>
-                <Form>
-                  <FormikSelect
+                <Form  style={{maxWidth:"320px", margin:"10px"}} >
+                  <FormikSelect 
+                  
                     name="idotartam"
                     label="Időtartam:"
                     options={Option}
