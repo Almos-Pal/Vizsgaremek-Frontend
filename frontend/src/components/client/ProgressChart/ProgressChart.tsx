@@ -34,7 +34,7 @@ export default function ProgressChart() {
     searchParams = ["0", "0"];
   }
 
-  const { data: userGyakorlatData, isLoading: isloadingGyak } = useUserGyakorlat.getUserGyakorlatok({
+  const { data: userGyakorlatData, isLoading: isloadingGyak } = useUserGyakorlat.fetchUserGyakorlatokAll({
     userId: userId!,
     page: 1,
     limit: 1000

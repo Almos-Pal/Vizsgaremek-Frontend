@@ -26,7 +26,7 @@ const useUserGyakorlat = {
     }= {}) => {
         return useQuery({
           queryKey: ['user-gyakorlatok/user', params],
-          queryFn: () => userGyakorlatAPI.fetchUserGyakorlatok(params),
+          queryFn: () => userGyakorlatAPI.fetchUserGyakorlatokAll(params),
         });
       },
 }
