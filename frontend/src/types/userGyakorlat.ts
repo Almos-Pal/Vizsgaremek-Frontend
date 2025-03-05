@@ -1,4 +1,4 @@
-import { Gyakorlat } from "./gyakorlat";
+//import { Gyakorlat } from "./gyakorlat";
 import { PaginationMeta } from "./meta";
 
 interface History {
@@ -10,6 +10,14 @@ interface History {
   date: Date;
 }
 
+interface Gyakorlat {
+  gyakorlat_id: number;
+  gyakorlat_neve: string;
+  eszkoz: string;
+  gyakorlat_leiras: string;
+  fo_izomcsoport: number;
+  user_id: number;
+}
 
 export interface UserGyakorlatGyakorlat {
   user_id: number;

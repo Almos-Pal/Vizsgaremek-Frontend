@@ -17,13 +17,17 @@ interface FormikSelectProps {
   label?: string;
   isRequired?: boolean;
   isClearable?: boolean;
+  onChange?: () => void;
 }
 
-const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = false, placeholder,label,isRequired,isClearable = false, }) => {
+const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = false,onChange, placeholder,label,isRequired,isClearable = false, }) => {
   const { setFieldValue, values, errors, touched } = useFormikContext<any>(); // Get Formik context values
   const error = touched[name] && errors[name] ? String(errors[name]) : undefined;
 
   const handleChange = (selectedOptions: any) => {
+    if (onChange) {
+      onChange();
+    }
     const value = isMulti
       ? selectedOptions ? selectedOptions.map((option: any) => option.value) : [] // For multi-select
       : selectedOptions ? selectedOptions.value : ""; // For single-select

@@ -12,6 +12,17 @@ export interface Edzes {
   isFinalized?: boolean;
 }
 
+export interface EdzesTenDays {
+  edzes_id: number;
+  edzes_neve: string;
+  datum: Date;
+  user_id?: number;
+  ido: number;
+  edzestervek?: number[];
+  gyakorlatok: GyakorlatWithSets[];
+  cardiok?: number[];
+  isFinalized?: boolean;
+}
 export interface EdzesCreate {
     edzes_neve: string;
     datum?: Date;
@@ -49,4 +60,26 @@ export interface EdzesFormValues {
       previous_history?: PrevHistory[];
     }[];
   }
+
+  export interface GyakorlatWithSets {
+    edzes_id: number;
+    gyakorlat_id: number;
+    gyakorlat: Gyakorlat;
+    szettek: {
+      set_szam?: number;
+      weight: number;
+      reps: number;
+    }[];
+    total_sets: number;
+  }
+  export interface edzesGyakorlat {
+    eszkoz: string;
+    fo_izomcsoport: number;
+    gyakorlat_id: number;
+    gyakorlat_leiras: string;
+    gyakorlat_neve: string;
+    izomcsoportok: number[]
+    user_id: number;
+}
+
   

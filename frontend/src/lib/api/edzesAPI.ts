@@ -1,4 +1,4 @@
-import { Edzes } from '@/types/edzes'
+import { Edzes, EdzesTenDays } from '@/types/edzes'
 import { PaginatedResponse } from '@/types';
 
 interface FetchEdzesekParams {
@@ -15,7 +15,7 @@ const edzesAPI = {
   fetchEdzesek: async ({
     page = 1,
     limit = 3,
-    user_id ,
+    user_id = null,
     edzes_neve,
     gyakorlatok,
   }: FetchEdzesekParams = {}): Promise<PaginatedResponse<Edzes>> => {
@@ -25,6 +25,7 @@ const edzesAPI = {
     };
 
     if (user_id ) params.user_id = user_id.toString();
+    
     if (edzes_neve) params.edzes_neve = edzes_neve;
     if (gyakorlatok?.length) params.gyakorlatok = gyakorlatok.join(',');
 
@@ -214,6 +215,25 @@ const edzesAPI = {
 
     return response.json();
   },
+  fetchEdzesIntervallum: async (userId: number, startDate: string, endDate: string) => {
+    const response = await fetch(`http://localhost:8000/edzes/intervallum?user_id=${userId}&startDate=${startDate}&endDate=${endDate}`);
+
+    if (!response.ok) {
+      throw new Error('Error fetching data');
+    }
+    
+    return response.json() as unknown as Edzes[];
+  },
+  fetchTenDays: async (userId: number,gyakorlat:number) => {
+    const response = await fetch(`http://localhost:8000/edzes/ten?userId=${userId}&gyakorlat=${gyakorlat}`);
+
+    if (!response.ok) {
+      throw new Error('Error fetching data');
+    }
+    
+    return response.json() as unknown as EdzesTenDays[];
+  }
+  
 };
 
 export default edzesAPI;
