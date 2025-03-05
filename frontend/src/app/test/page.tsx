@@ -9,9 +9,12 @@ import {useEdzes} from "@/hooks/index";
 
 import * as Yup from "yup";
 import BodySVG from "@/components/server/BodySVG/BodySVG";
-import {  useState } from "react";
+import {  use, useEffect, useState } from "react";
 import { useToast } from "@/hooks";
 import { FormikSelect } from "@/components/client/_inputs";
+// import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const TestPage: React.FC = () => {
   const validationSchema = Yup.object().shape({
@@ -21,23 +24,14 @@ const TestPage: React.FC = () => {
   }); 
 
   const toast = useToast();
-//  const [state, setState] = useState("front");
 
   const handleClick = () => {
     toast.info("asd");
   }
-
-
-
-const {data:data,refetch} = useEdzes.getEdzesByType(10,"all")
-  const handleFilterChange = (values: any) => {
-    refetch()
-    console.log(data)
-  };
+ 
   return (
     
     <div className="flex flex-wrap">
-      <StatFilter onFilterChange={handleFilterChange}/>
 
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>
