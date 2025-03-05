@@ -13,9 +13,12 @@ export { CalendarWidget } from "./dashboard_items/index"
 export { PersonalRecords } from "./dashboard_items/index"
 export { Stats } from "./dashboard_items/index"
 export {default as BMITable} from "./BMITable/BMITable";
+export {default as ProgressChart} from "./ProgressChart/ProgressChart";
 export {default as EdzesView} from "./EdzesView/EdzesView";
 export {default as UnderLinedText} from "./UnderLinedText/UnderLinedText";
 export {default as GyakorlatComparisonBlock} from "./GyakorlatComparisonBlock/GyakorlatComparisonBlock";
 export {default as EdzesBlock} from "./EdzesBlock/EdzesBlock";
 export {default as StopWatch} from "./Stopwatch/Stopwatch";
 export {default as Flag} from "../server/Flags/Flag";
+export {default as RecordCard} from "./RecordCard/RecordCard";
+export {default as UserItem} from "./UserItem/UserItem";
