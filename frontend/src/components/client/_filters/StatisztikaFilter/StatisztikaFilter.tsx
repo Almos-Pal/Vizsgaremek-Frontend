@@ -11,10 +11,10 @@ interface StatFilterProps {
 
 const StatFilter: React.FC<StatFilterProps> = ({ onFilterChange }) => {
 const Option = [
-    {label: "week", value: "week"},
-    {label: "month", value: "month"},
-    {label: "halfyear", value: "halfyear"},
-    {label: "all", value: "all"},
+    {label: "hét", value: "week"},
+    {label: "hónap", value: "month"},
+    {label: "félév", value: "halfyear"},
+    {label: "összes", value: "all"},
 ]
 
 return (
