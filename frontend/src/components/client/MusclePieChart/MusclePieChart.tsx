@@ -1,13 +1,10 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { Cell, Legend, Pie, PieChart } from 'recharts'
-import styles from './MusclePieChart.module.scss'
-import { Text } from '@/components/server'
-import { groupIzomcsoportCounts } from "@/utils"
-
-
-
+import React, { useEffect, useState } from "react";
+import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
+import styles from "./MusclePieChart.module.scss";
+import { Text } from "@/components/server";
+import { groupIzomcsoportCounts } from "@/utils";
 
 interface MusclePieChartProps {
   data: Record<number, number>[];
@@ -17,20 +14,16 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
   const groupedData = groupIzomcsoportCounts(data[0]);
 
   const [isClient, setIsClient] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
     setIsClient(true);
 
-   
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 700);
     };
 
-
     handleResize();
-
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -40,10 +33,6 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
     return null;
   }
 
-  const onPieClick = (event: React.MouseEvent, index: number) => {
-    event.preventDefault();
-    setActiveIndex(index === activeIndex ? null : index);
-  };
 
   const totalValue = groupedData.reduce((sum, item) => sum + item.value, 0);
 
@@ -64,38 +53,60 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={isMobile ? 90 : 90} 
+          outerRadius={isMobile ? 90 : 90}
           labelLine={false}
           stroke="none"
         >
           {groupedData.map((entry, index) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={entry.color}
-              stroke={index === activeIndex ? "#fff" : "none"}
-              strokeWidth={index === activeIndex ? 3 : 1}
-              onClick={(event) => onPieClick(event, index)}
-            />
+            <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
           ))}
         </Pie>
 
+
+        <Tooltip
+          content={({ active, payload }) => {
+            if (active && payload && payload.length) {
+              const { name, value } = payload[0].payload;
+              const percentage = ((value / totalValue) * 100).toFixed(1);
+              return (
+                <div className={styles.tooltip}>
+                  <Text>{name}: {percentage}%</Text>
+                </div>
+              );
+            }
+            return null;
+          }}
+        />
+
         <Legend
           className={styles["legend"]}
-          layout={isMobile ? "horizontal" : "vertical"} 
+          layout={isMobile ? "horizontal" : "vertical"}
           verticalAlign={isMobile ? "bottom" : "middle"}
-          align={isMobile ? "center" : "right"} 
-          wrapperStyle={{ color: "#fff" }}
+          align={isMobile ? "center" : "right"}
+          content={({ payload }) => (
+            <ul className={styles.legendList}>
+              {payload?.map((entry, index) => (
+                <li key={`legend-item-${index}`}>
+                  <span
+                    style={{
+                      backgroundColor: entry.color,
+                      width: 12,
+                      height: 12,
+                      display: "inline-block",
+                      marginRight: 5,
+                    }}
+                  ></span>
+                  {entry.value}
+                </li>
+              ))}
+            </ul>
+          )}
         />
-      </PieChart>
 
-      {activeIndex !== null && (
-        <div className={styles.tooltip}>
-          <Text>
-            {groupedData[activeIndex].name}:{" "}
-            {((groupedData[activeIndex].value / totalValue) * 100).toFixed(1)}%
-          </Text>
-        </div>
-      )}
+
+
+
+      </PieChart>
     </div>
   );
 };
