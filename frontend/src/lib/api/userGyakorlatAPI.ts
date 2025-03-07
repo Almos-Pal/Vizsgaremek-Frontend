@@ -49,10 +49,16 @@ const userGyakorlatAPI = {
           page: page.toString(),
           limit: limit.toString(),
         };
-    
+        const paramsWithoutUserId: Record<string, string> = {
+          page: page.toString(),
+          limit: limit.toString(),
+        }
+ 
          if (userId !== null) params.userId = userId.toString();
+         
     
-        const query = new URLSearchParams(params).toString();
+        const query = new URLSearchParams( paramsWithoutUserId).toString();
+
         const response = await fetch(`http://localhost:8000/user-gyakorlat/user/${userId}?${query}`);
     
         if (!response.ok) {

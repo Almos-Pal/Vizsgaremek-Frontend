@@ -88,16 +88,18 @@ const EditUserData: React.FC<UserData & { isDisabled: boolean }> = (userData) =>
 
   const {mutate: updateUser} = useUser.updateUser();
 
-  const onSubmit = async (values: UserData & { suly: number; magassag: number }) => {
+  const onSubmit = async (values: Omit<UserData, 'user_id'> & { suly: number; magassag: number }) => {
     try {
+      const { user_id, ...updatedValues } = values; // Remove user_id
+  
       updateUser(
         { 
           values: {
-            ...values,
+            ...updatedValues,
             suly: values.suly ? values.suly : undefined,
             magassag: values.magassag ? values.magassag : undefined,
           }, 
-          id: userData.user_id 
+          id: userData.user_id // Use user_id separately
         },
         {
           onSuccess: () => {
@@ -113,7 +115,8 @@ const EditUserData: React.FC<UserData & { isDisabled: boolean }> = (userData) =>
     } catch (e) {
       toast.error("Hiba történt az adatmódosítás során");
     }
-  }
+  };
+  
   
 
   return (
