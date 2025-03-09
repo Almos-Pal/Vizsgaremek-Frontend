@@ -90,12 +90,15 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
                   <span
                     style={{
                       backgroundColor: entry.color,
-                      width: 12,
-                      height: 12,
+
+                      fontSize: 16,
+
                       display: "inline-block",
                       marginRight: 5,
                     }}
                   ></span>
+
+
                   {entry.value}
                 </li>
               ))}

@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { Navbar } from '@/components/client'
+import { Navbar, Stats } from '@/components/client'
 import { Button } from '@/components/client'
 import { MusclePieChart } from "@/components/client";
 
@@ -24,6 +24,8 @@ function page() {
   return (
     <>
       <MusclePieChart data={[izomcsoportCounts]} />
+
+      <Stats />
     </>
   )
 }

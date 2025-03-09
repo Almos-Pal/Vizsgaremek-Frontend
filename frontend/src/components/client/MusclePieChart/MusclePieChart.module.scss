@@ -12,7 +12,7 @@
 .container {
     background-color: var(--color-grey-500);
     width: 520px;
-    height: 370px;
+    height: 330px;
     border-radius: 1rem;
     min-width: 350px;
     max-width: 730px;
@@ -48,10 +48,6 @@
         text-align: center;
         pointer-events: none;
 
-        @include mobile {
-            margin-left: 36%;
-            margin-top: 1rem;
-        }
     }
 }
 
