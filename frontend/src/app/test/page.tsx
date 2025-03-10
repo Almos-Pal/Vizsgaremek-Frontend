@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import BodySVG from "@/components/server/BodySVG/BodySVG";
 import {  use, useEffect, useState } from "react";
 import { useToast } from "@/hooks";
+import Weight from "@/components/client/WeightSum/Weight";
 import { MusclePieChart } from "@/components/client";
 import { FormikSelect } from "@/components/client/_inputs";
 // import { useRouter } from "next/router";
@@ -29,10 +30,11 @@ const TestPage: React.FC = () => {
   const handleClick = () => {
     toast.info("asd");
   }
- 
+   
   return (
     
     <div className="flex flex-wrap">
+      <Weight weight={100} />
 
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>
