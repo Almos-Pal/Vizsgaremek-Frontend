@@ -1,5 +1,6 @@
 import edzesAPI from '@/lib/api/edzesAPI';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { get } from 'http';
 import { start } from 'repl';
 
 const useEdzes = {
@@ -197,6 +198,12 @@ const useEdzes = {
         queryFn: () => edzesAPI.fetchTenDays(userId,gyakorlat),
       });
   }
-};
+  getEdzesByType:(id:number,type:string) =>{
+    return useQuery({
+      queryKey: ['edzes', id,type],
+      queryFn: () => edzesAPI.fetchEdzesekChosenDate(id,type),
+    });
 
+},
+}
 export default useEdzes;
