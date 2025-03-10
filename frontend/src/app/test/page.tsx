@@ -1,15 +1,21 @@
 "use client";
-import { Button } from "@/components/client";
+import { Button, StatFilter } from "@/components/client";
 import Flag from "@/components/server/Flags/Flag";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text ,Icons} from "@/components/server";
 import { Form, Formik } from "formik";
+import {useEdzes} from "@/hooks/index";
 
 import * as Yup from "yup";
 import BodySVG from "@/components/server/BodySVG/BodySVG";
-import {  useState } from "react";
+import {  use, useEffect, useState } from "react";
 import { useToast } from "@/hooks";
+import { MusclePieChart } from "@/components/client";
+import { FormikSelect } from "@/components/client/_inputs";
+// import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const TestPage: React.FC = () => {
   const validationSchema = Yup.object().shape({
@@ -19,15 +25,15 @@ const TestPage: React.FC = () => {
   }); 
 
   const toast = useToast();
-//  const [state, setState] = useState("front");
 
   const handleClick = () => {
     toast.info("asd");
   }
-
-
+ 
   return (
+    
     <div className="flex flex-wrap">
+
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>
       <Text variant="h3">Test Page</Text>
@@ -112,6 +118,7 @@ const TestPage: React.FC = () => {
   <Flag izomcsoportok={[1,2,3,4]} foizomcsoport={8} />
   
 </div>
+
     </div>
   );
 };

@@ -1,15 +1,38 @@
+@use "styles/breakpoints.scss" as *;
 
-.mainDiv{
-    background-color: var(--color-grey-500);
-    width: 100%;
-    
 
-  }
+.mainDiv {
+  background-color: var(--color-grey-500);
+  width: 100%;
 
-  .humanDiv{
-    background-color: var(--color-grey-400);
-    width: 100% !important;
-  }
-  .greenify{
-    color: var(--color-success);
-  }
+
+}
+
+.humanDiv {
+  background-color: var(--color-grey-400);
+  width: 100% !important;
+ 
+}
+
+.greenify {
+  color: var(--color-success);
+}
+
+.pieChart {
+  margin: auto;
+}
+
+.tooltip {
+  background: var(--color-grey-400);
+  padding: 8px 12px;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  width: 100px;
+  text-align: center;
+  pointer-events: none;
+
+}
+
+.pieChart * {
+  outline: none;
+}
