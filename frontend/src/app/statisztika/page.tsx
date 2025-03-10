@@ -1,13 +1,14 @@
 "use client";
 
-import { MusclePieChart, ProgressChart, StatFilter, UnderLinedText, Weight } from "@/components/client";
-import { useEdzes } from "@/hooks";
+import { MusclePieChart, ProgressChart, RecordCard, StatFilter, UnderLinedText, Weight } from "@/components/client";
+import { useEdzes, useUserGyakorlat } from "@/hooks";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { EdzesStatsResponse } from "@/types/edzes"; // Import your new interface
 import { UseQueryResult } from "@tanstack/react-query";
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
+import styles from "./page.module.scss"
 
 const Statistics: React.FC = () => {
   const queryParams = new URLSearchParams();
@@ -28,27 +29,55 @@ const Statistics: React.FC = () => {
       router.push(`?${updatedParams.toString()}`, { scroll: false });
     }
   };
+  0
 
 
-  console.log("ez a data az intervallumos data:", data);
+  const { data: records, isLoading } = useUserGyakorlat.getRecords({
+    isRecord: true,
+    userId,
+  });
+
+
 
   return (
 
 
-    <ContentLayout>
-      <div style={{marginLeft: '0.5 rem'}}>
-        <UnderLinedText  lineLength={250} text="Szűrés" />
+
+    <ContentLayout header="Statisztikák">
+      <div className={styles.container}>
+
+
+        <div className={`${styles["rekordok"]} flex flex-row gap-6 mb-12 flex-wrap justify-center`}>
+          {records && records.items.map((record) => (
+            <div key={record.gyakorlat.gyakorlat_neve}>
+              <RecordCard record={record} />
+
+            </div>
+          ))}
+        </div>
+
+        
+        <UnderLinedText lineLength={250} text="Szűrés" />
+        <StatFilter onFilterChange={handleFilterChange} />
+
+
+        <div className={styles["chart-container"]}>
+          <ProgressChart />
+          {!data?.meta && <h2>JELENLEG NINCSENEK ADATOK</h2>}
+        </div>
+
+        {data?.meta && (
+          <div className={styles["double-trouble"]}>
+            <div className={styles.pieChart}>
+              <MusclePieChart data={[data.meta.izomcsoportCounts]} />
+            </div>
+
+            <div className={styles.weight}>
+              <Weight weight={data.meta.totalWeight} />
+            </div>
+          </div>
+        )}
       </div>
-      <StatFilter onFilterChange={handleFilterChange} />
-      <ProgressChart />
-
-      {data?.meta && (
-        <>
-          <Weight weight={data.meta.totalWeight} />
-          <MusclePieChart data={[data.meta.izomcsoportCounts]} />
-        </>
-      )}
-
     </ContentLayout>
 
 

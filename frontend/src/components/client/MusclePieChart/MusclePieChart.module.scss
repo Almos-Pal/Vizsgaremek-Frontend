@@ -20,9 +20,11 @@
 
     @include mobile {
         width: 60%;
+        max-width: 850px;
         height: 100%;
-        margin: 20px;
+        
         margin: auto;
+        
     }
 
     .title {

@@ -1,7 +1,9 @@
 @use "styles/breakpoints.scss" as *;
 
 .container {
-    width: 500px;
+    width: 30vw;
+
+   
     height: 200px;
     background-color: var(--color-grey-500);
     text-align: center;
@@ -9,9 +11,15 @@
     border-radius: 1rem;
     vertical-align: middle;
 
+
+    @include desktop {
+        max-width: 475px;
+    }
     @include mobile {
-        width: 366px;
+        width: 60%;
+        min-width: 350px;
         height: 150px;
+        margin: auto;
     }
 
     .title {

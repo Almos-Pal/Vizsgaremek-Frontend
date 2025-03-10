@@ -3,6 +3,7 @@ import { FormikSelect } from "../../_inputs";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "./StatisztikaFilter.module.scss";
+import { Text } from "@/components/server";
 interface StatFilterProps {
   onFilterChange: (values: any) => void;
 }
@@ -35,11 +36,14 @@ const StatFilter: React.FC<StatFilterProps> = ({ onFilterChange }) => {
 
         return (
           <>
-            <Form style={{ maxWidth: "320px", margin: "10px" }} >
+            <Form style={{ maxWidth: "320px", marginTop: '0.5rem' }} >
+            <label>
+                    <Text variant="caption">Időtartam:</Text>
+                  </label>
               <FormikSelect
 
                 name="idotartam"
-                label="Időtartam:"
+              
                 options={Option}
 
               />
