@@ -8,7 +8,7 @@ import { groupIzomcsoportCounts } from "@/utils";
 import styles from './Stats.module.scss';
 import clsx from "clsx";
 
-
+//DUMMY DATA
 const data = [
     {
         11: 9,
@@ -56,8 +56,6 @@ function Stats() {
                         className={styles["pieChart"]}
                         width={200} height={200}
                     >
-
-
                         <Pie
                             data={groupedData}
                             dataKey="value"
@@ -87,10 +85,6 @@ function Stats() {
                                 return null;
                             }}
                         />
-
-
-
-
                     </PieChart>
                 </div>
 
