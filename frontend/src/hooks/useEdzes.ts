@@ -197,7 +197,7 @@ const useEdzes = {
         queryKey: ['edzes/ten', userId,gyakorlat],
         queryFn: () => edzesAPI.fetchTenDays(userId,gyakorlat),
       });
-  }
+  },
   getEdzesByType:(id:number,type:string) =>{
     return useQuery({
       queryKey: ['edzes', id,type],

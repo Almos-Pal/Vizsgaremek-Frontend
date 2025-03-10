@@ -235,7 +235,7 @@ const edzesAPI = {
     }
     
     return response.json() as unknown as EdzesTenDays[];
-  }
+  },
   
 
   fetchEdzesekChosenDate: async (userId: number, type:string) => {
