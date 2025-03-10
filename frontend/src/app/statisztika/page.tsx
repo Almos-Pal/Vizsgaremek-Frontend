@@ -1,6 +1,6 @@
 "use client"
 
-import { StatFilter } from '@/components/client';
+import { MusclePieChart, ProgressChart, StatFilter } from '@/components/client';
 import { useEdzes } from '@/hooks';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -37,7 +37,9 @@ const Regisztralas: React.FC = () => {
   return (
     <div>
       <StatFilter onFilterChange={handleFilterChange} />
-
+      <ProgressChart />
+      <MusclePieChart data={}/>
+      
 
     </div>
   );
