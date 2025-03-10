@@ -1,48 +1,58 @@
-"use client"
+"use client";
 
-import { MusclePieChart, ProgressChart, StatFilter } from '@/components/client';
-import { useEdzes } from '@/hooks';
-import { useSession } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import React from 'react';
+import { MusclePieChart, ProgressChart, StatFilter, UnderLinedText, Weight } from "@/components/client";
+import { useEdzes } from "@/hooks";
+import { useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React from "react";
+import { EdzesStatsResponse } from "@/types/edzes"; // Import your new interface
+import { UseQueryResult } from "@tanstack/react-query";
+import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
 
-const Regisztralas: React.FC = () => {
-
+const Statistics: React.FC = () => {
   const queryParams = new URLSearchParams();
   const searchParams = useSearchParams();
-
   const router = useRouter();
-
   const { data: session } = useSession();
-  let userId = 0;
-  if (useSession().data !== undefined) {
-    userId = session?.user.user_id || 0;
-  }
 
+  let userId = session?.user?.user_id || 0;
   const filteredValues = searchParams.get("type") || "all";
 
+  const { data } = useEdzes.getEdzesByType(userId, filteredValues) as unknown as UseQueryResult<EdzesStatsResponse, Error>;
 
-  const { data: data, } = useEdzes.getEdzesByType(userId, filteredValues);
   const handleFilterChange = (values: any) => {
     if (values) {
-      if (values) queryParams.set("type", values);
-      const queryString = queryParams.toString();
-      router.push(queryString ? `?${queryString}` : window.location.pathname);
+      const updatedParams = new URLSearchParams(window.location.search);
+      updatedParams.set("type", values);
 
+      router.push(`?${updatedParams.toString()}`, { scroll: false });
     }
   };
 
-  console.log("ez a data az intervallumos data:", data)
+
+  console.log("ez a data az intervallumos data:", data);
 
   return (
-    <div>
+
+
+    <ContentLayout>
+      <div style={{marginLeft: '0.5 rem'}}>
+        <UnderLinedText  lineLength={250} text="Szűrés" />
+      </div>
       <StatFilter onFilterChange={handleFilterChange} />
       <ProgressChart />
-      <MusclePieChart data={}/>
-      
 
-    </div>
+      {data?.meta && (
+        <>
+          <Weight weight={data.meta.totalWeight} />
+          <MusclePieChart data={[data.meta.izomcsoportCounts]} />
+        </>
+      )}
+
+    </ContentLayout>
+
+
   );
 };
 
-export default Regisztralas;
+export default Statistics;

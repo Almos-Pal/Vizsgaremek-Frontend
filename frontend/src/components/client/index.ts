@@ -23,3 +23,4 @@ export {default as Flag} from "../server/Flags/Flag";
 export {default as RecordCard} from "./RecordCard/RecordCard";
 export {default as UserItem} from "./UserItem/UserItem";
 export {default as MusclePieChart} from "./MusclePieChart/MusclePieChart";
+export {default as Weight} from "./WeightSum/Weight";

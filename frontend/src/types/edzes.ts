@@ -82,4 +82,19 @@ export interface EdzesFormValues {
     user_id: number;
 }
 
-  
+// Define the shape of izomcsoportCounts (muscle group statistics)
+export interface IzomcsoportCounts {
+  [key: number]: number; // Muscle group ID -> count of occurrences
+}
+
+// Define the structure of the meta object
+export interface EdzesMetaData {
+  izomcsoportCounts: IzomcsoportCounts;
+  totalWeight: number;
+}
+
+// ✅ This is the final API response interface
+export interface EdzesStatsResponse {
+  items: Edzes[]; // ✅ Reusing your existing Edzes interface
+  meta: EdzesMetaData; // ✅ Includes only the necessary metadata
+}

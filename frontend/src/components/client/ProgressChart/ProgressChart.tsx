@@ -94,21 +94,24 @@ export default function ProgressChart() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.main}>
+        <Text style={{textAlign: "center"}} variant="h4">Fejlődési idővonal</Text>
+        <div className={styles.main}>
 
         <Formik
           initialValues={{ gyakorlat: "" }}
           onSubmit={() => { }}
         >
           {({ setFieldValue, values }) => {
-            useEffect(() => {
-              if (values.gyakorlat) {
-                if (values.gyakorlat?.trim()) queryParams.set("gyakorlat_id", values.gyakorlat.trim());
-                const queryString = queryParams.toString();
-                router.push(queryString ? `?${queryString}` : window.location.pathname);
-                setSelectedGyakorlat(parseInt(values.gyakorlat));
-              }
-            }, [values.gyakorlat]);
+           useEffect(() => {
+            if (values.gyakorlat) {
+              const updatedParams = new URLSearchParams(window.location.search); 
+              updatedParams.set("gyakorlat_id", values.gyakorlat.trim()); 
+          
+              router.push(`?${updatedParams.toString()}`, { scroll: false });
+              setSelectedGyakorlat(parseInt(values.gyakorlat));
+            }
+          }, [values.gyakorlat]);
+                  
 
             return (
               <>

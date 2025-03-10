@@ -15,10 +15,11 @@
     }
 
     .title {
-        margin-top: 1.5rem;
+       
+        padding-top: 2rem;
 
         @include mobile {
-            margin-top: 1rem;
+            padding-top: 1.25rem;
         }
     }
 
