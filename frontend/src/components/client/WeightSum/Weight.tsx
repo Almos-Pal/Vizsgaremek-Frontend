@@ -4,16 +4,19 @@ import { Text } from '@/components/server'
 
 interface WeightProps {
     weight?: number
+    dashboard?: boolean
 }
 
-const Weight: React.FC<WeightProps> = ({ weight }) => {
+const Weight: React.FC<WeightProps> = ({ weight, dashboard }) => {
     return (
-        <div className={styles.container}>
-            <Text className={styles.title} variant='h4'>
+        <div className={dashboard ? styles.dashboardContainer : styles.container}>
+            {!dashboard && (
+                <Text className={styles.title} variant='h4'>
                 Összesített súly leedzve
-            </Text>
-            <Text className={styles.value} variant='h1'>
-                {weight !== undefined ? `${weight.toFixed()} kg` : 'N/A'}
+                </Text>
+            )}
+            <Text className={styles.value} variant={dashboard ? 'h2' : 'h1'}>
+            {weight !== undefined ? `${weight.toFixed()} kg` : 'N/A'}
             </Text>
         </div>
     )

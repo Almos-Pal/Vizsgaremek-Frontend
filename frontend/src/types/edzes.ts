@@ -24,11 +24,11 @@ export interface EdzesTenDays {
   isFinalized?: boolean;
 }
 export interface EdzesCreate {
-    edzes_neve: string;
-    datum?: Date;
-    ido?: number;
-    user_id: number;
-    gyakorlatok?: any[]; 
+  edzes_neve: string;
+  datum?: Date;
+  ido?: number;
+  user_id: number;
+  gyakorlatok?: any[];
 }
 
 interface PrevHistory {
@@ -41,60 +41,60 @@ interface PrevHistory {
 }
 
 export interface EdzesFormValues {
-    edzes_id?: number; 
-    edzes_neve: string;
-    datum: Date;
-    ido: number;
-    user_id: number;
+  edzes_id?: number;
+  edzes_neve: string;
+  datum: Date;
+  ido: number;
+  user_id: number;
 
-    gyakorlatok: {
-  
-      gyakorlat_id?: number;
-      gyakorlat_neve: string;
-      szettek: {
+  gyakorlatok: {
 
-        set_szam?: number;
-        weight: number;
-        reps: number;
-      }[];
-      previous_history?: PrevHistory[];
-    }[];
-  }
-
-  export interface GyakorlatWithSets {
-    edzes_id: number;
-    gyakorlat_id: number;
-    gyakorlat: Gyakorlat;
+    gyakorlat_id?: number;
+    gyakorlat_neve: string;
     szettek: {
+
       set_szam?: number;
       weight: number;
       reps: number;
     }[];
-    total_sets: number;
-  }
-  export interface edzesGyakorlat {
-    eszkoz: string;
-    fo_izomcsoport: number;
-    gyakorlat_id: number;
-    gyakorlat_leiras: string;
-    gyakorlat_neve: string;
-    izomcsoportok: number[]
-    user_id: number;
+    previous_history?: PrevHistory[];
+  }[];
 }
 
-// Define the shape of izomcsoportCounts (muscle group statistics)
+export interface GyakorlatWithSets {
+  edzes_id: number;
+  gyakorlat_id: number;
+  gyakorlat: Gyakorlat;
+  szettek: {
+    set_szam?: number;
+    weight: number;
+    reps: number;
+  }[];
+  total_sets: number;
+}
+export interface edzesGyakorlat {
+  eszkoz: string;
+  fo_izomcsoport: number;
+  gyakorlat_id: number;
+  gyakorlat_leiras: string;
+  gyakorlat_neve: string;
+  izomcsoportok: number[]
+  user_id: number;
+}
+
+
 export interface IzomcsoportCounts {
-  [key: number]: number; // Muscle group ID -> count of occurrences
+  [key: number]: number;
 }
 
-// Define the structure of the meta object
+
 export interface EdzesMetaData {
   izomcsoportCounts: IzomcsoportCounts;
   totalWeight: number;
 }
 
-// ✅ This is the final API response interface
+
 export interface EdzesStatsResponse {
-  items: Edzes[]; // ✅ Reusing your existing Edzes interface
-  meta: EdzesMetaData; // ✅ Includes only the necessary metadata
+  items: Edzes[];
+  meta: EdzesMetaData;
 }
