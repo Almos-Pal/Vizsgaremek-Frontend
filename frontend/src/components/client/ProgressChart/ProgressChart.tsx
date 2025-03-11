@@ -29,10 +29,7 @@ export default function ProgressChart() {
   const userId = session?.user.user_id;
   const queryParams = new URLSearchParams();
   const router = useRouter();
-  let [searchParams] = useSearchParams();
-  if (searchParams === undefined) {
-    searchParams = ["0", "0"];
-  }
+  const searchParams = useSearchParams();
 
   const { data: userGyakorlatData, isLoading: isloadingGyak } = useUserGyakorlat.fetchUserGyakorlatokAll({
     userId: userId!,
@@ -49,11 +46,20 @@ export default function ProgressChart() {
     value: gyakorlat.gyakorlat_id.toString(),
     label: gyakorlat.gyakorlat_neve
   }));
-  console.log(searchParams[1]);
-  const [selectedGyakorlat, setSelectedGyakorlat] = useState<number>(parseInt(searchParams[1]) ? parseInt(searchParams[1]) : 0);
+
+  const [selectedGyakorlat, setSelectedGyakorlat] = useState<number>(searchParams.get("gyakorlat_id") ? parseInt(searchParams.get("gyakorlat_id")!) : 0);
   const [items, setItems] = useState<chartDataProps[]>([]);
 
   const { data: tenDayData, isLoading: isLoadingUser, refetch, error } = useEdzes.getTenDayEdzesek(userId!, selectedGyakorlat);
+
+
+  useEffect(() => {
+    if (!searchParams.get("gyakorlat_id") && gyakorlatsOptions.length > 0) {
+      setSelectedGyakorlat(parseInt(gyakorlatsOptions[0].value));
+      router.push(`?gyakorlat_id=${gyakorlatsOptions[0].value}`, { scroll: false });
+    }
+  }, [gyakorlatsOptions, router]);
+
 
   useEffect(() => {
     if (selectedGyakorlat !== null) {
@@ -91,28 +97,29 @@ export default function ProgressChart() {
       </div>
     );
   }
-
+ 
   return (
     <div className={styles.container}>
-        <Text style={{textAlign: "center"}} variant="h4">Fejlődési idővonal</Text>
-        <div className={styles.main}>
+      <Text style={{ textAlign: "center" }} variant="h4">Fejlődési idővonal</Text>
+      <div className={styles.main}>
 
         <Formik
           initialValues={{ gyakorlat: "" }}
           onSubmit={() => { }}
         >
           {({ setFieldValue, values }) => {
-           useEffect(() => {
-            if (values.gyakorlat) {
-              const updatedParams = new URLSearchParams(window.location.search); 
-              updatedParams.set("gyakorlat_id", values.gyakorlat.trim()); 
-          
-              router.push(`?${updatedParams.toString()}`, { scroll: false });
-              setSelectedGyakorlat(parseInt(values.gyakorlat));
-            }
-          }, [values.gyakorlat]);
-                  
-
+            useEffect(() => {
+              if (values.gyakorlat) {
+                const updatedParams = new URLSearchParams(window.location.search);
+                updatedParams.set("gyakorlat_id", values.gyakorlat.trim());
+                
+                router.push(`?${updatedParams.toString()}`, { scroll: false });
+                setSelectedGyakorlat(parseInt(values.gyakorlat));
+              }
+            }, [values.gyakorlat]);
+                
+            
+            
             return (
               <>
                 <Form className={styles.form}>
@@ -123,28 +130,33 @@ export default function ProgressChart() {
                     name="gyakorlat"
                     options={gyakorlatsOptions}
 
-                  />
+                    />
                 </Form>
-                
-                <ResponsiveContainer className={styles.bar} width={"100%"} height={400}>
-                  <BarChart
-                    width={1100}
-                    height={400}
-                    data={items}
-                    className={styles["bar-chart"]}
 
-                    margin={{
+                <ResponsiveContainer className={styles.bar} width={"100%"} height={400}>
+                    {items.length === 0 ? (
+                    <div className={styles["no-data"]}>
+                      <Text variant="h1">Jelenleg nincsenek adatok</Text>
+                    </div>
+                    ) : (
+                    <BarChart
+                      width={1100}
+                      height={400}
+                      data={items}
+                      className={styles["bar-chart"]}
+                      margin={{
                       top: 5,
                       left: 0,
                       right: 15,
                       bottom: 5,
-                    }}
-                  >
-                    <XAxis reversed dataKey="date" className={styles["date"]} interval={0} overflow={0} height={46} fontFamily="manrope" angle={30} tickMargin={17} stroke="var(--color-light)" label={<Text variant="caption">ad</Text>} />
-                    <YAxis stroke="var(--color-light)" />
-                    <Tooltip cursor={{ fill: 'none' }} />
-                    <Bar radius={[5, 5, 0, 0]} dataKey="weight" barSize={"5%"} fill="var(--color-primary-50)" activeBar={<Rectangle fill="var(--color-primary-10)" />} />
-                  </BarChart>
+                      }}
+                    >
+                      <XAxis reversed dataKey="date" className={styles["date"]} interval={0} overflow={0} height={46} fontFamily="manrope" angle={30} tickMargin={17} stroke="var(--color-light)" label={<Text variant="caption">ad</Text>} />
+                      <YAxis stroke="var(--color-light)" />
+                      <Tooltip cursor={{ fill: 'none' }} />
+                      <Bar radius={[5, 5, 0, 0]} dataKey="weight" barSize={"5%"} fill="var(--color-primary-50)" activeBar={<Rectangle fill="var(--color-primary-10)" />} />
+                    </BarChart>
+                    )}
                 </ResponsiveContainer>
 
 

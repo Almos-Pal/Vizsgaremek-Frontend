@@ -10,7 +10,7 @@ interface MusclePieChartProps {
   data: Record<number, number>[];
 }
 
-const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
+const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {  
   const groupedData = groupIzomcsoportCounts(data[0]);
 
   const [isClient, setIsClient] = useState(false);
