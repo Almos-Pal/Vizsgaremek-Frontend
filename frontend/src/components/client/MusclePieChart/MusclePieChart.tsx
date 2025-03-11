@@ -44,8 +44,8 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
 
       <PieChart
         className={styles["pieChart"]}
-        width={isMobile ? 350 : 400}
-        height={isMobile ? 300 : 250}
+        width={isMobile ? 250 : 400}
+        height={isMobile ? 250 : 250}
       >
         <Pie
           data={groupedData}
@@ -53,7 +53,7 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={isMobile ? 90 : 90}
+          outerRadius={isMobile ? 70 : 90}
           labelLine={false}
           stroke="none"
         >

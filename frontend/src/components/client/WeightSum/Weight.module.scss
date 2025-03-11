@@ -1,7 +1,7 @@
 @use "styles/breakpoints.scss" as *;
 
 .container {
-    width: 30vw;
+  
 
    
     height: 200px;
@@ -13,13 +13,16 @@
 
 
     @include desktop {
-        max-width: 475px;
+        max-width: 490px;
+        width: 30vw;
     }
+
     @include mobile {
-        width: 60%;
-        min-width: 350px;
+        max-width: 1100px;
+        min-width: 280px;
         height: 150px;
-        margin: auto;
+        margin: 1rem;
+
     }
 
     .title {

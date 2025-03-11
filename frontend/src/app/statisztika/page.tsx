@@ -1,6 +1,6 @@
 "use client";
 
-import { MusclePieChart, ProgressChart, RecordCard, StatFilter, UnderLinedText, Weight } from "@/components/client";
+import { Button, MusclePieChart, ProgressChart, RecordCard, StatFilter, UnderLinedText, Weight } from "@/components/client";
 import { useEdzes, useUserGyakorlat } from "@/hooks";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { EdzesStatsResponse } from "@/types/edzes"; // Import your new interface
 import { UseQueryResult } from "@tanstack/react-query";
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
+import { Text } from "@/components/server"
 import styles from "./page.module.scss"
 
 const Statistics: React.FC = () => {
@@ -47,18 +48,24 @@ const Statistics: React.FC = () => {
       <div className={styles.container}>
 
 
-        <div className={`${styles["rekordok"]} flex flex-row gap-6 mb-12 flex-wrap justify-center`}>
-          {records && records.items.map((record) => (
-            <div key={record.gyakorlat.gyakorlat_neve}>
-              <RecordCard record={record} />
+        <div className={styles["rekordok"]}>
+          <Text style={{textAlign: "center", paddingTop: "1rem", paddingBottom: "1rem "}} variant="h4">Rekordok</Text>
+          <div className={` flex flex-row gap-6 mb-12 flex-wrap justify-center`}>
+            {records && records.items.map((record) => (
+              <div key={record.gyakorlat.gyakorlat_neve}>
+                <RecordCard record={record} />
+              </div>
+            ))}
+          </div>
+            <div className={styles["rekord-button"]}><Button href={"/rekordok"} rightIcon="SearchIcon" color="secondary" >Több rekord</Button></div>
 
-            </div>
-          ))}
         </div>
 
-        
-        <UnderLinedText lineLength={250} text="Szűrés" />
-        <StatFilter onFilterChange={handleFilterChange} />
+        <div className={styles["filter"]}>
+          
+          <UnderLinedText lineLength={250} text="Szűrés" />
+          <StatFilter onFilterChange={handleFilterChange} />
+        </div>
 
 
         <div className={styles["chart-container"]}>

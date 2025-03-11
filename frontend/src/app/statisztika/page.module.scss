@@ -3,10 +3,30 @@
 .container {
 
     .rekordok {
-        width: 1024px;
-        height: 500px;
+      
+
+        @include desktop {
+            max-width: 1024px;
+            min-width: 836px;
+        }
+
+        @include mobile {
+            margin: 1rem;
+        }
+     
         border-radius: 1rem;
         background-color: var(--color-grey-500);
+
+        .rekord-button {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 2rem;
+        }
+        margin-bottom: 2rem;
+    }
+
+    .filter {
+        margin-left: 1rem;
     }
 
 
@@ -23,6 +43,7 @@
             justify-content: center;
             gap: 2rem;
             padding-top: 1rem;
+            padding-bottom: 2rem;
         }
 
         @include mobile {
