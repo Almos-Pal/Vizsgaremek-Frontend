@@ -17,6 +17,9 @@ function EdzesekPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialPage = parseInt(searchParams.get("page") || "1", 10);
+    const help = (searchParams.get("gyakorlat_id")|| null);
+    const gyakorlat_id = help? parseInt(help): null;
+
     const [page, setPage] = useState(initialPage);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,7 +28,9 @@ function EdzesekPage() {
     const { data: edzesek, isLoading, error } = useEdzes.getEdzesek({
         page,
         limit: 3,
-        user_id: session?.user.user_id
+        user_id: session?.user.user_id,
+        gyakorlat_id
+        
     });
 
 
