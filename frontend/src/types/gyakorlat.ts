@@ -1,5 +1,12 @@
 export interface Gyakorlat {
+    
     gyakorlat_id: number;
+    gyakorlat_neve: string;
+    eszkoz: string;
+    fo_izomcsoport: number;
+    izomcsoportok: number[];
+    gyakorlat_leiras: string;
+
     gyakorlat: {
         eszkoz: string;
         fo_izomcsoport: number;
