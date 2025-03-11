@@ -36,6 +36,7 @@ const Statistics: React.FC = () => {
   const { data: records, isLoading } = useUserGyakorlat.getRecords({
     isRecord: true,
     userId,
+    limit:6,
   });
 
 
