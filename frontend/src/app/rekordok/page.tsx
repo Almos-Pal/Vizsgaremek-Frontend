@@ -31,7 +31,7 @@ const RecordsPage: React.FC<RekordokPageProps> = () => {
       isRecord: true,
       userId,
       page,
-      search,limit: 10
+      search,limit: 12
     }
     );
     console.log("records", records);
