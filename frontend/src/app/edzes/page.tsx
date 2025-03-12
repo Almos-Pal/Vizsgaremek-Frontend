@@ -9,11 +9,14 @@ import { Button, Pagination } from '@/components/client';
 import { Modal } from '@/components/client/_modal';
 import { NewEdzesForm } from '@/components/client/_forms';
 import { useSession } from 'next-auth/react';
+import dateParse from '@/utils/dateParse';
+import { useToast } from "@/hooks";
 
 function EdzesekPage() {
     const { data: session } = useSession();
     console.log('edzes user session data: ',session?.user.isAdmin);
     
+    const toast = useToast();
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialPage = parseInt(searchParams.get("page") || "1", 10);
@@ -40,6 +43,20 @@ function EdzesekPage() {
 
 
     const handleNewEdzes = () => {
+        const currentDate = new Date()
+        let edzesContrariety:boolean = false;
+        edzesek?.items.map((edzes: any)=>{
+          let help:Date = new Date(edzes.datum);
+            console.log(help.getFullYear())
+            if(dateParse(edzes.datum).includes(dateParse(currentDate))){
+                edzesContrariety = true;
+            }
+        })
+        if(edzesContrariety){
+            toast.error("A Mai nap Már van edzés!");
+            return;
+        }
+
         setIsModalOpen(true)
 
         const currentEdzesID = localStorage.getItem("currentEdzesID");
