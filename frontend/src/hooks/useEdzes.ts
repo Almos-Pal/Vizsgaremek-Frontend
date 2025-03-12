@@ -10,6 +10,7 @@ const useEdzes = {
     user_id?: number | null;
     edzes_neve?: string;
     gyakorlatok?: number[];
+    isTemplate?: boolean;
   } = {}) => {
     return useQuery({
       queryKey: ['edzesek', params],

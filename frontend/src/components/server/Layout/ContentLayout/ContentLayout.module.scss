@@ -12,6 +12,7 @@
     @include desktop {
         //solves the navbar overlapping problem, might be a bad solution look into it in the future
         margin-left: 10rem;
+        margin-bottom: 2rem;
     }
     @include mobile {
         //same solution just this time for the mobile navbar 
