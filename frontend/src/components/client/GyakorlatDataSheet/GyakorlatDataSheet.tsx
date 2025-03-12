@@ -28,11 +28,15 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
         <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/edit`}>
         diagramok
         </Button>
+        <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/szerkeszt`}>
+        szerkesztés
+        </Button>
       </div>
       <div className={styles.linksContainerMobile}>
       <Link href={`/gyakorlat/${data.gyakorlat_id}/records`}>Rekordok</Link>
       <Link href={`/gyakorlat/${data.gyakorlat_id}/history`}>Edzés előzmények</Link>
       <Link href={`/gyakorlat/${data.gyakorlat_id}/charts`}>Diagrammok</Link>
+      <Link href={`/gyakorlat/${data.gyakorlat_id}/szerkeszt`}>szerkesztés</Link>
     </div>
 
       <div className={styles.dataContainer}>
