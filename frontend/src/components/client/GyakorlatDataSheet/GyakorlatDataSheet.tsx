@@ -1,15 +1,19 @@
 "use client";
 
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
-import { Gyakorlat } from "@/types";
+import { Gyakorlat, User } from "@/types";
 import styles from "./GyakorlatDataSheet.module.scss";
 import {Button} from "@/components/client";
 import Link from "next/link";
 import { BodySVG, Text } from "@/components/server";
 import getMuscleNameById from "@/utils/izomcsoportParse";
 
+
 interface GyakorlatDataSheetProps {
   data: Gyakorlat; 
+}
+interface UserProps{
+  userData: User;
 }
 
 // const testdata = [1,2,3,4]
@@ -28,6 +32,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
         <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/edit`}>
         diagramok
         </Button>
+        {}
         <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/szerkeszt`}>
         szerkesztés
         </Button>
