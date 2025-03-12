@@ -62,16 +62,15 @@ const Statistics: React.FC = () => {
 
         </div>
 
-        <div className={styles["filter"]}>
-          
-          <UnderLinedText lineLength={250} text="Szűrés" />
-          <StatFilter onFilterChange={handleFilterChange} />
-        </div>
 
 
         <div className={styles["chart-container"]}>
           <ProgressChart />
-          {!data?.meta && <h2>JELENLEG NINCSENEK ADATOK</h2>}
+        </div>
+        <div className={styles["filter"]}>
+          
+          <UnderLinedText lineLength={250} text="Szűrés" />
+          <StatFilter onFilterChange={handleFilterChange} />
         </div>
 
         {data?.meta && (
