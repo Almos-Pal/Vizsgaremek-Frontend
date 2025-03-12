@@ -18,8 +18,8 @@ function EdzesekPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialPage = parseInt(searchParams.get("page") || "1", 10);
-    const help = (searchParams.get("gyakorlat_id")|| null);
-    const gyakorlat_id = help? parseInt(help): null;
+    const searchParamsGyakorlatId = (searchParams.get("gyakorlat_id")|| null);
+    const gyakorlat_id = searchParamsGyakorlatId? parseInt(searchParamsGyakorlatId): null;
 
     const [page, setPage] = useState(initialPage);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,7 +54,7 @@ function EdzesekPage() {
         storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
     }
     let header:string = 'Edzések';
-    if(edzesek?.items[0]){
+    if(edzesek?.items[0] && gyakorlat_id!==null){
         let headerHelper = ""
         edzesek?.items[0].gyakorlatok.map((gyakorlat: any) => {
             if(gyakorlat.gyakorlat_id === gyakorlat_id){
