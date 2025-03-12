@@ -32,6 +32,9 @@ export async function middleware(req: NextRequest) {
     if (pathname.startsWith("/admin") && !token.user.isAdmin) {
          return NextResponse.redirect(new URL("/dashboard", req.url));
     }
+    if (/\/gyakorlat\/\d{1,3}\/szerkeszt/.test(pathname) && !token.user.isAdmin) {
+        return NextResponse.redirect(new URL("/dashboard", req.url));
+   }
 
     return NextResponse.next();
 }
