@@ -19,20 +19,20 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
   <ContentLayout header={data.gyakorlat_neve}>
     <div >
       <div className={styles.linksContainer}>
-        <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/edit`}>
+        <Button color="secondary" href={`/rekordok`}>
         Rekordok
         </Button>
-        <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/edit`}>
+        <Button color="secondary" href={`/edzes?gyakorlat_id=${data.gyakorlat_id}`}>
         Edzés előzmények
         </Button>
-        <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/edit`}>
+        <Button color="secondary" href={`/statisztika`}>
         diagramok
         </Button>
       </div>
       <div className={styles.linksContainerMobile}>
-      <Link href={`/gyakorlat/${data.gyakorlat_id}/records`}>Rekordok</Link>
-      <Link href={`/gyakorlat/${data.gyakorlat_id}/history`}>Edzés előzmények</Link>
-      <Link href={`/gyakorlat/${data.gyakorlat_id}/charts`}>Diagrammok</Link>
+      <Link href={`/rekordok`}>Rekordok</Link>
+      <Link href={`/edzes?gyakorlat_id=${data.gyakorlat_id}`}>Edzés előzmények</Link>
+      <Link href={`/statisztika`}>Diagrammok</Link>
     </div>
 
       <div className={styles.dataContainer}>
