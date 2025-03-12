@@ -61,7 +61,7 @@ function EdzesekPage() {
                 headerHelper = gyakorlat.gyakorlat.gyakorlat_neve;
             }
         })
-        header = "Az alábbi edzések tartalmazzák a keresett gyakorlatot: " + help;
+        header = "Az alábbi edzések tartalmazzák a keresett gyakorlatot: " + headerHelper;
     }
     
 
