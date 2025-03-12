@@ -47,7 +47,7 @@ function EdzesekPage() {
         let edzesContrariety:boolean = false;
         edzesek?.items.map((edzes: any)=>{
           let help:Date = new Date(edzes.datum);
-            console.log(help.getFullYear())
+            
             if(dateParse(edzes.datum).includes(dateParse(currentDate))){
                 edzesContrariety = true;
             }
