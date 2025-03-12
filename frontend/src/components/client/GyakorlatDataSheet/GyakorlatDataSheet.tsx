@@ -19,13 +19,13 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
   <ContentLayout header={data.gyakorlat_neve}>
     <div >
       <div className={styles.linksContainer}>
-        <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/edit`}>
+        <Button color="secondary" href={`/rekordok`}>
         Rekordok
         </Button>
         <Button color="secondary" href={`/edzes?gyakorlat_id=${data.gyakorlat_id}`}>
         Edzés előzmények
         </Button>
-        <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/edit`}>
+        <Button color="secondary" href={`/statisztika`}>
         diagramok
         </Button>
       </div>
