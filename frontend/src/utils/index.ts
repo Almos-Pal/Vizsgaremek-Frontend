@@ -5,5 +5,5 @@ export { default as ReactSessionProvider } from './Providers/ReactSessionProvide
 export * from "./url";
 export  *  from './izomcsoportParse'; 
 export {default as flagValidator} from './flagValidator';
-export {default as DateParse} from './dateParse';   
+export {default as time} from './dateParse';   
 export {default as groupIzomcsoportCounts} from './groupIzomcsoportCounts';

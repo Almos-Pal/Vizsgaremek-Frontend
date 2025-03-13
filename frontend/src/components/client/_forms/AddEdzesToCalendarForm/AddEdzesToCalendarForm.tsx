@@ -4,13 +4,13 @@ import Button from "../../Button/Button";
 import { useEdzes, useToast } from "@/hooks";
 import styles from "./AddEdzesToCalendarForm.module.scss";
 import { useSession } from "next-auth/react";
-import { DateParse } from "@/utils";
 import { edzesfromTemplateSchema } from "@/utils/Validations/edzesfromTemplateSchema";
+import { time } from "@/utils";
 
 interface AddEdzesToCalendarFormProps {
-  onAdd: (edzesTemplateId: number) => void;
   onCancel: () => void;
     date: string;
+    refetch: () => void;
 }
 
 interface FormValues {
@@ -18,17 +18,19 @@ interface FormValues {
 }
 
 const AddEdzesToCalendarForm: React.FC<AddEdzesToCalendarFormProps> = ({
-  onAdd,
   date,
   onCancel,
+  refetch,
 }) => {
   const initialValues: FormValues = { templateId: "" };
+  const {data: session} = useSession();
+
   const { data: edzesTemplates } = useEdzes.getEdzesek({
     limit: 1000,
     isTemplate: true,
+    user_id: session?.user.user_id,
   });
   const {mutate: createEdzesFromTemplate} = useEdzes.createEdzesFromTemplate();
-  const {data: session} = useSession();
 const toast = useToast();
   const edzesOptions =
     edzesTemplates?.items?.map((edz: any) => ({
@@ -40,7 +42,8 @@ const toast = useToast();
     console.log("Submitting with values:", values);
    createEdzesFromTemplate({templateId: parseInt(values.templateId), userId:session!.user.user_id,  date: date}, {
         onSuccess: (edzes) => {
-            toast.success(`Az edzésterv sikeresen létrejött ${date.split('T')[0]}-ra`);
+            toast.success(`Az edzésterv sikeresen létrejött ${time.formatHungarianDate(date)}-ra`);
+            refetch();
 
            onCancel();
 

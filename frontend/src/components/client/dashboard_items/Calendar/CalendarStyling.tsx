@@ -182,7 +182,7 @@ const CalendarContainer = styled.div`
 
   .react-calendar__tile--now:enabled:hover,
   .react-calendar__tile--now:enabled:focus {
-    background: red;
+    background:var(--color-primary-50) ;
     width: 100px;
   }
 
@@ -198,14 +198,14 @@ const CalendarContainer = styled.div`
   }
 
   .react-calendar__tile--active {
-    background: red;
+    background: var(--color-primary-50);
     color: white;
     width: 100px;
   }
 
   .react-calendar__tile--active:enabled:hover,
   .react-calendar__tile--active:enabled:focus {
-    background: #1087ff;
+    background: var(--color-primary-50);
     width: 100px;
   }
 
@@ -219,6 +219,10 @@ const CalendarContainer = styled.div`
 
     .highlighted {
     background: var(--color-primary-50) !important;}
+  .grey-day {
+  background: var(--color-primary-90) !important;
+}
+
 `;
 
 export default CalendarContainer;
