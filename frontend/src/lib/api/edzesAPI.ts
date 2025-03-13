@@ -10,6 +10,7 @@ interface FetchEdzesekParams {
   user_id?: number | null;
   edzes_neve?: string;
   gyakorlatok?: number[];
+  isTemplate?: boolean;
   gyakorlat_id?: number | null;
   //izomcsoportId?: number;
   //izomcsoportok?: number[];
@@ -21,6 +22,7 @@ const edzesAPI = {
     user_id = null,
     edzes_neve,
     gyakorlatok,
+    isTemplate,
     gyakorlat_id= null
   }: FetchEdzesekParams = {}): Promise<PaginatedResponse<Edzes>> => {
     const params: Record<string, string> = {
@@ -30,6 +32,8 @@ const edzesAPI = {
 
     if (user_id ) params.user_id = user_id.toString();
     if (gyakorlat_id) params.gyakorlat_id = gyakorlat_id.toString();
+
+    if (isTemplate) params.isTemplate = isTemplate.toString();
     
     if (edzes_neve) params.edzes_neve = edzes_neve;
     if (gyakorlatok?.length) params.gyakorlatok = gyakorlatok.join(',');

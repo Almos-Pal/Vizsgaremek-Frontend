@@ -56,7 +56,6 @@ const RecordsPage: React.FC<RekordokPageProps> = () => {
            {records && records.items.map((record ) => (
             <div key={record.gyakorlat.gyakorlat_neve}>
               <RecordCard record={record} />
-
           </div>
             ))}
 
