@@ -14,6 +14,8 @@ import ConfirmationModal from "../_modal/ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
 import { StopWatch } from "..";
 import { BodySVG } from "@/components/server";
+import { EdzesOnSameDay } from "@/utils";
+import dateParse from "@/utils/dateParse";
 
 
 interface EdzesViewProps {
@@ -33,6 +35,11 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
     console.log(data.user_id);
     const cloneEdzesWithoutSets = async () => {
+        
+        if(dateParse(data.datum).includes(dateParse(new Date()))){
+             toast.error("A Mai nap Már van edzés!");
+             return;
+        }
         // Create new edzés with same name and no gyakorlatok.
         const newEdzesPayload = {
             edzes_neve: data.edzes_neve,
