@@ -2,12 +2,14 @@
 
 import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout'
 import styles from './page.module.scss'
-import { EdzesTervBlock, Pagination } from '@/components/client'
+import { Button, EdzesTervBlock, Pagination } from '@/components/client'
 import { useSession } from 'next-auth/react'
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import useEdzes from '@/hooks/useEdzes'
+import { Modal } from '@/components/client/_modal'
+import { NewEdzesForm } from '@/components/client/_forms'
 
 
 const EdzesTervekPage: React.FC = () => {
@@ -40,7 +42,16 @@ const EdzesTervekPage: React.FC = () => {
         ? edzesek.items.flat()
         : edzesek?.items;
 
+    const handleNewEdzes = () => {
+        setIsModalOpen(true)
+    }
+
+
+
     console.log(workouts)
+
+
+
     return (
 
         <ContentLayout header="Edzéstervek">
@@ -48,6 +59,10 @@ const EdzesTervekPage: React.FC = () => {
             {workouts?.map((edzes: any) => (
                 <EdzesTervBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
+
+            <div className='flex justify-center mt-4 pb-4'>
+                <Button width={225} color='secondary' rightIcon='AddIcon' onClick={(handleNewEdzes)} >Edzésterv</Button>
+            </div>
 
             <Pagination
                 value={page}
@@ -59,6 +74,19 @@ const EdzesTervekPage: React.FC = () => {
                     router.push(`?${params.toString()}`);
                 }}
             />
+
+
+
+            <Modal
+                visible={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                
+                showCloseButton={false}
+            >
+
+                <NewEdzesForm template onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />
+
+            </Modal>
         </ContentLayout>
 
     )

@@ -10,6 +10,7 @@ export interface Edzes {
   gyakorlatok: Gyakorlat[];
   cardiok?: number[];
   isFinalized?: boolean;
+  isTemplate?: boolean;
 }
 
 export interface EdzesTenDays {

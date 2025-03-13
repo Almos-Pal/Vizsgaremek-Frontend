@@ -96,7 +96,7 @@ const EdzesTervBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
             </div>
 
             <div className={styles["footer-button"]}>
-                <Button width={'100%'} color="secondary" >
+                <Button width={'100%'} color="secondary" href={`/edzestervek/${edzes.edzes_id}`} >
                     Edzés megtekintése
                 </Button>
             </div>
