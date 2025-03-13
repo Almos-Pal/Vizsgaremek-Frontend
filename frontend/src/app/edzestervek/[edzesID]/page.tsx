@@ -6,6 +6,7 @@ import { Text } from '@/components/server'
 import { useEdzes } from '@/hooks';
 
 import { useRouter } from "next/navigation";
+import { EdzesTervEditForm } from '@/components/client'
 
 
 interface PageParams {
@@ -50,9 +51,7 @@ const EdzesTervSzerkesztő: React.FC<EdzesTervSzerkesztPageProps> = ({ params })
 
 
     return (<ContentLayout header="Edzés szerkesztése" subheader={data.edzes_neve}>
-        <div>
-
-        </div>
+        <EdzesTervEditForm data={data} />
 
     </ContentLayout>
     )

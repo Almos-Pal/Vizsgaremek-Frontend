@@ -53,7 +53,6 @@ export interface EdzesFormValues {
     gyakorlat_id?: number;
     gyakorlat_neve: string;
     szettek: {
-
       set_szam?: number;
       weight: number;
       reps: number;

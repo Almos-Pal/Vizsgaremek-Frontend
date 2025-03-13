@@ -12,5 +12,6 @@ export const mapEdzesToFormValues = (edzes: Edzes): EdzesFormValues => ({
     gyakorlat_neve: gy.gyakorlat?.gyakorlat_neve,
     szettek: gy.szettek || [],
     previous_history: (gy as any).previous_history || [], 
+    gyakorlat_leiras: gy.gyakorlat?.gyakorlat_leiras,
   })),
 });
