@@ -9,8 +9,8 @@ import { Button, Pagination } from '@/components/client';
 import { Modal } from '@/components/client/_modal';
 import { NewEdzesForm } from '@/components/client/_forms';
 import { useSession } from 'next-auth/react';
-import dateParse from '@/utils/dateParse';
 import { useToast } from "@/hooks";
+import { EdzesOnSameDay } from '@/utils';
 
 function EdzesekPage() {
     const { data: session } = useSession();
@@ -43,16 +43,7 @@ function EdzesekPage() {
 
 
     const handleNewEdzes = () => {
-        const currentDate = new Date()
-        let edzesContrariety:boolean = false;
-        edzesek?.items.map((edzes: any)=>{
-          let help:Date = new Date(edzes.datum);
-            
-            if(dateParse(edzes.datum).includes(dateParse(currentDate))){
-                edzesContrariety = true;
-            }
-        })
-        if(edzesContrariety){
+        if(EdzesOnSameDay(edzesek)){
             toast.error("A Mai nap Már van edzés!");
             return;
         }

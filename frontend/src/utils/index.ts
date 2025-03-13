@@ -7,3 +7,4 @@ export  *  from './izomcsoportParse';
 export {default as flagValidator} from './flagValidator';
 export {default as DateParse} from './dateParse';   
 export {default as groupIzomcsoportCounts} from './groupIzomcsoportCounts';
+export {default as EdzesOnSameDay} from './edzesOnSameDay';
