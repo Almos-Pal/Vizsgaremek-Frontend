@@ -7,16 +7,14 @@ import Calendar from "react-calendar";
 import CalendarContainer from "./CalendarStyling";
 import { useRouter } from "next/navigation";
 import { useEdzes, useModal } from "@/hooks";
-import { ConfirmationModal, Modal } from "../../_modal";
+import {  Modal } from "../../_modal";
 import { AddEdzesToCalendarForm } from "../../_forms";
 import { useSession } from "next-auth/react";
 import { time } from "@/utils";
+import { Loading } from "../../Loading/Loading";
 
-type ValuePiece = Date | null;
 
-type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-let datums =["2025-02-16","2025-02-19","2025-02-24"]
 
 function CalendarWidget() {
     const router = useRouter();
@@ -34,11 +32,9 @@ function CalendarWidget() {
         const matchingItems = edzesek?.items.filter(item => time.isSameDay(item.datum, value));
 
         if (matchingItems?.length) {
-            // Assuming each item has an 'id' field
             const matchingIds = matchingItems.map(item => item.edzes_id);
             console.log("Matching IDs:", matchingIds);
     
-            // Redirect using the first matching ID (or handle multiple IDs as needed)
             router.push(`/edzes/${matchingIds[0]}`);
         }
         else{
@@ -96,7 +92,6 @@ function CalendarWidget() {
       
       
 
-    const [value, onChange] = useState<Value>(new Date());
     const [isClient, setIsClient] = useState(false);
     useEffect(() => {
         setIsClient(true);
@@ -105,7 +100,7 @@ function CalendarWidget() {
     return (
         <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[360px]  max-w-[325px] w-full flex flex-col m-2.5 p-0 rounded-lg ")}>            
                 <CalendarContainer>
-                 {isClient ? (<Calendar onChange={onChange}  onClickDay={handleDayClick}  tileClassName={tileClassName} value={value} />) : (<p>Loading</p>)}
+                 {isClient ? (<Calendar   onClickDay={handleDayClick}  tileClassName={tileClassName}  />) : (<Loading hasParent/>)}
                  </CalendarContainer>
         <Modal  children={<AddEdzesToCalendarForm  date={currentDate}onCancel={handleModalCancel} refetch={refetch} />} showCloseButton={false}  onClose={handleModalCancel}  visible={modal.visible} title="Válasz Edzést erre a napra"  /> 
 
