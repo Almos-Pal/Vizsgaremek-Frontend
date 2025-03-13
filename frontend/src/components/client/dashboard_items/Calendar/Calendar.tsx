@@ -7,6 +7,10 @@ import Calendar from "react-calendar";
 import CalendarContainer from "./CalendarStyling";
 import { useRouter } from "next/navigation";
 import { DateParse } from "@/utils";
+import { useModal } from "@/hooks";
+import { ConfirmationModal, Modal } from "../../_modal";
+import { AddEdzesToCalendarForm } from "../../_forms";
+import { useSession } from "next-auth/react";
 
 type ValuePiece = Date | null;
 
@@ -16,12 +20,26 @@ let datums =["2025-02-16","2025-02-19","2025-02-24"]
 
 function CalendarWidget() {
     const router = useRouter();
+    const [currentDate, setCurrentDate] = useState<string>("");
       
+    const modal = useModal();
 
     function handleDayClick(value: Date) {
-        router.push(`/edzes/${DateParse(value)}`);
+        const formatedDate = value.toISOString();
+        setCurrentDate(formatedDate);
+        modal.open();
+
+        // router.push(`/edzes/${DateParse(value)}`);
     }
 
+    const handleModalCancel = () => {
+        modal.close();
+    }
+
+    const handleModalConfirm = () => {
+        console.log("submit");
+    
+    }
 
     function tileClassName({date}: {date: Date}) {
        let help = "";
@@ -46,6 +64,8 @@ function CalendarWidget() {
                 <CalendarContainer>
                  {isClient ? (<Calendar onChange={onChange}  onClickDay={handleDayClick} tileClassName={tileClassName} value={value} />) : (<p>Loading</p>)}
                  </CalendarContainer>
+        <Modal  children={<AddEdzesToCalendarForm  date={currentDate}onCancel={handleModalCancel} onAdd={handleModalConfirm} />} showCloseButton={false}  onClose={handleModalCancel}  visible={modal.visible} title="Válasz Edzést erre a napra"  /> 
+
         </div>
     )
 }

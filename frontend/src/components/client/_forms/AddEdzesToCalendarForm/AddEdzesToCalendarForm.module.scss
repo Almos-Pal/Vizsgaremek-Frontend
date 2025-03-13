@@ -1,0 +1,41 @@
+@use "styles/breakpoints.scss" as *;
+
+
+  .formContainer {
+
+    margin-top: 2rem; 
+    width: 400px;
+
+    @include mobile {
+        width: auto;
+    }
+
+  
+
+  }
+  
+  .selectWrapper {
+    width: 100%;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    @include mobile {
+        flex-direction: column;
+        width: 100%; 
+       :nth-child(1){
+        order: 1;
+       }
+
+    }
+  }
+  

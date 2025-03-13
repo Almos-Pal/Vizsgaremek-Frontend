@@ -66,10 +66,10 @@ const AddGyakorlatModal: React.FC<AddGyakorlatModalProps> = ({ onAdd, onCancel, 
               
             }}
           >
-            <Button width={'45%'} type="button" onClick={onCancel} color="secondary">
+            <Button width={'45%'} type="button" onClick={onCancel} color="primary">
               Mégse
             </Button>
-            <Button width={'45%'} type="submit" disabled={isSubmitting} color="primary">
+            <Button  type="submit" disabled={isSubmitting} color="secondary">
               Hozzáadás
             </Button>
           </div>

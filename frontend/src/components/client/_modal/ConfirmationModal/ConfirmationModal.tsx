@@ -32,22 +32,23 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       <div className="flex flex-col gap-8 align-center justify-center text-center">
         
         <div className="flex gap-8 align-center justify-center mt-7">
-          <Button
-            type="button"
-            onClick={onConfirm}
-            color="primary"
-            additionalClassName="w-32"
-          >
-            {confirmText}
-          </Button>
-          <Button
+        <Button
             type="button"
             onClick={onCancel}
-            color="secondary"
-            additionalClassName="w-32"
+            color="primary"
+            additionalClassName="w-36 "
           >
             {cancelText}
           </Button>
+          <Button
+            type="button"
+            onClick={onConfirm}
+            color="secondary"
+            additionalClassName="w-36"
+          >
+            {confirmText}
+          </Button>
+      
         </div>
       </div>
     </Modal>
