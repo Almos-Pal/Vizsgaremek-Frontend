@@ -7,6 +7,7 @@ import {Button} from "@/components/client";
 import Link from "next/link";
 import { BodySVG, Text } from "@/components/server";
 import getMuscleNameById from "@/utils/izomcsoportParse";
+import { useSession } from "next-auth/react";
 
 
 interface GyakorlatDataSheetProps {
@@ -19,6 +20,8 @@ interface UserProps{
 // const testdata = [1,2,3,4]
 
 const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
+    const { data: session } = useSession();
+    const isOfAdminHeritageUser = session?.user.isAdmin;
   return (
   <ContentLayout header={data.gyakorlat_neve}>
     <div >
@@ -32,19 +35,28 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
         <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/edit`}>
         diagramok
         </Button>
-        {}
-        <Button color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/szerkeszt`}>
-        szerkesztés
-        </Button>
+  
+        
       </div>
       <div className={styles.linksContainerMobile}>
       <Link href={`/gyakorlat/${data.gyakorlat_id}/records`}>Rekordok</Link>
       <Link href={`/gyakorlat/${data.gyakorlat_id}/history`}>Edzés előzmények</Link>
       <Link href={`/gyakorlat/${data.gyakorlat_id}/charts`}>Diagrammok</Link>
-      <Link href={`/gyakorlat/${data.gyakorlat_id}/szerkeszt`}>szerkesztés</Link>
+
     </div>
+    <div className={styles.containerWIcon}>
+
+    
+    {
+        isOfAdminHeritageUser
+        && 
+        <div className={styles.editButton}>
+        <Button iconOnly leftIcon={"EditIcon"} width={36} iconProps={{size:36,color:"var(--color-grey-100)"}}  noBackground  color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/szerkeszt`}></Button>
+        </div>
+        }
 
       <div className={styles.dataContainer}>
+
 
         <div className={styles.content}>
           <div className={styles.info}>
@@ -102,6 +114,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
       </div>
 
 
+    </div>
     </div>
   </ContentLayout>
   );
