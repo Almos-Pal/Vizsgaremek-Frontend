@@ -1,8 +1,68 @@
-.mainDiv{
-    background-color: var(--color-grey-500);
-    width: 100%;
+@use "styles/breakpoints.scss" as *;
+
+.mainDiv {
+  max-width: 325px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0.625rem;    
+  padding: 1.25rem;   
+  border-radius: 0.5rem; 
+  background-color: var(--color-grey-500); 
+
+  @include mobile {
+    max-width: 325px;
+    width: 100%;  
   }
-.humanDiv{
-    background-color: var(--color-grey-400);
-    width: 100%;
+}
+
+/* Title container and text */
+.titleContainer {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 1.25rem; /* equivalent to mb-5 */
+}
+
+.title {
+  max-height: 30px;
+  text-align: center;
+}
+
+/* Image container – combines the two variants */
+.humanDiv {
+  max-width: 300px;
+  min-width: 130px;
+  width: 100%;
+  margin-bottom: 2rem; /* default: mb-8 */
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  background-color: var(--color-grey-400);
+  min-height: 230px;
+ 
+
+}
+
+/* Link styles – make the image clickable on mobile, but disable it on desktop */
+.link {
+  display: block;
+  pointer-events: none;
+  
+  @include mobile  {
+    pointer-events: auto;
   }
+}
+
+/* Button container – shows only on desktop screens */
+.buttonContainer {
+  margin-top: 1rem;  /* equivalent to mt-4 */
+  display: flex;
+
+  justify-content: center;
+  white-space: nowrap;
+
+  @include mobile  {
+  display: none;
+
+  }
+}

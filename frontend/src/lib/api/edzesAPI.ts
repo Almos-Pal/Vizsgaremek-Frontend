@@ -270,7 +270,7 @@ const edzesAPI = {
       throw new Error('Error fetching data');
     }
     
-    return response.json() as unknown as CurrentWeekEdzes[];
+    return response.json() as unknown as CurrentWeekEdzes;
   }
 };
 
