@@ -44,7 +44,7 @@ function EdzesekPage() {
 
     const handleNewEdzes = () => {
         if(EdzesOnSameDay(edzesek)){
-            toast.error("A Mai nap Már van edzés!");
+            toast.error("A Mai nap Már van edzés");
             return;
         }
 

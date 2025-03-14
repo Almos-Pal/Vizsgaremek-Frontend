@@ -37,7 +37,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
     const cloneEdzesWithoutSets = async () => {
         
         if(dateParse(data.datum).includes(dateParse(new Date()))){
-             toast.error("A Mai nap Már van edzés!");
+             toast.error("A Mai nap Már van edzés");
              return;
         }
         // Create new edzés with same name and no gyakorlatok.
