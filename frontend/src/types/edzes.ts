@@ -12,6 +12,12 @@ export interface Edzes {
   isFinalized?: boolean;
 }
 
+export interface CurrentWeekEdzes {
+  edzesek: Edzes[];
+  izomcsoportok: number[];
+  fo_izomcsoportok: number[];
+}
+
 export interface EdzesTenDays {
   edzes_id: number;
   edzes_neve: string;

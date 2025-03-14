@@ -207,5 +207,12 @@ const useEdzes = {
     });
 
 },
+getCurrentWeekEdzesek: (userId:number) => {
+  return useQuery({
+      queryKey: ['edzes/week', userId],
+      queryFn: () => edzesAPI.fetchCurrentWeek(userId),
+    });
+
+},
 }
 export default useEdzes;
