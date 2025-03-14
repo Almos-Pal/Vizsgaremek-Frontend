@@ -75,7 +75,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
             <Text variant="subtitle-16">
             Másodlagos izomok: 
             </Text>
-            <Text variant="body-16">
+            <Text variant="body-16" >
 
             {data.izomcsoportok.map((izomcsoport, index) => (
               <span key={izomcsoport}>
@@ -96,11 +96,11 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
         <div className={styles.svgContainer}>
           <div className={styles.svgHeader}>
             <div className={styles.svgText}>
-              <Text variant="subtitle-16">Elsődleges izom</Text>
+              <Text variant="subtitle-16" className="w-[120px]">Elsődleges izom</Text>
               <div className={styles.primary}></div>
             </div>
             <div className={styles.svgText}>
-              <Text variant="subtitle-16">Másodlagos izmok</Text>
+              <Text variant="subtitle-16" className="w-[150px]">Másodlagos izmok</Text>
               <div className={styles.secondary}></div>
             </div>
           </div>
