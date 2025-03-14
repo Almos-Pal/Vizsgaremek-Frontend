@@ -59,8 +59,9 @@ const Navbar: React.FC = () => {
                     Edzésterv-tervező
                 </Button>
                 <Text variant="h5" style={{ marginBottom: 20 }}>Saját gyűlytemény</Text>
-                <Button width={350} style={{ marginBottom: 20 }} href={'/edzes'}>Edzéstervek</Button>
-                <Button width={350} color="secondary" style={{ marginBottom: 20 }}>Gyakorlatok</Button>
+                <Button width={350} style={{ marginBottom: 20 }} href={'/edzestervek'}>Edzéstervek</Button>
+                <Button width={350} color='secondary' style={{ marginBottom: 20 }} href={'/edzes'}>Edzés Előzmények</Button>
+                <Button width={350} color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlat'}>Gyakorlatok</Button>
             </div>
 
             {/* Mobile navbar */}

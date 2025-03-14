@@ -61,7 +61,7 @@ const EdzesTervBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
         <div className={styles["edzes-block"]}>
             <div className={styles["edzes-header"]}>
                 <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{edzes.edzes_neve}:</Text>
-                <IconButton style={{ marginRight: '0rem' }} icon='FavoriteIcon' color='transparent'/>
+                <IconButton style={{ marginRight: '0rem' }} icon='FavoriteIcon' color='transparent' />
             </div>
             <div className={styles["content-wrapper"]}>
                 <ul className={styles["gyakorlat-list"]}>
@@ -85,7 +85,7 @@ const EdzesTervBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
 
                     {exercisesLeft > 0 && (
                         <Link
-                            href={''} className={styles["show-more-button"]}>
+                            href={`/edzestervek/${edzes.edzes_id}`} className={styles["show-more-button"]}>
                             további {exercisesLeft}...
                         </Link>
                     )}

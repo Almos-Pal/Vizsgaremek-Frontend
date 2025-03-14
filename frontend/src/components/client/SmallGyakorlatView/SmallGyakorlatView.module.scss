@@ -55,7 +55,54 @@
     }
   }
 
+  .data-pair {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem ;
+    
 
+
+    .gyakorlat-leiras {
+      margin-left: 1rem;
+      margin-top: 1rem;
+
+
+      .see-more-button {
+        margin-left: -1rem;
+        color: var(--color-light) ;
+
+        @include tablet {
+          text-align: center;
+        }
+      }
+    }
+
+    .svg {
+      margin-right: 1rem;
+      margin-top: 1rem;
+      @include tablet {
+        display: none;
+      }
+    }
+
+    .svg-container {
+      background-color: var(--color-grey-400);
+      border-radius: 1rem;
+      width: 95%;
+      margin: auto;
+      margin-bottom: 1rem;
+      
+      .svg-mobile {
+        display: none;
+        @include tablet {
+          display: block;
+          margin-right: 1rem;
+          margin: auto;
+          
+        }
+      }
+    }
+  }
   
 
 

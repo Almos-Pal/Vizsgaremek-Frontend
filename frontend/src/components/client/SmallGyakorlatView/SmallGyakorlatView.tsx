@@ -8,13 +8,10 @@ import { useFormikContext } from 'formik';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import IconButton from '../IconButton/IconButton';
-import { Text } from '@/components/server'
+import { BodySVG, Text } from '@/components/server'
 import { ConfirmationModal } from '../_modal';
 import { Gyakorlat } from '@/types';
-
-
-
-
+import Button from '../Button/Button';
 
 
 interface SmallGyakorlatViewProps {
@@ -31,9 +28,41 @@ interface SmallGyakorlatViewProps {
     };
 }
 
+const edzesIzomcsoportok = (gyakorlat: {
+    gyakorlat_id: number;
+    gyakorlat_neve: string;
+    gyakorlat_leiras: string;
+    fo_izomcsoport: number;
+    izomcsoportok: number[];
+}) => {
+    const foIzomcsoportok = new Set<number>();
+    const izomcsoportok = new Set<number>();
+
+    if (gyakorlat.fo_izomcsoport) {
+        foIzomcsoportok.add(gyakorlat.fo_izomcsoport);
+    }
+    if (gyakorlat.izomcsoportok) {
+        gyakorlat.izomcsoportok.forEach((id) => izomcsoportok.add(id));
+    }
+
+    return {
+        foIzomcsoportok: Array.from(foIzomcsoportok),
+        izomcsoportok: Array.from(izomcsoportok),
+    };
+};
 
 
 const SmallGyakorlatView: React.FC<SmallGyakorlatViewProps> = ({ index, gyakorlat, arrayHelpers }) => {
+
+
+    const [expanded, setExpanded] = useState(false);
+    const textLimit = 300;
+    const isLongText = gyakorlat.gyakorlat_leiras.length > textLimit;
+    const displayedText = expanded
+        ? gyakorlat.gyakorlat_leiras
+        : gyakorlat.gyakorlat_leiras.slice(0, textLimit) + (isLongText ? "..." : "");
+
+
 
     const { mutate: deleteGyakorlatFromEdzes } = useEdzes.deleteGyakorlatFromEdzes();
     const [isGyakorlatConfirmModalOpen, setIsGyakorlatConfirmModalOpen] = useState(false);
@@ -47,6 +76,7 @@ const SmallGyakorlatView: React.FC<SmallGyakorlatViewProps> = ({ index, gyakorla
     const handleDeleteGyakorlatCancel = () => {
         setIsGyakorlatConfirmModalOpen(false);
     };
+
 
     const handleDeleteGyakorlatConfirm = () => {
         setIsGyakorlatConfirmModalOpen(false);
@@ -74,8 +104,6 @@ const SmallGyakorlatView: React.FC<SmallGyakorlatViewProps> = ({ index, gyakorla
     };
 
 
-    console.log("gyakorlatos:", gyakorlat)
-
     return (
         <div className={styles["edzes-block"]}>
 
@@ -96,14 +124,33 @@ const SmallGyakorlatView: React.FC<SmallGyakorlatViewProps> = ({ index, gyakorla
             </div>
 
 
-            <Text>
+            <div className={styles["data-pair"]}>
+                <div className={styles["gyakorlat-leiras"]}>
+                    <div className={styles["svg-container"]}>
+                        <BodySVG size={200} className={styles["svg-mobile"]} selectedMuscleIds={edzesIzomcsoportok(gyakorlat).foIzomcsoportok} secondaryMuscleIds={edzesIzomcsoportok(gyakorlat).izomcsoportok}></BodySVG>
+                    </div>
+                    <Text style={{ textAlign: 'justify' }}>
+                        {displayedText}
+                    </Text>
+                    {isLongText && (
+                        <Button
+                            noBackground
+                            type="button"
+                            onClick={() => setExpanded(!expanded)}
+                            color="secondary"
+                            additionalClassName={styles["see-more-button"]}
+                        >
+                            {expanded ? "Kevesebb" : "Több"}
+                        </Button>
+                    )}
+                </div>
+                <div>
+                    <BodySVG size={150} className={styles["svg"]} selectedMuscleIds={edzesIzomcsoportok(gyakorlat).foIzomcsoportok} secondaryMuscleIds={edzesIzomcsoportok(gyakorlat).izomcsoportok}></BodySVG>
+                </div>
+            </div>
 
-                {gyakorlat.gyakorlat_leiras}
-
-            </Text>
 
 
-            <Text>Főfasz: {gyakorlat.fo_izomcsoport}</Text>
 
             {isGyakorlatConfirmModalOpen && (
                 <ConfirmationModal

@@ -49,8 +49,9 @@ const EdzesTervSzerkesztő: React.FC<EdzesTervSzerkesztPageProps> = ({ params })
         );
     }
 
+    
 
-    return (<ContentLayout header="Edzés szerkesztése" subheader={data.edzes_neve}>
+    return (<ContentLayout header="Edzésterv szerkesztése" subheader={data.edzes_neve}>
         <EdzesTervEditForm data={data} />
 
     </ContentLayout>

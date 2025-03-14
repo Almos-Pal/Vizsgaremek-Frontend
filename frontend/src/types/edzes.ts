@@ -47,17 +47,18 @@ export interface EdzesFormValues {
   datum: Date;
   ido: number;
   user_id: number;
-
   gyakorlatok: {
-
     gyakorlat_id?: number;
     gyakorlat_neve: string;
+    gyakorlat_leiras?: string;
     szettek: {
       set_szam?: number;
       weight: number;
       reps: number;
     }[];
     previous_history?: PrevHistory[];
+    fo_izomcsoport?: number;
+    izomcsoportok?: number[];
   }[];
 }
 
