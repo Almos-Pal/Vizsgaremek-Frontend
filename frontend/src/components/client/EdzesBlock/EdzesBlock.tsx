@@ -5,6 +5,7 @@ import styles from './EdzesBlock.module.scss';
 import { BodySVG, Text } from '@/components/server';
 import Button from '../Button/Button';
 import Link from 'next/link';
+import { useEdzes } from '@/hooks';
 
 interface EdzesBlockProps {
     edzes: {
@@ -24,7 +25,12 @@ interface EdzesBlockProps {
             total_sets: number;
         }[];
         datum: string;
+        isFavorite: boolean;
     };
+}
+const handleFavoriteClick = () => {
+    
+    useEdzes.updateEdzes();
 }
 
 const edzesIzomcsoportok = (edzes: EdzesBlockProps['edzes']) => {
@@ -56,6 +62,16 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
             <div className={styles["edzes-header"]}>
                 <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{edzes.edzes_neve}:</Text>
                 <Text style={{ marginRight: '2rem' }} variant='body-15'>{formattedDate}</Text>
+                {
+                edzes.isFavorite
+                && 
+                    <Button color='secondary' iconOnly noBackground leftIcon='FavoriteIcon' iconProps={{filled:"false"}} onClick={handleFavoriteClick}></Button>
+                ||
+                !edzes.isFavorite 
+                &&
+                    <Button color='secondary' iconOnly  leftIcon='FavoriteIcon' iconProps={{filled:"false"}} onClick={handleFavoriteClick}></Button>
+                
+            }
             </div>
             <div className={styles["content-wrapper"]}>
                 <ul className={styles["gyakorlat-list"]}>
