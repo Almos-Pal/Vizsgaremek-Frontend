@@ -65,11 +65,11 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
                 {
                 edzes.isFavorite
                 && 
-                    <Button color='secondary' iconOnly noBackground leftIcon='FavoriteIcon' iconProps={{filled:"false"}} onClick={handleFavoriteClick}></Button>
+                    <Button color='secondary' iconOnly noBackground leftIcon='FavoriteIcon' iconProps={{filled:true}} onClick={handleFavoriteClick}></Button>
                 ||
                 !edzes.isFavorite 
                 &&
-                    <Button color='secondary' iconOnly  leftIcon='FavoriteIcon' iconProps={{filled:"false"}} onClick={handleFavoriteClick}></Button>
+                    <Button color='secondary' iconOnly  leftIcon='FavoriteIcon' iconProps={{filled:false}} onClick={handleFavoriteClick}></Button>
                 
             }
             </div>
