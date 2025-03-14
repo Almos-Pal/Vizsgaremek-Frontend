@@ -18,14 +18,14 @@ const Navbar: React.FC = () => {
     console.log('navbar session: ', session?.backendTokens);
 
     const handleLogout = () => {
-        signOut({ callbackUrl: "/bejelentkezes" }); 
+        signOut({ callbackUrl: "/bejelentkezes" });
     };
 
     return (
         <>
             {/* Desktop navbar */}
             <nav className={styles.desktopnavbar}>
-                <IconButton icon="HomeIcon" color="transparent" iconProps={{ size: 40 }} href={`/dashboard`}  />
+                <IconButton icon="HomeIcon" color="transparent" iconProps={{ size: 40 }} href={`/dashboard`} />
                 <IconButton icon="ProfileIcon" color="transparent" href={`/profil/${session?.user.user_id}`} iconProps={{ size: 50 }} />
                 <IconButton
                     icon="AddIcon"
@@ -107,24 +107,21 @@ const Navbar: React.FC = () => {
             >
                 <div className={styles.innerMenu}>
                     {/* Menu items go here */}
-                    <Button additionalClassName={styles.mobilebutton} rightIcon="DumbellIcon" iconProps={{ size: 45 }} width="100%" style={{ marginBottom: 20 }}>
+                    <Button additionalClassName={styles.mobilebutton} rightIcon="DumbellIcon" iconProps={{ size: 45 }} width="90%" style={{ marginBottom: 20 }}>
                         Edzés Kezdése
                     </Button>
-                    <Button additionalClassName={styles.mobilebutton} rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width="100%" color="secondary" style={{ marginBottom: 20 }}>
+                    <Button additionalClassName={styles.mobilebutton} rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width="90%" color="secondary" style={{ marginBottom: 20 }}>
                         Edzéstervező
                     </Button>
-                    <Button additionalClassName={styles.mobilebutton} rightIcon="CalendarIcon" iconProps={{ size: 45 }} width="100%" color="secondary" style={{ marginBottom: 20 }}>
+                    <Button additionalClassName={styles.mobilebutton} rightIcon="CalendarIcon" iconProps={{ size: 45 }} width="90%" color="secondary" style={{ marginBottom: 20 }}>
                         Edzésterv-tervező
                     </Button>
                     <Text variant="h5" style={{ marginBottom: 20 }}>
                         Saját gyűlytemény
                     </Text>
-                    <Button additionalClassName={styles.mobilebutton} href={'/edzes'} width="100%" style={{ marginBottom: 20 }}>
-                        Edzéstervek
-                    </Button>
-                    <Button additionalClassName={styles.mobilebutton} width="100%" color="secondary" style={{ marginBottom: 20 }}>
-                        Gyakorlatok
-                    </Button>
+                    <Button additionalClassName={styles.mobilebutton} width="90%" style={{ marginBottom: 20 }} href={'/edzestervek'}>Edzéstervek</Button>
+                    <Button additionalClassName={styles.mobilebutton} width="90%" color='secondary' style={{ marginBottom: 20 }} href={'/edzes'}>Edzés Előzmények</Button>
+                    <Button additionalClassName={styles.mobilebutton} width="90%" color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlat'}>Gyakorlatok</Button>
                 </div>
             </div>
         </>
