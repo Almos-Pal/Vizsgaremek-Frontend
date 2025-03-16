@@ -1,7 +1,18 @@
 @use "styles/breakpoints.scss" as *;
 
+.editButton{
+    justify-self: end;
+    margin-right: 5px;
 
+}
 
+.containerWIcon{
+    background-color: var(--color-grey-500);
+    border-radius: 16px;
+    padding: 2rem;
+    padding-top: 0.5rem;
+   
+}
 
 
 .linksContainer{
@@ -86,6 +97,7 @@
         .description{
             width: 100%;
             max-width: 600px;
+            margin-right: 8px;
         }
 
     }

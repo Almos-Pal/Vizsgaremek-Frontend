@@ -1,20 +1,27 @@
 "use client";
 
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
-import { Gyakorlat } from "@/types";
+import { Gyakorlat, User } from "@/types";
 import styles from "./GyakorlatDataSheet.module.scss";
 import {Button} from "@/components/client";
 import Link from "next/link";
 import { BodySVG, Text } from "@/components/server";
 import getMuscleNameById from "@/utils/izomcsoportParse";
+import { useSession } from "next-auth/react";
+
 
 interface GyakorlatDataSheetProps {
   data: Gyakorlat; 
+}
+interface UserProps{
+  userData: User;
 }
 
 // const testdata = [1,2,3,4]
 
 const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
+    const { data: session } = useSession();
+    const isOfAdminHeritageUser = session?.user.isAdmin;
   return (
   <ContentLayout header={data.gyakorlat_neve}>
     <div >
@@ -28,14 +35,27 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
         <Button color="secondary" href={`/statisztika`}>
         diagramok
         </Button>
+  
+        
       </div>
       <div className={styles.linksContainerMobile}>
       <Link href={`/rekordok`}>Rekordok</Link>
       <Link href={`/edzes?gyakorlat_id=${data.gyakorlat_id}`}>Edzés előzmények</Link>
       <Link href={`/statisztika`}>Diagrammok</Link>
     </div>
+    <div className={styles.containerWIcon}>
+
+    
+    {
+        isOfAdminHeritageUser
+        && 
+        <div className={styles.editButton}>
+        <Button iconOnly leftIcon={"EditIcon"} width={36} iconProps={{size:36,color:"var(--color-grey-100)"}}  noBackground  color="secondary" href={`/gyakorlat/${data.gyakorlat_id}/szerkeszt`}></Button>
+        </div>
+        }
 
       <div className={styles.dataContainer}>
+
 
         <div className={styles.content}>
           <div className={styles.info}>
@@ -54,7 +74,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
             <Text variant="subtitle-16">
             Másodlagos izomok: 
             </Text>
-            <Text variant="body-16">
+            <Text variant="body-16" >
 
             {data.izomcsoportok.map((izomcsoport, index) => (
               <span key={izomcsoport}>
@@ -75,11 +95,11 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
         <div className={styles.svgContainer}>
           <div className={styles.svgHeader}>
             <div className={styles.svgText}>
-              <Text variant="subtitle-16">Elsődleges izom</Text>
+              <Text variant="subtitle-16" className="w-[120px]">Elsődleges izom</Text>
               <div className={styles.primary}></div>
             </div>
             <div className={styles.svgText}>
-              <Text variant="subtitle-16">Másodlagos izmok</Text>
+              <Text variant="subtitle-16" className="w-[150px]">Másodlagos izmok</Text>
               <div className={styles.secondary}></div>
             </div>
           </div>
@@ -93,6 +113,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
       </div>
 
 
+    </div>
     </div>
   </ContentLayout>
   );

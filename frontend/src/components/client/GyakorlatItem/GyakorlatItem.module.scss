@@ -17,6 +17,7 @@
     border-radius: 1rem;
     text-decoration: none;
     transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  
 
     @include mobile {
         &:hover {
@@ -40,9 +41,12 @@
   }
 
 .gyakorlat-button{
- 
+
     @include mobile{
         display: none;
     }
-    
+
 }  
+.icon{
+  align-self: self-start;
+}
