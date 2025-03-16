@@ -26,7 +26,7 @@ const edzesAPI = {
     const params: Record<string, string> = {
       page: page.toString(),
       limit: limit.toString(),
-      //orderBy: orderBy?.toString() || "desc"
+      orderBy: orderBy?.toString() || "desc"
     };
     if (user_id ) params.user_id = user_id.toString();
     if(orderBy) params.orderBy = orderBy;

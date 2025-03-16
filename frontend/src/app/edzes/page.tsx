@@ -23,11 +23,12 @@ function EdzesekPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-
+    const filter = searchParams.get("orderBy") || "desc";
     const { data: edzesek, isLoading, error, refetch } = useEdzes.getEdzesek({
         page,
         limit: 3,
-        user_id: session?.user.user_id
+        user_id: session?.user.user_id,
+        orderBy: filter
     });
 
 
@@ -66,6 +67,8 @@ function EdzesekPage() {
                     useEffect(() => {
                         const params = new URLSearchParams(searchParams.toString());        
                         if (values.order) params.set("orderBy", values.order);
+                        params.set("page","1");
+                        console.log(params.toString())
                         router.push(`?${params.toString()}`);
                         setFieldValue("order", values.order);
                         refetch();
