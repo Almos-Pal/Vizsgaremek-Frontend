@@ -11,6 +11,7 @@ import { NewEdzesForm } from '@/components/client/_forms';
 import { useSession } from 'next-auth/react';
 import { Form, Formik } from 'formik';
 import { FormikSelect } from '@/components/client/_inputs';
+import { Text } from '@/components/server';
 
 function EdzesekPage() {
     const { data: session } = useSession();
@@ -24,20 +25,20 @@ function EdzesekPage() {
 
 
 
-    const { data: edzesek, isLoading, error, refetch } = useEdzes.getEdzesek({
+    const { data: edzesek, isLoading, error, } = useEdzes.getEdzesek({
         page,
         limit: 3,
+        orderBy:"byFavorite",
         user_id: session?.user.user_id
     });
+     console.log(edzesek?.items)
+    let kedvencEdzesek = edzesek?.items?.filter((edzes: any) => edzes.isFavorite === true);
+     console.log(kedvencEdzesek?.length)
 
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading workouts</div>;
 
-
-    const workouts = Array.isArray(edzesek?.items?.[0])
-        ? edzesek.items.flat()
-        : edzesek?.items;
 
 
 
@@ -49,43 +50,16 @@ function EdzesekPage() {
         const storedStartTime = localStorage.getItem("edzesStartTime");
         storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
     }
-    const Option = [
-        { label: "Kedvencek alapján", value: "byFavorite" },
-        { label: "Dátum alapján növekvő", value: "asc" },
-        { label: "Dátum alapján csökkenő", value: "desc" },
-    ]
+
 
     return (
 
         <ContentLayout header="Edzések">
-            <Formik
-                
-                onSubmit={() => { }}
-                initialValues={{ order: "desc" }}>
-                {({ setFieldValue, values }) => {
-                    useEffect(() => {
-                        const params = new URLSearchParams(searchParams.toString());        
-                        if (values.order) params.set("orderBy", values.order);
-                        router.push(`?${params.toString()}`);
-                        setFieldValue("order", values.order);
-                        refetch();
 
-
-                    }, [values.order]);
-                    return (
-                        <Form style={{ maxWidth: "750px",width:"100%", margin: "10px", justifySelf:'center' }} >
-                            <FormikSelect
-                                placeholder='ListaRendezés'
-                                name="order"
-                                options={Option}>
-
-                            </FormikSelect>
-                        </Form>
-                    )
-                }}
-            </Formik>
-
-            {workouts?.map((edzes: any) => (
+            {kedvencEdzesek?.length === 0 && <Text variant="h4"  className='text-center'>Nincs kedvenc edzésed</Text>}
+            ||
+            {
+            kedvencEdzesek?.map((edzes: any) => (
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
 
