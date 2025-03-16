@@ -35,7 +35,7 @@ export const GyakorlatItem: React.FC<GyakorlatItemProps> = ({ gyakorlat }) => {
                     isOfAdminHeritageUser
                     &&
                     <div className={styles.editButton}>
-                        <Button iconOnly leftIcon={"EditIcon"} width={36} iconProps={{ size: 36, color: "var(--color-grey-100)" }} noBackground color="secondary" href={`/gyakorlat/${gyakorlat.gyakorlat_id}/szerkeszt`}></Button>
+                        <Button iconOnly leftIcon={"EditIcon"} iconProps={{ size: 36, color: "var(--color-grey-100)" }} noBackground color="secondary" href={`/gyakorlat/${gyakorlat.gyakorlat_id}/szerkeszt`}></Button>
                     </div>
                 }
             </div>
