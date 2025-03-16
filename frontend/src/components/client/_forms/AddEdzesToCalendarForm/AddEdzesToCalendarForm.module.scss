@@ -4,7 +4,8 @@
   .formContainer {
 
     margin-top: 2rem; 
-    width: 400px;
+    width: 400px; 
+    min-height: 300px;
 
     @include mobile {
         width: auto;

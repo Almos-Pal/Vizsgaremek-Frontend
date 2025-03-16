@@ -102,7 +102,8 @@ function CalendarWidget() {
                 <CalendarContainer>
                  {isClient ? (<Calendar   onClickDay={handleDayClick}  tileClassName={tileClassName}  />) : (<Loading hasParent/>)}
                  </CalendarContainer>
-        <Modal  children={<AddEdzesToCalendarForm  date={currentDate}onCancel={handleModalCancel} refetch={refetch} />} showCloseButton={false}  onClose={handleModalCancel}  visible={modal.visible} title="Válasz Edzést erre a napra"  /> 
+                 <Modal  
+                  children={<AddEdzesToCalendarForm  date={currentDate}onCancel={handleModalCancel} refetch={refetch} />} showCloseButton={false}  onClose={handleModalCancel}  visible={modal.visible} title="Válasz Edzést erre a napra"  /> 
 
         </div>
     )

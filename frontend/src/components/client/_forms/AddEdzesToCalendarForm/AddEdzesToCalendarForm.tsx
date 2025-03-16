@@ -59,7 +59,7 @@ const toast = useToast();
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={edzesfromTemplateSchema}>
         {({ isSubmitting }) => (
           <Form style={{ marginTop: "1rem" }}>
