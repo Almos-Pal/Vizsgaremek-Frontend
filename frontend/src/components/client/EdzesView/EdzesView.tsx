@@ -26,20 +26,23 @@ interface EdzesViewProps {
 
 const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
     const { data: session } = useSession();
+    const { data: edzesek } = useEdzes.getEdzesek({
+        limit: 1000,
+        user_id: session?.user.user_id
+    });
     const router = useRouter();
     const toast = useToast();
     const { mutateAsync: createEdzesAsync } = useEdzes.createEdzes();
     const { mutateAsync: addGyakorlatAsync } = useEdzes.addGyakorlatToEdzes();
 
-
-
-    console.log(data.user_id);
     const cloneEdzesWithoutSets = async () => {
+        if (EdzesOnSameDay(edzesek?.items)) {
+                toast.error("A Mai nap Már van edzés");
+                return;
+            }
+   
         
-        if(dateParse(data.datum).includes(dateParse(new Date()))){
-             toast.error("A Mai nap Már van edzés");
-             return;
-        }
+        console.log("Edzés klónozása");
         // Create new edzés with same name and no gyakorlatok.
         const newEdzesPayload = {
             edzes_neve: data.edzes_neve,
