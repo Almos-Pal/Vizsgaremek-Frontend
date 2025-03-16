@@ -30,6 +30,10 @@ function EdzesekPage() {
         limit: 3,
         user_id: session?.user.user_id
     });
+    const {data: validationEdzesek} = useEdzes.getEdzesek({
+        limit: 1000,
+        user_id: session?.user.user_id
+    });
 
 
     if (isLoading) return <div>Loading...</div>;
@@ -43,7 +47,7 @@ function EdzesekPage() {
 
 
     const handleNewEdzes = () => {
-        if(EdzesOnSameDay(edzesek)){
+        if(EdzesOnSameDay(validationEdzesek?.items)) {
             toast.error("A Mai nap Már van edzés");
             return;
         }
