@@ -54,6 +54,10 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
                 toast.success("Edzés sikeresen elkezdve");
             },
             onError: (error: any) => {
+                if (error.status === 409) {
+                    toast.error("Az Már van edzés ezen a napon");
+                    return;
+                }
                 console.error("Error creating edzés:", error);
                 toast.error("Hiba történt az edzés létrehozása közben");
             }

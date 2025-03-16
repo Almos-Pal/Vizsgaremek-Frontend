@@ -2,6 +2,8 @@ import { Edzes, EdzesTenDays } from '@/types/edzes'
 import { PaginatedResponse } from '@/types';
 import page from '@/app/test/akos/page';
 import { use } from 'react';
+import { error } from 'console';
+import { toast } from 'react-toastify';
 
 interface FetchEdzesekParams {
   page?: number;
@@ -61,7 +63,12 @@ const edzesAPI = {
     });
 
     if (!response.ok) {
+      if(response.status === 409) {
+        toast.error('Edzes on same day');
+        throw new Error('Edzes on same day');
+      }      
       throw new Error('Error creating edzes');
+      
     }
 
     return response.json();
