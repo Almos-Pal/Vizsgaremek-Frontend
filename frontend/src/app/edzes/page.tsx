@@ -9,6 +9,8 @@ import { Button, Pagination } from '@/components/client';
 import { Modal } from '@/components/client/_modal';
 import { NewEdzesForm } from '@/components/client/_forms';
 import { useSession } from 'next-auth/react';
+import { Form, Formik } from 'formik';
+import { FormikSelect } from '@/components/client/_inputs';
 
 function EdzesekPage() {
     const { data: session } = useSession();
@@ -50,6 +52,18 @@ function EdzesekPage() {
 
     return (
         <ContentLayout header="Edzések">
+            <Formik onSubmit={() => { }}>
+            
+                    intialValue="desc"
+                <Form >
+                    <FormikSelect {...FormikSelect}>
+                        <option value="byFavorite">Kedvencek alapján</option>
+                        <option value="asc">Dátum alapján növekvő</option>
+                        <option value="desc">Dátum alapján csökkenő</option>
+                    </FormikSelect>
+                </Form>
+            </Formik>
+
             {workouts?.map((edzes: any) => (
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
