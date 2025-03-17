@@ -15,13 +15,10 @@ import { Text } from '@/components/server';
 
 function EdzesekPage() {
     const { data: session } = useSession();
-    console.log('edzes user session data: ', session?.user.isAdmin);
-
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialPage = parseInt(searchParams.get("page") || "1", 10);
     const [page, setPage] = useState(initialPage);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
 
 
@@ -31,25 +28,12 @@ function EdzesekPage() {
         orderBy:"byFavorite",
         user_id: session?.user.user_id
     });
-     console.log(edzesek?.items)
     let kedvencEdzesek = edzesek?.items?.filter((edzes: any) => edzes.isFavorite === true);
-     console.log(kedvencEdzesek?.length)
 
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading workouts</div>;
 
-
-
-
-    const handleNewEdzes = () => {
-        setIsModalOpen(true)
-
-        const currentEdzesID = localStorage.getItem("currentEdzesID");
-        currentEdzesID ? localStorage.removeItem("currentEdzesID") : null;
-        const storedStartTime = localStorage.getItem("edzesStartTime");
-        storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
-    }
 
 
     return (
@@ -63,22 +47,6 @@ function EdzesekPage() {
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
 
-            <div className='flex justify-center mt-4 pb-4'>
-                <Button width={225} color='secondary' rightIcon='AddIcon' onClick={(handleNewEdzes)} >Edzés</Button>
-            </div>
-
-            <Modal
-                visible={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                width={350}
-                showCloseButton={false}
-
-
-            >
-
-                <NewEdzesForm onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />
-
-            </Modal>
             <Pagination
                 value={page}
                 total={edzesek?.meta?.totalPages || 1}
