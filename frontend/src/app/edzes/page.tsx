@@ -71,7 +71,6 @@ function EdzesekPage() {
                         console.log(params.toString())
                         router.push(`?${params.toString()}`);
                         setFieldValue("order", values.order);
-                        refetch();
 
 
                     }, [values.order]);
