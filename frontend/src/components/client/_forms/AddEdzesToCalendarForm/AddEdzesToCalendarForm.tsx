@@ -74,7 +74,6 @@ const toast = useToast();
                   isClearable
                 />
               </div>
-            </div>
             <div className={styles.buttonContainer}>
               <div className={styles.buttonGroup}>
                 <Button type="button" onClick={onCancel} color="primary">
@@ -84,6 +83,7 @@ const toast = useToast();
                   Létrehozás
                 </Button>
               </div>
+            </div>
             </div>
           </Form>
         )}
