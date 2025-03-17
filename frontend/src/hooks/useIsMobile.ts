@@ -5,7 +5,7 @@ const useIsMobile = () => {
 
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth <= 768); // matches our mobile breakpoint
+      setIsMobile(window.innerWidth <= 1024); // matches our mobile breakpoint
     };
 
     // Initial check
