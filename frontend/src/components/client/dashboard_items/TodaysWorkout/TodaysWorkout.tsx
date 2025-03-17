@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { useEdzes, useIsMobile } from "@/hooks";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { GyakorlatWithSets } from "@/types";
 
 function TodaysWorkout() {
     const router = useRouter();
@@ -15,6 +16,18 @@ function TodaysWorkout() {
     const { data: todaysWorkout } = useEdzes.findOneByDate(session?.user.user_id!, currentDate);
     const [view, setView] = useState<"front" | "back">("front");
     const isMobile = useIsMobile();
+
+    const avgRep = (gyakorlat: any): number => {
+      // Use the top-level "szettek" array from the GyakorlatWithSets object
+      const sets = gyakorlat.szettek || [];
+      if (sets.length === 0) return 0;
+      
+      // Convert the weight to a number (just in case) and sum them up
+      const totalRep = sets.reduce((acc:any, set:any) => acc + Number(set.reps || 0), 0);
+      return parseFloat((totalRep / sets.length).toFixed(0));
+    };
+    
+    
 
     const foIzomcsoportok = todaysWorkout?.gyakorlatok.flatMap(gyakorlat =>
         gyakorlat.gyakorlat.fo_izomcsoport
@@ -29,8 +42,8 @@ function TodaysWorkout() {
     };
 
     const exercises = todaysWorkout?.gyakorlatok || [];
-    const remainingExercises = exercises.length > (isMobile ? 3 : 5) ? 
-        exercises.length - (isMobile ? 3 : 5) : 0;
+    const remainingExercises = exercises.length > (isMobile ? 3 : 4) ? 
+        exercises.length - (isMobile ? 3 : 4) : 0;
 
     if (!exercises.length) {
         return (
@@ -51,11 +64,11 @@ function TodaysWorkout() {
             <div className={styles.content}>
                 <div className={styles.exerciseSection}>
                     <div className={styles.exerciseList}>
-                        {exercises.slice(0, isMobile ? 3 : 5).map((item) => (
+                        {exercises.slice(0, isMobile ? 3 : 4).map((item) => (
                             <div key={item.gyakorlat_id} className={styles.exerciseItem}>
                                 <Text variant="body-16">{item.gyakorlat.gyakorlat_neve}</Text>
                                 <Text variant="body-16">
-                                    {item.total_sets}x{item.szettek[0]?.weight || 0}
+                                    {item.total_sets}x{avgRep(item) || 0}
                                 </Text>
                             </div>
                         ))}
@@ -73,7 +86,7 @@ function TodaysWorkout() {
                         color="secondary"
                         href={`/edzes/${todaysWorkout?.edzes_id}`}
                     >
-                        Gyakorlatok megtekintése
+                        Edzés megtekintése
                     </Button>
                 </div>
 
