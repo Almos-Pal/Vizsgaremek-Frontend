@@ -11,11 +11,13 @@ import { NewEdzesForm } from '@/components/client/_forms';
 import { useSession } from 'next-auth/react';
 import { Form, Formik } from 'formik';
 import { FormikSelect } from '@/components/client/_inputs';
+import { useToast } from '@/hooks';
+import clsx from 'clsx';
 
 function EdzesekPage() {
     const { data: session } = useSession();
     console.log('edzes user session data: ', session?.user.isAdmin);
-
+    const toast = useToast();
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialPage = parseInt(searchParams.get("page") || "1", 10);
@@ -62,20 +64,23 @@ function EdzesekPage() {
             <Formik
                 
                 onSubmit={() => { }}
-                initialValues={{ order: "desc" }}>
+                initialValues={{ order: filter }}>
                 {({ setFieldValue, values }) => {
                     useEffect(() => {
-                        const params = new URLSearchParams(searchParams.toString());        
-                        if (values.order) params.set("orderBy", values.order);
-                        setPage(1);
-                        console.log(params.toString())
-                        router.push(`?${params.toString()}`);
-                        setFieldValue("order", values.order);
+                        if (values.order !== filter) {
+                            const params = new URLSearchParams(searchParams.toString());        
+                            params.set("orderBy", values.order);
+                            setPage(1);
+                            router.push(`?${params.toString()}`);
+                            setFieldValue("order", values.order);
+                            toast.info('Visszakerültél az első oldalra');
+                        } 
 
 
                     }, [values.order]);
                     return (
-                        <Form style={{ maxWidth: "750px",width:"100%", margin: "10px", justifySelf:'center' }} >
+                        <div className='max-w-[750px] flex  w-full justify-self-center'>
+                        <Form style={{ maxWidth: "750px",width:"100%", margin: "10px",paddingBottom:"25px", justifySelf:'center' }} >
                             <FormikSelect
                                 placeholder='ListaRendezés'
                                 name="order"
@@ -83,6 +88,7 @@ function EdzesekPage() {
 
                             </FormikSelect>
                         </Form>
+                        </div>
                     )
                 }}
             </Formik>
