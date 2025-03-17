@@ -14,7 +14,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Text } from "@/components/server";
-import dateParse from "@/utils/dateParse";
 import { useUserGyakorlat } from "@/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Formik, Form } from "formik";

@@ -1,0 +1,34 @@
+@use "styles/breakpoints.scss" as *;
+.imageDiv{
+    width: 100%;
+    max-width: 750px;
+    min-height: 340px;
+    background-color: var(--color-grey-400);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 42px;
+
+    @include mobile {
+        width: 90%;
+        margin-bottom: 0px;
+    }
+
+    .subheader{
+        width: 100%;
+        max-width: 750px;
+        @include mobile {
+            width: 90%;
+            margin-bottom: 0px;
+        }
+    }
+}
+.container{
+    width: 750px;
+    @include mobile {
+        width: 90%;
+        margin-bottom: 0px;
+    }
+
+}
