@@ -1,3 +1,5 @@
+@use "styles/breakpoints.scss" as *;
+
 
 .mainDiv{
     background-color: var(--color-grey-500);
@@ -6,6 +8,20 @@
 
     .item {
       height: 48px;
+    }
+
+    .button {
+      margin-top: 0.5rem;
+      
+    }
+
+    .textLeft {
+      width: 170px;
+    }
+
+    .textRight {
+      width: 80px;
+      
     }
   }
 .greenify{

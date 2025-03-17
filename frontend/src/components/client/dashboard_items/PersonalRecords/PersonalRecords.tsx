@@ -32,32 +32,32 @@ function PersonalRecords() {
             <div className="max-w-[540px] hidden sm:grid  max-h-[100 px] grid grid-cols-2 gap-5 ml-2">
                 {records?.items.slice(0, 6).map((item) => (
                     <div className={clsx(styles.item, "flex flex-row justify-between ")}key={item.gyakorlat.gyakorlat_neve}>
-                        <div>
+                        <div className={styles.textLeft}>
                             <Text variant="body-16">{item.gyakorlat.gyakorlat_neve}:</Text>
                         </div>
-                        <div>
+                        <div className={styles.textRight}>
                             <Text variant="body-16">
-                                <span className={styles.greenify}>{item.personal_best}kg</span>
+                                <span className={styles.greenify}>{item.personal_best} kg</span>
                             </Text>
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="max-w-[500px] sm:hidden visible grid grid-cols-1 gap-5 ml-0">
+            <div className="max-w-[500px] sm:hidden visible grid grid-cols-1 gap-5 ml-0 mb-5">
                 {records?.items.slice(0, 3).map((item) => (
                     <div className="flex flex-row gap-0 justify-between" key={item.gyakorlat.gyakorlat_neve}>
                         <div className="text-left">
-                            <Text variant="body-16">{item.gyakorlat.gyakorlat_neve} max :</Text>
+                            <Text variant="body-16">{item.gyakorlat.gyakorlat_neve}:</Text>
                         </div>
                         <div className="text-right">
                             <Text variant="body-16">
-                                <span className={styles.greenify}>{item.personal_best}kg</span>
+                                <span className={styles.greenify}>{item.personal_best} kg</span>
                             </Text>
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="flex justify-center mt-1">
+            <div className={clsx(styles.button,"flex justify-center")}>
                 <Button color={"secondary"} href={"/rekordok"} rightIcon="SearchIcon" >További Rekordok </Button>
             </div>
 
