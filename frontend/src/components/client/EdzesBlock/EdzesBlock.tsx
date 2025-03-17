@@ -67,11 +67,11 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
                             
                             if(edzes.isFavorite){
                                 toast.success(edzes.edzes_neve+' eltávolítva a kedvencek közül');
-                                toast.info("Az edzések sorrendje megváltozott");
+                             
                             }
                             else{
                                     toast.success(edzes.edzes_neve+' hozzáadva a kedvencek közé');
-                                    toast.info("Az edzések sorrendje megváltozott");
+                                   
                                 }
                         },
                         onError: () => {
