@@ -16,7 +16,7 @@ const Weight: React.FC<WeightProps> = ({ weight, dashboard }) => {
                 </Text>
             )}
             <Text className={styles.value} variant={dashboard ? 'h2' : 'h1'}>
-            {weight !== undefined ? `${weight.toFixed()} kg` : 'N/A'}
+            {weight !== undefined ? `${Math.floor(weight)} kg` : 'N/A'}
             </Text>
         </div>
     )
