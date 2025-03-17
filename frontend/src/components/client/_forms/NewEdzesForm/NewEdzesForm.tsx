@@ -22,6 +22,7 @@ interface FormValues {
 
 interface NewEdzesFormProps {
     onSuccess: () => void;
+    onError?: (error: any) => void;
     onCancel: () => void;
 }
 
@@ -46,6 +47,9 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
             ido: 0,
         };
 
+        try{
+
+        
         createEdzes(newEdzesPayload, {
             onSuccess: (newEdzes: any) => {
                 
@@ -54,10 +58,16 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
                 toast.success("Edzés sikeresen elkezdve");
             },
             onError: (error: any) => {
-                console.error("Error creating edzés:", error);
-                toast.error("Hiba történt az edzés létrehozása közben");
+                if (error == "Error: 409") {
+                    toast.error("A mai nap már van edzés");
+                }
+                else{
+                    console.error("Error creating edzés:", error);
+                    toast.error("Hiba történt az edzés létrehozása közben");
+                }
             }
         });
+    } catch (error) {}
     };
 
     return (

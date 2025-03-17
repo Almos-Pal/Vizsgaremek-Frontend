@@ -2,7 +2,6 @@ import { Edzes, EdzesTenDays } from '@/types/edzes'
 import { PaginatedResponse } from '@/types';
 import page from '@/app/test/akos/page';
 import { use } from 'react';
-import { create } from 'domain';
 
 interface FetchEdzesekParams {
   page?: number;
@@ -61,6 +60,8 @@ const edzesAPI = {
   },
 
   createEdzes: async (newEdzes: any) => {
+    
+
     const response = await fetch('http://localhost:8000/edzes', {
       method: 'POST',
       headers: {
@@ -70,7 +71,11 @@ const edzesAPI = {
     });
 
     if (!response.ok) {
+      if(response.status === 409) {
+        throw new Error("409");
+      }      
       throw new Error('Error creating edzes');
+      
     }
 
     return response.json();

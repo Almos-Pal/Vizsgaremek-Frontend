@@ -20,6 +20,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Formik, Form } from "formik";
 import { FormikSelect } from "../_inputs";
 import styles from "./ProgressChart.module.scss";
+import { time } from "@/utils";
 
 export default function ProgressChart() {
   interface gyakorlatProps {
@@ -96,7 +97,7 @@ export default function ProgressChart() {
 
               newItems.push({
                 id: edzes.edzes_id,
-                date: dateParse(new Date(edzes.datum)),
+                date: time.DateParse(new Date(edzes.datum)),
                 weight: maxWeight,
               });
             }

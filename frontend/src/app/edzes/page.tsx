@@ -9,12 +9,15 @@ import { Button, Pagination } from '@/components/client';
 import { Modal } from '@/components/client/_modal';
 import { NewEdzesForm } from '@/components/client/_forms';
 import { useSession } from 'next-auth/react';
+import { useToast } from "@/hooks";
+import { EdzesOnSameDay } from '@/utils';
 import { Text } from '@/components/server';
 
 function EdzesekPage() {
     const { data: session } = useSession();
     console.log('edzes user session data: ',session?.user.isAdmin);
     
+    const toast = useToast();
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialPage = parseInt(searchParams.get("page") || "1", 10);
@@ -33,6 +36,10 @@ function EdzesekPage() {
         gyakorlat_id
         
     });
+    const {data: validationEdzesek} = useEdzes.getEdzesek({
+        limit: 1000,
+        user_id: session?.user.user_id
+    });
 
 
     if (isLoading) return <div>Loading...</div>;
@@ -46,6 +53,7 @@ function EdzesekPage() {
 
 
     const handleNewEdzes = () => {
+
         setIsModalOpen(true)
 
         const currentEdzesID = localStorage.getItem("currentEdzesID");

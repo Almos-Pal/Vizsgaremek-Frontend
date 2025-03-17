@@ -14,6 +14,9 @@ import ConfirmationModal from "../_modal/ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
 import { StopWatch } from "..";
 import { BodySVG } from "@/components/server";
+import { EdzesOnSameDay } from "@/utils";
+import dateParse from "@/utils/dateParse";
+import { error } from "console";
 
 
 interface EdzesViewProps {
@@ -24,15 +27,19 @@ interface EdzesViewProps {
 
 const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
     const { data: session } = useSession();
+    const { data: edzesek } = useEdzes.getEdzesek({
+        limit: 1000,
+        user_id: session?.user.user_id
+    });
     const router = useRouter();
     const toast = useToast();
     const { mutateAsync: createEdzesAsync } = useEdzes.createEdzes();
     const { mutateAsync: addGyakorlatAsync } = useEdzes.addGyakorlatToEdzes();
 
-
-
-    console.log(data.user_id);
     const cloneEdzesWithoutSets = async () => {
+
+
+
         // Create new edzés with same name and no gyakorlatok.
         const newEdzesPayload = {
             edzes_neve: data.edzes_neve,
@@ -49,30 +56,48 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
         storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
 
 
+        console.log("Edzés klónozása");
 
-        const newEdzes = await createEdzesAsync(newEdzesPayload, {
-            onSuccess: (newEdzes: any) => {
-                console.log("Edzés sikeresen elkezdve");
-                toast.success("Edzés sikeresen elkezdve");
-            },
-            onError: (error: any) => {
-                console.error("Error creating edzés:", error);
-                toast.error("Hiba történt az edzés létrehozása közben");
-            }
-        });
+        try{
 
-
-        // Add each gyakorlat (without sets) to the new edzés.
-        for (const gyakorlat of data.gyakorlatok) {
-            await addGyakorlatAsync({
+            const newEdzes = await createEdzesAsync(newEdzesPayload, {
+                onSuccess: (newEdzes: any) => {
+                    console.log("Edzés sikeresen elkezdve");
+                    toast.success("Edzés sikeresen elkezdve");
+                    
+                },
+                onError: (error: any) => {
+                console.log(error)
+                if (error == "Error: 409") {
+                    
+                    toast.error("A mai nap már van edzés");
+                    
+                }
+                else {
+                    
+                     toast.error("Hiba történt az edzés létrehozása közben");
+                     
+                     
+                    }
+                }
+            });
+            
+            
+            // Add each gyakorlat (without sets) to the new edzés.
+            for (const gyakorlat of data.gyakorlatok) {
+                await addGyakorlatAsync({
                 edzesId: newEdzes.edzes_id,
                 userId: session?.user.user_id!,
                 gyakorlatId: gyakorlat.gyakorlat_id,
             });
         }
-
-
+        
+        
         router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
+    }catch(error){}
+
+
+
     };
 
 
@@ -99,7 +124,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
     const edzesIzomcsoportok = (edzes: Edzes) => {
         const foIzomcsoportok = new Set<number>();
         const izomcsoportok = new Set<number>();
-    
+
         edzes.gyakorlatok.forEach(gyakorlat => {
             if (gyakorlat.gyakorlat.fo_izomcsoport) {
                 foIzomcsoportok.add(gyakorlat.gyakorlat.fo_izomcsoport);
@@ -108,7 +133,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                 gyakorlat.gyakorlat.izomcsoportok.forEach((izomcsoport) => izomcsoportok.add(izomcsoport.izomcsoport_id));
             }
         });
-    
+
         return {
             foIzomcsoportok: Array.from(foIzomcsoportok),
             izomcsoportok: Array.from(izomcsoportok)
@@ -152,7 +177,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
     return <>
         <ContentLayout header={data.edzes_neve} subheader={checkifEdzesIsCurrent()}>
-                      <div className={styles.edzesView}>
+            <div className={styles.edzesView}>
 
 
                 <ConfirmationModal
@@ -190,7 +215,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                 </div>
 
                 <div className={styles.humanContainment}>
-                <BodySVG size={'85%'} className={styles["svg"]}  selectedMuscleIds={edzesIzomcsoportok(data).foIzomcsoportok} secondaryMuscleIds={edzesIzomcsoportok(data).izomcsoportok}></BodySVG>
+                    <BodySVG size={'85%'} className={styles["svg"]} selectedMuscleIds={edzesIzomcsoportok(data).foIzomcsoportok} secondaryMuscleIds={edzesIzomcsoportok(data).izomcsoportok}></BodySVG>
 
                 </div>
 
