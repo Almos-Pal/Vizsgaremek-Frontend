@@ -1,4 +1,4 @@
-import { Edzes, EdzesTenDays } from '@/types/edzes'
+import { CurrentWeekEdzes, Edzes, EdzesTenDays } from '@/types/edzes'
 import { PaginatedResponse } from '@/types';
 import page from '@/app/test/akos/page';
 import { use } from 'react';
@@ -280,6 +280,16 @@ const edzesAPI = {
     
     return response.json() as unknown as Edzes[];
   },
+
+  fetchCurrentWeek: async (userId: number) => {
+    const response = await fetch(`http://localhost:8000/edzes/current-week/${userId}`);
+
+    if (!response.ok) {
+      throw new Error('Error fetching data');
+    }
+    
+    return response.json() as unknown as CurrentWeekEdzes;
+  }
 };
 
 export default edzesAPI;

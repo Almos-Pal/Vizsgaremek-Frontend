@@ -1,32 +1,35 @@
 "use client";
-import { list } from "postcss";
 import { Button } from "../../index";
-import { Text } from "@/components/server";
+import { BodySVG, Text } from "@/components/server";
 import styles from './WeeklyTotal.module.scss';
-import clsx from "clsx";
 import Link from "next/link";
+import { useEdzes } from "@/hooks";
+import { useSession } from "next-auth/react";
 
 function WeeklyTotal() {
-    return (
-        <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[270px] max-w-[325px] w-full flex flex-col m-2.5 p-5 rounded-lg ")}>
-            <div className="w-full max-w-[500px]  mb-5">
-                <div className="max-h-[30px] text-center">
-                    <Text variant="h4">Heti Összesítő</Text>
-                </div> 
-            </div>
-                <div className={clsx(styles.humanDiv,"max-w-[300px] sm:flex hidden justify-center min-w-[130px] w-full sm:mb-3 mb-8 ml-0 rounded-lg")}> 
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8_PtzGb9XgU_eXXauI4a56O3yuB5wqCpD2IZyFeMLFOsCoYnB72WUHnu7N7jhDMdlmyc&usqp=CAU" alt="" />
-            </div>
-            <div className={clsx(styles.humanDiv,"max-w-[300px] sm:hidden flex justify-center min-w-[130px] w-full sm:mb-3 mb-8 ml-0 rounded-lg")}> 
-                    <Link href={"/gyakorlat"}>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8_PtzGb9XgU_eXXauI4a56O3yuB5wqCpD2IZyFeMLFOsCoYnB72WUHnu7N7jhDMdlmyc&usqp=CAU" alt="" />
-                    </Link>
-            </div>
-            <div className="sm:visible hidden sm:flex justify-center whitespace-nowrap mt-4">
-                <Button color={"secondary"} additionalClassName="w-[200px]" href={"/osszesito"}>Több a hetemről</Button>
-            </div>
+  const { data: session } = useSession();
+  const { data: currentWeekEdzesek } = useEdzes.getCurrentWeekEdzesek( session?.user.user_id! );
+
+  return (
+    <div  className={styles.mainDiv}>
+      <div className={styles.titleContainer}>
+        <div className={styles.title}>
+          <Text variant="h4">Heti Összesítő</Text>
         </div>
-    )
+      </div>
+      <div className={styles.humanDiv}>
+        <Link href="/heti-edzes" className={styles.link}>
+
+          <BodySVG  size={260}  selectedMuscleIds={currentWeekEdzesek?.fo_izomcsoportok } secondaryMuscleIds={currentWeekEdzesek?.izomcsoportok} />
+        </Link>
+      </div>
+      <div className={styles.buttonContainer}>
+        <Button color="secondary" additionalClassName="button" href="/heti-edzes">
+          Több a hetemről
+        </Button>
+      </div>
+    </div>
+  );
 }
 
 export default WeeklyTotal;
