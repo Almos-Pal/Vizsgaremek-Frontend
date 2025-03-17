@@ -47,10 +47,6 @@ function EdzesekPage() {
 
 
     const handleNewEdzes = () => {
-        // if(EdzesOnSameDay(validationEdzesek)){
-        //     toast.error("A Mai nap Már van edzés");
-        //     return;
-        // }
 
         setIsModalOpen(true)
 

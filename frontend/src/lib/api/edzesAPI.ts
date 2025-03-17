@@ -54,6 +54,8 @@ const edzesAPI = {
   },
 
   createEdzes: async (newEdzes: any) => {
+    
+
     const response = await fetch('http://localhost:8000/edzes', {
       method: 'POST',
       headers: {
@@ -64,8 +66,7 @@ const edzesAPI = {
 
     if (!response.ok) {
       if(response.status === 409) {
-        toast.error('Edzes on same day');
-        throw new Error('Edzes on same day');
+        throw new Error("409");
       }      
       throw new Error('Error creating edzes');
       
