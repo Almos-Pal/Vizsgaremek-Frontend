@@ -10,6 +10,7 @@ const useEdzes = {
     user_id?: number | null;
     edzes_neve?: string;
     gyakorlatok?: number[];
+    isTemplate?: boolean;
     gyakorlat_id?: number | null;
     isTemplate?: boolean;
   } = {}) => {
@@ -163,6 +164,16 @@ const useEdzes = {
           setId,
           userId
         ),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['edzes'] });
+      },
+    });
+  },
+  createEdzesFromTemplate: () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: ({ templateId, userId,date }: { templateId: number; userId: number,date:string }) =>
+        edzesAPI.createEdzesTemplate(templateId, userId,date),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
       },

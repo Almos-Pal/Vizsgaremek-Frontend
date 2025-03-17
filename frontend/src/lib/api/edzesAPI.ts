@@ -2,6 +2,7 @@ import { Edzes, EdzesTenDays } from '@/types/edzes'
 import { PaginatedResponse } from '@/types';
 import page from '@/app/test/akos/page';
 import { use } from 'react';
+import { create } from 'domain';
 
 interface FetchEdzesekParams {
   page?: number;
@@ -12,6 +13,7 @@ interface FetchEdzesekParams {
   gyakorlatok?: number[];
   isTemplate?: boolean;
   gyakorlat_id?: number | null;
+  
   //izomcsoportId?: number;
   //izomcsoportok?: number[];
 }
@@ -204,6 +206,22 @@ const edzesAPI = {
 
     if (!response.ok) {
       throw new Error('Error deleting set from edzes');
+    }
+
+    return response.json();
+  },
+
+  createEdzesTemplate: async (templateId:number, userId:number, date:string ) => {
+    const response = await fetch(`http://localhost:8000/edzes/template/${templateId}/${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ date }),
+      
+    });
+    if (!response.ok) {
+      throw new Error('Error creating edzés from template');
     }
 
     return response.json();
