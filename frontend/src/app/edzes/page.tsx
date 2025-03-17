@@ -21,20 +21,20 @@ function EdzesekPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialPage = parseInt(searchParams.get("page") || "1", 10);
-    const searchParamsGyakorlatId = (searchParams.get("gyakorlat_id")|| null);
-    const gyakorlat_id = searchParamsGyakorlatId? parseInt(searchParamsGyakorlatId): null;
+    const searchParamsGyakorlatId = (searchParams.get("gyakorlat_id") || null);
+    const gyakorlat_id = searchParamsGyakorlatId ? parseInt(searchParamsGyakorlatId) : null;
 
     const [page, setPage] = useState(initialPage);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    
-    
+
+
     const { data: edzesek, isLoading, error } = useEdzes.getEdzesek({
         page,
         limit: 3,
         user_id: session?.user.user_id,
         gyakorlat_id
-        
+
     });
     const {data: validationEdzesek} = useEdzes.getEdzesek({
         limit: 1000,
@@ -45,7 +45,7 @@ function EdzesekPage() {
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading workouts</div>;
 
-   
+
     const workouts = Array.isArray(edzesek?.items?.[0])
         ? edzesek.items.flat()
         : edzesek?.items;
@@ -61,43 +61,41 @@ function EdzesekPage() {
         const storedStartTime = localStorage.getItem("edzesStartTime");
         storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
     }
-    let header:string = 'Edzések';
-    if(edzesek?.items[0] && gyakorlat_id!==null){
+    let header: string = 'Edzések';
+    if (edzesek?.items[0] && gyakorlat_id !== null) {
         let headerHelper = ""
         edzesek?.items[0].gyakorlatok.map((gyakorlat: any) => {
-            if(gyakorlat.gyakorlat_id === gyakorlat_id){
+            if (gyakorlat.gyakorlat_id === gyakorlat_id) {
                 headerHelper = gyakorlat.gyakorlat.gyakorlat_neve;
             }
         })
         header = "Az alábbi edzések tartalmazzák a keresett gyakorlatot: " + headerHelper;
     }
-    
+
 
     return (
-        
-        
-            <ContentLayout header={header} >
+
+
+        <ContentLayout header={header} >
 
             {workouts?.map((edzes: any) => (
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
             {edzesek?.items.length === 0 && (
-            <Text className='justify-self-center' >Nincs találat</Text>
-          )}
-               
+                <Text className='justify-self-center' >Nincs találat</Text>
+            )}
+
 
             <div className='flex justify-center mt-4 pb-4'>
- 
+
                 <Button width={225} color='secondary' rightIcon='AddIcon' onClick={(handleNewEdzes)} >Edzés</Button>
             </div>
 
             <Modal
                 visible={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                width={350}
+              
                 showCloseButton={false}
-                
-                
             >
 
                 <NewEdzesForm onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />
@@ -113,6 +111,7 @@ function EdzesekPage() {
                     router.push(`?${params.toString()}`);
                 }}
             />
+
         </ContentLayout >
 
 

@@ -14,6 +14,7 @@ interface ConfirmationModalProps {
     cancelText?: string;
     }
 
+    
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   visible,
   title,

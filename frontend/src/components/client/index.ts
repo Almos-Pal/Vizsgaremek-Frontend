@@ -25,3 +25,5 @@ export {default as UserItem} from "./UserItem/UserItem";
 export {default as MusclePieChart} from "./MusclePieChart/MusclePieChart";
 export {default as Weight} from "./WeightSum/Weight";
 export {default as EdzesTervBlock} from "./EdzesTervBlock/EdzesTervBlock";
+export {default as EdzesTervEditForm} from "./_forms/EdzesTervEditForm/EdzesTervEditForm";
+export {default as SmallGyakorlatView } from  "./SmallGyakorlatView/SmallGyakorlatView";

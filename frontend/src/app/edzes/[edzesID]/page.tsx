@@ -1,11 +1,11 @@
 "use client"
 
-import React, { use } from 'react'
+import React, { use, useEffect } from 'react'
 import { Text } from '@/components/server'
 import useEdzes from '@/hooks/useEdzes'
 import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout';
 import { EdzesView } from "@/components/client";
-
+import { useRouter } from "next/navigation";
 
 
 interface PageParams {
@@ -19,8 +19,16 @@ interface EdzesViewPageProps {
 const EdzesViewPage: React.FC<EdzesViewPageProps> = ({ params }) => {
   const resolvedParams = use(params);
   const edzesID = parseInt(resolvedParams.edzesID);
-
+  const router = useRouter();
   const { data, isLoading, error } = useEdzes.getEdzes(edzesID);
+
+  useEffect(() => {
+    if (data?.isTemplate == true) {
+      router.push('/edzestervek');
+    }
+  }, [data, router, edzesID]);
+
+
 
   if (isNaN(edzesID)) {
     return (
@@ -45,7 +53,7 @@ const EdzesViewPage: React.FC<EdzesViewPageProps> = ({ params }) => {
       </div>
     )
   }
-  
+
   if (!data) {
     return (
       <div>
@@ -55,10 +63,10 @@ const EdzesViewPage: React.FC<EdzesViewPageProps> = ({ params }) => {
   }
 
   return (<>
-      <EdzesView data={data}>
+    <EdzesView data={data}>
 
-      </EdzesView>
-    </>
+    </EdzesView>
+  </>
   )
 }
 

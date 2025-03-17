@@ -46,7 +46,6 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
 
     const submissionValues = {
       ...values,
-      datum: new Date(),
       user_id: session?.user.user_id,
       ido: Math.floor(elapsedTime / 1000),
     };

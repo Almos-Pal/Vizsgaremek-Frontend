@@ -24,14 +24,17 @@ interface NewEdzesFormProps {
     onSuccess: () => void;
     onError?: (error: any) => void;
     onCancel: () => void;
+    template?: boolean;
 }
 
 
-const validationSchema = Yup.object().shape({
-    edzes_neve: Yup.string().required("Az edzés nevének megadása kötelező").min(3, "Az edzés nevének legalább 3 karakter hosszúnak kell lennie"),
-});
 
-const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
+const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel, template }) => {
+    const validationSchema = Yup.object().shape({
+        edzes_neve: Yup.string()
+            .required(template ? "Az edzésterv nevének megadása kötelező" : "Az edzés nevének megadása kötelező")
+            .min(3, template ? "Az edzésterv nevének legalább 3 karakter hosszúnak kell lennie" : "Az edzés nevének legalább 3 karakter hosszúnak kell lennie"),
+    });
     const router = useRouter();
     const toast = useToast();
     const { mutate: createEdzes } = useEdzes.createEdzes();
@@ -44,7 +47,7 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
             edzes_neve: values.edzes_neve,
             datum: new Date(),
             user_id: session?.user.user_id!, //dont touch
-            ido: 0,
+            isTemplate: template ? 1 : 0,
         };
 
         try{
@@ -52,10 +55,12 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
         
         createEdzes(newEdzesPayload, {
             onSuccess: (newEdzes: any) => {
-                
-                router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
-                onSuccess(); 
-                toast.success("Edzés sikeresen elkezdve");
+
+                const redirectUrl = template ? `/edzestervek/${newEdzes.edzes_id}` : `/edzes/${newEdzes.edzes_id}/szerkeszt`;
+                router.push(redirectUrl);
+                onSuccess();
+
+                toast.success(template ? "Edzésterv sikeresen létrehozva" : "Edzés sikeresen elkezdve");
             },
             onError: (error: any) => {
                 if (error == "Error: 409") {
@@ -75,30 +80,34 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel }) => {
             <Formik validationSchema={validationSchema} initialValues={initialValues} onSubmit={handleSubmit}>
                 {({ isSubmitting }) => (
                     <Form>
-                        <div style={{ marginBottom: "1.5rem"}}>
-                            <Text style={{ marginBottom: '1.5rem' }}  variant="h4">Adja meg az edzés nevét</Text>
-                            <div style={{ marginBottom: "1.5rem", width: "100%", marginLeft: "auto" , marginRight: "auto"}}>
+                        <div style={{ marginBottom: "1.5rem" }}>
+                            <Text style={{ marginBottom: '1.5rem' }} variant="h4">Adja meg az  {template ? " edzésterv" : " edzés"} nevét</Text>
+                            <div style={{ marginBottom: "1.5rem", width: "100%", marginLeft: "auto", marginRight: "auto", maxWidth: "390px"}}>
                                 <FormField
                                     id="edzes_neve"
                                     name="edzes_neve"
-                                    placeholder="Edzés neve"
+                                    placeholder={template ? " Edzésterv neve" : " Edzés neve"}
                                     as={Input}
                                     
+
                                 />
                             </div>
-                            <div className="flex justify-center gap-2">
-                                <Button width={'50%'} type="submit" disabled={isSubmitting} color="primary">
-                                    Létrehozás
-                                </Button>
-                                <Button width={'50%'} type="button" onClick={onCancel} color="secondary">
+                            <div className={style["button-container"]}>
+                                
+                                <Button additionalClassName={style["nope-button"]} type="button" onClick={onCancel} color="primary">
                                     Mégse
+                                </Button>
+
+                                <Button additionalClassName={style["yes-button"]} type="submit" disabled={isSubmitting} color="secondary">
+                                    Létrehozás
                                 </Button>
                             </div>
                         </div>
+
                     </Form>
                 )}
             </Formik>
-        </div>
+        </div >
     );
 
 }

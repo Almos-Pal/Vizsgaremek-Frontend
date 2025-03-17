@@ -27,8 +27,11 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
   
   
   useEffect(() => {
-    if (data && data.isFinalized) {
+    if (data && data.isFinalized ) {
       router.push(`/edzes/${edzesID}`);
+    }
+    else if (data?.isTemplate == true) {
+      router.push('/edzestervek');
     }
   }, [data, router, edzesID]);
 
@@ -43,7 +46,7 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
         <Text>Loading...</Text>
       </div>
     );
-  }
+  } 
 
   if (error || !data) {
     return (
