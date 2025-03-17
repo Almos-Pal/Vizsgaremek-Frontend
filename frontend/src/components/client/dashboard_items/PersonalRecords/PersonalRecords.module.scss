@@ -2,6 +2,11 @@
 .mainDiv{
     background-color: var(--color-grey-500);
     width: 100%;
+
+
+    .item {
+      height: 48px;
+    }
   }
 .greenify{
     color: var(--color-success);

@@ -3,79 +3,25 @@ import { Button } from "../../index";
 import { Text } from "@/components/server";
 import styles from './PersonalRecords.module.scss';
 import clsx from "clsx";
-interface RekordokProps {
-    name: string,
-    sets: number,
-    reps: number,
-    weight: number
-}
-let list: RekordokProps[] = [
-    {
-        name: "Berntrv Press",
-        sets: 3,
-        reps: 10,
-        weight: 100
-    },
-    {
-        name: "Sbgrsats",
-        sets: 3,
-        reps: 10,
-        weight: 150
-    },
-    {
-        name: "Degfdlifts",
-        sets: 3,
-        reps: 10,
-        weight: 200
-    },
-    {
-        name: "untbgflups",
-        sets: 3,
-        reps: 10,
-        weight: 0
-    },
-    {
-        name: "Purthfhups",
-        sets: 3,
-        reps: 10,
-        weight: 0
-    },
-    {
-        name: "Befdhdress",
-        sets: 3,
-        reps: 10,
-        weight: 100
-    },
-    {
-        name: "Sqzzttruats",
-        sets: 3,
-        reps: 10,
-        weight: 150
-    },
-    {
-        name: "Delifts",
-        sets: 3,
-        reps: 10,
-        weight: 200
-    },
-    {
-        name: "Pulerups",
-        sets: 3,
-        reps: 10,
-        weight: 0
-    },
-    {
-        name: "Puskhups",
-        sets: 3,
-        reps: 10,
-        weight: 0
-    }
-]
+import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useUserGyakorlat } from "@/hooks";
 
 
 
 
 function PersonalRecords() {
+    const { data: session } = useSession();
+    const userId = session?.user?.user_id;
+
+
+    const { data: records, isLoading } = useUserGyakorlat.getRecords({
+        isRecord: true,
+        userId,
+        page: 1,
+        limit: 8
+    });
 
     return (
 
@@ -84,38 +30,34 @@ function PersonalRecords() {
                 <Text variant="h4" className="max-w-[500px] text-center">Rekordok</Text>
             </div>
             <div className="max-w-[540px] hidden sm:grid  max-h-[100 px] grid grid-cols-2 gap-5 ml-2">
-                {
-                    list.slice(0, 6).map((item) => {
-                        return (
-                            <div className="flex flex-row justify-between" key={item.name}>
-                            <div>
-                                <Text variant="body-16">{item.name} max :</Text>
-                            </div>
-                            <div>
-                                <Text variant="body-16"><span className={styles.greenify}>{item.weight}kg</span></Text>
-                            </div>
-                            </div>
-                        )
-                    })
-                }
+                {records?.items.slice(0, 6).map((item) => (
+                    <div className={clsx(styles.item, "flex flex-row justify-between ")}key={item.gyakorlat.gyakorlat_neve}>
+                        <div>
+                            <Text variant="body-16">{item.gyakorlat.gyakorlat_neve}:</Text>
+                        </div>
+                        <div>
+                            <Text variant="body-16">
+                                <span className={styles.greenify}>{item.personal_best}kg</span>
+                            </Text>
+                        </div>
+                    </div>
+                ))}
             </div>
             <div className="max-w-[500px] sm:hidden visible grid grid-cols-1 gap-5 ml-0">
-                {
-                    list.slice(0, 3).map((item) => {
-                        return (
-                            <div className="flex flex-row gap-0 justify-between" key={item.name}>
-                            <div className="text-left">
-                                <Text variant="body-16">{item.name} max :</Text>
-                            </div>
-                            <div className="text-right">
-                                <Text variant="body-16"><span className={styles.greenify}>{item.weight}kg</span></Text>
-                            </div>
-                            </div>
-                        )
-                    })
-                }
+                {records?.items.slice(0, 3).map((item) => (
+                    <div className="flex flex-row gap-0 justify-between" key={item.gyakorlat.gyakorlat_neve}>
+                        <div className="text-left">
+                            <Text variant="body-16">{item.gyakorlat.gyakorlat_neve} max :</Text>
+                        </div>
+                        <div className="text-right">
+                            <Text variant="body-16">
+                                <span className={styles.greenify}>{item.personal_best}kg</span>
+                            </Text>
+                        </div>
+                    </div>
+                ))}
             </div>
-            <div className="flex justify-center mt-5">
+            <div className="flex justify-center mt-1">
                 <Button color={"secondary"} href={"/rekordok"} rightIcon="SearchIcon" >További Rekordok </Button>
             </div>
 
