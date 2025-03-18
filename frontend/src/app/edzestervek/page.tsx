@@ -4,7 +4,7 @@ import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayou
 import styles from './page.module.scss'
 import { Button, EdzesTervBlock, Pagination } from '@/components/client'
 import { useSession } from 'next-auth/react'
-
+import {Text} from '@/components/server'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import useEdzes from '@/hooks/useEdzes'
@@ -59,7 +59,9 @@ const EdzesTervekPage: React.FC = () => {
             {workouts?.map((edzes: any) => (
                 <EdzesTervBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
-
+            {edzesek?.items.length === 0 && (
+                <Text variant='subtitle-15' className='justify-self-center mb-6' >Jelenleg még nincsenek edzétervei</Text>
+            )}
             <div className='flex justify-center mt-4 pb-4'>
                 <Button width={225} color='secondary' rightIcon='AddIcon' onClick={(handleNewEdzes)} >Edzésterv</Button>
             </div>
@@ -80,7 +82,7 @@ const EdzesTervekPage: React.FC = () => {
             <Modal
                 visible={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                
+
                 showCloseButton={false}
             >
 

@@ -82,7 +82,7 @@ function EdzesekPage() {
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
             {edzesek?.items.length === 0 && (
-                <Text className='justify-self-center' >Nincs találat</Text>
+                <Text variant='subtitle-15' className='justify-self-center mb-6' >Jelenleg még nincsenek kész edzései</Text>
             )}
 
 
