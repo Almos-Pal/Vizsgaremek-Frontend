@@ -18,11 +18,9 @@ function TodaysWorkout() {
     const isMobile = useIsMobile();
 
     const avgRep = (gyakorlat: any): number => {
-      // Use the top-level "szettek" array from the GyakorlatWithSets object
       const sets = gyakorlat.szettek || [];
       if (sets.length === 0) return 0;
       
-      // Convert the weight to a number (just in case) and sum them up
       const totalRep = sets.reduce((acc:any, set:any) => acc + Number(set.reps || 0), 0);
       return parseFloat((totalRep / sets.length).toFixed(0));
     };
@@ -77,7 +75,7 @@ function TodaysWorkout() {
                                 href={`/edzes/${todaysWorkout?.edzes_id}`} 
                                 className={styles.moreExercises}
                             >
-                                További gyakorlatok: {remainingExercises}
+                                  további {remainingExercises}...
                             </Link>
                         )}
                     </div>
@@ -86,7 +84,7 @@ function TodaysWorkout() {
                         color="secondary"
                         href={`/edzes/${todaysWorkout?.edzes_id}`}
                     >
-                        Edzés megtekintése
+                      {remainingExercises > 0?  `További gyakorlatok (${remainingExercises})` : "Edzés megtekintése"}
                     </Button>
                 </div>
 

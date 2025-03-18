@@ -77,9 +77,13 @@
 
 .moreExercises {
     display: none;
-    color: var(--color-grey-400);
+    color: var(--color-grey-300);
+
+
+    &:hover {
+      color: var(--color-grey-100);
+    }
     font-size: 0.875rem;
-    text-decoration: underline;
     padding: 0.5rem;
     margin-top: 0.5rem;
     @include mobile {
