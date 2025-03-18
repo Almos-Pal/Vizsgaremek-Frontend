@@ -10,7 +10,6 @@ const useEdzes = {
     user_id?: number | null;
     edzes_neve?: string;
     gyakorlatok?: number[];
-    isTemplate?: boolean;
     gyakorlat_id?: number | null;
   } = {}) => {
     return useQuery({
@@ -224,5 +223,11 @@ getCurrentWeekEdzesek: (userId:number) => {
     });
 
 },
+findOneByDate: (userId:number,date:string) => {
+  return useQuery({
+      queryKey: ['edzes/date', userId,date],
+      queryFn: () => edzesAPI.findOneByDate(userId,date),
+    });
+  },
 }
 export default useEdzes;

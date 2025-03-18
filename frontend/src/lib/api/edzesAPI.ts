@@ -294,7 +294,16 @@ const edzesAPI = {
     }
     
     return response.json() as unknown as CurrentWeekEdzes;
-  }
+  },
+  findOneByDate: async (userId: number, date: string) => {
+    const response = await fetch(`http://localhost:8000/edzes/napi?userId=${userId}&date=${date}`);
+
+    if (!response.ok) {
+      throw new Error('Error fetching data');
+    }
+    
+    return response.json() as unknown as Edzes;
+  },
 };
 
 export default edzesAPI;

@@ -1,163 +1,123 @@
 "use client";
 import { Button } from "../../index";
-import { Text } from "@/components/server";
+import { BodySVG, Text } from "@/components/server";
 import styles from './TodaysWorkout.module.scss';
-import clsx from "clsx";
-import { SearchIcon } from "@/components/server/Icons";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import { useEdzes, useIsMobile } from "@/hooks";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-
-
-interface WorkoutProps {
-    name: string;
-    sets: number;
-    reps: number;
-}
+import { GyakorlatWithSets } from "@/types";
 
 function TodaysWorkout() {
-    let list: WorkoutProps[] = [
-        {
+    const router = useRouter();
+    const { data: session } = useSession();
+    const currentDate = useMemo(() => new Date().toISOString(), []);
+    const { data: todaysWorkout } = useEdzes.findOneByDate(session?.user.user_id!, currentDate);
+    const [view, setView] = useState<"front" | "back">("front");
+    const isMobile = useIsMobile();
 
-            name: "zottman kukimuki mkikimuki ",
-            sets: 3,
-            reps: 10
-        },
-        {
-            name: "Squats",
-            sets: 3,
-            reps: 10
-        },
-        {
-            name: "Deadlifts",
-            sets: 3,
-            reps: 10
-        },
-        {
-            name: "Pullups",
-            sets: 3,
-            reps: 10
-        },
-        {
-            name: "Pushups",
-            sets: 3,
-            reps: 10
-        },
-    ]
+    const avgRep = (gyakorlat: any): number => {
+      const sets = gyakorlat.szettek || [];
+      if (sets.length === 0) return 0;
+      
+      const totalRep = sets.reduce((acc:any, set:any) => acc + Number(set.reps || 0), 0);
+      return parseFloat((totalRep / sets.length).toFixed(0));
+    };
+    
+    
 
-    const [human, setHuman] = useState(false)
-    function switchHuman() {
-        setHuman(!human)
-        console.log(human)
-    }
-    return (
-        <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[600px] max-w-[325px] flex flex-wrap sm:flex-nowrap sm:flex-col sm:justify-normal justify-center  sm:m-2.5 sm:p-5 rounded-lg ")}>
-            <div className="w-full max-w-[500px] flex-row mb-8">
-                <div className="max-h-[30px] text-center">
-                    <Text variant="h4">Mai Edzés</Text>
+    const foIzomcsoportok = todaysWorkout?.gyakorlatok.flatMap(gyakorlat =>
+        gyakorlat.gyakorlat.fo_izomcsoport
+    ) || [];
+
+    const izomcsoportok = todaysWorkout?.gyakorlatok.flatMap(gyakorlat =>
+        gyakorlat.gyakorlat.izomcsoportok.map(izomcsoport => izomcsoport.izomcsoport_id)
+    ) || [];
+
+    const handleViewToggle = () => {
+        setView(prev => prev === "front" ? "back" : "front");
+    };
+
+    const exercises = todaysWorkout?.gyakorlatok || [];
+    const remainingExercises = exercises.length > (isMobile ? 3 : 4) ? 
+        exercises.length - (isMobile ? 3 : 4) : 0;
+
+    if (!exercises.length) {
+        return (
+            <div className={styles.container}>
+                <div className={styles.emptyState}>
+                    <Text variant="h3">Még nincs edzés a mai napra</Text>
                 </div>
             </div>
-            <div className="flex sm:flex-row flex-col justify-center">
-                <div className="max-w-[300px]  hidden  sm:flex sm:flex-wrap flex-nowrap justify-center flex-row mr-4 p-0 ">
-                    <div className="mr-6">
-                        {
-                            list.slice(0, 5).map((item) => {
-                                return (
-                                    <div key={item.name} className=" max-w-[400px] flex flex-row  justify-between gap-5 mb-5 pl-3 ">
-                                        <div className="flex flex-row   ">
-                                            <Text variant="body-16">{item.name}</Text>
-                                        </div>
-                                        <div className="flex flex-row   ">
-                                            <div className=" w-full text-right">
-                                                <Text variant="body-16" >{item.sets}x{item.reps}</Text>
-                                            </div>
-                                        </div >
-                                    </div>
+        );
+    }
 
-                                )
-                            })
-                        }
-                    </div>
-                    {
-                        list.length - 5 > 0 &&
-                        <div className="w-max-[200px]">
-                            <Button width={"100%"} color={"secondary"} href={"/edzes"} >További Gyakorlatok: {list.length - 5}</Button>
-                        </div>
-                        ||
-                        <div className="w-max-[200px]">
-                            <Button width={"100%"} color={"secondary"} href={"/edzes"} >Gyakorlatok</Button>
-                        </div>
-                    }
-                </div>
-                <div className="max-w-[300px] min-w-[300px] sm:hidden visible w-full flex flex-row justify-center mr-4 mb-3 p-0 ">
-                    <div className="mr-6 flex flex-col gap-5">
-                        {
-                            list.slice(0, 3).map((item) => {
-                                return (
-                                    <div key={item.name} className=" max-w-[300px] flex flex-row justify-between  gap-10 pl-5 ">
-                                        <div className="content-start">
-                                            <Text variant="body-16">{item.name}</Text>
-                                        </div>
-                                        <div className="justify-end pl-5">
-                                            <Text  variant="body-16" >{item.sets}x{item.reps}</Text>
-                                        </div >
-                                    </div>
+    return (
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <Text variant="h4">Mai Edzés</Text>
+            </div>
 
-                                )
-                            })
-                        }
-                        {
-                            list.length - 3 > 0 &&
-                            <Link className={styles.aClass} href="/edzes">További gyakorlatok: {list.length - 3}</Link>
-                            ||
-                            <Link className={styles.aClass} href="/edzes">Gyakorlatok</Link>
-                        }
+            <div className={styles.content}>
+                <div className={styles.exerciseSection}>
+                    <div className={styles.exerciseList}>
+                        {exercises.slice(0, isMobile ? 3 : 4).map((item) => (
+                            <div key={item.gyakorlat_id} className={styles.exerciseItem}>
+                                <Text variant="body-16">{item.gyakorlat.gyakorlat_neve}</Text>
+                                <Text variant="body-16">
+                                    {item.total_sets}x{avgRep(item) || 0}
+                                </Text>
+                            </div>
+                        ))}
+                        {remainingExercises > 0 && (
+                            <Link 
+                                href={`/edzes/${todaysWorkout?.edzes_id}`} 
+                                className={styles.moreExercises}
+                            >
+                                  további {remainingExercises}...
+                            </Link>
+                        )}
                     </div>
-                    {
-                        list.length - 5 > 0 &&
-                        <div className="sm:visible hidden">
-                            <Button width={"100%"} color={"secondary"} >További gyakorlatok: {list.length - 5}</Button>
-                        </div>
-                        ||
-                        <div className="sm:visible hidden">
-                            <Button width={"100%"} color={"secondary"} >Gyakorlatok</Button>
-                        </div>
-                    }
+                    <Button 
+                        additionalClassName={styles.workoutButton}
+                        color="secondary"
+                        href={`/edzes/${todaysWorkout?.edzes_id}`}
+                    >
+                      {remainingExercises > 0?  `További gyakorlatok (${remainingExercises})` : "Edzés megtekintése"}
+                    </Button>
                 </div>
-                <div className={clsx(styles.humanDiv, "sm:max-w-[200px] max-w-[325px] w-full sm:grid grid-rows-5 grid-cols-12 hidden justify-center sm:p-0 sm:m-0   rounded-lg")}>
-                    <div className={clsx(styles.leftbuttonDesk, "justify-self-end")}>
-                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "5.5px" }} iconOnly leftIcon="ArrowLeftIcon"></Button>
-                    </div>
-                    {
-                        human == false &&
-                        <div className={styles.humanDeskA}>
-                        </div>
-                        ||
-                        <div className={styles.humanDeskB}>
-                        </div>
-                    }
-                    <div className={clsx(styles.rightbuttonDesk, "justify-self-start")}>
-                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "5.5px" }} iconOnly leftIcon="ArrowRightIcon"></Button>
-                    </div>
-                </div>
-                <div className={clsx(styles.humanDiv, "max-w-[200px] sm:hidden grid grid-rows-5 grid-cols-12  ml-0 mb-3 rounded-lg mr-4 ")}>
-                    <div className={clsx(styles.leftbutton, "justify-self-center")}>
-                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "5.5px" }} iconOnly leftIcon="ArrowLeftIcon"></Button>
-                    </div>
-                    {
-                        human == false &&
-                        <div className={styles.humanA}>
-                        </div>
-                        ||
-                        <div className={styles.humanB}>
-                        </div>
-                    }
-                    <div className={clsx(styles.rightbutton, "")}>
-                        <Button onClick={switchHuman} color="secondary" width={"40px"} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "5.5px" }} iconOnly leftIcon="ArrowRightIcon" iconProps={{ "size": 25 }}></Button>
+
+                <div className={styles.bodySection}>
+                    <div className={styles.bodyWrapper}>
+                        <div className={styles.bodyBackground} />
+                        <Button 
+                            onClick={handleViewToggle}
+                            color="secondary"
+                            iconOnly
+                            iconProps={{ size: 24 }}
+                            leftIcon="ArrowLeftIcon"
+                            additionalClassName={`${styles.viewButton} ${styles.leftButton}`}
+                        />
+                        <BodySVG
+                            size={220}
+                            view={view}
+                            selectedMuscleIds={foIzomcsoportok}
+                            secondaryMuscleIds={izomcsoportok}
+                        />
+                        <Button 
+                            onClick={handleViewToggle}
+                            color="secondary"
+                            iconOnly
+                            leftIcon="ArrowRightIcon"
+                            iconProps={{ size: 24 }}
+                            additionalClassName={`${styles.viewButton} ${styles.rightButton}`}
+                        />
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
-//BelaBela-1990.
+
 export default TodaysWorkout;
