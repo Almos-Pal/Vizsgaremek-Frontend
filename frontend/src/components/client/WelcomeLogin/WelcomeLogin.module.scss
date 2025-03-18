@@ -1,3 +1,6 @@
+@use "styles/breakpoints.scss" as *;
+
+
 .container {
   position: absolute;
   top: 50%;
@@ -16,6 +19,14 @@
 
   padding: 1rem;
 
+
+  .form {
+    width: 275px;
+
+    @include mobile {
+      width: 220px;
+    }
+  }
   .title {
     margin-bottom: 0.5rem;
   }

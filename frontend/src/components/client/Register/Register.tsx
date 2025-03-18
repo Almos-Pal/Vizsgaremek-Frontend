@@ -12,6 +12,8 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/dist/client/components/navigation';
 
 import { registerSchema } from '@/utils/Validations/registerSchema';
+import { toast } from 'react-toastify';
+import Link from 'next/link';
 
 const initialValues = {
     email: '',
@@ -36,15 +38,19 @@ const Register: React.FC = () => {
                 'Content-Type': 'application/json'
             },
         }));
-
+        if (res.status === 400) {
+            toast.error('Az email cím már foglalt!');
+            return;
+        }
         if (!res.ok) {
-            alert(res.statusText);
+            toast.error('Hiba a regisztráció során!');
             return;
         }
         else {
 
             const response = await res.json();
             console.log('Sikeres regisztráció');
+            toast.success('Sikeres regisztráció!');
             //console.log({ response })
             router.push('/bejelentkezes')
         }
@@ -59,71 +65,75 @@ const Register: React.FC = () => {
                 Regisztráció
             </Text>
 
-            <div style={{maxWidth: '275px'}}>
-            <Formik
-                className={styles.form}
-                initialValues={initialValues}
-                onSubmit={(values, actions) => {
-                    console.log("Formik onSubmit triggered!");  // Debugging log
-                    handleSubmit(values);
-                    actions.setSubmitting(false);
-                }}
-                validationSchema={registerSchema}
-            >
-                <Form>
-                    <FormField
-                        name="email"
-                        as={Input}
-                        type="text"
-                        label="Email cím"
-                        placeholder="Email cím"
-                        isRequired={true}
-                        style={{ marginTop: '5%'}}
-                        
-                    />
+            <div style={{ maxWidth: '275px' }}>
+                <Formik
 
-                    <FormField
-                        name='username'
-                        as={Input}
-                        type='text'
-                        label='Felhasználónév'
-                        placeholder='Felhasználónév'
-                        isRequired={true}
-                        style={{ marginTop: '1rem' }}
-                    />
+                    initialValues={initialValues}
+                    onSubmit={(values, actions) => {
+                        console.log("Formik onSubmit triggered!");  // Debugging log
+                        handleSubmit(values);
+                        actions.setSubmitting(false);
+                    }}
+                    validationSchema={registerSchema}
+                >
+                    <Form className={styles.form}>
+                        <FormField
+                            name="email"
+                            as={Input}
+                            type="text"
+                            label="Email cím"
+                            placeholder="Email cím"
+                            isRequired={true}
+                            style={{ marginTop: '5%' }}
 
-                    <FormField
-                        name="password"
-                        as={Input}
-                        type="password"
-                        label="Jelszó"
-                        placeholder="Jelszó"
-                        isRequired={true}
-                        style={{ marginTop: '1rem' }}
-                    />
+                        />
 
-                    <FormField
-                        name="passwordConfirm"
-                        as={Input}
-                        type="password"
-                        label="Jelszó megerősítése"
-                        placeholder="Jelszó megerősítése"
-                        isRequired={true}
-                        style={{ marginTop: '1rem' }}
-                    />
+                        <FormField
+                            name='username'
+                            as={Input}
+                            type='text'
+                            label='Felhasználónév'
+                            placeholder='Felhasználónév'
+                            isRequired={true}
+                            style={{ marginTop: '1rem' }}
+                        />
 
-                    <Button
-                        width="100%"
-                        style={{ marginTop: '1.5rem' }}
-                        color="secondary"
-                        type="submit"
-                    >
-                        Regisztrálás
-                    </Button>
+                        <FormField
+                            name="password"
+                            as={Input}
+                            type="password"
+                            label="Jelszó"
+                            placeholder="Jelszó"
+                            isRequired={true}
+                            style={{ marginTop: '1rem' }}
+                        />
 
+                        <FormField
+                            name="passwordConfirm"
+                            as={Input}
+                            type="password"
+                            label="Jelszó megerősítése"
+                            placeholder="Jelszó megerősítése"
+                            isRequired={true}
+                            style={{ marginTop: '1rem' }}
+                        />
 
-                </Form>
-            </Formik>
+                        <Button
+                            width="80%"
+                            style={{ marginTop: '1.5rem' }}
+                            color="secondary"
+                            type="submit"
+                        >
+                            Regisztrálás
+                        </Button>
+                        <Link
+                            href={'/bejelentkezes'} className={styles["show-more-button"]}>
+                            Vissza a bejelentkezéshez
+
+                        </Link>
+
+                    </Form>
+                </Formik>
             </div>
         </div>
     );

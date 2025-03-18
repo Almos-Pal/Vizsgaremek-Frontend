@@ -16,6 +16,7 @@ import { useRouter } from 'next/dist/client/components/navigation';
 import { loginSchema } from '@/utils/Validations/loginSchema';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { toast } from 'react-toastify';
 
 const initialValues = {
     email: '',
@@ -48,12 +49,13 @@ const WelcomeLogin: React.FC = () => {
             callbackUrl: "/dashboard", //Here you can change where to immidiately redirect after login
         });
         //console.log("SignIn result:", result);
-
-    
+        
+        
         if (result?.error) {
             //console.error("Login error:", result.error);
             setErrorMessage("Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.");
         } else if (result?.ok) {
+            toast.success('Sikeres bejelentkezés!');
             setTimeout(() => {
                 router.push("/dashboard");
             }, 500);
@@ -73,7 +75,7 @@ const WelcomeLogin: React.FC = () => {
                 onSubmit={handleSubmit}
                 validationSchema={loginSchema}
             >
-                <Form>
+                <Form className={styles.form}>
                     <FormField
                         name="email"
                         as={Input}
