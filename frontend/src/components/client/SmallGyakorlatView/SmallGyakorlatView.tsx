@@ -12,6 +12,7 @@ import { BodySVG, Text } from '@/components/server'
 import { ConfirmationModal } from '../_modal';
 import { Gyakorlat } from '@/types';
 import Button from '../Button/Button';
+import { toast } from 'react-toastify';
 
 
 interface SmallGyakorlatViewProps {
@@ -94,9 +95,11 @@ const SmallGyakorlatView: React.FC<SmallGyakorlatViewProps> = ({ index, gyakorla
             {
                 onSuccess: () => {
                     console.log(`Gyakorlat ${gyakorlat.gyakorlat_id} deleted successfully.`);
+                    toast.success("Gyakorlat törölve");
                     arrayHelpers.remove(index);
                 },
                 onError: (error) => {
+                    toast.error("Hiba történt a gyakorlat törlése közben");
                     console.error("Error deleting gyakorlat:", error);
                 },
             }
@@ -133,15 +136,15 @@ const SmallGyakorlatView: React.FC<SmallGyakorlatViewProps> = ({ index, gyakorla
                         {displayedText}
                     </Text>
                     {isLongText && (
-                        <Button
-                            noBackground
-                            type="button"
-                            onClick={() => setExpanded(!expanded)}
-                            color="secondary"
-                            additionalClassName={styles["see-more-button"]}
-                        >
-                            {expanded ? "Kevesebb" : "Több"}
-                        </Button>
+                         <Button
+                         noBackground
+                         type="button"
+                         onClick={() => setExpanded(!expanded)}
+                         color="secondary"
+                         additionalClassName={styles["see-more-button"]}
+                     >
+                         {expanded ? "Kevesebb" : "Több"}
+                     </Button>
                     )}
                 </div>
                 <div>

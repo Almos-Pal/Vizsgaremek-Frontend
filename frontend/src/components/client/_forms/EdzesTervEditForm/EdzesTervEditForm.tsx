@@ -180,7 +180,7 @@ const EdzesTervEditForm = ({ data }: EdzesCreateEditFormProps) => {
                                         onClick={() => setIsGyakorlatModalOpen(true)}
                                         color="secondary"
                                         additionalClassName={styles["gyakorlatPlusButton"]}
-                                        width={250}
+                                        
                                         rightIcon="AddIcon"
                                     >
                                         Gyakorlat
@@ -258,6 +258,7 @@ const EdzesTervEditForm = ({ data }: EdzesCreateEditFormProps) => {
                             }}
                             color="primary"
                             width={250}
+                         
                         >
                             Edzésterv Mentése
                         </Button>
