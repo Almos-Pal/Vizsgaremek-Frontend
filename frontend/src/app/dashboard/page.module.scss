@@ -1,0 +1,84 @@
+@use "styles/breakpoints.scss" as *;
+
+/* Outer container: stacks Navbar and main content */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Calculate left margin:
+     - (100vw - 1440px)/2 is the natural left gap when centered on a 1440px container.
+     - max(200px, (100vw - 1440px)/2) ensures the free space is never below 200px.
+     - Then add 2rem of extra margin.
+  */
+  margin-left: calc(max(200px, (100vw - 1440px) / 2) + 2rem);
+
+  @include mobile {
+    margin-left: 0;
+    margin-top:1rem ;
+    margin-bottom: 8rem;
+  }
+}
+
+/* Main area: grows to fill leftover space and centers content */
+.main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Grid container: limits overall width and centers its rows */
+.gridContainer {
+  width: 100%;
+  max-width: calc(496px * 3 + 2rem); /* three cards plus gaps */
+  margin: 0 auto;
+
+  @include mobile {
+    max-width: 496px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Top row: three items on desktop; stacked vertically on mobile */
+.topRow {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  @include mobile {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+  }
+}
+
+/* Bottom row: two items on desktop; stacked vertically on mobile */
+.bottomRow {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  @include mobile {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+  }
+}
+
+/* Each card: fixed width on desktop; on mobile, full width up to 496px and centered */
+.topRow > *,
+.bottomRow > * {
+  width: 496px;
+
+  @include mobile {
+    width: 90%;
+    max-width: 496px;
+    margin: 0 auto;
+  }
+}
