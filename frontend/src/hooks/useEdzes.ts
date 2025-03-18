@@ -10,6 +10,7 @@ const useEdzes = {
     user_id?: number | null;
     orderBy?: string;
     edzes_neve?: string;
+    favoriteExercises?: boolean;
     gyakorlatok?: number[];
   } = {}) => {
     return useQuery(

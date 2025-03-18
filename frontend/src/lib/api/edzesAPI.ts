@@ -8,6 +8,7 @@ interface FetchEdzesekParams {
   limit?: number;
   // other properties
   user_id?: number | null;
+  favoriteExercises?: boolean;
   edzes_neve?: string;
   gyakorlatok?: number[];
   orderBy?: string;
@@ -19,6 +20,7 @@ const edzesAPI = {
     page = 1,
     limit = 3,
     user_id = null,
+    favoriteExercises = false,
     edzes_neve,
     gyakorlatok,
     orderBy,
@@ -26,14 +28,15 @@ const edzesAPI = {
     const params: Record<string, string> = {
       page: page.toString(),
       limit: limit.toString(),
-      orderBy: orderBy?.toString() || "desc"
+      orderBy: orderBy?.toString() || "desc",
     };
     if (user_id ) params.user_id = user_id.toString();
     if(orderBy) params.orderBy = orderBy;
     
+    if (favoriteExercises) params.favoriteExercises = favoriteExercises.toString();;
     if (edzes_neve) params.edzes_neve = edzes_neve;
     if (gyakorlatok?.length) params.gyakorlatok = gyakorlatok.join(',');
-
+    
     const query = new URLSearchParams(params).toString();
     const response = await fetch(`http://localhost:8000/edzes?${query}`);
 
