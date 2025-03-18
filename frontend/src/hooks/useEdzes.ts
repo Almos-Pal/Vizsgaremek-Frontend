@@ -8,13 +8,16 @@ const useEdzes = {
     page?: number;
     limit?: number;
     user_id?: number | null;
+    orderBy?: string;
     edzes_neve?: string;
+    favoriteExercises?: boolean;
     gyakorlatok?: number[];
     gyakorlat_id?: number | null;
   } = {}) => {
-    return useQuery({
-      queryKey: ['edzesek', params],
-      queryFn: () => edzesAPI.fetchEdzesek(params),
+    return useQuery(
+      {
+        queryKey: ['edzesek', params],
+        queryFn: () => edzesAPI.fetchEdzesek(params),
     });
   },
 

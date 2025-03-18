@@ -17,6 +17,7 @@ export interface CurrentWeekEdzes {
   edzesek: Edzes[];
   izomcsoportok: number[];
   fo_izomcsoportok: number[];
+  isFavorite?: boolean;
 }
 
 export interface EdzesTenDays {

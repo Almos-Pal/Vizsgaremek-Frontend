@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useEdzes from '@/hooks/useEdzes';
 import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout';
 import EdzesBlock from '@/components/client/EdzesBlock/EdzesBlock';
@@ -9,14 +9,16 @@ import { Button, Pagination } from '@/components/client';
 import { Modal } from '@/components/client/_modal';
 import { NewEdzesForm } from '@/components/client/_forms';
 import { useSession } from 'next-auth/react';
-import { useToast } from "@/hooks";
 import { EdzesOnSameDay } from '@/utils';
 import { Text } from '@/components/server';
+import { Form, Formik } from 'formik';
+import { FormikSelect } from '@/components/client/_inputs';
+import { useToast } from '@/hooks';
+import clsx from 'clsx';
 
 function EdzesekPage() {
     const { data: session } = useSession();
-    console.log('edzes user session data: ',session?.user.isAdmin);
-    
+    console.log('edzes user session data: ', session?.user.isAdmin);
     const toast = useToast();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -28,17 +30,12 @@ function EdzesekPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-
-    const { data: edzesek, isLoading, error } = useEdzes.getEdzesek({
+    const filter = searchParams.get("orderBy") || "desc";
+    const { data: edzesek, isLoading, error, refetch } = useEdzes.getEdzesek({
         page,
         limit: 3,
         user_id: session?.user.user_id,
-        gyakorlat_id
-
-    });
-    const {data: validationEdzesek} = useEdzes.getEdzesek({
-        limit: 1000,
-        user_id: session?.user.user_id
+        orderBy: filter
     });
 
 
@@ -61,6 +58,11 @@ function EdzesekPage() {
         const storedStartTime = localStorage.getItem("edzesStartTime");
         storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
     }
+    const Option = [
+        { label: "Kedvencek alapján", value: "byFavorite" },
+        { label: "Dátum alapján növekvő", value: "asc" },
+        { label: "Dátum alapján csökkenő", value: "desc" },
+    ]
     let header: string = 'Edzések';
     if (edzesek?.items[0] && gyakorlat_id !== null) {
         let headerHelper = ""
@@ -76,7 +78,40 @@ function EdzesekPage() {
     return (
 
 
+
         <ContentLayout header={header} >
+
+            <Formik
+                
+                onSubmit={() => { }}
+                initialValues={{ order: filter }}>
+                {({ setFieldValue, values }) => {
+                    useEffect(() => {
+                        if (values.order !== filter) {
+                            const params = new URLSearchParams(searchParams.toString());        
+                            params.set("orderBy", values.order);
+                            setPage(1);
+                            router.push(`?${params.toString()}`);
+                            setFieldValue("order", values.order);
+                            toast.info('Visszakerültél az első oldalra');
+                        } 
+
+
+                    }, [values.order]);
+                    return (
+                        <div className='max-w-[750px] flex  w-full justify-self-center'>
+                        <Form style={{ maxWidth: "750px",width:"100%", margin: "10px",paddingBottom:"25px", justifySelf:'center' }} >
+                            <FormikSelect
+                                placeholder='ListaRendezés'
+                                name="order"
+                                options={Option}>
+
+                            </FormikSelect>
+                        </Form>
+                        </div>
+                    )
+                }}
+            </Formik>
 
             {workouts?.map((edzes: any) => (
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
@@ -96,6 +131,8 @@ function EdzesekPage() {
                 onClose={() => setIsModalOpen(false)}
               
                 showCloseButton={false}
+                
+                
             >
 
                 <NewEdzesForm onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />

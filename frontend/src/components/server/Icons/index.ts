@@ -28,4 +28,3 @@ export { default as LogoutIcon } from "./LogoutIcon";
 export { default as PenPaperIcon } from "./PenPaperIcon";
 
 export {default as FavoriteIcon} from "./FavoriteIcon";
-export {default as FavoriteNoFillIcon} from "./FavoriteNoFillIcon";

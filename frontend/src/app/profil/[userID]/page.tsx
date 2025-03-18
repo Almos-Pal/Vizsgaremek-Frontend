@@ -189,7 +189,7 @@ if(isLoadingUser){
         Új jelszó
         </Button>
           {/* // TODO */}
-        <Button  rightIcon="FavoriteIcon" href={"#"}> 
+        <Button  rightIcon="FavoriteIcon" href={"/kedvencek"}> 
         Kedvenc edzések
         </Button>
           {/* // TODO */}

@@ -5,7 +5,7 @@ import styles from './EdzesBlock.module.scss';
 import { BodySVG, Text } from '@/components/server';
 import Button from '../Button/Button';
 import Link from 'next/link';
-
+import { useEdzes, useToast } from '@/hooks'; 
 interface EdzesBlockProps {
     edzes: {
         edzes_neve: string;
@@ -24,13 +24,15 @@ interface EdzesBlockProps {
             total_sets: number;
         }[];
         datum: string;
+        isFavorite: boolean;
     };
 }
+const toast =  useToast();
 
 const edzesIzomcsoportok = (edzes: EdzesBlockProps['edzes']) => {
     const foIzomcsoportok = new Set<number>();
     const izomcsoportok = new Set<number>();
-
+    
     edzes.gyakorlatok.forEach(gyakorlat => {
         if (gyakorlat.gyakorlat.fo_izomcsoport) {
             foIzomcsoportok.add(gyakorlat.gyakorlat.fo_izomcsoport);
@@ -39,7 +41,7 @@ const edzesIzomcsoportok = (edzes: EdzesBlockProps['edzes']) => {
             gyakorlat.gyakorlat.izomcsoportok.forEach((izomcsoport) => izomcsoportok.add(izomcsoport.izomcsoport_id));
         }
     });
-
+    
     return {
         foIzomcsoportok: Array.from(foIzomcsoportok),
         izomcsoportok: Array.from(izomcsoportok)
@@ -47,6 +49,42 @@ const edzesIzomcsoportok = (edzes: EdzesBlockProps['edzes']) => {
 };
 
 const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
+    
+        const {mutate: updateEdzess} = useEdzes.updateEdzes();
+        const handleFavoriteClick = (edzes:any) => {
+            
+            updateEdzess(
+                {
+                    id:parseInt(edzes.edzes_id),
+                    updatedEdzes: {
+                        ...edzes,
+                       isFavorite: !edzes.isFavorite}
+
+                       
+                    },
+                    {
+                        onSuccess: () => {
+                            
+                            if(edzes.isFavorite){
+                                toast.success(edzes.edzes_neve+' eltávolítva a kedvencek közül');
+                             
+                            }
+                            else{
+                                    toast.success(edzes.edzes_neve+' hozzáadva a kedvencek közé');
+                                   
+                                }
+                        },
+                        onError: () => {
+                            toast.error('Hiba történt az edzés frissítése során');
+                        }
+                    }
+            )
+            
+        }
+   
+
+    
+
     const [visibleCount, setVisibleCount] = useState(3);
     const exercisesLeft = edzes.gyakorlatok.length - visibleCount;
     const formattedDate = edzes.datum.slice(0, 10).replace(/-/g, '/');
@@ -55,7 +93,20 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
         <div className={styles["edzes-block"]}>
             <div className={styles["edzes-header"]}>
                 <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{edzes.edzes_neve}:</Text>
-                <Text style={{ marginRight: '2rem' }} variant='body-15'>{formattedDate}</Text>
+                <div className='flex fled-row  items-center'>
+
+                <Text  style={{ marginRight: '2rem' }} variant='body-15'>{formattedDate}</Text>
+                {
+                edzes.isFavorite
+                && 
+                    <Button color='secondary' iconOnly noBackground leftIcon='FavoriteIcon' iconProps={{filled:true}} onClick={()=>handleFavoriteClick(edzes)}></Button>
+                ||
+                !edzes.isFavorite 
+                &&
+                    <Button color='secondary' iconOnly noBackground  leftIcon='FavoriteIcon' iconProps={{filled:false}} onClick={()=>handleFavoriteClick(edzes)}></Button>
+                
+            }
+                </div>
             </div>
             <div className={styles["content-wrapper"]}>
                 <ul className={styles["gyakorlat-list"]}>
