@@ -1,25 +1,55 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './Navbar.module.scss';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 import { Text } from '@/components/server';
 import { signOut, useSession } from 'next-auth/react';
 
-
 const Navbar: React.FC = () => {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const desktopMenuRef = useRef<HTMLDivElement>(null);
+    const mobileMenuRef = useRef<HTMLDivElement>(null);
+    const desktopToggleRef = useRef<HTMLButtonElement>(null);
+    const mobileToggleRef = useRef<HTMLButtonElement>(null);
+    const { data: session } = useSession();
 
     const toggleMenu = () => {
         setMenuOpen((prevOpen) => !prevOpen);
         console.log('Menu clicked', menuOpen);
     };
-    const [menuOpen, setMenuOpen] = useState(false);
-    const { data: session } = useSession();
-    console.log('navbar session: ', session?.backendTokens);
 
     const handleLogout = () => {
         signOut({ callbackUrl: "/bejelentkezes" });
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuOpen) {
+                // If the click is on one of the toggle buttons, do nothing.
+                if (
+                    (desktopToggleRef.current && desktopToggleRef.current.contains(event.target as Node)) ||
+                    (mobileToggleRef.current && mobileToggleRef.current.contains(event.target as Node))
+                ) {
+                    return;
+                }
+                // If the click is outside both menu containers, close the menu.
+                if (
+                    desktopMenuRef.current &&
+                    !desktopMenuRef.current.contains(event.target as Node) &&
+                    mobileMenuRef.current &&
+                    !mobileMenuRef.current.contains(event.target as Node)
+                ) {
+                    setMenuOpen(false);
+                }
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [menuOpen]);
 
     return (
         <>
@@ -28,6 +58,7 @@ const Navbar: React.FC = () => {
                 <IconButton icon="HomeIcon" color="transparent" iconProps={{ size: 40 }} href={`/dashboard`} />
                 <IconButton icon="ProfileIcon" color="transparent" href={`/profil/${session?.user.user_id}`} iconProps={{ size: 50 }} />
                 <IconButton
+                    ref={desktopToggleRef}
                     icon="AddIcon"
                     color="secondary"
                     iconProps={{ size: 60 }}
@@ -43,9 +74,10 @@ const Navbar: React.FC = () => {
                 />
             </nav>
 
-            {/* Desktop Menu as a sibling element */}
+            {/* Desktop Menu */}
             <div
                 id="desktopMenu"
+                ref={desktopMenuRef}
                 className={`${styles.desktopMenu} ${menuOpen ? styles.desktopMenuOpen : ''}`}
             >
                 {/* Menu items */}
@@ -80,6 +112,7 @@ const Navbar: React.FC = () => {
                 </div>
                 <div className={styles.navItem}>
                     <IconButton
+                        ref={mobileToggleRef}
                         icon="AddIcon"
                         color="secondary"
                         iconProps={{ size: 50 }}
@@ -98,15 +131,14 @@ const Navbar: React.FC = () => {
                         Kilépés
                     </Text>
                 </div>
-
-                {/* Mobile Menu using separate mobile classes */}
             </nav>
             <div
                 id="mobileMenu"
+                ref={mobileMenuRef}
                 className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''}`}
             >
                 <div className={styles.innerMenu}>
-                    {/* Menu items go here */}
+                    {/* Menu items */}
                     <Button additionalClassName={styles.mobilebutton} rightIcon="DumbellIcon" iconProps={{ size: 45 }} width="90%" style={{ marginBottom: 20 }}>
                         Edzés Kezdése
                     </Button>
