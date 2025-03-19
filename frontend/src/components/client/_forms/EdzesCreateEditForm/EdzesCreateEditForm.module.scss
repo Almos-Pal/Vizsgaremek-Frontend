@@ -25,7 +25,25 @@
         }
 
     }
+    
+}
+.no-gyak-text {
+    text-align: center;
+    margin-top: 1rem;
+    margin: auto;
+    background-color: var(--color-grey-500);
 
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-radius: 1rem;
+
+    @include desktop {
+        width: 750px;
+    }
+
+    @include mobile {
+        width: 95%;
+    }
 }
 .submit-button-div {
     text-align: center;

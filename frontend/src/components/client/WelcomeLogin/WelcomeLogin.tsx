@@ -16,7 +16,9 @@ import { useRouter } from 'next/dist/client/components/navigation';
 import { loginSchema } from '@/utils/Validations/loginSchema';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { toast } from 'react-toastify';
+
+import { useToast } from '@/hooks';
+
 
 const initialValues = {
     email: '',
@@ -37,7 +39,7 @@ const initialValues = {
 const WelcomeLogin: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
-
+    const toast = useToast();
     //console.log(session);
     const handleSubmit = async (values: typeof initialValues) => {
         //console.log("Submitting credentials:", values);
@@ -53,6 +55,7 @@ const WelcomeLogin: React.FC = () => {
         
         if (result?.error) {
             //console.error("Login error:", result.error);
+            toast.error('Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.');
             setErrorMessage("Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.");
         } else if (result?.ok) {
             toast.success('Sikeres bejelentkezés!');

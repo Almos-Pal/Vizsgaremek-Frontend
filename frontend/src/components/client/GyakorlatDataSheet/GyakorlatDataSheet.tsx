@@ -10,6 +10,8 @@ import getMuscleNameById from "@/utils/izomcsoportParse";
 import { useSession } from "next-auth/react";
 import IconButton from "../IconButton/IconButton";
 
+import { useRouter } from "next/navigation";
+
 
 interface GyakorlatDataSheetProps {
   data: Gyakorlat;
@@ -23,12 +25,13 @@ interface UserProps {
 const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
   const { data: session } = useSession();
   const isOfAdminHeritageUser = session?.user.isAdmin;
+  const router = useRouter();
   return (
     <ContentLayout header={data.gyakorlat_neve}>
       <div >
         <div className={styles.linksContainer}>
-          <Button color="primary" href={`/gyakorlat`}>
-            többi gyakorlat
+          <Button color="primary" onClick={() => router.back()} leftIcon="ArrowLeftIcon">
+            vissza
           </Button>
           <Button color="secondary" href={`/rekordok`}>
             Rekordok
@@ -49,7 +52,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
         </div>
         <div className={styles.containerWIcon}>
 
-          <Button href={'/gyakorlat'}  color="secondary" width={"40px"} additionalClassName={styles["back-button-mobile"]} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "5.5px", float: "left", marginTop:"0.6rem" }} iconOnly leftIcon="ArrowLeftIcon"></Button>
+          <Button onClick={() => router.back()}  color="secondary" width={"40px"} additionalClassName={styles["back-button-mobile"]} style={{ borderRadius: "50%", width: "30px", height: "40px", padding: "5.5px", float: "left", marginTop:"0.6rem" }} iconOnly leftIcon="ArrowLeftIcon"></Button>
 
           {
             isOfAdminHeritageUser

@@ -20,7 +20,7 @@ import { edzesSchema } from "@/utils/Validations/edzesSchema";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks";
 import SmallGyakorlatView from "../../SmallGyakorlatView/SmallGyakorlatView";
-import { BodySVG } from "@/components/server";
+import { BodySVG, Text } from "@/components/server";
 
 interface EdzesCreateEditFormProps {
     data: Edzes;
@@ -141,7 +141,7 @@ const EdzesTervEditForm = ({ data }: EdzesCreateEditFormProps) => {
                             <UnderLinedText text="Érintett izomcsoportok" lineLength={220} />
                         </div>
                         <div className={styles.humanContainment}>
-                            <BodySVG size={'85%'} className={styles["svg"]}  selectedMuscleIds={edzesIzomcsoportok(data).foIzomcsoportok} secondaryMuscleIds={edzesIzomcsoportok(data).izomcsoportok}></BodySVG>
+                            <BodySVG size={'85%'} className={styles["svg"]} selectedMuscleIds={edzesIzomcsoportok(data).foIzomcsoportok} secondaryMuscleIds={edzesIzomcsoportok(data).izomcsoportok}></BodySVG>
 
                         </div>
 
@@ -152,6 +152,13 @@ const EdzesTervEditForm = ({ data }: EdzesCreateEditFormProps) => {
                     <FieldArray name="gyakorlatok">
                         {(arrayHelpers) => (
                             <>
+                                {values.gyakorlatok.length == 0 && (
+                                    <>
+                                        <Text  className={styles["no-gyak-text"]} variant="h5">
+                                            Az edzésterv jelenleg még nem tartalmaz gyakorlatokat
+                                        </Text>
+                                    </>
+                                )}
                                 {values.gyakorlatok.map((gyakorlat, index) => (
                                     <SmallGyakorlatView
                                         key={index}
@@ -180,7 +187,7 @@ const EdzesTervEditForm = ({ data }: EdzesCreateEditFormProps) => {
                                         onClick={() => setIsGyakorlatModalOpen(true)}
                                         color="secondary"
                                         additionalClassName={styles["gyakorlatPlusButton"]}
-                                        
+
                                         rightIcon="AddIcon"
                                     >
                                         Gyakorlat
@@ -258,7 +265,7 @@ const EdzesTervEditForm = ({ data }: EdzesCreateEditFormProps) => {
                             }}
                             color="primary"
                             width={250}
-                         
+
                         >
                             Edzésterv Mentése
                         </Button>

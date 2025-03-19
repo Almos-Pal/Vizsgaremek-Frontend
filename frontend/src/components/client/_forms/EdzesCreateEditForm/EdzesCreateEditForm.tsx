@@ -19,6 +19,7 @@ import styles from "./EdzesCreateEditForm.module.scss";
 import { edzesSchema } from "@/utils/Validations/edzesSchema";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks";
+import { Text } from "@/components/server";
 
 interface EdzesCreateEditFormProps {
   data: Edzes;
@@ -104,6 +105,13 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
           <FieldArray name="gyakorlatok">
             {(arrayHelpers) => (
               <>
+                {values.gyakorlatok.length == 0 && (
+                  <>
+                    <Text className={styles["no-gyak-text"]} variant="h5">
+                      Az edzés jelenleg még nem tartalmaz gyakorlatokat
+                    </Text>
+                  </>
+                )}
                 {values.gyakorlatok.map((gyakorlat, index) => (
                   <GyakorlatokFieldArray
                     key={index}
@@ -191,7 +199,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
                 const currentEdzesID = localStorage.getItem("currentEdzesID");
                 currentEdzesID ? localStorage.removeItem("currentEdzesID") : null;
 
-                
+
                 setIsConfirmFinalModalOpen(true);
               }}
               color="primary"

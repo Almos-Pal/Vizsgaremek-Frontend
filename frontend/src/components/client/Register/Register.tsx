@@ -10,9 +10,9 @@ import Input from "@/components/client/_inputs/Input/Input";
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/dist/client/components/navigation';
-
+import {useToast} from '@/hooks'
 import { registerSchema } from '@/utils/Validations/registerSchema';
-import { toast } from 'react-toastify';
+
 import Link from 'next/link';
 
 const initialValues = {
@@ -23,7 +23,7 @@ const initialValues = {
 };
 
 const Register: React.FC = () => {
-
+    const toast = useToast();
     const router = useRouter();
 
     const handleSubmit = async (values: typeof initialValues) => {
@@ -39,7 +39,7 @@ const Register: React.FC = () => {
             },
         }));
         if (res.status === 400) {
-            toast.error('Az email cím már foglalt!');
+            toast.error('Hiba a regisztráció során!');
             return;
         }
         if (!res.ok) {

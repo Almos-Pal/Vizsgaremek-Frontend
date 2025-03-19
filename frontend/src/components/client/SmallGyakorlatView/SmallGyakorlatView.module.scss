@@ -66,8 +66,15 @@
       margin-left: 1rem;
       margin-top: 1rem;
 
+      .see-more-button-container {
+        display: flex;
+        @include tablet {
 
+          justify-content: center;
+        }
+      }
       .see-more-button {
+        
         margin-left: -1rem;
         color: var(--color-light) ;
 
