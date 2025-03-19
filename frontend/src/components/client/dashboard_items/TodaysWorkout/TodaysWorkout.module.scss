@@ -15,6 +15,10 @@
         
     }
 
+    @media (min-width: 1440px) {
+        max-width: 600px;
+        padding: 1.5rem;
+    }
 }
 
 .emptyState {

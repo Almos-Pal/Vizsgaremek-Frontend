@@ -26,8 +26,9 @@ function TodaysWorkout() {
         case 'tablet':
           return 200;
         case 'midDesktop':
-          return 160; // Smaller for the problematic range
+          return 160;
         case 'desktop':
+          return window.innerWidth >= 1440 ? 260 : 220; // Larger size for big screens
         default:
           return 220;
       }
