@@ -146,8 +146,9 @@ const CalendarContainer = styled.div`
   }
 
   .react-calendar__tile {
-    padding: 10px 6.6667px;
+    padding: 10px;
     background: none;
+    margin: 7px !important;
     text-align: center;
     font: inherit;
     font-size: 0.833em;

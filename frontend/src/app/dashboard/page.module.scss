@@ -3,82 +3,204 @@
 /* Outer container: stacks Navbar and main content */
 .container {
   display: flex;
-  flex-direction: column;
   min-height: 100vh;
-  /* Calculate left margin:
-     - (100vw - 1440px)/2 is the natural left gap when centered on a 1440px container.
-     - max(200px, (100vw - 1440px)/2) ensures the free space is never below 200px.
-     - Then add 2rem of extra margin.
-  */
-  margin-left: calc(max(200px, (100vw - 1440px) / 2) + 2rem);
-
-  @include mobile {
-    margin-left: 0;
-    margin-top:1rem ;
-    margin-bottom: 8rem;
-  }
+  background-color: var(--color-grey-600);
 }
 
 /* Main area: grows to fill leftover space and centers content */
 .main {
   flex: 1;
+  padding: 1rem;
+  margin-left: 5rem; // Space for navbar
+  overflow: hidden;
+  height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+
+  @include mobile {
+    margin-left: 0;
+    margin-bottom: 5rem;
+    height: auto;
+    overflow: auto;
+    align-items: flex-start;
+  }
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 1200px;
+  width: 100%;
+  
+  @media (min-width: 1440px) {
+    width: 90%;
+  }
+}
+
+.topRow {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr 1fr;
+  gap: 1rem;
+  height: 58vh;
+  max-height: 500px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, auto);
+  }
+}
+
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  height: 35vh;
+  max-height: 300px;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+  }
+}
+
+.todaysWorkout, .weeklyTotal, .calendar, .personalRecords, .stats {
+  background-color: var(--color-grey-500);
+  border-radius: 0.75rem;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  
+  > div {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    max-width: none;
+    border-radius: 0;
+    background-color: transparent;
+  }
+
+  @include mobile {
+    height: auto;
+    min-height: 300px;
+  }
+}
+
+.todaysWorkout {
+  @media (max-width: 1024px) {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .calendar {
+    grid-row: 2;
+    grid-column: 1;
+  }
+  
+  .weeklyTotal {
+    grid-row: 2;
+    grid-column: 2;
+  }
 }
 
 /* Grid container: limits overall width and centers its rows */
-.gridContainer {
-  width: 100%;
-  max-width: calc(496px * 3 + 2rem); /* three cards plus gaps */
+.dashboardGrid {
+  display: flex;
+  gap: 1rem;
+  max-width: 1440px;
   margin: 0 auto;
+  height: calc(100vh - 2rem);
 
-  @include mobile {
-    max-width: 496px;
-    margin: 0 auto;
-    display: flex;
+  @media (min-width: 1441px) {
+    max-width: 80%;
+  }
+
+  @media (max-width: 1024px) {
     flex-direction: column;
-    align-items: center;
+    height: auto;
   }
 }
 
-/* Top row: three items on desktop; stacked vertically on mobile */
-.topRow {
+/* Primary section: occupies 75% of the grid */
+.primarySection {
+  flex: 1;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   gap: 1rem;
-  margin-bottom: 1rem;
+  max-width: 768px;
+  
+  > div:first-child {
+    height: 60vh;
+    min-height: 400px;
+    max-height: 600px;
+  }
 
-  @include mobile {
-    flex-direction: column;
-    width: 100%;
-    gap: 1rem;
-    align-items: center;
+  @media (max-width: 1024px) {
+    max-width: 100%;
+    > div:first-child {
+      height: auto;
+      min-height: auto;
+    }
   }
 }
 
-/* Bottom row: two items on desktop; stacked vertically on mobile */
-.bottomRow {
+/* Secondary row: occupies 25% of the grid */
+.secondaryRow {
   display: flex;
-  justify-content: center;
   gap: 1rem;
+  height: calc(40vh - 1rem);
+  min-height: 300px;
+  max-height: 400px;
 
-  @include mobile {
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  @media (max-width: 1024px) {
     flex-direction: column;
-    width: 100%;
-    gap: 1rem;
-    align-items: center;
+    height: auto;
+    max-height: none;
+    
+    > div {
+      height: 300px;
+    }
   }
 }
 
-/* Each card: fixed width on desktop; on mobile, full width up to 496px and centered */
-.topRow > *,
-.bottomRow > * {
-  width: 496px;
+/* Side section: occupies 25% of the grid */
+.sideSection {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 
-  @include mobile {
-    width: 90%;
-    max-width: 496px;
-    margin: 0 auto;
+  > div {
+    height: 35vh;
+    min-height: 250px;
+    max-height: 350px;
+  }
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    flex-direction: row;
+    
+    > div {
+      flex: 1;
+      height: 300px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
   }
 }

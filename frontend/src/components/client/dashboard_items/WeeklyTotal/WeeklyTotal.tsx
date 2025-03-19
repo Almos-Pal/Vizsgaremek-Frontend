@@ -20,7 +20,7 @@ function WeeklyTotal() {
       <div className={styles.humanDiv}>
         <Link href="/heti-edzes" className={styles.link}>
 
-          <BodySVG  size={260}  selectedMuscleIds={currentWeekEdzesek?.fo_izomcsoportok } secondaryMuscleIds={currentWeekEdzesek?.izomcsoportok} />
+          <BodySVG  size={220}  selectedMuscleIds={currentWeekEdzesek?.fo_izomcsoportok } secondaryMuscleIds={currentWeekEdzesek?.izomcsoportok} />
         </Link>
       </div>
       <div className={styles.buttonContainer}>

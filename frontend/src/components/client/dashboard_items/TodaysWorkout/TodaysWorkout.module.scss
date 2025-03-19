@@ -1,7 +1,7 @@
 @use "styles/breakpoints.scss" as *;
 
 .container {
-    background-color: var(--color-grey-500);
+       background-color: var(--color-grey-500);
     width: 100%;
     max-width: 496px;
     border-radius: 0.75rem;
@@ -138,7 +138,7 @@
   bottom: 0;
   background-color: var(--color-grey-400);
   border-radius: 0.5rem;
-  z-index: -1; // This ensures the background is behind other elements
+    z-index: -1;
 }
 
 

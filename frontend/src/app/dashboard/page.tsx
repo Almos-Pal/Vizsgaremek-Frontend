@@ -7,35 +7,37 @@ import {
   TodaysWorkout, 
   WeeklyTotal 
 } from "@/components/client";
-import * as Yup from "yup";
 import styles from "./page.module.scss";
 
-const TestPage: React.FC = () => {
-  // Validation schema (unchanged)
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required("Name is required")
-      .min(3, "Name must be at least 3 characters"),
-  });
-
+const Dashboard: React.FC = () => {
   return (
     <div className={styles.container}>
       <Navbar />
-      <div className={styles.main}>
-        <div className={styles.gridContainer}>
+      <main className={styles.main}>
+        <div className={styles.dashboard}>
           <div className={styles.topRow}>
-            <TodaysWorkout />
-            <WeeklyTotal />
-            <CalendarWidget />
+            <div className={styles.todaysWorkout}>
+              <TodaysWorkout />
+            </div>
+            <div className={styles.weeklyTotal}>
+              <WeeklyTotal />
+            </div>
+            <div className={styles.calendar}>
+              <CalendarWidget />
+            </div>
           </div>
           <div className={styles.bottomRow}>
-            <PersonalRecords />
-            <Stats />
+            <div className={styles.personalRecords}>
+              <PersonalRecords />
+            </div>
+            <div className={styles.stats}>
+              <Stats />
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
 
-export default TestPage;
+export default Dashboard;
