@@ -40,4 +40,25 @@
       margin: 0; 
     }
   }
+
+
+  .you-text {
+    
+    background-color: var(--color-grey-400);
+    padding: 0.5rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    border-radius: 0.5rem;
+    width: 16rem;
+    text-align: center;
+
+    @include desktop {
+      margin-right: 3rem;
+    }
+    @include mobile {
+      margin: auto;
+      margin-bottom: 0.5rem;
+      width: 100%;
+    }
+  }
 }

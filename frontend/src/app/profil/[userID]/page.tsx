@@ -185,9 +185,11 @@ if(isLoadingUser){
 
     <ContentLayout header={userData?  userData.username + " Adatai": "Felhasználó Adatai"}  >
       <div className={styles.buttonContainer}>
-        <Button color="secondary" href={`/profil/${userData?.user_id}/uj-jelszo`} >
-        Új jelszó
-        </Button>
+        {session?.user.isAdmin && (
+          <Button color="secondary" href={'/admin'} rightIcon="ProfileIcon" >
+            Admin felület
+          </Button>
+        )}
           {/* // TODO */}
         <Button  rightIcon="FavoriteIcon" href={"#"}> 
         Kedvenc edzések

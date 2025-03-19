@@ -4,6 +4,8 @@ import { Button } from "@/components/client";
 import styles from "./UserItem.module.scss";
 import { useModal, useToast, useUser } from "@/hooks";
 import { ConfirmationModal } from "../_modal";
+import { useSession } from "next-auth/react";
+import { Loading } from "../Loading/Loading";
 
 interface UserItemProps {
   user: User;
@@ -11,21 +13,24 @@ interface UserItemProps {
 
 const UserItem: React.FC<UserItemProps> = ({ user }) => {
   const deleteModal = useModal();
-  const {mutate:deleteUser} = useUser.deleteUser();
-  const {mutate:updateAdminAccess} = useUser.updateAdminAccess();
+  const { mutate: deleteUser } = useUser.deleteUser();
+  const { mutate: updateAdminAccess } = useUser.updateAdminAccess();
   const removeAdminModal = useModal();
   const grantAdminModal = useModal();
   const toast = useToast();
-
+  const { data: session } = useSession();
   console.log(user);
 
+
+ 
+
   const handleDelete = () => {
-    deleteUser(user.user_id,{
+    deleteUser(user.user_id, {
       onSuccess: () => {
         toast.successDelete(undefined, user.username || "Felhasználó");
       },
       onError: () => {
-        toast.errorDelete(undefined,  user.username || "Felhasználó");
+        toast.errorDelete(undefined, user.username || "Felhasználó");
       }
     });
     deleteModal.close();
@@ -33,7 +38,7 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
 
   const handleAdminToggle = () => {
     if (user.isAdmin) {
-      updateAdminAccess({ id: user.user_id ,values:false}, {
+      updateAdminAccess({ id: user.user_id, values: false }, {
         onSuccess: () => {
           toast.success("Felhasználó admin jogosultsága eltávolítva");
         },
@@ -54,39 +59,43 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
       grantAdminModal.close();
     }
   };
-  
 
 
-  const handleChangeModalOpen = (isAdmin:boolean) => {
-    if(isAdmin){
+
+  const handleChangeModalOpen = (isAdmin: boolean) => {
+    if (isAdmin) {
       removeAdminModal.open();
     }
-    else{
+    else {
       grantAdminModal.open();
     }
   }
 
   return (
     <div className={styles["user-item"]}>
-    <Text>{user.email}</Text>
-    <Text>{user.username}</Text>
-    <Button
-        color="secondary"
-        rightIcon={user.isAdmin ? "MinusIcon" : "AddIcon"}
-        onClick={() => handleChangeModalOpen(user.isAdmin)}
-      >
-        Admin hozzáférés
-      </Button>
-    <div className={styles["trash-icon"]}>
-      <Button iconOnly noBackground leftIcon="TrashCanIcon" onClick={() => deleteModal.open()} />
-    </div>
-   
-   
-  
- 
-      <ConfirmationModal visible={deleteModal.visible} onConfirm={handleDelete} title="Biztos törli a felhasználót?" onCancel={deleteModal.close}/>
-      <ConfirmationModal visible={grantAdminModal.visible} onConfirm={handleAdminToggle} title="Engedélyezed a felhasználó admin jogosúltságát?" onCancel={grantAdminModal.close}/>
-      <ConfirmationModal visible={removeAdminModal.visible} onConfirm={handleAdminToggle} title="Biztos elveszed a felhasználó admin jogosúltságát?" onCancel={removeAdminModal.close}/>
+      <Text>{user.email}</Text>
+      <Text>{user.username}</Text>
+
+      {session?.user.email === user.email ? (
+        <Text className={styles["you-text"]} variant="h5">Saját felhasználó</Text>
+      ) : (
+        <>
+          <Button
+            color="secondary"
+            rightIcon={user.isAdmin ? "MinusIcon" : "AddIcon"}
+            onClick={() => handleChangeModalOpen(user.isAdmin)}
+          >
+            Admin hozzáférés
+          </Button>
+          <div className={styles["trash-icon"]}>
+            <Button iconOnly noBackground leftIcon="TrashCanIcon" onClick={() => deleteModal.open()} />
+          </div>
+        </>
+      )}
+
+      <ConfirmationModal visible={deleteModal.visible} onConfirm={handleDelete} title="Biztos törli a felhasználót?" onCancel={deleteModal.close} />
+      <ConfirmationModal visible={grantAdminModal.visible} onConfirm={handleAdminToggle} title="Engedélyezed a felhasználó admin jogosúltságát?" onCancel={grantAdminModal.close} />
+      <ConfirmationModal visible={removeAdminModal.visible} onConfirm={handleAdminToggle} title="Biztos elveszed a felhasználó admin jogosúltságát?" onCancel={removeAdminModal.close} />
     </div>
   );
 };

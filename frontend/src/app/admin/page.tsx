@@ -3,10 +3,12 @@
 import React, { useState } from 'react';
 import { Navbar, Pagination, SubHeader, UserItem, WelcomeLogin } from '@/components/client';
 import { useRouter, useSearchParams } from 'next/navigation';
-import {  useUser } from '@/hooks';
+import { useUser } from '@/hooks';
 import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout';
 import UsersFilter from '@/components/client/_filters/UsersFilter/UsersFilter';
 import { User } from '@/types/user';
+import { useSession } from 'next-auth/react';
+import { Loading } from '@/components/client/Loading/Loading';
 const Admin: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -14,13 +16,14 @@ const Admin: React.FC = () => {
   const [page, setPage] = useState(initialPage);
   const isAdminParam = searchParams.get("isAdmin");
   const isAdmin = isAdminParam !== null ? isAdminParam === "true" : undefined;
-  
+  const { data: session, status } = useSession();
+  console.log('session:', session);
   const filterValues = {
     isAdmin: searchParams.has("isAdmin")
-    ? searchParams.get("isAdmin") === "true"
-    : undefined,
-  
-    email: searchParams.get("email")  || undefined,
+      ? searchParams.get("isAdmin") === "true"
+      : undefined,
+
+    email: searchParams.get("email") || undefined,
     username: searchParams.get("username") || undefined,
   };
 
@@ -30,14 +33,18 @@ const Admin: React.FC = () => {
     ...filterValues
   });
 
-  console.log(users); 
+  if (status === "loading") {
+    return <Loading />;
+  }
+
+  console.log(users);
   const handleFilterChange = (values: any) => {
-    setPage(1); 
+    setPage(1);
   };
 
-    return (
-      <ContentLayout 
-      header="ADMIN OLDAL" 
+  return (
+    <ContentLayout
+      header="ADMIN felület"
       filter={<UsersFilter onFilterChange={handleFilterChange} />}
     >
 
@@ -46,7 +53,7 @@ const Admin: React.FC = () => {
           <UserItem key={user.email} user={user} />
         ))}
       </div>
-     
+
       <Pagination
         value={page}
         total={users?.meta?.totalPages || 1}
@@ -58,7 +65,7 @@ const Admin: React.FC = () => {
         }}
       />
     </ContentLayout>
-    );
+  );
 };
 
 export default Admin;
