@@ -41,7 +41,7 @@
 
 
   /* Initially hidden (off-screen) */
-  transform: translateX(-21rem);
+  transform: translateX(-25rem);
   opacity: 0;
   pointer-events: none;
 
@@ -73,7 +73,7 @@
     align-items: center;
     padding: 1rem 0;
     background-color: var(--color-grey-500);
-    border-top: 0.5rem solid var(--color-primary-50);
+    //border-top: 0.5rem solid var(--color-primary-50);
     border-radius: 1rem 1rem 0 0;
     z-index: 1000; // Ensure the navbar sits above the mobile menu
   }
@@ -88,7 +88,8 @@
 // Create separate classes for the mobile menu:
 .mobileMenu {
   position: fixed;
-  bottom: 6rem;
+  bottom: 5rem;
+  padding-bottom: 1rem;
   width: 100vw;
   height: fit-content;
   text-align: center;
@@ -98,7 +99,7 @@
   border-top: 0.5rem solid var(--color-primary-50);
 
   /* Initially hidden (off-screen below) */
-  transform: translateY(5rem);
+  transform: translateY(25rem);
   opacity: 0;
   pointer-events: none;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
