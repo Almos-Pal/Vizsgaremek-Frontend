@@ -6,6 +6,8 @@ import IconButton from '../IconButton/IconButton';
 import { Text } from '@/components/server';
 import { signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
+import { ConfirmationModal } from "../_modal";
+import { useModal } from '@/hooks';
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -16,6 +18,8 @@ const Navbar: React.FC = () => {
     const { data: session } = useSession();
     const pathname = usePathname();
 
+    const logoutmodal = useModal();
+
 
     const toggleMenu = () => {
         setMenuOpen((prevOpen) => !prevOpen);
@@ -24,6 +28,8 @@ const Navbar: React.FC = () => {
 
     const handleLogout = () => {
         signOut({ callbackUrl: "/bejelentkezes" });
+
+        logoutmodal.close();
     };
 
     useEffect(() => {
@@ -71,7 +77,7 @@ const Navbar: React.FC = () => {
                     color="transparent"
                     iconProps={{ size: 40 }}
                     style={{ paddingLeft: '15px' }}
-                    onClick={handleLogout}
+                    onClick={() => logoutmodal.open()}
                 />
             </nav>
 
@@ -129,7 +135,7 @@ const Navbar: React.FC = () => {
                     </Text>
                 </div>
                 <div className={styles.navItem}>
-                    <IconButton icon="LogoutIcon" onClick={handleLogout} color="transparent" iconProps={{ size: 30 }} />
+                    <IconButton icon="LogoutIcon" onClick={() => logoutmodal.open()} color="transparent" iconProps={{ size: 30 }} />
                     <Text variant="caption" color="var(--color-grey-300)">
                         Kilépés
                     </Text>
@@ -159,6 +165,7 @@ const Navbar: React.FC = () => {
                     <Button additionalClassName={styles.mobilebutton} width="90%" color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlat'}>Gyakorlatok</Button>
                 </div>
             </div>
+            <ConfirmationModal visible={logoutmodal.visible} onConfirm={handleLogout} title="Biztos kiszeretne jelentkezni?" onCancel={logoutmodal.close} />
         </>
     );
 };
