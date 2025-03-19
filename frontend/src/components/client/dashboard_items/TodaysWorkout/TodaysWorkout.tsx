@@ -4,7 +4,7 @@ import { BodySVG, Text } from "@/components/server";
 import styles from './TodaysWorkout.module.scss';
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { useEdzes, useIsMobile } from "@/hooks";
+import { useEdzes, useIsMobile, useViewportSize } from "@/hooks";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { GyakorlatWithSets } from "@/types";
@@ -16,6 +16,22 @@ function TodaysWorkout() {
     const { data: todaysWorkout } = useEdzes.findOneByDate(session?.user.user_id!, currentDate);
     const [view, setView] = useState<"front" | "back">("front");
     const isMobile = useIsMobile();
+    const viewportSize = useViewportSize();
+    
+    // Dynamically set BodySVG size based on viewport
+    const bodySvgSize = useMemo(() => {
+      switch(viewportSize) {
+        case 'mobile':
+          return 180;
+        case 'tablet':
+          return 200;
+        case 'midDesktop':
+          return 160; // Smaller for the problematic range
+        case 'desktop':
+        default:
+          return 220;
+      }
+    }, [viewportSize]);
 
     const avgRep = (gyakorlat: any): number => {
       const sets = gyakorlat.szettek || [];
@@ -100,7 +116,7 @@ function TodaysWorkout() {
                             additionalClassName={`${styles.viewButton} ${styles.leftButton}`}
                         />
                         <BodySVG
-                            size={220}
+                            size={bodySvgSize}
                             view={view}
                             selectedMuscleIds={foIzomcsoportok}
                             secondaryMuscleIds={izomcsoportok}

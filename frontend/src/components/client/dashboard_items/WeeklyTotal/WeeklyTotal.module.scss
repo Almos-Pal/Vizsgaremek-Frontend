@@ -15,6 +15,12 @@
     max-width: 325px;
     width: 100%;  
   }
+
+  @media (max-width: 1420px) and (min-width: 1024px) {
+    max-width: 260px;
+    padding: 0.75rem;
+    margin: 0.25rem;
+  }
 }
 
 /* Title container and text */
@@ -38,11 +44,16 @@
   border-radius: 0.5rem;
   display: flex;
   justify-content: center;
+  align-items: center;
+
   background-color: var(--color-grey-400);
   min-height: 230px;
   
- 
-
+  @media (max-width: 1420px) and (min-width: 1024px) {
+    margin-top: 1rem;
+    max-width: 200px;
+    min-height: 240px;
+  }
 }
 
 /* Link styles – make the image clickable on mobile, but disable it on desktop */
@@ -59,6 +70,9 @@
 .buttonContainer {
   margin-top: -1rem;  /* equivalent to mt-4 */
   display: flex;
+  @media (max-width: 1420px) and (min-width: 1024px) {
+    max-width: 100px;
+  }
 
   justify-content: center;
   white-space: nowrap;
@@ -66,5 +80,20 @@
   @include mobile  {
   display: none;
 
+  }
+}
+.button {
+  @media (max-width: 1420px) and (min-width: 1024px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    & > * {
+      max-width: 100px !important;
+      white-space: pre-line; // Ensures text breaks into a new line
+      word-wrap: break-word; // Ensures long words break properly
+      overflow-wrap: break-word;
+    }
+    
   }
 }

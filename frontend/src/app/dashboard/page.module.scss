@@ -4,13 +4,12 @@
 .container {
   display: flex;
   min-height: 100vh;
-  background-color: var(--color-grey-600);
-  height: 90%;
   margin: 0 auto;
   
   @include mobile {
     width: 100%;
-    margin-bottom: 10rem; // or any desired adjustment for mobile screens
+    margin-bottom: 10rem; 
+
   }
 }
 
@@ -28,8 +27,12 @@
 
   @include mobile {
     margin-left: 0;
-    margin-bottom: 5rem; 
   }
+  @media (max-width: 1420px) and (min-width: 1024px) {
+      // This will linearly scale the left margin from 60px to 80px
+      margin-left: clamp(150px, calc(150px + ((100vw - 1024px) * (20 / 396))), 40px);
+  }
+  
 }
 
 /* Dashboard container with fixed overall height */
@@ -42,7 +45,7 @@
   width: 100%;
   /* Set overall height. Adjust the subtraction value if needed */
   height: calc(100vh - 2rem);
-
+  
   @media (min-width: 1440px) {
     width: 90%;
   }
@@ -53,15 +56,23 @@
   }
 }
 
+
+
 /* Top row: 3 columns on desktop with flex ratio for height */
 .topRow {
   display: grid;
-  grid-template-columns: 1.3fr 0.7fr 1fr;
+  grid-template-columns: 1.3fr 0.6fr 0.7fr; // Adjusted ratio for better balance
   gap: 1rem;
-  /* This flex value tells the parent to allocate twice as much height to topRow */
   flex: 2;
-  height: 50vh;        // let it size to content
-  max-height: none;    // remove if you don’t want forced max-height
+  height: 50vh;
+
+  @media (max-width: 1420px) and (min-width: 1024px) {
+    grid-template-columns: 1.1fr 0.5fr 0.9fr; // Further adjusted for mid-desktop
+    height: auto;
+    min-height: 380px;
+    max-height: 450px;
+    gap: 0.75rem; // Reduced gap
+  }
 
   /* Tablet-ish breakpoint: 2 columns */
   @media (max-width: 1024px) {
@@ -74,6 +85,31 @@
     grid-template-columns: 1fr;
     height: auto;
     grid-template-rows: repeat(3, auto);
+  }
+
+  @media (max-width: 730px) and (min-width: 0px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+    height: auto;
+
+    .todaysWorkout,
+    .weeklyTotal,
+    .calendar {
+      grid-column: 1;
+    }
+
+    .todaysWorkout {
+      grid-row: 1;
+    }
+
+    .weeklyTotal {
+      grid-row: 2;
+    }
+
+    .calendar {
+      grid-row: 3;
+    }
   }
 }
 
@@ -128,6 +164,10 @@
 .todaysWorkout {
   @media (max-width: 1024px) {
     grid-column: span 2;
+  }
+
+  @media (max-width: 1420px) and (min-width: 1024px) {
+    min-height: 350px;
   }
 }
 

@@ -49,7 +49,7 @@ function PersonalRecords() {
                         <div className="text-left">
                             <Text variant="body-16">{item.gyakorlat.gyakorlat_neve}:</Text>
                         </div>
-                        <div className="text-right">
+                        <div className="text-right min-w-[60px]">
                             <Text variant="body-16">
                                 <span className={styles.greenify}>{item.personal_best} kg</span>
                             </Text>
