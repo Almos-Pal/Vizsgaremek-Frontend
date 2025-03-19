@@ -1,111 +1,99 @@
 "use client";
 
-import clsx from "clsx";
-import { useEffect, useState } from "react";
 import styles from './Calendar.module.scss';
 import Calendar from "react-calendar";
-import CalendarContainer from "./CalendarStyling";
 import { useRouter } from "next/navigation";
 import { useEdzes, useModal } from "@/hooks";
-import {  Modal } from "../../_modal";
+import { Modal } from "../../_modal";
 import { AddEdzesToCalendarForm } from "../../_forms";
 import { useSession } from "next-auth/react";
 import { time } from "@/utils";
 import { Loading } from "../../Loading/Loading";
-
-
-
+import { useEffect, useState } from "react";
 
 function CalendarWidget() {
     const router = useRouter();
     const [currentDate, setCurrentDate] = useState<string>("");
-    const { data: session } = useSession()
-    const {data:edzesek, refetch} = useEdzes.getEdzesek({
+    const { data: session } = useSession();
+    const { data: edzesek, refetch } = useEdzes.getEdzesek({
         user_id: session?.user.user_id,
         limit: 1000,
     });
-      
+    
     const modal = useModal();
-
-    function handleDayClick(value: Date) {
-        console.log(value);
-        const matchingItems = edzesek?.items.filter(item => time.isSameDay(item.datum, value));
-
-        if (matchingItems?.length) {
-            const matchingIds = matchingItems.map(item => item.edzes_id);
-            console.log("Matching IDs:", matchingIds);
-    
-            router.push(`/edzes/${matchingIds[0]}`);
-        }
-        else{
-
-            
-            const formatedDate = time.getSelectedDateAsUTC( value).toISOString();
-            
-            console.log(formatedDate);
-            setCurrentDate(formatedDate);
-            modal.open();
-        }
-
-        // router.push(`/edzes/${DateParse(value)}`);
-    }
-
-    const handleModalCancel = () => {
-        modal.close();
-    }
-
-    const handleModalConfirm = () => {
-        console.log("submit");
-    
-    }
-
-    function tileClassName({
-        date,
-        view,
-        activeStartDate,
-      }: {
-        date: Date;
-        view: string;
-        activeStartDate: Date;
-      }) {
-        let className = "";
-      
-        // Highlight dates from edzesek
-        edzesek?.items.forEach((exerciseDate) => {
-          const parsedExerciseDate = new Date(exerciseDate.datum)
-            .toISOString()
-            .split("T")[0];
-          if (parsedExerciseDate === time.DateParse(date)) {
-            className = "highlighted";
-            if (view === "month" && date.getMonth() !== activeStartDate.getMonth()) {
-                className += " grey-day";
-              }
-          }
-        });
-      
- 
-      
-      
-        return className.trim();
-      }
-      
-      
-      
-
     const [isClient, setIsClient] = useState(false);
+
     useEffect(() => {
         setIsClient(true);
     }, []);
 
-    return (
-        <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[360px]  max-w-[325px] w-full flex flex-col m-2.5 p-0 rounded-lg ")}>            
-                <CalendarContainer>
-                 {isClient ? (<Calendar   onClickDay={handleDayClick}  tileClassName={tileClassName}  />) : (<Loading hasParent/>)}
-                 </CalendarContainer>
-                 <Modal  
-                  children={<AddEdzesToCalendarForm  date={currentDate}onCancel={handleModalCancel} refetch={refetch} />} showCloseButton={false}  onClose={handleModalCancel}  visible={modal.visible} title="Válasz Edzést erre a napra"  /> 
+    function handleDayClick(value: Date) {
+        const matchingItems = edzesek?.items.filter(item => 
+            time.isSameDay(item.datum, value)
+        );
 
+        if (matchingItems?.length) {
+            router.push(`/edzes/${matchingItems[0].edzes_id}`);
+        } else {
+            const formatedDate = time.getSelectedDateAsUTC(value).toISOString();
+            setCurrentDate(formatedDate);
+            modal.open();
+        }
+    }
+
+    function tileClassName({ date, view, activeStartDate }: {
+        date: Date;
+        view: string;
+        activeStartDate: Date;
+    }) {
+        let className = "";
+        
+        edzesek?.items.forEach((exerciseDate) => {
+            const parsedExerciseDate = new Date(exerciseDate.datum)
+                .toISOString()
+                .split("T")[0];
+            if (parsedExerciseDate === time.DateParse(date)) {
+                className = "highlighted";
+                if (view === "month" && date.getMonth() !== activeStartDate.getMonth()) {
+                    className += " grey-day";
+                }
+            }
+        });
+        
+        return className.trim();
+    }
+
+    return (
+        <div className={styles.mainDiv}>
+            <div className={styles.calendarContainer}>
+                {isClient ? (
+                    <Calendar
+                        onClickDay={handleDayClick}
+                        tileClassName={tileClassName}
+                        showFixedNumberOfWeeks={true}
+                        minDetail="month"
+                    />
+                ) : (
+                    <Loading hasParent />
+                )}
+            </div>
+            
+            <Modal
+                children={
+                    <AddEdzesToCalendarForm
+                        date={currentDate}
+                        onCancel={modal.close}
+                        refetch={refetch}
+                    />
+                }
+                showCloseButton={false}
+                onClose={modal.close}
+                allowScroll={false}
+                visible={modal.visible}
+                title="Válassz Edzést erre a napra"
+            />
         </div>
-    )
+    );
 }
+
 export default CalendarWidget;

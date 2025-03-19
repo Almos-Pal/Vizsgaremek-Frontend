@@ -1,124 +1,154 @@
 @use "styles/breakpoints.scss" as *;
 
-/* Outer container: stacks Navbar and main content */
+// Outer container: includes navbar and main content
 .container {
   display: flex;
   min-height: 100vh;
   background-color: var(--color-grey-600);
-}
-
-/* Main area: grows to fill leftover space and centers content */
-.main {
-  flex: 1;
-  padding: 1rem;
-  margin-left: 5rem; // Space for navbar
-  overflow: hidden;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+  height: 90%;
+  margin: 0 auto;
+  
   @include mobile {
-    margin-left: 0;
-    margin-bottom: 5rem;
-    height: auto;
-    overflow: auto;
-    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 10rem; // or any desired adjustment for mobile screens
   }
 }
 
+/* Main area */
+.main {
+  /* Remove or change these so the grid can expand properly: */
+  flex: 1;
+  padding: 1rem;
+  margin-left: 5rem; // space for navbar
+
+  // Instead of forcing full height and center alignment, let the content flow:
+  display: block;
+  height: auto;
+  overflow: auto;
+
+  @include mobile {
+    margin-left: 0;
+    margin-bottom: 5rem; 
+  }
+}
+
+/* Dashboard container with fixed overall height */
 .dashboard {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin: 0 auto;
   max-width: 1200px;
   width: 100%;
-  
+  /* Set overall height. Adjust the subtraction value if needed */
+  height: calc(100vh - 2rem);
+
   @media (min-width: 1440px) {
     width: 90%;
   }
+
+  @include mobile {
+    width: 90%;
+    max-width: 600px;
+  }
 }
 
+/* Top row: 3 columns on desktop with flex ratio for height */
 .topRow {
   display: grid;
   grid-template-columns: 1.3fr 0.7fr 1fr;
   gap: 1rem;
-  height: 58vh;
-  max-height: 500px;
+  /* This flex value tells the parent to allocate twice as much height to topRow */
+  flex: 2;
+  height: 50vh;        // let it size to content
+  max-height: none;    // remove if you don’t want forced max-height
 
+  /* Tablet-ish breakpoint: 2 columns */
   @media (max-width: 1024px) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
-    height: auto;
   }
 
+  /* Mobile: 1 column stacked */
   @include mobile {
     grid-template-columns: 1fr;
+    height: auto;
     grid-template-rows: repeat(3, auto);
   }
 }
 
+/* Bottom row: 2 columns on desktop with smaller flex ratio */
 .bottomRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  height: 35vh;
-  max-height: 300px;
+  /* This flex value allocates less height than topRow */
+  flex: 1;
+  height: 40vh;
+  max-height: none;
 
+  /* Mobile: stack vertically */
   @include mobile {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
     height: auto;
+    grid-template-rows: auto auto;
   }
 }
 
-.todaysWorkout, .weeklyTotal, .calendar, .personalRecords, .stats {
+/* Common panel styles */
+.todaysWorkout,
+.weeklyTotal,
+.calendar,
+.personalRecords,
+.stats {
   background-color: var(--color-grey-500);
   border-radius: 0.75rem;
-  height: 100%;
   overflow: hidden;
   z-index: 1;
   
+  /* Force the child div to fill up the panel area. 
+     If you need a min-height, define it. */
   > div {
-    height: 100%;
     width: 100%;
+    height: 100%;
     margin: 0;
     max-width: none;
     border-radius: 0;
     background-color: transparent;
   }
 
+  /* For mobile, let them size to content: */
   @include mobile {
+    min-height: auto;
     height: auto;
-    min-height: 300px;
   }
 }
 
+/* Let the "TodaysWorkout" span both columns on smaller desktops if you want */
 .todaysWorkout {
   @media (max-width: 1024px) {
     grid-column: span 2;
   }
 }
 
-@media (max-width: 1024px) and (min-width: 769px) {
+/* Layout adjustments for in-between breakpoints */
+@media (max-width: 1024px) and (min-width: 730px) {
   .calendar {
     grid-row: 2;
     grid-column: 1;
   }
-  
   .weeklyTotal {
     grid-row: 2;
     grid-column: 2;
   }
 }
 
-/* Grid container: limits overall width and centers its rows */
+/* Example if you have a separate "dashboardGrid" somewhere else */
 .dashboardGrid {
   display: flex;
   gap: 1rem;
   max-width: 1440px;
   margin: 0 auto;
-  height: calc(100vh - 2rem);
 
   @media (min-width: 1441px) {
     max-width: 80%;
@@ -126,81 +156,7 @@
 
   @media (max-width: 1024px) {
     flex-direction: column;
-    height: auto;
   }
 }
 
-/* Primary section: occupies 75% of the grid */
-.primarySection {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 768px;
-  
-  > div:first-child {
-    height: 60vh;
-    min-height: 400px;
-    max-height: 600px;
-  }
-
-  @media (max-width: 1024px) {
-    max-width: 100%;
-    > div:first-child {
-      height: auto;
-      min-height: auto;
-    }
-  }
-}
-
-/* Secondary row: occupies 25% of the grid */
-.secondaryRow {
-  display: flex;
-  gap: 1rem;
-  height: calc(40vh - 1rem);
-  min-height: 300px;
-  max-height: 400px;
-
-  > div {
-    flex: 1;
-    min-width: 0;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    height: auto;
-    max-height: none;
-    
-    > div {
-      height: 300px;
-    }
-  }
-}
-
-/* Side section: occupies 25% of the grid */
-.sideSection {
-  width: 320px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  > div {
-    height: 35vh;
-    min-height: 250px;
-    max-height: 350px;
-  }
-
-  @media (max-width: 1024px) {
-    width: 100%;
-    flex-direction: row;
-    
-    > div {
-      flex: 1;
-      height: 300px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-}
+/* etc. ... */

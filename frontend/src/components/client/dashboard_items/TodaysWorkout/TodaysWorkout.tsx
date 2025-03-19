@@ -40,8 +40,8 @@ function TodaysWorkout() {
     };
 
     const exercises = todaysWorkout?.gyakorlatok || [];
-    const remainingExercises = exercises.length > (isMobile ? 3 : 4) ? 
-        exercises.length - (isMobile ? 3 : 4) : 0;
+    const remainingExercises = exercises.length > (isMobile ? 3 : 3) ? 
+        exercises.length - (isMobile ? 3 : 3) : 0;
 
     if (!exercises.length) {
         return (
@@ -62,7 +62,7 @@ function TodaysWorkout() {
             <div className={styles.content}>
                 <div className={styles.exerciseSection}>
                     <div className={styles.exerciseList}>
-                        {exercises.slice(0, isMobile ? 3 : 4).map((item) => (
+                        {exercises.slice(0, isMobile ? 3 : 3).map((item) => (
                             <div key={item.gyakorlat_id} className={styles.exerciseItem}>
                                 <Text variant="body-16">{item.gyakorlat.gyakorlat_neve}</Text>
                                 <Text variant="body-16">

@@ -26,10 +26,10 @@ function PersonalRecords() {
     return (
 
         <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[540px] max-w-[325px] w-full flex flex-col m-2.5 p-5 rounded-lg ")}>
-            <div className="mb-5">
+            <div className="mb-5 flex justify-center">
                 <Text variant="h4" className="max-w-[500px] text-center">Rekordok</Text>
             </div>
-            <div className="max-w-[540px] hidden sm:grid  max-h-[100 px] grid grid-cols-2 gap-5 ml-2">
+            <div className="max-w-[540px] hidden sm:grid  max-h-[100 px] grid grid-cols-2 gap-1 ml-2">
                 {records?.items.slice(0, 6).map((item) => (
                     <div className={clsx(styles.item, "flex flex-row justify-between ")}key={item.gyakorlat.gyakorlat_neve}>
                         <div className={styles.textLeft}>

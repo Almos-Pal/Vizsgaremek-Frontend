@@ -43,19 +43,20 @@ function Stats() {
 
 
     return (
-        <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[500px]  max-w-[325px] w-full flex flex-col m-2.5 p-5 rounded-lg ")}>
-            <div className="mb-5">
+        <div id="mainDiv" className={clsx(styles.mainDiv, "sm:max-w-[500px]   max-w-[325px] flex flex-col m-2.5 p-5 rounded-lg ")}>
+            <div className="mb-5 flex items-center justify-center w-full  " >
                 <Text variant="h4" className="max-w-[500px] text-center">Heti Statisztikák</Text>
             </div>
-            <div className="flex sm:flex-row flex-col sm:justify-between ml-8 sm:ml-0 sm:gap-8 gap-6">
+            <div className={styles.flexContainer}>
 
-                <div className={clsx(styles.humanDiv, "max-w-[220px]  min-h-[130px] min-w-[130px] w-full sm:ml-0  rounded-lg")}>
+                <div className={clsx(styles.humanDiv, "max-w-[220px]  max-h-[130px] sm:min-h[130px]  min-w-[130px] w-full sm:ml-0  rounded-lg")}>
 
                 <Weight dashboard weight={data?.meta.totalWeight} />
                 </div>
 
-                <div className={clsx(styles.humanDiv, "max-w-[220px]  min-h-[130px] min-w-[130px] w-full sm:ml-0  rounded-lg")}>
+                <div className={clsx(styles.humanDiv, "max-w-[220px]  max-h-[130px]  min-w-[130px] w-full sm:ml-0  rounded-lg")}>
 
+            <div className={styles.pieChartContainer}>
 
                     <PieChart
                         className={styles["pieChart"]}
@@ -91,6 +92,8 @@ function Stats() {
                             }}
                         />
                     </PieChart>
+            </div>
+
                 </div>
 
             </div>

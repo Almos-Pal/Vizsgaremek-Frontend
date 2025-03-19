@@ -57,7 +57,7 @@
 
 /* Button container – shows only on desktop screens */
 .buttonContainer {
-  margin-top: 1rem;  /* equivalent to mt-4 */
+  margin-top: -1rem;  /* equivalent to mt-4 */
   display: flex;
 
   justify-content: center;

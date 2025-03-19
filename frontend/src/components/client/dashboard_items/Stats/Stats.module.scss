@@ -1,17 +1,49 @@
 @use "styles/breakpoints.scss" as *;
 
-
 .mainDiv {
   background-color: var(--color-grey-500);
   width: 100%;
 
+  // Desktop-specific styling to enforce a max height of 292px.
+  @include desktop {
+    max-height: 292px;
+    overflow: hidden; /* Prevent content overflow */
+    display: flex;
+    flex-direction: column;
+  }
 
 }
 
 .humanDiv {
   background-color: var(--color-grey-400);
   width: 100% !important;
- 
+
+  // Allow these panels to shrink/grow as needed within the container.
+  @include desktop {
+    flex: 1 1 auto;
+    min-height: 0; /* Ensures they can shrink below any set min-height from elsewhere */
+  }
+
+  @include mobile {
+    height: 130px;
+  }
+}
+
+.flexContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: space-between;
+  gap: 30px;
+  margin-left: 8px;
+  
+
+  @include mobile{ // Tailwind's "sm" breakpoint (640px)
+    flex-direction: column ;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-left: 0;
+  }
 }
 
 .greenify {
@@ -19,7 +51,14 @@
 }
 
 .pieChart {
-  margin: auto;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+
+  > * {
+    max-width: 80%;
+    max-height: 80%;
+  }
 }
 
 .tooltip {
@@ -30,9 +69,13 @@
   width: 100px;
   text-align: center;
   pointer-events: none;
-
 }
 
 .pieChart * {
   outline: none;
+}
+.pieChartContainer{
+ align-self: center;
+ justify-self: center
+
 }

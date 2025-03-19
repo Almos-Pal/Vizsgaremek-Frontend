@@ -47,7 +47,7 @@
     flex-direction: column;
     max-width: 220px;
     width: 100%;
-    min-height: 320px;
+    max-height: 290px;
     align-items: center;
     justify-content: space-between;
 
@@ -57,9 +57,6 @@
     }
 }
 
-.exerciseList {
-    margin-bottom: 1rem;
-}
 
 .exerciseItem {
     display: flex;
@@ -115,7 +112,7 @@
 .bodyWrapper {
   position: relative;
   width: 220px;
-  height: 330px; // increased height for more vertical space
+  height: 300px; // increased height for more vertical space
   display: flex;
   justify-content: center;
   align-items: center;
