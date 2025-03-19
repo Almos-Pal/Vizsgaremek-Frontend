@@ -36,18 +36,19 @@ const userApi = {
     },
 
     getUser: async (id: number, token?: string): Promise<User> => {
-        const response = await fetch(`http://localhost:8000/users/${id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-            },
-        });
-        
-        if (!response.ok) {
-            throw new Error('Error fetching user');
-        }
-        return response.json();
+      const response = await fetch(`http://localhost:8000/users/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Error fetching user');
+      }
+      return response.json();
     },
+    
 
     updateUser: async (id: number, values: Bmi): Promise<User> => {
         const response = await fetch(`http://localhost:8000/users/${id}`, {
