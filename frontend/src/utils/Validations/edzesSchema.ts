@@ -15,13 +15,12 @@ const edzesSchema = Yup.object().shape({
               String(originalValue).trim() === "" ? undefined : value
             )
             .required("Az ismétlések számának megadása kötelező")
-            .min(1, "Az ismétlések számának legalább 1-nek kell lennie"),
-          weight: Yup.number()
+            .min(1, "Az ismétlések számának legalább 1-nek kell lennie")
             .transform((value, originalValue) =>
               String(originalValue).trim() === "" ? undefined : value
             )
             .required("A súly megadása kötelező")
-            .min(0, "A súlynak legalább 1kg-nak  kell lennie"),
+            .min(0, "A súly nem lehet negatív"),
         })
       ),
     })

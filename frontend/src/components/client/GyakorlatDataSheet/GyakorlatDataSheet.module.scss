@@ -13,7 +13,13 @@
     padding-top: 0.5rem;
    
 }
-
+.back-button-mobile {
+    display: none;
+    @include mobile {
+      display: block;
+    
+    }
+}
 
 .linksContainer{
 

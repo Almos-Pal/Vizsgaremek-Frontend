@@ -17,6 +17,9 @@ import { loginSchema } from '@/utils/Validations/loginSchema';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
+import { useToast } from '@/hooks';
+
+
 const initialValues = {
     email: '',
     password: ''
@@ -36,7 +39,7 @@ const initialValues = {
 const WelcomeLogin: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
-
+    const toast = useToast();
     //console.log(session);
     const handleSubmit = async (values: typeof initialValues) => {
         //console.log("Submitting credentials:", values);
@@ -48,12 +51,14 @@ const WelcomeLogin: React.FC = () => {
             callbackUrl: "/dashboard", //Here you can change where to immidiately redirect after login
         });
         //console.log("SignIn result:", result);
-
-    
+        
+        
         if (result?.error) {
             //console.error("Login error:", result.error);
+            toast.error('Hibás email vagy jelszó! Ellenőrizze a beírt adatokat');
             setErrorMessage("Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.");
         } else if (result?.ok) {
+            toast.success('Sikeres bejelentkezés');
             setTimeout(() => {
                 router.push("/dashboard");
             }, 500);
@@ -73,7 +78,7 @@ const WelcomeLogin: React.FC = () => {
                 onSubmit={handleSubmit}
                 validationSchema={loginSchema}
             >
-                <Form>
+                <Form className={styles.form}>
                     <FormField
                         name="email"
                         as={Input}

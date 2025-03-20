@@ -58,43 +58,43 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
         console.log("Edzés klónozása");
 
-        try{
+        try {
 
             const newEdzes = await createEdzesAsync(newEdzesPayload, {
                 onSuccess: (newEdzes: any) => {
                     console.log("Edzés sikeresen elkezdve");
                     toast.success("Edzés sikeresen elkezdve");
-                    
+
                 },
                 onError: (error: any) => {
-                console.log(error)
-                if (error == "Error: 409") {
-                    
-                    toast.error("A mai nap már van edzés");
-                    
-                }
-                else {
-                    
-                     toast.error("Hiba történt az edzés létrehozása közben");
-                     
-                     
+                    console.log(error)
+                    if (error == "Error: 409") {
+
+                        toast.error("A mai nap már van edzés");
+
+                    }
+                    else {
+
+                        toast.error("Hiba történt az edzés létrehozása közben");
+
+
                     }
                 }
             });
-            
-            
+
+
             // Add each gyakorlat (without sets) to the new edzés.
             for (const gyakorlat of data.gyakorlatok) {
                 await addGyakorlatAsync({
-                edzesId: newEdzes.edzes_id,
-                userId: session?.user.user_id!,
-                gyakorlatId: gyakorlat.gyakorlat_id,
-            });
-        }
-        
-        
-        router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
-    }catch(error){}
+                    edzesId: newEdzes.edzes_id,
+                    userId: session?.user.user_id!,
+                    gyakorlatId: gyakorlat.gyakorlat_id,
+                });
+            }
+
+
+            router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
+        } catch (error) { }
 
 
 
@@ -196,8 +196,10 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                         ) : (
                             <Button additionalClassName={styles.singleButtonDesktop} href={`/edzes/${data.edzes_id}/szerkeszt`} width={420} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
                         )}
-
-                        <Button width={420} color="secondary" onClick={handleOpenDeleteConfirm} rightIcon="TrashCanIcon">Törlés</Button>
+                        <div className="flex justify-between w-full ">
+                            <Button width={200} color="primary" onClick={() => router.back()}>Vissza</Button>
+                            <Button width={200} color="secondary" onClick={handleOpenDeleteConfirm} rightIcon="TrashCanIcon">Törlés</Button>
+                        </div>
 
                     </div>
 
@@ -209,8 +211,8 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                             <Button additionalClassName={styles.singleButtonMobile} href={`/edzes/${data.edzes_id}/szerkeszt`} onClick={cloneEdzesWithoutSets} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
                         )}
 
-
-                        <Button additionalClassName={styles.btnmobileresponsive} onClick={handleOpenDeleteConfirm} color="secondary" rightIcon="TrashCanIcon">Törlés</Button>
+                        <Button additionalClassName={styles.btnmobileresponsive} rightIcon="ArrowLeftIcon" color="primary" onClick={() => router.back()}>Vissza</Button>
+                        <Button additionalClassName={styles.btnmobileresponsive} style={{marginTop: '1rem'}} onClick={handleOpenDeleteConfirm} color="secondary" rightIcon="TrashCanIcon">Törlés</Button>
                     </div>
                 </div>
 

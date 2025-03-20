@@ -46,11 +46,11 @@
     line-height: 24px;
     margin-left: 1.5rem;
 
-    p{
+    p {
 
       &:hover {
         color: var(--color-grey-200) !important;
-        
+
       }
     }
   }
@@ -58,18 +58,38 @@
   .data-pair {
     display: flex;
     flex-direction: row;
-    gap: 2rem ;
-    
+    gap: 2rem;
+
 
 
     .gyakorlat-leiras {
       margin-left: 1rem;
+      margin-right: -1rem;
       margin-top: 1rem;
 
+      .see-more-button-container {
+        display: flex;
+
+
+        @include tablet {
+
+          justify-content: center;
+        }
+      }
 
       .see-more-button {
+
+        color: var(--color-grey-300) !important;
+        padding-top: 1rem;
+        padding-left: 1rem;
+
+
+        &:hover {
+          color: var(--color-grey-100) !important;
+        }
+
         margin-left: -1rem;
-        color: var(--color-light) ;
+        color: var(--color-light);
 
         @include tablet {
           text-align: center;
@@ -80,6 +100,7 @@
     .svg {
       margin-right: 1rem;
       margin-top: 1rem;
+
       @include tablet {
         display: none;
       }
@@ -91,29 +112,29 @@
       width: 95%;
       margin: auto;
       margin-bottom: 1rem;
-      
+
       .svg-mobile {
         display: none;
+
         @include tablet {
           display: block;
           margin-right: 1rem;
           margin: auto;
-          
+
         }
       }
     }
   }
-  
 
 
 
 
- 
 
-  
 
-  
+
+
+
+
 
 
 }
-

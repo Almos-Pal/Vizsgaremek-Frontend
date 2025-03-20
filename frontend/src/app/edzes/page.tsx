@@ -11,14 +11,15 @@ import { NewEdzesForm } from '@/components/client/_forms';
 import { useSession } from 'next-auth/react';
 import { EdzesOnSameDay } from '@/utils';
 import { Text } from '@/components/server';
+import { Loading } from '@/components/client/Loading/Loading';
 import { Form, Formik } from 'formik';
 import { FormikSelect } from '@/components/client/_inputs';
 import { useToast } from '@/hooks';
-import clsx from 'clsx';
 
 function EdzesekPage() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     console.log('edzes user session data: ', session?.user.isAdmin);
+
     const toast = useToast();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -30,23 +31,32 @@ function EdzesekPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-    const filter = searchParams.get("orderBy") || "desc";
+    const filter = searchParams.get("orderBy") || "desc";    
     const { data: edzesek, isLoading, error, refetch } = useEdzes.getEdzesek({
         page,
         limit: 3,
         user_id: session?.user.user_id,
-        orderBy: filter
+        orderBy: filter,
+        gyakorlat_id
+        
     });
-
-
-    if (isLoading) return <div>Loading...</div>;
+    const { data: validationEdzesek } = useEdzes.getEdzesek({
+        limit: 1000,
+        user_id: session?.user.user_id
+    });
+    
+    
+    
     if (error) return <div>Error loading workouts</div>;
-
-
+    
+    
     const workouts = Array.isArray(edzesek?.items?.[0])
-        ? edzesek.items.flat()
-        : edzesek?.items;
-
+    ? edzesek.items.flat()
+    : edzesek?.items;
+    
+    if (status === "loading") {
+        return <Loading />;
+    }
 
 
     const handleNewEdzes = () => {
@@ -117,7 +127,7 @@ function EdzesekPage() {
                 <EdzesBlock key={edzes.edzes_id} edzes={edzes} />
             ))}
             {edzesek?.items.length === 0 && (
-                <Text className='justify-self-center' >Nincs találat</Text>
+                <Text variant='subtitle-15' className='justify-self-center mb-6' >Jelenleg még nincsenek kész edzései</Text>
             )}
 
 
@@ -129,7 +139,7 @@ function EdzesekPage() {
             <Modal
                 visible={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-              
+
                 showCloseButton={false}
                 
                 
