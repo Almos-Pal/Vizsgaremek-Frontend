@@ -27,6 +27,7 @@ const UserPage: React.FC<UserPageProps> = ({ params }) => {
   const toast = useToast();
   const router = useRouter();
   const userID = parseInt(resolvedParams.userID);
+  const hasShownToastRef = useRef(false);
 
   if (isNaN(userID)) {
     return (
@@ -40,31 +41,27 @@ const UserPage: React.FC<UserPageProps> = ({ params }) => {
   const { data, isLoading, error, refetch } = useUser.getBmi(userID);
   const { data: session } = useSession();
 
-  const hasShownToastRef = useRef(false);
-
-
   useEffect(() => {
-    if (errorUser) {
-      if ((errorUser as any).status === 401 && !hasShownToastRef.current) {
+    if (!hasShownToastRef.current) {
+      if (errorUser) {
+        if ((errorUser as any).status === 401) {
+          hasShownToastRef.current = true;
+          toast.error("Nincs jogosultság a megtekintéshez. Átirányítás a főoldalra..");
+          
+          setTimeout(() => {
+            router.push("/dashboard");
+          }, 1500);
+        }
+      } else if (userData && !userData.suly && !userData.magassag) {
         hasShownToastRef.current = true;
-        toast.error("Nincs jogosultság a megtekintéshez. Átirányítás a főoldalra...");
-
-        setTimeout(() => {
-          router.push("/dashboard");
-        }, 1500);
-      } else if ((errorUser as any).status === 400 && !hasShownToastRef.current) {
-        hasShownToastRef.current = true;
-        toast.warning("Nincs megadva súly vagy magasság. Kérlek add meg az adataidat a BMI számításhoz.");
+        toast.warning("Nincs megadva súly vagy magasság. Kérlek add meg az adataidat a BMI számításhoz");
       }
     }
-  }, [errorUser, toast, router]);
-
-
+  }, [errorUser, userData, toast, router]);
 
   if (isLoadingUser) {
     return <Loading />;
   }
-
 
   if (errorUser && (errorUser as any).status === 404) {
     return (
@@ -74,7 +71,6 @@ const UserPage: React.FC<UserPageProps> = ({ params }) => {
     );
   }
 
-
   if (!userData) {
     return <Loading />;
   }
@@ -83,14 +79,23 @@ const UserPage: React.FC<UserPageProps> = ({ params }) => {
     <ContentLayout header={`${userData.username} Adatai`}>
       <div className={styles.buttonContainer}>
         {session?.user.isAdmin && (
-          <Button color="secondary" href={"/admin"} rightIcon="ProfileIcon">
+          <div className="w-full ">
+
+          <Button color="secondary" href={"/admin"} rightIcon="ProfileIcon" additionalClassName="w-full">
             Admin felület
           </Button>
+          </div>
         )}
-        <Button rightIcon="FavoriteIcon" href={"#"}> Kedvenc edzések </Button>
-        <Button color="secondary" href={"#"} rightIcon="PenPaperIcon">
+           <div className="w-full ">
+
+        <Button rightIcon="FavoriteIcon" additionalClassName="w-full" href={"#"}> Kedvenc edzések </Button>
+           </div>
+           <div className="w-full ">
+
+        <Button color="secondary" additionalClassName="w-full"  href={"#"} rightIcon="PenPaperIcon">
           Edzéstervező
         </Button>
+           </div>
       </div>
 
       <div className={styles.container}>
@@ -111,7 +116,6 @@ const UserPage: React.FC<UserPageProps> = ({ params }) => {
     </ContentLayout>
   );
 };
-
 
 interface BMISmallContainerProps {
   data: any;
@@ -140,7 +144,6 @@ const BMISmallContainer: React.FC<BMISmallContainerProps> = ({ data, bmi }) => {
   );
 };
 
-
 interface UserData {
   suly: number | null;
   magassag: number | null;
@@ -157,7 +160,7 @@ const EditUserData: React.FC<UserData & { isDisabled: boolean }> = (userData) =>
   const toast = useToast();
   const refetch = useUser.getBmi(userData.user_id).refetch;
 
-  const onSubmit = async (values: { suly: number; magassag: number }) => {
+  const onSubmit = async (values: { suly: number; magassag: number,user_id:number }) => {
     try {
       updateUser(
         {
@@ -174,7 +177,7 @@ const EditUserData: React.FC<UserData & { isDisabled: boolean }> = (userData) =>
           },
           onError: (error: any) => {
             if (error?.status === 400) {
-              toast.warning("Nincs megadva súly vagy magasság. Kérlek add meg az adataidat a BMI számításhoz.");
+              toast.warning("Nincs megadva súly vagy magasság. Kérlek add meg az adataidat a BMI számításhoz");
             } else {
               toast.error("Hiba történt az adatmódosítás során");
             }
@@ -185,8 +188,6 @@ const EditUserData: React.FC<UserData & { isDisabled: boolean }> = (userData) =>
       toast.error("Hiba történt az adatmódosítás során");
     }
   };
-
-
 
   return (
     <Formik

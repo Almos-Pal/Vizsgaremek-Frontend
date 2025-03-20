@@ -55,10 +55,10 @@ const WelcomeLogin: React.FC = () => {
         
         if (result?.error) {
             //console.error("Login error:", result.error);
-            toast.error('Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.');
+            toast.error('Hibás email vagy jelszó! Ellenőrizze a beírt adatokat');
             setErrorMessage("Hibás email vagy jelszó! Ellenőrizze a beírt adatokat.");
         } else if (result?.ok) {
-            toast.success('Sikeres bejelentkezés!');
+            toast.success('Sikeres bejelentkezés');
             setTimeout(() => {
                 router.push("/dashboard");
             }, 500);
