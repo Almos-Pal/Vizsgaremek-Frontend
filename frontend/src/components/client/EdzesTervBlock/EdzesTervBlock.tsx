@@ -7,12 +7,14 @@ import styles from './EdzesTervBlock.module.scss'
 import Link from 'next/link';
 import Flag from '@/components/server/Flags/Flag';
 import IconButton from '../IconButton/IconButton';
+import { useEdzes, useToast } from '@/hooks';
 
 
 interface EdzesBlockProps {
     edzes: {
         edzes_neve: string;
         edzes_id: number;
+        isFavorite: boolean;
         gyakorlatok: {
             gyakorlat_id: number;
             gyakorlat: {
@@ -29,6 +31,7 @@ interface EdzesBlockProps {
         datum: string;
     };
 }
+const toast = useToast();
 
 const edzesIzomcsoportok = (edzes: EdzesBlockProps['edzes']) => {
     const foIzomcsoportok = new Set<number>();
@@ -50,18 +53,58 @@ const edzesIzomcsoportok = (edzes: EdzesBlockProps['edzes']) => {
 };
 
 
-const EdzesTervBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
 
+
+
+const EdzesTervBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
+    
+    const {mutate: updateEdzess} = useEdzes.updateEdzes();
     const [visibleCount, setVisibleCount] = useState(3);
     const exercisesLeft = edzes.gyakorlatok.length - visibleCount;
+    const handleFavoriteClick = (edzes:any) => {
+            
+        updateEdzess(
+            {
+                id:parseInt(edzes.edzes_id),
+                updatedEdzes: {
+                    ...edzes,
+                   isFavorite: !edzes.isFavorite} 
 
-
+                },   
+                {
+                    onSuccess: () => {
+                        
+                        if(edzes.isFavorite){
+                            toast.success(edzes.edzes_neve+' eltávolítva a kedvencek közül');
+                         
+                        }    
+                        else{
+                                toast.success(edzes.edzes_neve+' hozzáadva a kedvencek közé');
+                               
+                            }    
+                    },        
+                    onError: () => {
+                        toast.error('Hiba történt az edzés frissítése során');
+                    }    
+                }    
+        )        
+    };
 
     return (
         <div className={styles["edzes-block"]}>
             <div className={styles["edzes-header"]}>
                 <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{edzes.edzes_neve}:</Text>
-                <IconButton style={{ marginRight: '0rem' }} icon='FavoriteIcon' color='transparent' />
+                {/* <IconButton style={{ marginRight: '0rem' }} icon='FavoriteIcon' color='transparent' /> */}
+                {
+                edzes.isFavorite
+                && 
+                    <Button color='secondary' iconOnly noBackground leftIcon='FavoriteIcon' iconProps={{filled:true}} onClick={()=>handleFavoriteClick(edzes)}></Button>
+                ||
+                !edzes.isFavorite 
+                &&
+                    <Button color='secondary' iconOnly noBackground  leftIcon='FavoriteIcon' iconProps={{filled:false}} onClick={()=>handleFavoriteClick(edzes)}></Button>
+                
+            }
             </div>
             <div className={styles["content-wrapper"]}>
                 <ul className={styles["gyakorlat-list"]}>
@@ -104,5 +147,6 @@ const EdzesTervBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
         </div>
     )
 }
+
 
 export default EdzesTervBlock
