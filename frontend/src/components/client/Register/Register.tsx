@@ -38,6 +38,11 @@ const Register: React.FC = () => {
                 'Content-Type': 'application/json'
             },
         }));
+        const data = await res.json();
+        if (data.message === "Email already in use" && data.error === "Bad Request" && data.statusCode === 400) {
+            toast.error('Az email cím már használatban van!');
+            return;
+        }
         if (res.status === 400) {
             toast.error('Hiba a regisztráció során!');
             return;

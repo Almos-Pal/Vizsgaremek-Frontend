@@ -13,6 +13,7 @@ const useUser = {
         return useQuery({
             queryKey: ['user', id],
             queryFn: () => userApi.getUser(id, token),
+            retry: 2
         });
     },
     getUsers: (params: GetUsersParams = {}) => {

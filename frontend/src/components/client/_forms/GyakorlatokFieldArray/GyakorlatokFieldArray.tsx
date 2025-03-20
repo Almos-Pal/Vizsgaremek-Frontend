@@ -145,10 +145,11 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
         {
           onSuccess: () => {
             console.log(`Set ${setItem.set_szam} deleted successfully.`);
-            toast.success("Set törölve");
+            toast.success("Szett törölve");
             arrayHelpers.remove(setIndex);
           },
           onError: (error) => {
+            toast.error("Hiba a szett törlése közben");
             console.error("Error deleting set:", error);
           },
         }

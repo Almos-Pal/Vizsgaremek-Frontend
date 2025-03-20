@@ -136,17 +136,11 @@ const SmallGyakorlatView: React.FC<SmallGyakorlatViewProps> = ({ index, gyakorla
                         {displayedText}
                     </Text>
                     {isLongText && (
-                         <div className={styles["see-more-button-container"]}>
-                             <Button
-                             noBackground
-                             type="button"
-                             onClick={() => setExpanded(!expanded)}
-                             color="secondary"
-                             additionalClassName={styles["see-more-button"]}
-                                                  >
-                             {expanded ? "Kevesebb" : "Több"}
-                                                  </Button>
-                         </div>
+                        <div className={styles["see-more-button-container"]}>
+                            <button type="button" onClick={() => setExpanded(!expanded)} className={styles["see-more-button"]}>
+                                {expanded ? "Kevesebb" : "Több"}
+                            </button>
+                        </div>
                     )}
                 </div>
                 <div>

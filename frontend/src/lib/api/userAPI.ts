@@ -43,10 +43,14 @@ const userApi = {
         },
       });
       
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Error fetching user');
+        const error = new Error(data.message || 'Error fetching user') as any;
+        error.status = response.status;
+        throw error;
       }
-      return response.json();
+      return data;
     },
     
 
