@@ -20,19 +20,21 @@ function TodaysWorkout() {
     
     // Dynamically set BodySVG size based on viewport
     const bodySvgSize = useMemo(() => {
-      switch(viewportSize) {
-        case 'mobile':
+        if (viewportSize === 'mobile') {
           return 180;
-        case 'tablet':
+        }
+        if (viewportSize === 'tablet') {
           return 200;
-        case 'midDesktop':
+        }
+        if (viewportSize === 'midDesktop') {
           return 160;
-        case 'desktop':
-          return window.innerWidth >= 1440 ? 260 : 220; // Larger size for big screens
-        default:
-          return 220;
-      }
-    }, [viewportSize]);
+        }
+        if (viewportSize === 'desktop') {
+          return typeof window !== 'undefined' && window.innerWidth >= 1440 ? 260 : 220;
+        }
+        return 220;
+      }, [viewportSize]);
+      
 
     const avgRep = (gyakorlat: any): number => {
       const sets = gyakorlat.szettek || [];
