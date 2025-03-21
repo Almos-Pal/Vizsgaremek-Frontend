@@ -14,10 +14,7 @@ import ConfirmationModal from "../_modal/ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
 import { StopWatch } from "..";
 import { BodySVG } from "@/components/server";
-import { EdzesOnSameDay } from "@/utils";
-import dateParse from "@/utils/dateParse";
-import { error } from "console";
-
+import { Text } from "@/components/server";
 
 interface EdzesViewProps {
     data: Edzes;
@@ -192,7 +189,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
                 <ConfirmationModal
                     visible={isDeleteEdzesConfirmModalOpen}
-                    title="Biztos, hogy törölni akarja ezt a gyakorlatot?"
+                    title="Biztos, hogy törölni akarja ezt az edzést?"
                     onConfirm={handleDeleteEdzesConfirm}
                     onCancel={DeleteEdzesConfirmModalCancel}
                     confirmText="Igen"
@@ -258,7 +255,13 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                 <div className={styles.underlinedText}>
                     <UnderLinedText lineLength={220} text="Gyakorlatok"></UnderLinedText>
                 </div>
-
+                {data.gyakorlatok.length == 0 && (
+                  <>
+                    <Text className={styles["no-gyak-text"]} variant="h5">
+                      Az edzés jelenleg még nem tartalmaz gyakorlatokat
+                    </Text>
+                  </>
+                )}
                 {data.gyakorlatok.map((gyakorlat) => (
                     <GyakorlatComparisonBlock
                         key={gyakorlat.gyakorlat_id}
