@@ -6,7 +6,7 @@ const toastOptions: ToastOptions<unknown> = {
   closeOnClick: true,
   hideProgressBar: false,
   closeButton: true,
-  
+  autoClose: 200000,
   style: {
     backgroundColor: "var(--color-light)",
     color: "var(--color-dark)",
@@ -16,21 +16,23 @@ const toastOptions: ToastOptions<unknown> = {
 const icons = (type: string) => {
   switch (type) {
     case "success":
-      return <span style={{}}>{<Icons.CheckIcon size={28} color="var(--color-success)" />}</span>;
+      return <span>{<Icons.CheckIcon size={28} color="var(--color-success)" />}</span>;
     case "error":
-      return <span style={{}}>{<Icons.CancelIcon size={28} color="var(--color-error)" />}</span>;
+      return <span>{<Icons.CancelIcon size={28} color="var(--color-error)" />}</span>;
     case "info":
-      return <span style={{}}>{<Icons.InfoIcon size={28} color="var(--color-info)"/>}</span>;
+      return <span>{<Icons.InfoIcon size={28} color="var(--color-info)" />}</span>;
     case "warning":
-      return <span style={{}}>{<Icons.WarningIcon size={28} color="var(--color-warning)"/>}</span>;
+      return <span>{<Icons.WarningIcon size={28} color="var(--color-warning)" />}</span>;
     default:
       return undefined;
   }
 };
 
 const useToast = () => {
-  const getMessage = (defaultMsg: string, field?: string) =>
-    field ? `${field} sikeresen ${defaultMsg}.` : `${defaultMsg}.`;
+  const getMessage = (defaultMsg: string, field?: string) => {
+    const msg = field ? `${field} sikeresen ${defaultMsg}.` : `${defaultMsg}.`;
+    return <div style={{ maxWidth: "230px" }}>{msg}</div>;
+  };
 
   return {
     success: (message: string, field?: string) =>
@@ -67,6 +69,5 @@ const useToast = () => {
       toast.warning(getMessage(message || "", field), { ...toastOptions, icon: icons("warning") }),
   };
 };
-
 
 export default useToast;
