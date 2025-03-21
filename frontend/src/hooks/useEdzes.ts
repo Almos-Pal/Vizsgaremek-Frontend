@@ -8,6 +8,7 @@ const useEdzes = {
     page?: number;
     limit?: number;
     user_id?: number | null;
+    isTemplate?:boolean;
     orderBy?: string;
     edzes_neve?: string;
     favoriteExercises?: boolean;
