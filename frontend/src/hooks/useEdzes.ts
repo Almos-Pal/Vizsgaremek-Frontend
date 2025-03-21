@@ -221,14 +221,14 @@ const useEdzes = {
 },
 getCurrentWeekEdzesek: (userId:number) => {
   return useQuery({
-      queryKey: ['edzes/week', userId],
+      queryKey: ['edzes', userId],
       queryFn: () => edzesAPI.fetchCurrentWeek(userId),
     });
 
 },
 findOneByDate: (userId:number,date:string) => {
   return useQuery({
-      queryKey: ['edzes/date', userId,date],
+      queryKey: ['edzes', userId,date],
       queryFn: () => edzesAPI.findOneByDate(userId,date),
     });
   },
