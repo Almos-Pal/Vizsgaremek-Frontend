@@ -56,7 +56,7 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel, templa
         createEdzes(newEdzesPayload, {
             onSuccess: (newEdzes: any) => {
 
-                const redirectUrl = template ? `/edzestervek/${newEdzes.edzes_id}` : `/edzes/${newEdzes.edzes_id}/szerkeszt`;
+                const redirectUrl = template ? `/edzestervek/${newEdzes.edzes_id}` : `/edzesek/${newEdzes.edzes_id}/szerkeszt`;
                 router.push(redirectUrl);
                 onSuccess();
 

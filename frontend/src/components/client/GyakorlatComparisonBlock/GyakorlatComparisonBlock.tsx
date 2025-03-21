@@ -33,7 +33,7 @@ const GyakorlatComparisonBlock: React.FC<GyakorlatComparisonBlockProps> = ({ dat
   return (
     <div className={styles["edzes-block"]}>
         <div className={styles["edzes-header"]}>
-      <Link href={`/gyakorlat/${data.gyakorlat.gyakorlat_id}`}>
+      <Link href={`/gyakorlatok/${data.gyakorlat.gyakorlat_id}`}>
           <Text style={{ marginLeft: '2rem' }} variant='subtitle-16'>{data.gyakorlat.gyakorlat_neve}: </Text>
       </Link>
         </div>

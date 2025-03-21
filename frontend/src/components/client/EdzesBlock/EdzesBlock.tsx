@@ -123,7 +123,7 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
 
                     {exercisesLeft > 0 && (
                         <Link
-                            href={`/edzes/${edzes.edzes_id}`} className={styles["show-more-button"]}>
+                            href={`/edzesek/${edzes.edzes_id}`} className={styles["show-more-button"]}>
                             további {exercisesLeft}...
                             
                         </Link>
@@ -137,7 +137,7 @@ const EdzesBlock: React.FC<EdzesBlockProps> = ({ edzes }) => {
             </div>
 
             <div className={styles["footer-button"]}>
-                <Button width={'100%'} color="secondary" href={`/edzes/${edzes.edzes_id}`}>
+                <Button width={'100%'} color="secondary" href={`/edzesek/${edzes.edzes_id}`}>
                     Edzés megtekintése
                 </Button>
             </div>

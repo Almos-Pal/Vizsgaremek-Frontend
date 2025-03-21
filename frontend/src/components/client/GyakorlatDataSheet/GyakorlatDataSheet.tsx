@@ -36,7 +36,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
           <Button color="secondary" href={`/rekordok`}>
             Rekordok
           </Button>
-          <Button color="secondary" href={`/edzes?gyakorlat_id=${data.gyakorlat_id}`}>
+          <Button color="secondary" href={`/edzesek?gyakorlat_id=${data.gyakorlat_id}`}>
             Edzés előzmények
           </Button>
           <Button color="secondary" href={`/statisztika`}>
@@ -47,7 +47,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
         </div>
         <div className={styles.linksContainerMobile}>
           <Link href={`/rekordok`}>Rekordok</Link>
-          <Link href={`/edzes?gyakorlat_id=${data.gyakorlat_id}`}>Edzés előzmények</Link>
+          <Link href={`/edzesek?gyakorlat_id=${data.gyakorlat_id}`}>Edzés előzmények</Link>
           <Link href={`/statisztika`}>Diagrammok</Link>
         </div>
         <div className={styles.containerWIcon}>
@@ -58,7 +58,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
             isOfAdminHeritageUser
             &&
             <div className={styles.editButton}>
-              <Button iconOnly leftIcon={"EditIcon"} width={36} iconProps={{ size: 36, color: "var(--color-grey-100)" }} noBackground color="primary" href={`/gyakorlat/${data.gyakorlat_id}/szerkeszt`}></Button>
+              <Button iconOnly leftIcon={"EditIcon"} width={36} iconProps={{ size: 36, color: "var(--color-grey-100)" }} noBackground color="primary" href={`/gyakorlatok/${data.gyakorlat_id}/szerkeszt`}></Button>
             </div>
           }
 

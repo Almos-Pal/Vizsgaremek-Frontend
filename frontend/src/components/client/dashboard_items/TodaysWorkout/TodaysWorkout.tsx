@@ -91,7 +91,7 @@ function TodaysWorkout() {
                         ))}
                         {remainingExercises > 0 && (
                             <Link 
-                                href={`/edzes/${todaysWorkout?.edzes_id}`} 
+                                href={`/edzesek/${todaysWorkout?.edzes_id}`} 
                                 className={styles.moreExercises}
                             >
                                   további {remainingExercises}...
@@ -101,7 +101,7 @@ function TodaysWorkout() {
                     <Button 
                         additionalClassName={styles.workoutButton}
                         color="secondary"
-                        href={`/edzes/${todaysWorkout?.edzes_id}`}
+                        href={`/edzesek/${todaysWorkout?.edzes_id}`}
                     >
                       {remainingExercises > 0?  `További gyakorlatok (${remainingExercises})` : "Edzés megtekintése"}
                     </Button>

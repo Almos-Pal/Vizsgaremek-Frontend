@@ -5,7 +5,6 @@ import useEdzes from '@/hooks/useEdzes';
 import React, { use, useEffect } from 'react';
 import { Text } from "@/components/server";
 import { EdzesCreateEditForm } from "@/components/client/_forms";
-import { Edzes } from "@/types/edzes";
 import Stopwatch from "@/components/client/Stopwatch/Stopwatch";
 import { useRouter } from "next/navigation";
 
@@ -28,7 +27,7 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
   
   useEffect(() => {
     if (data && data.isFinalized ) {
-      router.push(`/edzes/${edzesID}`);
+      router.push(`/edzesek/${edzesID}`);
     }
     else if (data?.isTemplate == true) {
       router.push('/edzestervek');

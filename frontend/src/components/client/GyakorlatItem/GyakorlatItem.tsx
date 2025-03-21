@@ -26,7 +26,7 @@ export const GyakorlatItem: React.FC<GyakorlatItemProps> = ({ gyakorlat }) => {
                 <div className="flex h-[130px] items-center justify-center">
 
                 <div className={styles["gyakorlat-button"]}>
-                    <Button color="secondary" href={`/gyakorlat/${gyakorlat.gyakorlat_id}`}>
+                    <Button color="secondary" href={`/gyakorlatok/${gyakorlat.gyakorlat_id}`}>
                         Több infó
                     </Button>
                 </div>
@@ -35,7 +35,7 @@ export const GyakorlatItem: React.FC<GyakorlatItemProps> = ({ gyakorlat }) => {
                     isOfAdminHeritageUser
                     &&
                     <div className={styles.editButton}>
-                        <Button iconOnly leftIcon={"EditIcon"} iconProps={{ size: 36, color: "var(--color-grey-100)" }} noBackground color="secondary" href={`/gyakorlat/${gyakorlat.gyakorlat_id}/szerkeszt`}></Button>
+                        <Button iconOnly leftIcon={"EditIcon"} iconProps={{ size: 36, color: "var(--color-grey-100)" }} noBackground color="secondary" href={`/gyakorlatok/${gyakorlat.gyakorlat_id}/szerkeszt`}></Button>
                     </div>
                 }
             </div>
@@ -48,7 +48,7 @@ export const GyakorlatItem: React.FC<GyakorlatItemProps> = ({ gyakorlat }) => {
     if (isMobile) {
         return (
             <Link
-                href={`/gyakorlat/${gyakorlat.gyakorlat_id}`}
+                href={`/gyakorlatok/${gyakorlat.gyakorlat_id}`}
                 className={styles["gyakorlat-item"]}
             >
                 {content}

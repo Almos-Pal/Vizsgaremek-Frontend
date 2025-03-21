@@ -93,7 +93,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
             }
 
 
-            router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
+            router.push(`/edzesek/${newEdzes.edzes_id}/szerkeszt`);
         } catch (error) { }
 
 
@@ -156,7 +156,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                 }
             });
 
-            router.push("/edzes");
+            router.push("/edzesek");
         } catch (error) {
             console.error("Error deleting edzés:", error);
             toast.error("Hiba történt az edzés törlésekor");
@@ -194,7 +194,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                         {data.isFinalized ? (
                             <Button additionalClassName={styles.singleButtonDesktop} onClick={cloneEdzesWithoutSets} width={420} rightIcon="PlayRightIcon">Új Edzés Kezdése</Button>
                         ) : (
-                            <Button additionalClassName={styles.singleButtonDesktop} href={`/edzes/${data.edzes_id}/szerkeszt`} width={420} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
+                            <Button additionalClassName={styles.singleButtonDesktop} href={`/edzesek/${data.edzes_id}/szerkeszt`} width={420} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
                         )}
                         <div className="flex justify-between w-full ">
                             <Button width={200} color="primary" onClick={() => router.back()}>Vissza</Button>
@@ -208,7 +208,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                         {data.isFinalized ? (
                             <Button additionalClassName={styles.singleButtonMobile} onClick={cloneEdzesWithoutSets} rightIcon="PlayRightIcon">Új Edzés Kezdése</Button>
                         ) : (
-                            <Button additionalClassName={styles.singleButtonMobile} href={`/edzes/${data.edzes_id}/szerkeszt`} onClick={cloneEdzesWithoutSets} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
+                            <Button additionalClassName={styles.singleButtonMobile} href={`/edzesek/${data.edzes_id}/szerkeszt`} onClick={cloneEdzesWithoutSets} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
                         )}
 
                         <Button additionalClassName={styles.btnmobileresponsive} rightIcon="ArrowLeftIcon" color="primary" onClick={() => router.back()}>Vissza</Button>
