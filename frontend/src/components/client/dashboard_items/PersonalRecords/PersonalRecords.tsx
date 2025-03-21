@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useUserGyakorlat } from "@/hooks";
+import { Loading } from "../../Loading/Loading";
 
 
 
@@ -22,6 +23,15 @@ function PersonalRecords() {
         page: 1,
         limit: 8
     });
+
+
+    if(isLoading) {
+        return (
+            <div className={styles.container}>
+                <Loading hasParent />
+                </div>
+        )
+        }
 
     return (
 

@@ -35,7 +35,16 @@ const EdzesTervekPage: React.FC = () => {
     });
 
 
-    if (isLoading) return <div>Loading...</div>;
+    if(isLoading) {
+        return (
+            <ContentLayout 
+            >   
+            <div className="flex justify-center items-center flex-col ">
+                <Loading  hasParent/>
+            </div>
+            </ContentLayout>
+        )
+    }
     if (error) return <div>Error loading workouts</div>;
 
 

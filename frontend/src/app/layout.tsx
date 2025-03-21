@@ -31,7 +31,7 @@ export default function RootLayout({
         <ReactSessionProvider>
 
         <ReactQueryProvider>
-        <Suspense fallback={<div>loading...</div>}>
+        <Suspense fallback={<Loading hasParent />}>
             
             {children}
         <ToastContainer />

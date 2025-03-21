@@ -4,7 +4,7 @@ import { Button, MusclePieChart, ProgressChart, RecordCard, StatFilter, UnderLin
 import { useEdzes, useUserGyakorlat } from "@/hooks";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { EdzesStatsResponse } from "@/types/edzes"; // Import your new interface
 import { UseQueryResult } from "@tanstack/react-query";
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
@@ -12,7 +12,6 @@ import { Text } from "@/components/server"
 import styles from "./page.module.scss"
 
 const Statistics: React.FC = () => {
-  const queryParams = new URLSearchParams();
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session } = useSession();
@@ -33,7 +32,7 @@ const Statistics: React.FC = () => {
   0
 
 
-  const { data: records, isLoading } = useUserGyakorlat.getRecords({
+  const { data: records, isLoading:isRecordLoading } = useUserGyakorlat.getRecords({
     isRecord: true,
     userId,
     limit:6,

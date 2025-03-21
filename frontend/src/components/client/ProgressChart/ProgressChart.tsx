@@ -20,6 +20,8 @@ import { Formik, Form } from "formik";
 import { FormikSelect } from "../_inputs";
 import styles from "./ProgressChart.module.scss";
 import { time } from "@/utils";
+import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
+import { Loading } from "../Loading/Loading";
 
 export default function ProgressChart() {
   interface gyakorlatProps {
@@ -108,7 +110,10 @@ export default function ProgressChart() {
   }, [selectedGyakorlat, refetch]);
 
   if (isLoadingGyak || !userId) {
-    return <Text>Loading...</Text>;
+    
+          <div className="flex justify-center items-center flex-col ">
+              <Loading  hasParent/>
+          </div>
   }
 
   if (error && (error as any).status === 404) {

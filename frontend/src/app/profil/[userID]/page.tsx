@@ -87,12 +87,11 @@ const UserPage: React.FC<UserPageProps> = ({ params }) => {
           </div>
         )}
            <div className="w-full ">
-
-        <Button rightIcon="FavoriteIcon" additionalClassName="w-full" href={"#"}> Kedvenc edzések </Button>
+        <Button rightIcon="FavoriteIcon" additionalClassName="w-full" href={"/kedvencek"}> Kedvenc edzések </Button>
            </div>
            <div className="w-full ">
 
-        <Button color="secondary" additionalClassName="w-full"  href={"#"} rightIcon="PenPaperIcon">
+        <Button color="secondary" additionalClassName="w-full"  href={"/edzestervek"} rightIcon="PenPaperIcon">
           Edzéstervező
         </Button>
            </div>

@@ -2,18 +2,16 @@
 import { Button } from "../../index";
 import { BodySVG, Text } from "@/components/server";
 import styles from './TodaysWorkout.module.scss';
-import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useEdzes, useIsMobile, useViewportSize } from "@/hooks";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { GyakorlatWithSets } from "@/types";
+import { Loading } from "../../Loading/Loading";
 
 function TodaysWorkout() {
-    const router = useRouter();
     const { data: session } = useSession();
     const currentDate = useMemo(() => new Date().toISOString(), []);
-    const { data: todaysWorkout } = useEdzes.findOneByDate(session?.user.user_id!, currentDate);
+    const { data: todaysWorkout,isLoading } = useEdzes.findOneByDate(session?.user.user_id!, currentDate);
     const [view, setView] = useState<"front" | "back">("front");
     const isMobile = useIsMobile();
     const viewportSize = useViewportSize();
@@ -61,6 +59,15 @@ function TodaysWorkout() {
     const exercises = todaysWorkout?.gyakorlatok || [];
     const remainingExercises = exercises.length > (isMobile ? 3 : 3) ? 
         exercises.length - (isMobile ? 3 : 3) : 0;
+
+        if(isLoading) {
+            return (
+                <div className={styles.container}>
+                    <Loading hasParent />
+                    </div>
+            )
+            }
+
 
     if (!exercises.length) {
         return (

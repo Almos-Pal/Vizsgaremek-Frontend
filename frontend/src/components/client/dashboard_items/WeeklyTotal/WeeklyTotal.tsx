@@ -6,10 +6,11 @@ import Link from "next/link";
 import { useEdzes, useViewportSize } from "@/hooks";
 import { useSession } from "next-auth/react";
 import { useMemo } from "react";
+import { Loading } from "../../Loading/Loading";
 
 function WeeklyTotal() {
   const { data: session } = useSession();
-  const { data: currentWeekEdzesek } = useEdzes.getCurrentWeekEdzesek( session?.user.user_id! );
+  const { data: currentWeekEdzesek,isLoading } = useEdzes.getCurrentWeekEdzesek( session?.user.user_id! );
 
   const viewportSize = useViewportSize();
   console.log("Current Week Edzesek:", viewportSize);
@@ -28,6 +29,14 @@ function WeeklyTotal() {
         return 220;
     }
   }, [viewportSize]);
+
+  if(isLoading) {
+    return (
+        <div className={styles.container}>
+            <Loading hasParent />
+            </div>
+    )
+    }
 
   return (
     <div  className={styles.mainDiv}>
