@@ -6,7 +6,6 @@ const toastOptions: ToastOptions<unknown> = {
   closeOnClick: true,
   hideProgressBar: false,
   closeButton: true,
-  autoClose: 200000,
   style: {
     backgroundColor: "var(--color-light)",
     color: "var(--color-dark)",
