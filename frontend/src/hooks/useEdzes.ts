@@ -1,9 +1,17 @@
 import edzesAPI from '@/lib/api/edzesAPI';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { get } from 'http';
+import { useSession } from 'next-auth/react';
 import { start } from 'repl';
 
+export const useToken = () => {
+  const { data: session } = useSession();
+  return session?.backendTokens?.accessToken;
+};
+
 const useEdzes = {
+
+  
   getEdzesek: (params: {
     page?: number;
     limit?: number;
@@ -14,24 +22,27 @@ const useEdzes = {
     gyakorlatok?: number[];
     gyakorlat_id?: number | null;
   } = {}) => {
+    const token = useToken();
     return useQuery(
       {
         queryKey: ['edzesek', params],
-        queryFn: () => edzesAPI.fetchEdzesek(params),
-    });
+        queryFn: () => edzesAPI.fetchEdzesek({ ...params, token }),
+      });
   },
 
   getEdzes: (id: number) => {
+    const token = useToken();
     return useQuery({
       queryKey: ['edzes', id],
-      queryFn: () => edzesAPI.fetchEdzes(id),
+      queryFn: () => edzesAPI.fetchEdzes(id, token),
     });
   },
 
   createEdzes: () => {
+    const token = useToken();
     const queryClient = useQueryClient();
     return useMutation({
-      mutationFn: (newEdzes: any) => edzesAPI.createEdzes(newEdzes),
+      mutationFn: (newEdzes: any) => edzesAPI.createEdzes(newEdzes, token),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzesek'] });
       },
@@ -39,10 +50,11 @@ const useEdzes = {
   },
 
   updateEdzes: () => {
+    const token = useToken();
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: ({ id, updatedEdzes }: { id: number; updatedEdzes: any }) =>
-        edzesAPI.updateEdzes(id, updatedEdzes),
+        edzesAPI.updateEdzes(id, updatedEdzes, token),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzesek'] });
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
@@ -51,9 +63,10 @@ const useEdzes = {
   },
 
   deleteEdzes: () => {
+    const token = useToken();
     const queryClient = useQueryClient();
     return useMutation({
-      mutationFn: (id: number) => edzesAPI.deleteEdzes(id),
+      mutationFn: (id: number) => edzesAPI.deleteEdzes(id, token),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzesek'] });
       },
@@ -61,10 +74,11 @@ const useEdzes = {
   },
 
   addGyakorlatToEdzes: () => {
+    const token = useToken();
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: ({ edzesId, userId, gyakorlatId }: { edzesId: number; userId: number; gyakorlatId: number }) =>
-        edzesAPI.addGyakorlatToEdzes(edzesId, userId, gyakorlatId),
+        edzesAPI.addGyakorlatToEdzes(edzesId, userId, gyakorlatId, token),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
       },
@@ -72,6 +86,7 @@ const useEdzes = {
   },
 
   deleteGyakorlatFromEdzes: () => {
+    const token = useToken();
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: ({
@@ -83,7 +98,7 @@ const useEdzes = {
         gyakorlatId: number;
         userId: number;
       }) =>
-        edzesAPI.deleteGyakorlatFromEdzes(edzesId, gyakorlatId, userId),
+        edzesAPI.deleteGyakorlatFromEdzes(edzesId, gyakorlatId, userId, token),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
       },
@@ -91,6 +106,7 @@ const useEdzes = {
   },
 
   addSetToGyakorlatInEdzes: () => {
+    const token = useToken();
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: ({
@@ -108,7 +124,8 @@ const useEdzes = {
           edzes_id,
           gyakorlatId,
           userId,
-          setDetails
+          setDetails,
+          token
         ),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
@@ -117,6 +134,7 @@ const useEdzes = {
   },
 
   updateSetInGyakorlatInEdzes: () => {
+    const token = useToken();
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: ({
@@ -137,7 +155,8 @@ const useEdzes = {
           gyakorlatId,
           setId,
           userId,
-          updateDetails
+          updateDetails,
+          token
         ),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
@@ -146,6 +165,7 @@ const useEdzes = {
   },
 
   deleteSetFromGyakorlatInEdzes: () => {
+    const token = useToken();
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: ({
@@ -163,7 +183,8 @@ const useEdzes = {
           edzes_id,
           gyakorlatId,
           setId,
-          userId
+          userId,
+          token
         ),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
@@ -171,10 +192,11 @@ const useEdzes = {
     });
   },
   createEdzesFromTemplate: () => {
+    const token = useToken();
     const queryClient = useQueryClient();
     return useMutation({
-      mutationFn: ({ templateId, userId,date }: { templateId: number; userId: number,date:string }) =>
-        edzesAPI.createEdzesTemplate(templateId, userId,date),
+      mutationFn: ({ templateId, userId, date }: { templateId: number; userId: number, date: string }) =>
+        edzesAPI.createEdzesTemplate(templateId, userId, date, token),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
       },
@@ -182,6 +204,7 @@ const useEdzes = {
   },
 
   changeEdzesFinalizedStatus: () => {
+    const token = useToken();
     const queryClient = useQueryClient();
     return useMutation({
       mutationFn: ({
@@ -193,43 +216,53 @@ const useEdzes = {
         userId: number;
         finalized: boolean;
       }) =>
-        edzesAPI.changeEdzesFinalizedStatus(edzesId, userId, finalized),
+        edzesAPI.changeEdzesFinalizedStatus(edzesId, userId, finalized, token),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['edzes'] });
         queryClient.invalidateQueries({ queryKey: ['edzesek'] });
       },
     });
   },
-  getEdzesekIntervallum: (id:number,startDate:string,endDate:string) => {
+
+  getEdzesekIntervallum: (id: number, startDate: string, endDate: string) => {
+    const token = useToken();
     return useQuery({
-        queryKey: ['edzes/intervallum', id,startDate,endDate],
-        queryFn: () => edzesAPI.fetchEdzesIntervallum(id,startDate,endDate),
-      });
+      queryKey: ['edzes/intervallum', id, startDate, endDate],
+      queryFn: () => edzesAPI.fetchEdzesIntervallum(id, startDate, endDate, token),
+    });
   },
-  getTenDayEdzesek: (userId:number,gyakorlat:number) => {
+
+  getTenDayEdzesek: (userId: number, gyakorlat: number) => {
+    const token = useToken();
     return useQuery({
-        queryKey: ['edzes/ten', userId,gyakorlat],
-        queryFn: () => edzesAPI.fetchTenDays(userId,gyakorlat),
-      });
+      queryKey: ['edzes/ten', userId, gyakorlat],
+      queryFn: () => edzesAPI.fetchTenDays(userId, gyakorlat, token),
+    });
   },
-  getEdzesByType:(id:number,type:string) =>{
+
+  getEdzesByType: (id: number, type: string) => {
+    const token = useToken();
+
     return useQuery({
-      queryKey: ['edzes', id,type],
-      queryFn: () => edzesAPI.fetchEdzesekChosenDate(id,type),
+      queryKey: ['edzes', id, type],
+      queryFn: () => edzesAPI.fetchEdzesekChosenDate(id, type, token),
     });
 
-},
-getCurrentWeekEdzesek: (userId:number) => {
-  return useQuery({
+  },
+  getCurrentWeekEdzesek: (userId: number) => {
+    const token = useToken();
+    return useQuery({
       queryKey: ['edzes/week', userId],
-      queryFn: () => edzesAPI.fetchCurrentWeek(userId),
+      queryFn: () => edzesAPI.fetchCurrentWeek(userId, token),
     });
 
-},
-findOneByDate: (userId:number,date:string) => {
-  return useQuery({
-      queryKey: ['edzes/date', userId,date],
-      queryFn: () => edzesAPI.findOneByDate(userId,date),
+  },
+
+  findOneByDate: (userId: number, date: string) => {
+    const token = useToken();
+    return useQuery({
+      queryKey: ['edzes/date', userId, date],
+      queryFn: () => edzesAPI.findOneByDate(userId, date, token),
     });
   },
 }
