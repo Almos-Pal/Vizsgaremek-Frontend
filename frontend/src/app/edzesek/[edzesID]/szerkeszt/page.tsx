@@ -26,8 +26,8 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
   
   
   useEffect(() => {
-    if (data && data.isFinalized ) {
-      router.push(`/edzesek/${edzesID}`);
+    if (data && data.isFinalized) {
+      router.push(`/edzesek/${edzesID}?fromFinalize=true`);
     }
     else if (data?.isTemplate == true) {
       router.push('/edzestervek');
