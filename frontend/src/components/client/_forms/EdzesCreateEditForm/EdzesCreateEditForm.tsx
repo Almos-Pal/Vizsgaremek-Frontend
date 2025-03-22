@@ -59,7 +59,7 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
         onSuccess: () => {
           console.log("Edzés updated");
           toast.success("Edzés Befejezve");
-          router.push(`/edzes/${data.edzes_id}`);
+          router.push(`/edzesek/${data.edzes_id}`);
         },
         onError: (error) => {
           console.error("Error updating edzés", error);

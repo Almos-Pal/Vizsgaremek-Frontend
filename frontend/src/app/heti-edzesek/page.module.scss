@@ -32,3 +32,10 @@
     }
 
 }
+.button{
+    min-width: 280px;
+    @include mobile {
+        width: 90%;
+        margin-top: 2rem;
+    }
+}

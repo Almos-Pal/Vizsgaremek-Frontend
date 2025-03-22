@@ -76,7 +76,7 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
     } else {
       console.error("ID is undefined, cannot delete");
     }
-    router.push("/gyakorlat");
+    router.push("/gyakorlatok");
   }
   const handleSubmit = (values: FormValues) => {
     const submissionValues: GyakorlatCreate = {
@@ -90,7 +90,7 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
         { id, values: submissionValues },
         {
           onSuccess: () => {
-            router.push(`/gyakorlat/${id}`);
+            router.push(`/gyakorlatok/${id}`);
             toast.successModify(undefined, submissionValues.gyakorlat_neve);
           },
           onError: () => {
@@ -102,7 +102,7 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
 
       createGyakorlat(submissionValues, {
         onSuccess: () => {
-          router.push("/gyakorlat");
+          router.push("/gyakorlatok");
           toast.successCreate(undefined, submissionValues.gyakorlat_neve);
         },
       });

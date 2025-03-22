@@ -33,7 +33,7 @@ function CalendarWidget() {
         );
 
         if (matchingItems?.length) {
-            router.push(`/edzes/${matchingItems[0].edzes_id}`);
+            router.push(`/edzesek/${matchingItems[0].edzes_id}`);
         } else {
             const formatedDate = time.getSelectedDateAsUTC(value).toISOString();
             setCurrentDate(formatedDate);

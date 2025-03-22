@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import {  Pagination } from '@/components/client';
 import { useSession } from 'next-auth/react';
 import { Text } from '@/components/server';
+import { Loading } from '@/components/client/Loading/Loading';
 
 function EdzesekPage() {
     const { data: session } = useSession();
@@ -24,7 +25,16 @@ function EdzesekPage() {
         user_id: session?.user.user_id
     });
 
-    if (isLoading) return <div>Loading...</div>;
+    if(isLoading) {
+        return (
+            <ContentLayout 
+            >   
+            <div className="flex justify-center items-center flex-col ">
+                <Loading  hasParent/>
+            </div>
+            </ContentLayout>
+        )
+    }
     if (error) return <div>Error loading workouts</div>;
 
 

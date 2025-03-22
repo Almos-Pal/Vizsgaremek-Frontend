@@ -42,11 +42,11 @@ body {
   line-height: 22px;
   border-radius: 8px;
   margin: 0 16px; /* Add horizontal margin */
+
 }
 
 .Toastify__toast-container {
   width: 100%;
-  max-width: 420px;
 
   @media (max-width: 600px) {
     width: 100%;

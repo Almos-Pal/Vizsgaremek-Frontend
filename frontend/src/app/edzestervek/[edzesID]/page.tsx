@@ -7,6 +7,7 @@ import { useEdzes } from '@/hooks';
 
 import { useRouter } from "next/navigation";
 import { EdzesTervEditForm } from '@/components/client'
+import { Loading } from '@/components/client/Loading/Loading';
 
 
 interface PageParams {
@@ -33,12 +34,15 @@ const EdzesTervSzerkesztő: React.FC<EdzesTervSzerkesztPageProps> = ({ params })
     }, [data, router, edzesID]);
 
 
-    if (isLoading) {
+    if(isLoading) {
         return (
-            <div>
-                <Text>Loading...</Text>
+            <ContentLayout 
+            >   
+            <div className="flex justify-center items-center flex-col ">
+                <Loading  hasParent/>
             </div>
-        );
+            </ContentLayout>
+        )
     }
 
     if (error || !data) {

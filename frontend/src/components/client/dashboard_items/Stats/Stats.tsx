@@ -12,6 +12,7 @@ import { useEdzes } from "@/hooks";
 import { useSession } from "next-auth/react";
 import { UseQueryResult } from "@tanstack/react-query";
 import { EdzesStatsResponse } from "@/types";
+import { Loading } from "../../Loading/Loading";
 
 
 
@@ -22,7 +23,7 @@ function Stats() {
     const searchParams = useSearchParams();
     const filteredValues = searchParams.get("type") || "week";
     
-    const { data } = useEdzes.getEdzesByType(userId, filteredValues) as unknown as UseQueryResult<EdzesStatsResponse, Error>;
+    const { data,isLoading } = useEdzes.getEdzesByType(userId, filteredValues) as unknown as UseQueryResult<EdzesStatsResponse, Error>;
 
     
     const groupedData = groupIzomcsoportCounts(data?.meta.izomcsoportCounts as Record<string, number> || {});
@@ -36,6 +37,14 @@ function Stats() {
         setIsClient(true);
 
     }, []);
+
+    if(isLoading) {
+        return (
+            <div className={styles.container}>
+                <Loading hasParent />
+                </div>
+        )
+        }
 
     if (!isClient) {
         return null;

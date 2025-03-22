@@ -2,18 +2,16 @@
 import { Button } from "../../index";
 import { BodySVG, Text } from "@/components/server";
 import styles from './TodaysWorkout.module.scss';
-import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useEdzes, useIsMobile, useViewportSize } from "@/hooks";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { GyakorlatWithSets } from "@/types";
+import { Loading } from "../../Loading/Loading";
 
 function TodaysWorkout() {
-    const router = useRouter();
     const { data: session } = useSession();
     const currentDate = useMemo(() => new Date().toISOString(), []);
-    const { data: todaysWorkout } = useEdzes.findOneByDate(session?.user.user_id!, currentDate);
+    const { data: todaysWorkout,isLoading } = useEdzes.findOneByDate(session?.user.user_id!, currentDate);
     const [view, setView] = useState<"front" | "back">("front");
     const isMobile = useIsMobile();
     const viewportSize = useViewportSize();
@@ -62,7 +60,16 @@ function TodaysWorkout() {
     const remainingExercises = exercises.length > (isMobile ? 3 : 3) ? 
         exercises.length - (isMobile ? 3 : 3) : 0;
 
-    if (!exercises.length) {
+        if(isLoading) {
+            return (
+                <div className={styles.container}>
+                    <Loading hasParent />
+                    </div>
+            )
+            }
+
+
+    if (!todaysWorkout) {
         return (
             <div className={styles.container}>
                 <div className={styles.emptyState}>
@@ -91,7 +98,7 @@ function TodaysWorkout() {
                         ))}
                         {remainingExercises > 0 && (
                             <Link 
-                                href={`/edzes/${todaysWorkout?.edzes_id}`} 
+                                href={`/edzesek/${todaysWorkout?.edzes_id}`} 
                                 className={styles.moreExercises}
                             >
                                   további {remainingExercises}...
@@ -101,7 +108,7 @@ function TodaysWorkout() {
                     <Button 
                         additionalClassName={styles.workoutButton}
                         color="secondary"
-                        href={`/edzes/${todaysWorkout?.edzes_id}`}
+                        href={`/edzesek/${todaysWorkout?.edzes_id}`}
                     >
                       {remainingExercises > 0?  `További gyakorlatok (${remainingExercises})` : "Edzés megtekintése"}
                     </Button>

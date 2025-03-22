@@ -24,14 +24,4 @@
             }
         }
     }
-
-    &.secondary {
-        &:hover {
-            path {
-                fill: var(--color-grey-300) !important;
-            }
-        }
-    }
-
-    
 }

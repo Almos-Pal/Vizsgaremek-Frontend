@@ -7,34 +7,41 @@ import styles from "./EdzesView.module.scss";
 import UnderLinedText from "../UnderLinedText/UnderLinedText";
 import GyakorlatComparisonBlock from "../GyakorlatComparisonBlock/GyakorlatComparisonBlock";
 import useEdzes from "@/hooks/useEdzes";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useToast } from "@/hooks";
+import {  useToast } from "@/hooks";
 import ConfirmationModal from "../_modal/ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
 import { StopWatch } from "..";
 import { BodySVG } from "@/components/server";
-import { EdzesOnSameDay } from "@/utils";
-import dateParse from "@/utils/dateParse";
-import { error } from "console";
-
+import { Text } from "@/components/server";
 
 interface EdzesViewProps {
     data: Edzes;
 }
 
 
-
 const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
     const { data: session } = useSession();
-    const { data: edzesek } = useEdzes.getEdzesek({
-        limit: 1000,
-        user_id: session?.user.user_id
-    });
+
     const router = useRouter();
     const toast = useToast();
     const { mutateAsync: createEdzesAsync } = useEdzes.createEdzes();
     const { mutateAsync: addGyakorlatAsync } = useEdzes.addGyakorlatToEdzes();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const fromFinalize = searchParams.get('fromFinalize') === 'true';
+
+
+    const handleBack = () => {
+        if (fromFinalize) {
+            // If we came from finalize action, go to edzesek list
+            router.push('/edzesek');
+        } else {
+            // Normal back behavior
+            router.back();
+        }
+    };
 
     const cloneEdzesWithoutSets = async () => {
 
@@ -93,7 +100,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
             }
 
 
-            router.push(`/edzes/${newEdzes.edzes_id}/szerkeszt`);
+            router.push(`/edzesek/${newEdzes.edzes_id}/szerkeszt`);
         } catch (error) { }
 
 
@@ -156,7 +163,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                 }
             });
 
-            router.push("/edzes");
+            router.push("/edzesek");
         } catch (error) {
             console.error("Error deleting edzés:", error);
             toast.error("Hiba történt az edzés törlésekor");
@@ -182,7 +189,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
                 <ConfirmationModal
                     visible={isDeleteEdzesConfirmModalOpen}
-                    title="Biztos, hogy törölni akarja ezt a gyakorlatot?"
+                    title="Biztos, hogy törölni akarja ezt az edzést?"
                     onConfirm={handleDeleteEdzesConfirm}
                     onCancel={DeleteEdzesConfirmModalCancel}
                     confirmText="Igen"
@@ -194,11 +201,19 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                         {data.isFinalized ? (
                             <Button additionalClassName={styles.singleButtonDesktop} onClick={cloneEdzesWithoutSets} width={420} rightIcon="PlayRightIcon">Új Edzés Kezdése</Button>
                         ) : (
-                            <Button additionalClassName={styles.singleButtonDesktop} href={`/edzes/${data.edzes_id}/szerkeszt`} width={420} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
+                            <Button additionalClassName={styles.singleButtonDesktop} href={`/edzesek/${data.edzes_id}/szerkeszt`} width={420} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
                         )}
                         <div className="flex justify-between w-full ">
-                            <Button width={200} color="primary" onClick={() => router.back()}>Vissza</Button>
-                            <Button width={200} color="secondary" onClick={handleOpenDeleteConfirm} rightIcon="TrashCanIcon">Törlés</Button>
+                    
+                                <Button width={200} color="primary" onClick={() => handleBack()}>Vissza</Button>
+                            <Button 
+                                width={ 200}
+                                color="secondary" 
+                                onClick={handleOpenDeleteConfirm} 
+                                rightIcon="TrashCanIcon"
+                            >
+                                Törlés
+                            </Button>
                         </div>
 
                     </div>
@@ -208,11 +223,27 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                         {data.isFinalized ? (
                             <Button additionalClassName={styles.singleButtonMobile} onClick={cloneEdzesWithoutSets} rightIcon="PlayRightIcon">Új Edzés Kezdése</Button>
                         ) : (
-                            <Button additionalClassName={styles.singleButtonMobile} href={`/edzes/${data.edzes_id}/szerkeszt`} onClick={cloneEdzesWithoutSets} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
+                            <Button additionalClassName={styles.singleButtonMobile} href={`/edzesek/${data.edzes_id}/szerkeszt`} onClick={cloneEdzesWithoutSets} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
                         )}
 
-                        <Button additionalClassName={styles.btnmobileresponsive} rightIcon="ArrowLeftIcon" color="primary" onClick={() => router.back()}>Vissza</Button>
-                        <Button additionalClassName={styles.btnmobileresponsive} style={{marginTop: '1rem'}} onClick={handleOpenDeleteConfirm} color="secondary" rightIcon="TrashCanIcon">Törlés</Button>
+                    
+                            <Button 
+                                additionalClassName={styles.btnmobileresponsive} 
+                                rightIcon="ArrowLeftIcon" 
+                                color="primary" 
+                                onClick={() => handleBack()}
+                            >
+                                Vissza
+                            </Button>
+                        <Button 
+                            additionalClassName={styles.btnmobileresponsive} 
+                            style={{marginTop: '1rem'}} 
+                            onClick={handleOpenDeleteConfirm} 
+                            color="secondary" 
+                            rightIcon="TrashCanIcon"
+                        >
+                            Törlés
+                        </Button>
                     </div>
                 </div>
 
@@ -224,7 +255,13 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                 <div className={styles.underlinedText}>
                     <UnderLinedText lineLength={220} text="Gyakorlatok"></UnderLinedText>
                 </div>
-
+                {data.gyakorlatok.length == 0 && (
+                  <>
+                    <Text className={styles["no-gyak-text"]} variant="h5">
+                      Az edzés jelenleg még nem tartalmaz gyakorlatokat
+                    </Text>
+                  </>
+                )}
                 {data.gyakorlatok.map((gyakorlat) => (
                     <GyakorlatComparisonBlock
                         key={gyakorlat.gyakorlat_id}

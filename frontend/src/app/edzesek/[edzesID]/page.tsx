@@ -6,6 +6,7 @@ import useEdzes from '@/hooks/useEdzes'
 import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout';
 import { EdzesView } from "@/components/client";
 import { useRouter } from "next/navigation";
+import { Loading } from '@/components/client/Loading/Loading';
 
 
 interface PageParams {
@@ -38,13 +39,16 @@ const EdzesViewPage: React.FC<EdzesViewPageProps> = ({ params }) => {
     );
   }
 
-  if (isLoading) {
+  if(isLoading) {
     return (
-      <div>
-        <Text>Loading...</Text>
-      </div>
-    );
-  }
+        <ContentLayout 
+        >   
+        <div className="flex justify-center items-center flex-col ">
+            <Loading  hasParent/>
+        </div>
+        </ContentLayout>
+    )
+}
 
   if (error) {
     return (

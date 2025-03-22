@@ -6,10 +6,11 @@ import Link from "next/link";
 import { useEdzes, useViewportSize } from "@/hooks";
 import { useSession } from "next-auth/react";
 import { useMemo } from "react";
+import { Loading } from "../../Loading/Loading";
 
 function WeeklyTotal() {
   const { data: session } = useSession();
-  const { data: currentWeekEdzesek } = useEdzes.getCurrentWeekEdzesek( session?.user.user_id! );
+  const { data: currentWeekEdzesek,isLoading } = useEdzes.getCurrentWeekEdzesek( session?.user.user_id! );
 
   const viewportSize = useViewportSize();
   console.log("Current Week Edzesek:", viewportSize);
@@ -29,6 +30,14 @@ function WeeklyTotal() {
     }
   }, [viewportSize]);
 
+  if(isLoading) {
+    return (
+        <div className={styles.container}>
+            <Loading hasParent />
+            </div>
+    )
+    }
+
   return (
     <div  className={styles.mainDiv}>
       <div className={styles.titleContainer}>
@@ -37,13 +46,13 @@ function WeeklyTotal() {
         </div>
       </div>
       <div className={styles.humanDiv}>
-        <Link href="/heti-edzes" className={styles.link}>
+        <Link href="/heti-edzesek" className={styles.link}>
 
           <BodySVG  size={bodySvgSize}  selectedMuscleIds={currentWeekEdzesek?.fo_izomcsoportok } secondaryMuscleIds={currentWeekEdzesek?.izomcsoportok} />
         </Link>
       </div>
       <div className={styles.buttonContainer}>
-        <Button color="secondary" additionalClassName={styles.button} href="/heti-edzes">
+        <Button color="secondary" additionalClassName={styles.button} href="/heti-edzesek">
           Több a hetemről
         </Button>
       </div>

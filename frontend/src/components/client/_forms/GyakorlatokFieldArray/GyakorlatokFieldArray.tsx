@@ -185,9 +185,11 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
       {
         onSuccess: () => {
           console.log(`Gyakorlat ${gyakorlat.gyakorlat_id} deleted successfully.`);
+          toast.success("Gyakorlat törölve");
           arrayHelpers.remove(index);
         },
         onError: (error) => {
+          toast.error("Hiba történt a gyakorlat törlése közben");
           console.error("Error deleting gyakorlat:", error);
         },
       }
@@ -206,7 +208,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
     <div className={styles["edzes-block"]}>
       
       <div className={styles["edzes-header"]}>
-      <Link className={styles["gyak-neve"]}  href={`/gyakorlat/${gyakorlat.gyakorlat_id}`}>
+      <Link className={styles["gyak-neve"]}  href={`/gyakorlatok/${gyakorlat.gyakorlat_id}`}>
       <Text variant='subtitle-16'  >
 
           {gyakorlat.gyakorlat_neve}:
@@ -390,7 +392,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
             rightIcon="AddIcon"
             additionalClassName={styles["addset-mobile"]}
           >
-            Set
+            Szett
           </Button>
           
         </div>

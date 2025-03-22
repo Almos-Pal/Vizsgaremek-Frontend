@@ -99,8 +99,8 @@ const Navbar: React.FC = () => {
                 </Button>
                 <Text variant="h5" style={{ marginBottom: 20 }}>Saját gyűlytemény</Text>
                 <Button width={350} style={{ marginBottom: 20 }} href={'/edzestervek'}>Edzéstervek</Button>
-                <Button width={350} color='secondary' style={{ marginBottom: 20 }} href={'/edzes'}>Edzés Előzmények</Button>
-                <Button width={350} color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlat'}>Gyakorlatok</Button>
+                <Button width={350} color='secondary' style={{ marginBottom: 20 }} href={'/edzesek'}>Edzés Előzmények</Button>
+                <Button width={350} color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlatok'}>Gyakorlatok</Button>
             </div>
 
             {/* Mobile navbar */}
@@ -161,8 +161,8 @@ const Navbar: React.FC = () => {
                         Saját gyűlytemény
                     </Text>
                     <Button additionalClassName={styles.mobilebutton} width="90%" style={{ marginBottom: 20 }} href={'/edzestervek'}>Edzéstervek</Button>
-                    <Button additionalClassName={styles.mobilebutton} width="90%" color='secondary' style={{ marginBottom: 20 }} href={'/edzes'}>Edzés Előzmények</Button>
-                    <Button additionalClassName={styles.mobilebutton} width="90%" color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlat'}>Gyakorlatok</Button>
+                    <Button additionalClassName={styles.mobilebutton} width="90%" color='secondary' style={{ marginBottom: 20 }} href={'/edzesek'}>Edzés Előzmények</Button>
+                    <Button additionalClassName={styles.mobilebutton} width="90%" color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlatok'}>Gyakorlatok</Button>
                 </div>
             </div>
             <ConfirmationModal visible={logoutmodal.visible} onConfirm={handleLogout} title="Biztos kiszeretne jelentkezni?" onCancel={logoutmodal.close} />
