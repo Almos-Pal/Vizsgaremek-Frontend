@@ -62,3 +62,21 @@
         }
     }
 }
+
+.loading-container-records,
+.loading-container-stats,
+.loading-container-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  width: 100%;
+  background-color: var(--color-grey-500);
+  border-radius: 0.75rem;
+}
+
+.records-content,
+.stats-content {
+  min-height: 400px;
+  width: 100%;
+}

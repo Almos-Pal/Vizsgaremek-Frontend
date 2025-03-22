@@ -69,7 +69,7 @@ function TodaysWorkout() {
             }
 
 
-    if (!exercises.length) {
+    if (!todaysWorkout) {
         return (
             <div className={styles.container}>
                 <div className={styles.emptyState}>
