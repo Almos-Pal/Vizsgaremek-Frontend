@@ -28,7 +28,10 @@
 }
 
 body {
-  background-color: var(--color-dark);
+  background: linear-gradient(-135deg, #002b27 25%, var(--color-dark) 75%) !important;
+
+
+
 }
 .Toastify__toast {
   display: flex;
