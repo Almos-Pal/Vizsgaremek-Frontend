@@ -96,3 +96,6 @@ body {
 .Toastify__progress-bar--error {
   background-color: var(--color-error);
 }
+nextjs-portal {
+  display: none;
+}
