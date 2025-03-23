@@ -27,7 +27,7 @@ const Register: React.FC = () => {
     const router = useRouter();
 
     const handleSubmit = async (values: typeof initialValues) => {
-        const res = (await fetch('http://localhost:8000/auth/register', {
+        const res = await fetch('http://localhost:8000/auth/register', {
             method: 'POST',
             body: JSON.stringify({
                 email: values.email,
@@ -37,28 +37,24 @@ const Register: React.FC = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-        }));
-        const data = await res.json();
+        });
+        
+        const data = await res.json();  
+        
         if (data.message === "Email already in use" && data.error === "Bad Request" && data.statusCode === 400) {
             toast.error('Az email cím már használatban van!');
             return;
         }
-        if (res.status === 400) {
+        
+        if (res.status === 400 || !res.ok) {
             toast.error('Hiba a regisztráció során!');
             return;
         }
-        if (!res.ok) {
-            toast.error('Hiba a regisztráció során!');
-            return;
-        }
-        else {
-
-            const response = await res.json();
-            console.log('Sikeres regisztráció');
-            toast.success('Sikeres regisztráció!');
-            //console.log({ response })
-            router.push('/bejelentkezes')
-        }
+        
+        console.log('Sikeres regisztráció');
+        toast.success('Sikeres regisztráció!');
+        router.push('/bejelentkezes');
+        
 
 
     };
