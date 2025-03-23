@@ -7,6 +7,7 @@ interface GetUsersParams {
   username?: string;
   email?: string;
   isAdmin?: boolean;
+  token?: string; 
 }
 
 const userApi = {
@@ -15,7 +16,8 @@ const userApi = {
       limit = 10,
       username,
       email,
-      isAdmin
+      isAdmin,
+      token
     }: GetUsersParams = {}): Promise<PaginatedResponse<User>> => {
       const params: Record<string, string> = {
         page: page.toString(),
@@ -27,7 +29,12 @@ const userApi = {
       if (isAdmin !== undefined) params.isAdmin = isAdmin.toString();
 
       const query = new URLSearchParams(params).toString();
-      const response = await fetch(`http://localhost:8000/users?${query}`);
+      const response = await fetch(`http://localhost:8000/users?${query}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+      });
       
       if (!response.ok) {
         throw new Error('Error fetching users');
@@ -54,11 +61,12 @@ const userApi = {
     },
     
 
-    updateUser: async (id: number, values: Bmi): Promise<User> => {
+    updateUser: async (id: number, values: Bmi, token?: string): Promise<User> => {
         const response = await fetch(`http://localhost:8000/users/${id}`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
             },
             body: JSON.stringify(values),
         });
@@ -69,9 +77,13 @@ const userApi = {
         return response.json();
     },
 
-    deleteUser: async (id: number): Promise<{ message: string }> => {
+    deleteUser: async (id: number, token?: string): Promise<{ message: string }> => {
         const response = await fetch(`http://localhost:8000/users/${id}`, {
             method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
         });
 
         if (!response.ok) {
@@ -80,8 +92,13 @@ const userApi = {
         return response.json();
     },
 
-    getBmi: async (id: number): Promise<{ bmi: string; type: string }> => {
-        const response = await fetch(`http://localhost:8000/users/${id}/bmi`);
+    getBmi: async (id: number, token?: string): Promise<{ bmi: string; type: string }> => {
+        const response = await fetch(`http://localhost:8000/users/${id}/bmi`, {
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+        });
         if (!response.ok) {
           const error: any = new Error('Error fetching BMI');
           error.status = response.status;
