@@ -98,7 +98,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
                 <Text variant="subtitle-16">
                   Gyakorlat leírása :
                 </Text>
-                <Text variant="body-16">{data.gyakorlat_leiras}</Text>
+                <Text className="mr-4 text-justify" variant="body-16">{data.gyakorlat_leiras}</Text>
               </div>
             </div>
             <div className={styles.svgContainer}>

@@ -40,22 +40,22 @@ const Register: React.FC = () => {
         }));
         const data = await res.json();
         if (data.message === "Email already in use" && data.error === "Bad Request" && data.statusCode === 400) {
-            toast.error('Az email cím már használatban van!');
+            toast.error('Az email cím már használatban van');
             return;
         }
         if (res.status === 400) {
-            toast.error('Hiba a regisztráció során!');
+            toast.error('Hiba a regisztráció során');
             return;
         }
         if (!res.ok) {
-            toast.error('Hiba a regisztráció során!');
+            toast.error('Hiba a regisztráció során');
             return;
         }
         else {
 
             const response = await res.json();
             console.log('Sikeres regisztráció');
-            toast.success('Sikeres regisztráció!');
+            toast.success('Sikeres regisztráció');
             //console.log({ response })
             router.push('/bejelentkezes')
         }
