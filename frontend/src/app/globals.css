@@ -29,10 +29,14 @@
 
 body {
   background: linear-gradient(-135deg, #002b27 25%, var(--color-dark) 75%) !important;
-
-
-
+  background-repeat: no-repeat;      /* Prevents repetition */
+  background-size: cover;            /* Ensures it covers the full width & height */
+  background-attachment: fixed;      /* Optional: Keeps background fixed during scroll */
+  min-height: 100vh;                 /* Ensures full viewport height */
+  margin: 0;                         /* Remove default margins */
+  padding: 0;                        /* Remove default padding */
 }
+
 .Toastify__toast {
   display: flex;
   align-items: center;
