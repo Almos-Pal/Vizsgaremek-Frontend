@@ -3,7 +3,7 @@
 import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout'
 import React, { use, useEffect } from 'react'
 import { Text } from '@/components/server'
-import { useEdzes } from '@/hooks';
+import { useEdzes, useToast } from '@/hooks';
 
 import { useRouter } from "next/navigation";
 import { EdzesTervEditForm } from '@/components/client'
@@ -24,13 +24,19 @@ const EdzesTervSzerkesztő: React.FC<EdzesTervSzerkesztPageProps> = ({ params })
 
     const router = useRouter();
     const { data, isLoading, error } = useEdzes.getEdzes(edzesID);
-
+    const toast = useToast();
 
     useEffect(() => {
+        if ((error as any)?.status === 401) {
+            toast.error("Nincs jogosultság a megtekintéshez. Átirányítás a főoldalra..");
+            setTimeout(() => {
+                router.push("/dashboard");
+              }, 1500);
+        }
         if (data?.isTemplate == false) {
             router.push('/dashboard');
         }
-    }, [data, router, edzesID]);
+    }, [error,data, router, edzesID]);
 
 
     if (isLoading) {
@@ -49,7 +55,7 @@ const EdzesTervSzerkesztő: React.FC<EdzesTervSzerkesztPageProps> = ({ params })
         );
     }
 
-    
+
 
     return (<ContentLayout header="Edzésterv szerkesztése" subheader={data.edzes_neve}>
         <EdzesTervEditForm data={data} />

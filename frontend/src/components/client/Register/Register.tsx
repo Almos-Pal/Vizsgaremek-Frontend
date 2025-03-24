@@ -53,7 +53,7 @@ const Register: React.FC = () => {
         }
         else {
 
-            const response = await res.json();
+            
             console.log('Sikeres regisztráció');
             toast.success('Sikeres regisztráció!');
             //console.log({ response })

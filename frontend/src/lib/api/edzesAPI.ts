@@ -69,11 +69,15 @@ const edzesAPI = {
       },
     });
 
+    const data = await response.json();
+    
     if (!response.ok) {
-      throw new Error('Error fetching data');
+      const error = new Error(data.message || 'Error fetching edzes') as any;
+        error.status = response.status;
+        throw error;
     }
 
-    return response.json() as unknown as Edzes;
+    return data;
   },
 
   createEdzes: async (newEdzes: any, token?: string) => {

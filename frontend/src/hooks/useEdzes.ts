@@ -35,7 +35,9 @@ const useEdzes = {
     return useQuery({
       queryKey: ['edzes', id],
       queryFn: () => edzesAPI.fetchEdzes(id, token),
+      retry: 2
     });
+    
   },
 
   createEdzes: () => {

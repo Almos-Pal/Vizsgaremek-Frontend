@@ -6,6 +6,7 @@ import useEdzes from '@/hooks/useEdzes'
 import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout';
 import { EdzesView } from "@/components/client";
 import { useRouter } from "next/navigation";
+import { useToast } from '@/hooks';
 
 
 interface PageParams {
@@ -21,12 +22,20 @@ const EdzesViewPage: React.FC<EdzesViewPageProps> = ({ params }) => {
   const edzesID = parseInt(resolvedParams.edzesID);
   const router = useRouter();
   const { data, isLoading, error } = useEdzes.getEdzes(edzesID);
+  const toast = useToast();
 
+  
   useEffect(() => {
-    if (data?.isTemplate == true) {
+    if ((error as any)?.status === 401) {
+      toast.error("Nincs jogosultság a megtekintéshez. Átirányítás a főoldalra..");
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1500);
+    }
+    if (data?.isTemplate === true) {
       router.push('/edzestervek');
     }
-  }, [data, router, edzesID]);
+  }, [error,data, router, edzesID]); 
 
 
 
