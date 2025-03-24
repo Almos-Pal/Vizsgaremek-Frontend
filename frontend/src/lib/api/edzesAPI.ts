@@ -1,7 +1,6 @@
 import { CurrentWeekEdzes, Edzes, EdzesTenDays } from '@/types/edzes'
 import { PaginatedResponse } from '@/types';
-import page from '@/app/test/akos/page';
-import { use } from 'react';
+
 
 interface FetchEdzesekParams {
   page?: number;

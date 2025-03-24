@@ -1,32 +1,24 @@
-
+@use "styles/breakpoints.scss" as *;
   
   .notFoundMain {
-    /* Full viewport height */
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative; // needed for the pseudo-element
+    position: relative; 
     padding: 1rem;
   
-    /* Pseudo-element creates the angled background on the right side */
     &::before {
       content: "";
       position: absolute;
-      inset: 0; // shorthand for top: 0; right: 0; bottom: 0; left: 0;
+      inset: 0; 
     background: linear-gradient(90deg, var(--color-dark) 30%, var(--color-primary-90) 70%);
 
-      /*
-        This polygon creates an angled effect on the right side.
-        Starting from 40% along the top, extending to the right edge,
-        then down to the bottom edge, and back to 55% along the bottom.
-      */
       clip-path: polygon(40% 0, 100% 0, 100% 100%, 55% 100%);
-      z-index: -1; // places the pseudo-element behind the main content
+      z-index: -1;
     }
   
     .container {
-      /* Flex container for text and image columns */
       max-width: 1200px;
       width: 100%;
       display: flex;
@@ -35,13 +27,11 @@
       align-items: center;
       justify-content: space-between;
   
-      /* On medium screens and up, display in a row */
       @media (min-width: 768px) {
         flex-direction: row;
       }
     }
   
-    /* Left column: text */
     .textContainer {
       flex: 1;
       text-align: center;
@@ -51,36 +41,35 @@
       }
   
       h1 {
-        font-size: 2.25rem; /* ~ text-4xl */
+        font-size: 2.25rem;
         margin-bottom: 1rem;
         font-weight: bold;
         color: var(--color-light);
   
         @media (min-width: 768px) {
-          font-size: 3rem; /* ~ text-6xl */
+          font-size: 3rem; 
         }
         @media (min-width: 1024px) {
-          font-size: 3.75rem; /* ~ text-7xl */
+          font-size: 3.75rem;
         }
       }
   
       .textGroup {
         p {
-          font-size: 1.25rem; /* ~ text-xl */
+          font-size: 1.25rem; 
           margin-bottom: 2rem;
           color: var(--color-grey-100);
   
           @media (min-width: 768px) {
-            font-size: 1.5rem; /* ~ text-2xl */
+            font-size: 1.5rem; 
           }
           @media (min-width: 1024px) {
-            font-size: 1.875rem; /* ~ text-3xl */
+            font-size: 1.875rem;
           }
         }
       }
     }
   
-    /* Right column: image */
     .imageContainer {
       flex: 1;
       display: flex;
