@@ -30,7 +30,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
     <ContentLayout header={data.gyakorlat_neve}>
       <div >
         <div className={styles.linksContainer}>
-          <Button color="primary" onClick={() => router.back()} leftIcon="ArrowLeftIcon">
+          <Button color="primary" onClick={() => router.back()} >
             vissza
           </Button>
           <Button color="secondary" href={`/rekordok`}>
