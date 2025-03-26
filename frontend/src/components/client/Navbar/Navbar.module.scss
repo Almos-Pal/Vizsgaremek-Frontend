@@ -35,12 +35,10 @@
   height: 100vh;
   text-align: center;
   background-color: var(--color-grey-400);
-  padding-top: 2rem;
+  padding: 2rem 1rem 2rem 1rem;
   border-radius: 0 1rem 1rem 0;
   border-right: 0.5rem solid var(--color-primary-50);
 
-
-  /* Initially hidden (off-screen) */
   transform: translateX(-25rem);
   opacity: 0;
   pointer-events: none;
@@ -48,9 +46,21 @@
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   z-index: 1000;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+
   @include mobile {
     display: none;
   }
+}
+
+.menuContent {
+  flex-grow: 1;
+}
+
+.adminButtonWrapper {
+  margin-bottom: 1rem;
 }
 
 .desktopMenuOpen {

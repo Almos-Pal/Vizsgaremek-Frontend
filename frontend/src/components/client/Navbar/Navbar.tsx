@@ -6,8 +6,9 @@ import IconButton from '../IconButton/IconButton';
 import { Text } from '@/components/server';
 import { signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
-import { ConfirmationModal } from "../_modal";
+import { ConfirmationModal, Modal } from "../_modal";
 import { useModal } from '@/hooks';
+import { NewEdzesForm } from '../_forms';
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -18,6 +19,8 @@ const Navbar: React.FC = () => {
     const { data: session } = useSession();
     const pathname = usePathname();
 
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const logoutmodal = useModal();
 
 
@@ -31,6 +34,13 @@ const Navbar: React.FC = () => {
 
         logoutmodal.close();
     };
+
+    const handleNewEdzes = () => {
+
+        setIsModalOpen(true)
+
+        
+    }
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -88,19 +98,29 @@ const Navbar: React.FC = () => {
                 className={`${styles.desktopMenu} ${menuOpen ? styles.desktopMenuOpen : ''}`}
             >
                 {/* Menu items */}
-                <Button rightIcon="DumbellIcon" iconProps={{ size: 45 }} width={350} style={{ marginBottom: 20 }}>
-                    Edzés Kezdése
-                </Button>
-                <Button rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width={350} color="secondary" style={{ marginBottom: 20 }}>
-                    Edzéstervező
-                </Button>
-                <Button rightIcon="CalendarIcon" iconProps={{ size: 50 }} width={350} color="secondary" style={{ marginBottom: 20 }}>
-                    Edzésterv-tervező
-                </Button>
-                <Text variant="h5" style={{ marginBottom: 20 }}>Saját gyűlytemény</Text>
-                <Button width={350} style={{ marginBottom: 20 }} href={'/edzestervek'}>Edzéstervek</Button>
-                <Button width={350} color='secondary' style={{ marginBottom: 20 }} href={'/edzesek'}>Edzés Előzmények</Button>
-                <Button width={350} color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlatok'}>Gyakorlatok</Button>
+                <div className={styles["menuContent"]}>
+                    <Button onClick={handleNewEdzes} rightIcon="DumbellIcon" iconProps={{ size: 45 }} width={350} style={{ marginBottom: 20 }}>
+                        Edzés Kezdése
+                    </Button>
+                    <Button rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width={350} color="secondary" style={{ marginBottom: 20 }}>
+                        Új EdzésTerv
+                    </Button>
+                    <Text variant="h5" style={{ marginBottom: 20 }}>Saját gyűlytemény</Text>
+                    <Button width={350} style={{ marginBottom: 20 }} href={'/edzesek'}>Edzés Előzmények</Button>
+                    <Button width={350} color='secondary' style={{ marginBottom: 20 }} href={'/edzestervek'}>Edzéstervek</Button>
+                    <Button width={350} color='secondary' rightIcon='FavoriteIcon' iconProps={{ filled: true, size: 40 }} style={{ marginBottom: 20 }} href={'/kedvencek'}>Kedvenc edzések</Button>
+                    <Button width={350} color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlatok'}>Gyakorlatok</Button>
+                </div>
+                {session?.user.isAdmin && (
+
+                    <div className={styles["adminButttonWrapper"]}>
+
+                        <Button width={350} href={"/admin"} rightIcon="ProfileIcon" iconProps={{ size: 35 }} additionalClassName={styles["admin-button-desktop"]}>
+                            Admin felület
+                        </Button>
+                    </div>
+
+                )}
             </div>
 
             {/* Mobile navbar */}
@@ -152,20 +172,39 @@ const Navbar: React.FC = () => {
                         Edzés Kezdése
                     </Button>
                     <Button additionalClassName={styles.mobilebutton} rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width="90%" color="secondary" style={{ marginBottom: 20 }}>
-                        Edzéstervező
-                    </Button>
-                    <Button additionalClassName={styles.mobilebutton} rightIcon="CalendarIcon" iconProps={{ size: 45 }} width="90%" color="secondary" style={{ marginBottom: 20 }}>
-                        Edzésterv-tervező
+                        Új EdzésTerv
                     </Button>
                     <Text variant="h5" style={{ marginBottom: 20 }}>
                         Saját gyűlytemény
                     </Text>
-                    <Button additionalClassName={styles.mobilebutton} width="90%" style={{ marginBottom: 20 }} href={'/edzestervek'}>Edzéstervek</Button>
-                    <Button additionalClassName={styles.mobilebutton} width="90%" color='secondary' style={{ marginBottom: 20 }} href={'/edzesek'}>Edzés Előzmények</Button>
+                    <Button additionalClassName={styles.mobilebutton} width="90%" color='primary' style={{ marginBottom: 20 }} href={'/edzesek'}>Edzés Előzmények</Button>
+                    <Button additionalClassName={styles.mobilebutton} width="90%" color='secondary' style={{ marginBottom: 20 }} href={'/edzestervek'}>Edzéstervek</Button>
+                    <Button additionalClassName={styles.mobilebutton} rightIcon='FavoriteIcon' iconProps={{ filled: true, size: 40 }} width="90%" color='secondary' style={{ marginBottom: 20 }} href={'/kedvencek'}>Kedvenc Edzések</Button>
                     <Button additionalClassName={styles.mobilebutton} width="90%" color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlatok'}>Gyakorlatok</Button>
+
+                    {session?.user.isAdmin && (
+
+                        <Button width="90%" href={"/admin"} rightIcon="ProfileIcon" style={{ marginBottom: 20 }} iconProps={{ size: 35 }} additionalClassName={styles["admin-button-desktop"]}>
+                            Admin felület
+                        </Button>
+                    )}
                 </div>
             </div>
             <ConfirmationModal visible={logoutmodal.visible} onConfirm={handleLogout} title="Biztos kiszeretne jelentkezni?" onCancel={logoutmodal.close} />
+
+
+            <Modal
+                visible={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+
+                showCloseButton={false}
+
+
+            >
+
+                <NewEdzesForm onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />
+
+            </Modal>
         </>
     );
 };

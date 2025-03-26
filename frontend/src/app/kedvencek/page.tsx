@@ -41,7 +41,7 @@ function EdzesekPage() {
 
     return (
 
-        <ContentLayout header="Edzések">
+        <ContentLayout header="Kedvenc Edzések">
 
             {edzesek?.items?.length === 0 && <Text variant="h4"  className='text-center'>Nincs kedvenc edzésed</Text>}
             

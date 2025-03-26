@@ -50,29 +50,36 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel, templa
             isTemplate: template ? 1 : 0,
         };
 
-        try{
+        try {
 
-        
-        createEdzes(newEdzesPayload, {
-            onSuccess: (newEdzes: any) => {
 
-                const redirectUrl = template ? `/edzestervek/${newEdzes.edzes_id}` : `/edzesek/${newEdzes.edzes_id}/szerkeszt`;
-                router.push(redirectUrl);
-                onSuccess();
+            createEdzes(newEdzesPayload, {
+                onSuccess: (newEdzes: any) => {
 
-                toast.success(template ? "Edzésterv sikeresen létrehozva" : "Edzés sikeresen elkezdve");
-            },
-            onError: (error: any) => {
-                if (error == "Error: 409") {
-                    toast.error("A mai nap már van edzés");
+                    const redirectUrl = template ? `/edzestervek/${newEdzes.edzes_id}` : `/edzesek/${newEdzes.edzes_id}/szerkeszt`;
+                    router.push(redirectUrl);
+                    onSuccess();
+
+                    //I placed these here maybe this fixes a lot of stuff
+                    const currentEdzesID = localStorage.getItem("currentEdzesID");
+                    currentEdzesID ? localStorage.removeItem("currentEdzesID") : null;
+                    const storedStartTime = localStorage.getItem("edzesStartTime");
+                    storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
+
+
+                    toast.success(template ? "Edzésterv sikeresen létrehozva" : "Edzés sikeresen elkezdve");
+                },
+                onError: (error: any) => {
+                    if (error == "Error: 409") {
+                        toast.error("A mai nap már van edzés");
+                    }
+                    else {
+                        console.error("Error creating edzés:", error);
+                        toast.error("Hiba történt az edzés létrehozása közben");
+                    }
                 }
-                else{
-                    console.error("Error creating edzés:", error);
-                    toast.error("Hiba történt az edzés létrehozása közben");
-                }
-            }
-        });
-    } catch (error) {}
+            });
+        } catch (error) { }
     };
 
     return (
@@ -82,18 +89,18 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel, templa
                     <Form>
                         <div style={{ marginBottom: "1.5rem" }}>
                             <Text style={{ marginBottom: '1.5rem' }} variant="h4">Adja meg az  {template ? " edzésterv" : " edzés"} nevét</Text>
-                            <div style={{ marginBottom: "1.5rem", width: "100%", marginLeft: "auto", marginRight: "auto", maxWidth: "390px"}}>
+                            <div style={{ marginBottom: "1.5rem", width: "100%", marginLeft: "auto", marginRight: "auto", maxWidth: "390px" }}>
                                 <FormField
                                     id="edzes_neve"
                                     name="edzes_neve"
                                     placeholder={template ? " Edzésterv neve" : " Edzés neve"}
                                     as={Input}
-                                    
+
 
                                 />
                             </div>
                             <div className={style["button-container"]}>
-                                
+
                                 <Button additionalClassName={style["nope-button"]} type="button" onClick={onCancel} color="primary">
                                     Mégse
                                 </Button>
