@@ -30,7 +30,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
     <ContentLayout header={data.gyakorlat_neve}>
       <div >
         <div className={styles.linksContainer}>
-          <Button color="primary" onClick={() => router.back()} leftIcon="ArrowLeftIcon">
+          <Button color="primary" onClick={() => router.back()} >
             vissza
           </Button>
           <Button color="secondary" href={`/rekordok`}>
@@ -98,7 +98,7 @@ const GyakorlatDataSheet: React.FC<GyakorlatDataSheetProps> = ({ data }) => {
                 <Text variant="subtitle-16">
                   Gyakorlat leírása :
                 </Text>
-                <Text variant="body-16">{data.gyakorlat_leiras}</Text>
+                <Text className="mr-4 text-justify" variant="body-16">{data.gyakorlat_leiras}</Text>
               </div>
             </div>
             <div className={styles.svgContainer}>

@@ -14,27 +14,26 @@ import { useToast } from "@/hooks";
 import Weight from "@/components/client/WeightSum/Weight";
 import { MusclePieChart } from "@/components/client";
 import { FormikSelect } from "@/components/client/_inputs";
-// import { useRouter } from "next/router";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 const TestPage: React.FC = () => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .required("Name is required")
-      .min(3, "Name must be at least 3 characters"),
+      .required("A szövegmező kitöltése kötelező")
+      .min(3, "Minimum 3 karaktert kell tartalmaznia"),
   }); 
 
   const toast = useToast();
 
   const handleClick = () => {
-    toast.info("asd");
+    toast.info("Info toast üzenet");
   }
    
   return (
     
-    <div className="flex flex-wrap">
-      <Weight weight={100} />
+    <div className="flex flex-wrap  max-w-[1200px]  gap-4 p-4">
+      <div>
 
       <Text variant="h1">Test Page</Text>
       <Text variant="h2">Test Page</Text>
@@ -47,6 +46,7 @@ const TestPage: React.FC = () => {
       <Text variant="body-16">Test Page</Text>
       <Text variant="button">Test Page</Text>
       <Text variant="caption">Test Page</Text>
+      </div>
       <div className="flex flex-row gap-2 flex-wrap ">
         <Button>Test Button</Button>
         <Button leftIcon="ArrowLeftIcon" >Test Button</Button>
@@ -62,7 +62,7 @@ const TestPage: React.FC = () => {
         initialValues={{ name: "" }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          toast.success("asd");
+          toast.success("Sikeres form submit");
           console.log(values);
         }}
       >
@@ -72,17 +72,20 @@ const TestPage: React.FC = () => {
               name="name"
               as={Input}
               type="password"
-              label={"Hello"}
-              placeholder={"Write here..."}
+              label={"Hello én egy label vagyok"}
+              placeholder={"ide írj..."}
             />
           </div>
           <Button color="secondary" type="submit">
-            Submit
+            Beküldés
           </Button>
         </Form>
       </Formik>
 
-        <Button onClick={handleClick}>Toast</Button>
+        <Button onClick={handleClick}> info Toast</Button>
+        <Button onClick={()=> toast.error("hiba toast")}>hiba Toast</Button>
+        <Button onClick={()=> toast.success("siker toast")}>siker Toast</Button>
+        <Button onClick={()=> toast.warning("warning toast")}>veszély Toast</Button>
       
       <Icons.WarningIcon  size={100}  />
       <Icons.InfoIcon  size={100}  />
@@ -110,11 +113,11 @@ const TestPage: React.FC = () => {
       <BodySVG 
   size={300}
   
-  view={"front"} // "front" or "back"
-  selectedMuscleIds={[4]} // Primary highlights (hasizom, mellizom)
-  secondaryMuscleIds={[2, 6]} // Secondary highlights (combhajlito, tricepsz)
-  highlightColor="var(--color-error)" // Primary highlight color
-  secondaryHighlightColor="var(--color-warning)" // Secondary highlight color
+  view={"front"} 
+  selectedMuscleIds={[4]} 
+  secondaryMuscleIds={[2, 6]}
+  highlightColor="var(--color-error)" 
+  secondaryHighlightColor="var(--color-warning)"
 />
 <div>
   <Flag izomcsoportok={[1,2,3,4]} foizomcsoport={8} />
