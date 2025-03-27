@@ -9,7 +9,7 @@ import GyakorlatComparisonBlock from "../GyakorlatComparisonBlock/GyakorlatCompa
 import useEdzes from "@/hooks/useEdzes";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import {  useToast } from "@/hooks";
+import { useToast } from "@/hooks";
 import ConfirmationModal from "../_modal/ConfirmationModal/ConfirmationModal";
 import { useState } from "react";
 import { StopWatch } from "..";
@@ -180,6 +180,66 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
     const [isDeleteEdzesConfirmModalOpen, setIsDeleteEdzesConfirmModalOpen] = useState(false);
 
+    const currentEdzesID = localStorage.getItem("currentEdzesID");
+    const isSameAsLocal = currentEdzesID === String(data.edzes_id);
+    const isDateToday = isToday(new Date(data.datum));
+
+    const renderEdzesButtonDesktop = () => {
+        if (data.isFinalized) {
+            return (
+                <Button additionalClassName={styles.singleButtonDesktop} onClick={cloneEdzesWithoutSets} width={420} rightIcon="PlayRightIcon">
+                    Edzés újrahasználása
+                </Button>
+            );
+        } else if (!isDateToday) {
+            return (
+                <Button additionalClassName={styles.singleButtonDesktop} disabled rightIcon="PlayRightIcon" width={420}>
+                    Edzés kezdése
+                </Button>
+            );
+        } else if (isSameAsLocal) {
+            return (
+                <Button additionalClassName={styles.singleButtonDesktop} href={`/edzesek/${data.edzes_id}/szerkeszt`} width={420} rightIcon="VisibilityOnIcon">
+                    Edzés folytatása
+                </Button>
+            );
+        } else {
+            return (
+                <Button additionalClassName={styles.singleButtonDesktop} href={`/edzesek/${data.edzes_id}/szerkeszt`} width={420} rightIcon="PlayRightIcon">
+                    Edzés kezdése
+                </Button>
+            );
+        }
+    };
+
+    const renderEdzesButtonMobile = () => {
+        if (data.isFinalized) {
+            return (
+                <Button additionalClassName={styles.singleButtonMobile} onClick={cloneEdzesWithoutSets} rightIcon="PlayRightIcon">
+                    Új Edzés Kezdése
+                </Button>
+            );
+        } else if (!isDateToday) {
+            return (
+                <Button additionalClassName={styles.singleButtonMobile} disabled>
+                    Edzés kezdése
+                </Button>
+            );
+        } else if (isSameAsLocal) {
+            return (
+                <Button additionalClassName={styles.singleButtonMobile} href={`/edzesek/${data.edzes_id}/szerkeszt`} rightIcon="VisibilityOnIcon">
+                    Edzés Folytatása
+                </Button>
+            );
+        } else {
+            return (
+                <Button additionalClassName={styles.singleButtonMobile} href={`/edzesek/${data.edzes_id}/szerkeszt`} rightIcon="PlayRightIcon">
+                    Edzés kezdése
+                </Button>
+            );
+        }
+    };
+
 
 
     return <>
@@ -198,18 +258,14 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                 <div className={styles.buttons}>
 
                     <div className={styles.doubleButtonDesktop} >
-                        {data.isFinalized ? (
-                            <Button additionalClassName={styles.singleButtonDesktop} onClick={cloneEdzesWithoutSets} width={420} rightIcon="PlayRightIcon">Új Edzés Kezdése</Button>
-                        ) : (
-                            <Button additionalClassName={styles.singleButtonDesktop} href={`/edzesek/${data.edzes_id}/szerkeszt`} width={420} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
-                        )}
+                        {renderEdzesButtonDesktop()}
                         <div className="flex justify-between w-full ">
-                    
-                                <Button width={200} color="primary" onClick={() => handleBack()}>Vissza</Button>
-                            <Button 
-                                width={ 200}
-                                color="secondary" 
-                                onClick={handleOpenDeleteConfirm} 
+
+                            <Button width={200} color="primary" onClick={() => handleBack()}>Vissza</Button>
+                            <Button
+                                width={200}
+                                color="secondary"
+                                onClick={handleOpenDeleteConfirm}
                                 rightIcon="TrashCanIcon"
                             >
                                 Törlés
@@ -220,26 +276,22 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
 
                     <div className={styles.doubleButtonMobile} >
-                        {data.isFinalized ? (
-                            <Button additionalClassName={styles.singleButtonMobile} onClick={cloneEdzesWithoutSets} rightIcon="PlayRightIcon">Új Edzés Kezdése</Button>
-                        ) : (
-                            <Button additionalClassName={styles.singleButtonMobile} href={`/edzesek/${data.edzes_id}/szerkeszt`} onClick={cloneEdzesWithoutSets} rightIcon="VisibilityOnIcon">Edzés Folytatása</Button>
-                        )}
+                        {renderEdzesButtonMobile()}
 
-                    
-                            <Button 
-                                additionalClassName={styles.btnmobileresponsive} 
-                                rightIcon="ArrowLeftIcon" 
-                                color="primary" 
-                                onClick={() => handleBack()}
-                            >
-                                Vissza
-                            </Button>
-                        <Button 
-                            additionalClassName={styles.btnmobileresponsive} 
-                            style={{marginTop: '1rem'}} 
-                            onClick={handleOpenDeleteConfirm} 
-                            color="secondary" 
+
+                        <Button
+                            additionalClassName={styles.btnmobileresponsive}
+                          
+                            color="primary"
+                            onClick={() => handleBack()}
+                        >
+                            Vissza
+                        </Button>
+                        <Button
+                            additionalClassName={styles.btnmobileresponsive}
+                            style={{ marginTop: '1rem' }}
+                            onClick={handleOpenDeleteConfirm}
+                            color="secondary"
                             rightIcon="TrashCanIcon"
                         >
                             Törlés
@@ -256,11 +308,11 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
                     <UnderLinedText lineLength={220} text="Gyakorlatok"></UnderLinedText>
                 </div>
                 {data.gyakorlatok.length == 0 && (
-                  <>
-                    <Text className={styles["no-gyak-text"]} variant="h5">
-                      Az edzés jelenleg még nem tartalmaz gyakorlatokat
-                    </Text>
-                  </>
+                    <>
+                        <Text className={styles["no-gyak-text"]} variant="h5">
+                            Az edzés jelenleg még nem tartalmaz gyakorlatokat
+                        </Text>
+                    </>
                 )}
                 {data.gyakorlatok.map((gyakorlat) => (
                     <GyakorlatComparisonBlock
@@ -276,3 +328,12 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 }
 
 export default EdzesView;
+
+function isToday(date: Date): boolean {
+    const today = new Date();
+    return (
+        date.getDate() === today.getDate() &&
+        date.getMonth() === today.getMonth() &&
+        date.getFullYear() === today.getFullYear()
+    );
+}
