@@ -1,15 +1,15 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './Navbar.module.scss';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 import { Text } from '@/components/server';
 import { signOut, useSession } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ConfirmationModal, Modal } from "../_modal";
 import { useEdzes, useModal } from '@/hooks';
 import { NewEdzesForm } from '../_forms';
-import router, { useRouter } from 'next/router';
+
 import { toast } from 'react-toastify';
 
 const Navbar: React.FC = () => {
@@ -20,13 +20,15 @@ const Navbar: React.FC = () => {
     const mobileToggleRef = useRef<HTMLButtonElement>(null);
     const { data: session } = useSession();
     const pathname = usePathname();
-   
-    
+    const router = useRouter();
+
+    const startModal = useModal();
+
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const logoutmodal = useModal();
+    const [template, setTemplate] = useState(false);
 
-    
     const toggleMenu = () => {
         setMenuOpen((prevOpen) => !prevOpen);
         console.log('Toggle clicked. Menu open:', !menuOpen);
@@ -34,25 +36,41 @@ const Navbar: React.FC = () => {
 
     const handleLogout = () => {
         signOut({ callbackUrl: "/bejelentkezes" });
-        
+
         logoutmodal.close();
     };
-    
-    const { data: todaysWorkout, isLoading } = useEdzes.findOneByDate(session?.user.user_id!, new Date().toISOString());
-    
+
+    const currentDate = useMemo(() => new Date().toISOString(), []);
+    const currentEdzesID = localStorage.getItem("currentEdzesID");
+    const { data: todaysWorkout, isLoading } = useEdzes.findOneByDate(session?.user.user_id!, currentDate);
+
+
     const handleNewEdzes = () => {
         console.log(todaysWorkout)
+
+
         if (todaysWorkout && todaysWorkout.isFinalized == false) {
-            router.push(`/edzesek/${todaysWorkout.edzes_id}/szerkeszt`)
+            if (currentEdzesID !== todaysWorkout.edzes_id.toString()) {
+                
+                startModal.open()
+            }
+            else {
+
+                router.push(`/edzesek/${todaysWorkout?.edzes_id}/szerkeszt`)
+            }
         }
         else if (todaysWorkout?.isFinalized) {
-            toast.info("A mai edzés már befejeződött")
+            toast.info("A mai napi edzés már befejeződött")
         }
-        else {
+        else if (!todaysWorkout) {
+            setTemplate(false)
             setIsModalOpen(true)
         }
+    }
 
-
+    const handleNewEdzesTerv = () => {
+        setTemplate(true)
+        setIsModalOpen(true)
     }
 
     useEffect(() => {
@@ -78,7 +96,9 @@ const Navbar: React.FC = () => {
             document.removeEventListener("click", handleClickOutside);
         };
     }, [menuOpen]);
-
+    const routetocurrentedzes = () => {
+        router.push(`/edzesek/${todaysWorkout?.edzes_id}/szerkeszt`)
+    }
     return (
         <>
             {/* Desktop navbar */}
@@ -113,9 +133,10 @@ const Navbar: React.FC = () => {
                 {/* Menu items */}
                 <div className={styles["menuContent"]}>
                     <Button onClick={handleNewEdzes} rightIcon="DumbellIcon" iconProps={{ size: 45 }} width={350} style={{ marginBottom: 20 }}>
-                        Edzés Kezdése
+                        {Number(currentEdzesID) === todaysWorkout?.edzes_id && todaysWorkout?.isFinalized == false ? "Edzés Folytatása" : "Edzés Kezdése"}
+
                     </Button>
-                    <Button rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width={350} color="secondary" style={{ marginBottom: 20 }}>
+                    <Button onClick={handleNewEdzesTerv} rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width={350} color="secondary" style={{ marginBottom: 20 }}>
                         Új EdzésTerv
                     </Button>
                     <Text variant="h5" style={{ marginBottom: 20 }}>Saját gyűlytemény</Text>
@@ -181,10 +202,10 @@ const Navbar: React.FC = () => {
             >
                 <div className={styles.innerMenu}>
                     {/* Menu items */}
-                    <Button additionalClassName={styles.mobilebutton} rightIcon="DumbellIcon" iconProps={{ size: 45 }} width="90%" style={{ marginBottom: 20 }}>
-                        Edzés Kezdése
+                    <Button  onClick={handleNewEdzes} additionalClassName={styles.mobilebutton} rightIcon="DumbellIcon" iconProps={{ size: 45 }} width="90%" style={{ marginBottom: 20 }}>
+                        {Number(currentEdzesID) === todaysWorkout?.edzes_id && todaysWorkout?.isFinalized == false ? "Edzés Folytatása" : "Edzés Kezdése"}
                     </Button>
-                    <Button additionalClassName={styles.mobilebutton} rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width="90%" color="secondary" style={{ marginBottom: 20 }}>
+                    <Button  onClick={handleNewEdzesTerv} additionalClassName={styles.mobilebutton} rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width="90%" color="secondary" style={{ marginBottom: 20 }}>
                         Új EdzésTerv
                     </Button>
                     <Text variant="h5" style={{ marginBottom: 20 }}>
@@ -209,15 +230,11 @@ const Navbar: React.FC = () => {
             <Modal
                 visible={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-
-                showCloseButton={false}
-
-
-            >
-
-                <NewEdzesForm onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />
-
+                showCloseButton={false}>
+                <NewEdzesForm template={template}  onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />
             </Modal>
+
+            <ConfirmationModal visible={startModal.visible} onConfirm={routetocurrentedzes} title="Biztosan el szeretné indítani a mai edzését?" onCancel={startModal.close}/>
         </>
     );
 };
