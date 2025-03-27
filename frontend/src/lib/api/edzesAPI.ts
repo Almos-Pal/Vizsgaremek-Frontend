@@ -26,51 +26,67 @@ const edzesAPI = {
     edzes_neve,
     gyakorlatok,
     isTemplate,
-    gyakorlat_id= null,
+    gyakorlat_id = null,
     orderBy,
-  }: FetchEdzesekParams = {}): Promise<PaginatedResponse<Edzes>> => {
+    token, 
+  }: FetchEdzesekParams & { token?: string } = {}): Promise<PaginatedResponse<Edzes>> => {
+    
     const params: Record<string, string> = {
       page: page.toString(),
       limit: limit.toString(),
       orderBy: orderBy?.toString() || "desc",
     };
-    if (user_id ) params.user_id = user_id.toString();
+    if (user_id) params.user_id = user_id.toString();
     if (gyakorlat_id) params.gyakorlat_id = gyakorlat_id.toString();
-
     if (isTemplate) params.isTemplate = isTemplate.toString();
-    if(orderBy) params.orderBy = orderBy;
-    
-    if (favoriteExercises) params.favoriteExercises = favoriteExercises.toString();;
+    if (orderBy) params.orderBy = orderBy;
+    if (favoriteExercises) params.favoriteExercises = favoriteExercises.toString();
     if (edzes_neve) params.edzes_neve = edzes_neve;
     if (gyakorlatok?.length) params.gyakorlatok = gyakorlatok.join(',');
     
     const query = new URLSearchParams(params).toString();
-    const response = await fetch(`http://localhost:8000/edzes?${query}`);
-
+    const response = await fetch(`http://localhost:8000/edzes?${query}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
+    });
+  
     if (!response.ok) {
       throw new Error('Error fetching data');
     }
-
+  
     return response.json() as unknown as PaginatedResponse<Edzes>;
   },
+  
 
-  fetchEdzes: async (id: number): Promise<Edzes> => {
-    const response = await fetch(`http://localhost:8000/edzes/${id}`);
+  fetchEdzes: async (id: number, token?: string): Promise<Edzes> => {
+    const response = await fetch(`http://localhost:8000/edzes/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
+    });
 
+    const data = await response.json();
+    
     if (!response.ok) {
-      throw new Error('Error fetching data');
+      const error = new Error(data.message || 'Error fetching edzes') as any;
+        error.status = response.status;
+        throw error;
     }
 
-    return response.json() as unknown as Edzes;
+    return data;
   },
 
-  createEdzes: async (newEdzes: any) => {
+  createEdzes: async (newEdzes: any, token?: string) => {
     
 
     const response = await fetch('http://localhost:8000/edzes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
       },
       body: JSON.stringify(newEdzes),
     });
@@ -86,11 +102,12 @@ const edzesAPI = {
     return response.json();
   },
 
-  updateEdzes: async (id: number, updatedEdzes: any) => {
+  updateEdzes: async (id: number, updatedEdzes: any, token?: string) => {
     const response = await fetch(`http://localhost:8000/edzes/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
       },
       body: JSON.stringify(updatedEdzes),
     });
@@ -102,11 +119,12 @@ const edzesAPI = {
     return response.json();
   },
 
-  deleteEdzes: async (id: number) => {
+  deleteEdzes: async (id: number, token?: string) => {
     const response = await fetch(`http://localhost:8000/edzes/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
       },
     });
 
@@ -118,11 +136,12 @@ const edzesAPI = {
   },
 
   
-  addGyakorlatToEdzes: async (edzesId: number, userId: number, gyakorlatId: number) => {
+  addGyakorlatToEdzes: async (edzesId: number, userId: number, gyakorlatId: number, token?: string) => {
     const response = await fetch(`http://localhost:8000/edzes/${edzesId}/gyakorlat/${userId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
       },
       body: JSON.stringify({ gyakorlat_id: gyakorlatId }),
     });
@@ -134,13 +153,14 @@ const edzesAPI = {
     return response.json();
   },
 
-  deleteGyakorlatFromEdzes: async (edzesId: number, gyakorlatId: number, userId: number) => {
+  deleteGyakorlatFromEdzes: async (edzesId: number, gyakorlatId: number, userId: number, token?: string) => {
     const response = await fetch(
       `http://localhost:8000/edzes/${edzesId}/gyakorlat/${gyakorlatId}/${userId}`,
       {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         },
       }
     );
@@ -157,11 +177,12 @@ const edzesAPI = {
     return response.json();
   },
 
-  addSetToGyakorlatInEdzes: async (edzes_id: number, gyakorlatId: number, userId: number, setDetails: { set_szam: number; weight: number; reps: number }) => {
+  addSetToGyakorlatInEdzes: async (edzes_id: number, gyakorlatId: number, userId: number, setDetails: { set_szam: number; weight: number; reps: number }, token?: string) => {
     const response = await fetch(`http://localhost:8000/edzes/${edzes_id}/gyakorlat/${gyakorlatId}/set/${userId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
       },
       body: JSON.stringify(setDetails),
     });
@@ -178,7 +199,8 @@ const edzesAPI = {
     gyakorlatId: number,
     setId: number,
     userId: number,
-    updateDetails: { weight: number; reps: number }
+    updateDetails: { weight: number; reps: number },
+    token?: string
   ) => {
     const response = await fetch(
       `http://localhost:8000/edzes/${edzes_id}/gyakorlat/${gyakorlatId}/set/${setId}/${userId}`,
@@ -186,6 +208,7 @@ const edzesAPI = {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         },
         body: JSON.stringify(updateDetails), 
       }
@@ -202,7 +225,8 @@ const edzesAPI = {
     edzes_id: number,
     gyakorlatId: number,
     setId: number,
-    userId: number
+    userId: number,
+    token?: string
   ) => {
     const response = await fetch(
       `http://localhost:8000/edzes/${edzes_id}/gyakorlat/${gyakorlatId}/set/${setId}/${userId}`,
@@ -210,6 +234,7 @@ const edzesAPI = {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         },
       }
     );
@@ -221,11 +246,12 @@ const edzesAPI = {
     return response.json();
   },
 
-  createEdzesTemplate: async (templateId:number, userId:number, date:string ) => {
+  createEdzesTemplate: async (templateId:number, userId:number, date:string, token?: string ) => {
     const response = await fetch(`http://localhost:8000/edzes/template/${templateId}/${userId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
       },
       body: JSON.stringify({ date }),
       
@@ -237,11 +263,12 @@ const edzesAPI = {
     return response.json();
   },
 
-  changeEdzesFinalizedStatus: async (edzesId: number, userId: number, finalized: boolean) => {
+  changeEdzesFinalizedStatus: async (edzesId: number, userId: number, finalized: boolean, token?: string) => {
     const response = await fetch(`http://localhost:8000/edzes/${edzesId}/finalize/${userId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
       },
       body: JSON.stringify({ finalized }),
     });
@@ -252,8 +279,15 @@ const edzesAPI = {
 
     return response.json();
   },
-  fetchEdzesIntervallum: async (userId: number, startDate: string, endDate: string) => {
-    const response = await fetch(`http://localhost:8000/edzes/intervallum?user_id=${userId}&startDate=${startDate}&endDate=${endDate}`);
+
+
+  fetchEdzesIntervallum: async (userId: number, startDate: string, endDate: string, token?: string) => {
+    const response = await fetch(`http://localhost:8000/edzes/intervallum?user_id=${userId}&startDate=${startDate}&endDate=${endDate}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
+    });
 
     if (!response.ok) {
       throw new Error('Error fetching data');
@@ -261,9 +295,16 @@ const edzesAPI = {
     
     return response.json() as unknown as Edzes[];
   },
-  fetchTenDays: async (userId: number,gyakorlat:number) => {
 
-    const response = await fetch(`http://localhost:8000/edzes/ten?userId=${userId}&gyakorlat=${gyakorlat}`);
+
+  fetchTenDays: async (userId: number,gyakorlat:number, token?: string) => {
+
+    const response = await fetch(`http://localhost:8000/edzes/ten?userId=${userId}&gyakorlat=${gyakorlat}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
+    });
 
     if (!response.ok) {
       throw new Error('Error fetching data');
@@ -273,7 +314,7 @@ const edzesAPI = {
   },
   
 
-  fetchEdzesekChosenDate: async (userId: number, type:string) => {
+  fetchEdzesekChosenDate: async (userId: number, type:string, token? : string) => {
     const params = {
       page: "1",
       limit:"100",
@@ -282,7 +323,12 @@ const edzesAPI = {
     };
     const query = new URLSearchParams(params).toString();
 
-    const response = await fetch(`http://localhost:8000/edzes/intervallum?${query}`);
+    const response = await fetch(`http://localhost:8000/edzes/intervallum?${query}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
+    });
 
     if (!response.ok) {
       throw new Error('Error fetching data');
@@ -291,8 +337,13 @@ const edzesAPI = {
     return response.json() as unknown as Edzes[];
   },
 
-  fetchCurrentWeek: async (userId: number) => {
-    const response = await fetch(`http://localhost:8000/edzes/current-week/${userId}`);
+  fetchCurrentWeek: async (userId: number, token?: string ) => {
+    const response = await fetch(`http://localhost:8000/edzes/current-week/${userId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
+    });
 
     if (!response.ok) {
       throw new Error('Error fetching data');
@@ -300,8 +351,13 @@ const edzesAPI = {
     
     return response.json() as unknown as CurrentWeekEdzes;
   },
-  findOneByDate: async (userId: number, date: string) => {
-    const response = await fetch(`http://localhost:8000/edzes/napi?userId=${userId}&date=${date}`);
+  findOneByDate: async (userId: number, date: string, token?: string) => {
+    const response = await fetch(`http://localhost:8000/edzes/napi?userId=${userId}&date=${date}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
+    });
 
     if (!response.ok) {
       throw new Error('Error fetching data');

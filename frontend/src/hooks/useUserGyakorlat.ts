@@ -1,5 +1,6 @@
 import userGyakorlatAPI from "@/lib/api/userGyakorlatAPI";
 import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
 interface GetRecordsParams {
     page?: number;
@@ -10,12 +11,17 @@ interface GetRecordsParams {
 
   }
 
+export const useToken = () => {
+  const { data: session } = useSession();
+  return session?.backendTokens?.accessToken;
+};
 
 const useUserGyakorlat = {
     getRecords: (params: GetRecordsParams) => {
+        const token = useToken();
         return useQuery({
             queryKey: ['userGyakorlat', params],
-            queryFn: () => userGyakorlatAPI.fetchUserGyakorlatok(params),
+            queryFn: () => userGyakorlatAPI.fetchUserGyakorlatok(params, token),
         });
     },
     
@@ -24,9 +30,10 @@ const useUserGyakorlat = {
         page?: number;
         limit?: number;
     }= {}) => {
+      const token = useToken();
         return useQuery({
           queryKey: ['user-gyakorlatok/user', params],
-          queryFn: () => userGyakorlatAPI.fetchUserGyakorlatokAll(params),
+          queryFn: () => userGyakorlatAPI.fetchUserGyakorlatokAll(params, token),
         });
       },
 }
