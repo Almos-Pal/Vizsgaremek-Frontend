@@ -25,11 +25,12 @@ interface NewEdzesFormProps {
     onError?: (error: any) => void;
     onCancel: () => void;
     template?: boolean;
+    headertext?: string;
 }
 
 
 
-const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel, template }) => {
+const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel, template, headertext }) => {
     const validationSchema = Yup.object().shape({
         edzes_neve: Yup.string()
             .required(template ? "Az edzésterv nevének megadása kötelező" : "Az edzés nevének megadása kötelező")
@@ -88,6 +89,7 @@ const NewEdzesForm: React.FC<NewEdzesFormProps> = ({ onSuccess, onCancel, templa
                 {({ isSubmitting }) => (
                     <Form>
                         <div style={{ marginBottom: "1.5rem" }}>
+                            <Text variant="h2">{headertext}</Text>
                             <Text style={{ marginBottom: '1.5rem' }} variant="h4">Adja meg az  {template ? " edzésterv" : " edzés"} nevét</Text>
                             <div style={{ marginBottom: "1.5rem", width: "100%", marginLeft: "auto", marginRight: "auto", maxWidth: "390px" }}>
                                 <FormField

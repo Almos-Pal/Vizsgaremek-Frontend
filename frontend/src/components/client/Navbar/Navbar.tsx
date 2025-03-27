@@ -7,8 +7,10 @@ import { Text } from '@/components/server';
 import { signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { ConfirmationModal, Modal } from "../_modal";
-import { useModal } from '@/hooks';
+import { useEdzes, useModal } from '@/hooks';
 import { NewEdzesForm } from '../_forms';
+import router, { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -18,12 +20,13 @@ const Navbar: React.FC = () => {
     const mobileToggleRef = useRef<HTMLButtonElement>(null);
     const { data: session } = useSession();
     const pathname = usePathname();
-
+   
+    
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const logoutmodal = useModal();
 
-
+    
     const toggleMenu = () => {
         setMenuOpen((prevOpen) => !prevOpen);
         console.log('Toggle clicked. Menu open:', !menuOpen);
@@ -31,15 +34,25 @@ const Navbar: React.FC = () => {
 
     const handleLogout = () => {
         signOut({ callbackUrl: "/bejelentkezes" });
-
+        
         logoutmodal.close();
     };
-
+    
+    const { data: todaysWorkout, isLoading } = useEdzes.findOneByDate(session?.user.user_id!, new Date().toISOString());
+    
     const handleNewEdzes = () => {
+        console.log(todaysWorkout)
+        if (todaysWorkout && todaysWorkout.isFinalized == false) {
+            router.push(`/edzesek/${todaysWorkout.edzes_id}/szerkeszt`)
+        }
+        else if (todaysWorkout?.isFinalized) {
+            toast.info("A mai edzés már befejeződött")
+        }
+        else {
+            setIsModalOpen(true)
+        }
 
-        setIsModalOpen(true)
 
-        
     }
 
     useEffect(() => {
