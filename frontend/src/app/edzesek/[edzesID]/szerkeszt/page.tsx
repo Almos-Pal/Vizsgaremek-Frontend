@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Loading } from "@/components/client/Loading/Loading";
 import { useToast } from "@/hooks";
 import Image from "next/image";
+import { ErrorPage } from "@/components/client";
 
 interface PageParams {
   edzesID: string;
@@ -24,8 +25,10 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
   const edzesID = parseInt(resolvedParams.edzesID);
   const router = useRouter();
   const toast = useToast();
+
   const { data, isLoading, error } = useEdzes.getEdzes(edzesID);
 
+  const isLoadingData = isLoading || !data;
 
   function isToday(date: Date): boolean {
     const today = new Date();
@@ -36,72 +39,60 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
     );
   }
 
-  const isDateToday = isToday(new Date(data?.datum!));
+  const isDateToday = data ? isToday(new Date(data.datum)) : true;
+
 
   useEffect(() => {
-    if (!isDateToday) {
+    if (!isLoadingData && !isDateToday) {
+      toast.error("Ez az edzés nem szerkeszthető a mai napon");
       const timeout = setTimeout(() => {
-        router.push('/edzesek');
-      }, 2000);
-      toast.error("Ez az edzés nem szerkeszthető a mai napon")
+        router.back();
+      }, 2500);
       return () => clearTimeout(timeout);
     }
-  }, [isDateToday, router]);
-
-  if (!isDateToday) {
-    return (
-
-      <div className="flex justify-center items-center flex-col h-screen ">
-
-        <div className="animate-bounce ">
-          <Image
-            src="/errorSVG.svg"
-            alt="belsőtéri bicikli"
-            width={200}
-            height={200}
-          />
-        </div>
-      </div>
-
-
-
-
-    );
-  }
+  }, [isDateToday, isLoadingData, router]);
 
 
   useEffect(() => {
-    if (data && data.isFinalized) {
+    if (data?.isFinalized) {
       router.push(`/edzesek/${edzesID}?fromFinalize=true`);
-    }
-    else if (data?.isTemplate == true) {
+    } else if (data?.isTemplate === true) {
       router.push('/edzestervek');
     }
   }, [data, router, edzesID]);
 
+
   useEffect(() => {
+    if (data) {
+      localStorage.setItem("currentEdzesID", data.edzes_id.toString());
+    }
+  }, [data]);
 
-    localStorage.setItem("currentEdzesID", data?.edzes_id.toString()!);
-  }, [data])
-
-  if (isLoading) {
+  // Show loading spinner
+  if (isLoadingData) {
     return (
-      <ContentLayout
-      >
-        <div className="flex justify-center items-center flex-col ">
+      <ContentLayout>
+        <div className="flex justify-center items-center flex-col">
           <Loading hasParent />
         </div>
       </ContentLayout>
-    )
+    );
   }
+
+
+  if (!isDateToday) {
+    return <ErrorPage />;
+  }
+
 
   if (error || !data) {
     return (
       <div>
-        <Text>Hiba akadt az edzések legkérdezésénél</Text>
+        <Text>Hiba akadt az edzések lekérdezésénél</Text>
       </div>
     );
   }
+
 
   return (
     <ContentLayout header={data.edzes_neve} subheader={<Stopwatch />}>
