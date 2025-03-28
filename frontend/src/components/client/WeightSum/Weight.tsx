@@ -12,7 +12,7 @@ const Weight: React.FC<WeightProps> = ({ weight, dashboard }) => {
         <div className={dashboard ? styles.dashboardContainer : styles.container}>
             {!dashboard && (
                 <Text className={styles.title} variant='h4'>
-                Összesített súly leedzve
+                Leedzett súly
                 </Text>
             )}
             <Text className={styles.value} variant={dashboard ? 'h2' : 'h1'}>
