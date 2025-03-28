@@ -6,25 +6,49 @@
 
 .desktopnavbar {
   background-color: var(--color-grey-500);
-  align-items: center;
-  padding: 1rem 0;
-  justify-content: center;
-  gap: 3rem;
+  width: 9rem;
+  height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
-  border-radius: 0 1rem 1rem 0;
-  width: 9rem;
-  height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+  border-radius: 0 1rem 1rem 0;
   z-index: 1000;
-  
 
   @include mobile {
     display: none;
   }
 }
+
+.logoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-bottom: 2rem;
+}
+
+
+.repvault{
+  text-shadow: -1.5px 0 0 var(--color-primary-50);
+  
+}
+
+.navItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  flex-grow: 1;         
+  justify-content: center; 
+  width: 100%;
+}
+
+
 
 // Use separate classes for the desktop menu:
 .desktopMenu {

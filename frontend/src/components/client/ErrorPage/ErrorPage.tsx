@@ -10,7 +10,7 @@ const ErrorPage = () => {
                 <div className="animate-float">
                     <Image
                         src="/errorSVG.svg"
-                        alt="belsőtéri bicikli"
+                        alt="Error"
                         width={750}
                         height={750}
                     />

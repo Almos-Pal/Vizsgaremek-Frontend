@@ -9,6 +9,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ConfirmationModal, Modal } from "../_modal";
 import { useEdzes, useModal } from '@/hooks';
 import { NewEdzesForm } from '../_forms';
+import Image from 'next/image'
+
 
 import { toast } from 'react-toastify';
 
@@ -51,7 +53,7 @@ const Navbar: React.FC = () => {
 
         if (todaysWorkout && todaysWorkout.isFinalized == false) {
             if (currentEdzesID !== todaysWorkout.edzes_id.toString()) {
-                
+
                 startModal.open()
             }
             else {
@@ -96,33 +98,58 @@ const Navbar: React.FC = () => {
             document.removeEventListener("click", handleClickOutside);
         };
     }, [menuOpen]);
+
     const routetocurrentedzes = () => {
         router.push(`/edzesek/${todaysWorkout?.edzes_id}/szerkeszt`)
     }
+
+
+    const [logoSrc, setLogoSrc] = useState("/repvaultLogo.svg");
+
+    useEffect(() => {
+        const chance = Math.floor(Math.random() * 100);
+        if (chance === 0) {
+            setLogoSrc("/premiumLogo.svg");
+        }
+    }, []);
+
     return (
         <>
             {/* Desktop navbar */}
             <nav className={styles.desktopnavbar}>
-                <IconButton icon="HomeIcon" color={pathname === '/dashboard' ? 'secondary' : 'transparent'}
-                    iconProps={{ size: 40 }} href={`/dashboard`} />
-                <IconButton icon="ProfileIcon" color={pathname === `/profil/${session?.user.user_id}` ? 'secondary' : 'transparent'}
-                    href={`/profil/${session?.user.user_id}`} iconProps={{ size: 50 }} />
-                <IconButton
-                    icon="AddIcon"
-                    color="secondary"
-                    iconProps={{ size: 60 }}
-                    onClick={toggleMenu}
-                />
-                <IconButton href={'/statisztika'} icon="ChartIcon" color={pathname === '/statisztika' ? 'secondary' : 'transparent'}
-                    iconProps={{ size: 40 }} />
-                <IconButton
-                    icon="LogoutIcon"
-                    color="transparent"
-                    iconProps={{ size: 40 }}
-                    style={{ paddingLeft: '15px' }}
-                    onClick={() => logoutmodal.open()}
-                />
+                <div className={styles.logoContainer}>
+                    <Image
+                        src={logoSrc}
+                        alt='Repvault Logo'
+                        width={38}
+                        height={38}
+                    />
+                    <Text className={styles["repvault"]} variant='h5'>Repvault</Text>
+                </div>
+
+                <div className={styles.navItems}>
+                    <IconButton icon="HomeIcon" color={pathname === '/dashboard' ? 'secondary' : 'transparent'}
+                        iconProps={{ size: 40 }} href="/dashboard" />
+                    <IconButton icon="ProfileIcon" color={pathname === `/profil/${session?.user.user_id}` ? 'secondary' : 'transparent'}
+                        href={`/profil/${session?.user.user_id}`} iconProps={{ size: 50 }} />
+                    <IconButton
+                        icon="AddIcon"
+                        color="secondary"
+                        iconProps={{ size: 60 }}
+                        onClick={toggleMenu}
+                    />
+                    <IconButton href={'/statisztika'} icon="ChartIcon" color={pathname === '/statisztika' ? 'secondary' : 'transparent'}
+                        iconProps={{ size: 40 }} />
+                    <IconButton
+                        icon="LogoutIcon"
+                        color="transparent"
+                        iconProps={{ size: 40 }}
+                        style={{ paddingLeft: '15px' }}
+                        onClick={() => logoutmodal.open()}
+                    />
+                </div>
             </nav>
+
 
             {/* Desktop Menu */}
             <div
@@ -202,10 +229,10 @@ const Navbar: React.FC = () => {
             >
                 <div className={styles.innerMenu}>
                     {/* Menu items */}
-                    <Button  onClick={handleNewEdzes} additionalClassName={styles.mobilebutton} rightIcon="DumbellIcon" iconProps={{ size: 45 }} width="90%" style={{ marginBottom: 20 }}>
+                    <Button onClick={handleNewEdzes} additionalClassName={styles.mobilebutton} rightIcon="DumbellIcon" iconProps={{ size: 45 }} width="90%" style={{ marginBottom: 20 }}>
                         {Number(currentEdzesID) === todaysWorkout?.edzes_id && todaysWorkout?.isFinalized == false ? "Edzés Folytatása" : "Edzés Kezdése"}
                     </Button>
-                    <Button  onClick={handleNewEdzesTerv} additionalClassName={styles.mobilebutton} rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width="90%" color="secondary" style={{ marginBottom: 20 }}>
+                    <Button onClick={handleNewEdzesTerv} additionalClassName={styles.mobilebutton} rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width="90%" color="secondary" style={{ marginBottom: 20 }}>
                         Új EdzésTerv
                     </Button>
                     <Text variant="h5" style={{ marginBottom: 20 }}>
@@ -231,10 +258,10 @@ const Navbar: React.FC = () => {
                 visible={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 showCloseButton={false}>
-                <NewEdzesForm template={template}  onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />
+                <NewEdzesForm template={template} onSuccess={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />
             </Modal>
 
-            <ConfirmationModal visible={startModal.visible} onConfirm={routetocurrentedzes} title="Biztosan el szeretné indítani a mai edzését?" onCancel={startModal.close}/>
+            <ConfirmationModal visible={startModal.visible} onConfirm={routetocurrentedzes} title="Biztosan el szeretné indítani a mai edzését?" onCancel={startModal.close} />
         </>
     );
 };

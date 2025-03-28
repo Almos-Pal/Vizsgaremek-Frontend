@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/dist/client/components/navigation';
 import {useToast} from '@/hooks'
 import { registerSchema } from '@/utils/Validations/registerSchema';
-
+import Image from 'next/image';
 import Link from 'next/link';
 
 const initialValues = {
@@ -62,6 +62,15 @@ const Register: React.FC = () => {
 
     return (
         <div className={styles.container}>
+            <div className={styles.logoContainer}>
+                    <Image
+                        src={"/repvaultLogo.svg"}
+                        alt='Repvault Logo'
+                        width={50}
+                        height={50}
+                    />
+                    <Text className={styles["repvault"]} variant='h3'>Repvault</Text>
+                </div>
             <Text className={styles.title} variant="h1">
                 Regisztráció
             </Text>
