@@ -70,6 +70,7 @@ const GyakorlatFilter: React.FC<GyakorlatFilterProps> = ({ onFilterChange }) => 
                   placeholder="Válassz fő izomcsoportot"
                   label="Fő izomcsoport szerint:"
                   options={izomcsoportOptions}
+                  notFoundMessage="Nincs ilyen izomcsoport!"
                   isClearable
                 />
 
@@ -80,6 +81,8 @@ const GyakorlatFilter: React.FC<GyakorlatFilterProps> = ({ onFilterChange }) => 
                   options={izomcsoportOptions}
                   isMulti
                   isClearable
+                  
+                  notFoundMessage="Nincs ilyen izomcsoport!"
                 />
 
                 <FormField 

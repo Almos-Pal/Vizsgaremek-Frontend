@@ -102,7 +102,7 @@ const EdzesTervekPage: React.FC = () => {
                         <div className='max-w-[750px] flex  w-full justify-self-center'>
                         <Form style={{ maxWidth: "750px",width:"100%", margin: "10px",paddingBottom:"25px", justifySelf:'center' }} >
                             <FormikSelect
-                                placeholder='ListaRendezés'
+                                placeholder='Listarendezés'
                                 name="order"
                                 options={Option}>
 

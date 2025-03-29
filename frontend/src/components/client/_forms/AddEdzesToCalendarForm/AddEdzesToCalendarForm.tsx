@@ -72,6 +72,7 @@ const toast = useToast();
                   isRequired
                   options={edzesOptions}
                   isClearable
+                  noOptionsMessage="Nincs ilyen edzésterv!"
                 />
               </div>
             <div className={styles.buttonContainer}>

@@ -87,7 +87,7 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
 
     if (id) {
       updateGyakorlat(
-        { id, values: submissionValues },
+        { id, updatedGyakorlat: submissionValues },
         {
           onSuccess: () => {
             router.push(`/gyakorlatok/${id}`);
@@ -131,6 +131,7 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
                 label="Fő izomcsoport"
                 isRequired
                 options={muscleOptions}
+                notFoundMessage="Nincs ilyen izomcsoport!"
               />
 
               <FormikSelect
@@ -140,6 +141,7 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
                 label="Izomcsoportok"
                 isRequired
                 options={muscleOptions}
+                notFoundMessage="Nincs ilyen izomcsoport!"
                 isMulti
               />
 

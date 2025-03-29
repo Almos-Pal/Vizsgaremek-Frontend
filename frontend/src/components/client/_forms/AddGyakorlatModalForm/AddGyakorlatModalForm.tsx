@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Formik, Form } from "formik";
-import { FormikSelect } from "../../_inputs"; // Adjust import path as needed
+import { FormikSelect } from "../../_inputs"; 
 import Button from "../../Button/Button";
 import useGyakorlat from "@/hooks/useGyakorlat";
 import { Gyakorlat } from '@/types';
@@ -14,7 +14,7 @@ interface AddGyakorlatModalProps {
 }
 
 interface FormValues {
-  gyakorlat: string; // Controlled value (empty string as default)
+  gyakorlat: string; 
 }
 
 const AddGyakorlatModal: React.FC<AddGyakorlatModalProps> = ({ onAdd, onCancel, existingGyakorlatIds = [] }) => {
@@ -22,13 +22,11 @@ const AddGyakorlatModal: React.FC<AddGyakorlatModalProps> = ({ onAdd, onCancel, 
 
   const { data: gyakorlatok } = useGyakorlat.getGyakorlatok({ limit: 1000 });
 
-  // Build options from fetched data...
   const gyakorlatOptions = gyakorlatok?.items?.map((gy: any) => ({
     value: gy.gyakorlat_id.toString(),
     label: gy.gyakorlat_neve,
   })) || [];
 
-  // Filter out options that are already added (compare by gyakorlat_id)
   const filteredOptions = gyakorlatOptions.filter((option) => {
     const id = parseInt(option.value, 10);
     return !existingGyakorlatIds.includes(id);

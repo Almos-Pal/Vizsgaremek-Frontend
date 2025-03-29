@@ -35,14 +35,20 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
 
 
   const totalValue = groupedData.reduce((sum, item) => sum + item.value, 0);
-
+console.log('groupedData: ', groupedData);
   return (
     <div className={styles.container}>
       <Text className={styles.title} variant="h4">
         Edzett izmok aránya
       </Text>
+      {groupedData.length === 0 ? (
+        <div className="flex justify-center items-center flex-col h-4/5">
 
-      <PieChart
+        <Text   className='justify-self-center  mb-6 text-center px-4 mt-4' variant="h5">
+          Jelenleg nincs adat az edzett izmokról
+        </Text>
+        </div>
+      ):( <PieChart
         className={styles["pieChart"]}
         width={isMobile ? 265 : 400}
         height={isMobile ? 250 : 250}
@@ -109,7 +115,8 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
 
 
 
-      </PieChart>
+      </PieChart>)}
+     
     </div>
   );
 };
