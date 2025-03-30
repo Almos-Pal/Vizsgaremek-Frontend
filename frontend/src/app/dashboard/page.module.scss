@@ -8,7 +8,6 @@
   
   @include mobile {
     width: 100%;
-    margin-bottom: 10rem; 
 
   }
 }
@@ -158,9 +157,16 @@
   @include mobile {
     min-height: auto;
     height: auto;
+
   }
 }
 
+.stats{
+  @include mobile {
+    margin-bottom: 10rem; 
+
+  }
+}
 /* Let the "TodaysWorkout" span both columns on smaller desktops if you want */
 .todaysWorkout {
   @media (max-width: 1024px) {

@@ -125,12 +125,15 @@ function TodaysWorkout() {
                             leftIcon="ArrowLeftIcon"
                             additionalClassName={`${styles.viewButton} ${styles.leftButton}`}
                         />
+                        <Link href={`/edzesek/${todaysWorkout?.edzes_id}`} className={styles.link}>
+                        
                         <BodySVG
                             size={bodySvgSize}
                             view={view}
                             selectedMuscleIds={foIzomcsoportok}
                             secondaryMuscleIds={izomcsoportok}
-                        />
+                            />
+                            </Link>
                         <Button 
                             onClick={handleViewToggle}
                             color="secondary"
