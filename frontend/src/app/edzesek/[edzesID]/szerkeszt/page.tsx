@@ -63,7 +63,7 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
 
 
   useEffect(() => {
-    if (data) {
+    if (data && isDateToday) {
       localStorage.setItem("currentEdzesID", data.edzes_id.toString());
     }
   }, [data]);
@@ -80,11 +80,8 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
   }
 
 
-  if (!isDateToday) {
-    return <ErrorPage />;
-  }
-
-
+  
+  
   if (error || !data) {
     return (
       <div>
@@ -92,13 +89,20 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
       </div>
     );
   }
-
-
+  
+  if (!isDateToday) {
+    return <ErrorPage />;
+  }
+  
   return (
-    <ContentLayout header={data.edzes_neve} subheader={<Stopwatch />}>
+    <ContentLayout
+      header={data.edzes_neve}
+      subheader={isDateToday ? <Stopwatch /> : null}
+    >
       <EdzesCreateEditForm data={data} />
     </ContentLayout>
   );
+
 };
 
 export default EdzesSzerkesztPage;

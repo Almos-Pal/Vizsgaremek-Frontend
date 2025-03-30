@@ -184,6 +184,10 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
     const isSameAsLocal = currentEdzesID === String(data.edzes_id);
     const isDateToday = isToday(new Date(data.datum));
 
+    const NotTodayEdzes = () => {
+        toast.info("A kiválasztott edzés nem a mai napra vonatkozik");
+    }
+
     const renderEdzesButtonDesktop = () => {
         if (data.isFinalized) {
             return (
@@ -193,7 +197,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
             );
         } else if (!isDateToday) {
             return (
-                <Button additionalClassName={styles.singleButtonDesktop} disabled rightIcon="PlayRightIcon" width={420}>
+                <Button additionalClassName={styles.singleButtonDesktop} onClick={NotTodayEdzes} rightIcon="PlayRightIcon" width={420}>
                     Edzés kezdése
                 </Button>
             );
