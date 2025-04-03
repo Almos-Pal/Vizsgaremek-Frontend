@@ -132,8 +132,8 @@ const EdzesTervEditForm = ({ data }: EdzesCreateEditFormProps) => {
                     <div className={styles["container"]}>
                         <FormField
                             name="edzes_neve"
-                            label="Edzés neve"
-                            placeholder="Edzés neve"
+                            label="Edzésterv neve"
+                            placeholder="Edzésterv neve"
                             as={Input}
                             isRequired
                         />
