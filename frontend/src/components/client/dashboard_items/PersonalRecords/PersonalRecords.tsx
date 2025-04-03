@@ -71,7 +71,7 @@ function PersonalRecords() {
                 {records?.meta.totalItems !== 0 ?                <Button color={"secondary"} href={"/rekordok"} rightIcon="SearchIcon" >További Rekordok </Button>
                 : 
 
-                  <Text variant='h5' className='justify-self-center  mt-6 text-center pt-8 px-4'  >Jelenleg még nincsenek rekordjai</Text>
+                  <Text variant='h5' className={styles["no-record-text"]}  >Jelenleg még nincsenek rekordjai</Text>
                   }
             </div>
 
