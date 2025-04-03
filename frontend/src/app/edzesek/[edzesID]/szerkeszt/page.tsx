@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { Loading } from "@/components/client/Loading/Loading";
 import { useToast } from "@/hooks";
 import Image from "next/image";
-import { ErrorPage } from "@/components/client";
+import { Error } from "@/components/client";
 
 interface PageParams {
   edzesID: string;
@@ -91,7 +91,7 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
   }
   
   if (!isDateToday) {
-    return <ErrorPage />;
+    return <Error />;
   }
   
   return (
