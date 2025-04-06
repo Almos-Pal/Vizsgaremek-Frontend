@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "install": "npm i react-awesome-loaders --ignore-scripts && npm rebuild --verbose sharp",
     "lint": "next lint"
   },
   "dependencies": {
