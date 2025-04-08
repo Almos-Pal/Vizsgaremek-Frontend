@@ -74,11 +74,14 @@ const Statistics: React.FC = () => {
                     </div>
                   ))}
                 </div>
-                <div className={styles["rekord-button"]}>
+              {records.meta.totalItems !==0 ?  <div className={styles["rekord-button"]}>
                   <Button href={"/rekordok"} rightIcon="SearchIcon" color="secondary">
                     Több rekord
                   </Button>
-                </div>
+                </div>: 
+
+                  <Text variant='h2' className='justify-self-center  mt-6 text-center pt-8 px-4'  >Jelenleg még nincsenek rekordjai</Text>
+                  }
               </>
             )}
           </div>

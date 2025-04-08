@@ -64,6 +64,7 @@ interface UserFilterProps {
                   <FormikSelect
                      name="isAdmin" 
                      label="Admin jog:" 
+                     notFoundMessage="Nincs ilyen jogosultság!"
                      options={[
                        { label: "Admin", value: "true" },
                        { label: "Felhasználó", value: "false" },

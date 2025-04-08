@@ -1,4 +1,5 @@
 import { Gyakorlat, PaginatedResponse } from "@/types";
+import { BACKEND_URL } from "@/utils";
 
 interface FetchGyakorlatokParams {
   page?: number;
@@ -8,7 +9,7 @@ interface FetchGyakorlatokParams {
   izomcsoportId?: number;
   izomcsoportok?: number[];
   eszkoz?: string;
- token?: string;
+  token?: string;
 }
 
 interface Izomcsoport {
@@ -17,20 +18,16 @@ interface Izomcsoport {
 }
 
 const gyakorlatApi = {
-  fetchGyakorlatok: async (
-    {
-      page = 1,
-      limit = 10,
-      userId = null,
-      nev,
-      izomcsoportId,
-      izomcsoportok,
-      eszkoz,
-      token
-      
-    }: FetchGyakorlatokParams = {},
-   
-  ): Promise<PaginatedResponse<Gyakorlat>> => {
+  fetchGyakorlatok: async ({
+    page = 1,
+    limit = 10,
+    userId = null,
+    nev,
+    izomcsoportId,
+    izomcsoportok,
+    eszkoz,
+    token,
+  }: FetchGyakorlatokParams = {}): Promise<PaginatedResponse<Gyakorlat>> => {
     const params: Record<string, string> = {
       page: page.toString(),
       limit: limit.toString(),
@@ -39,11 +36,11 @@ const gyakorlatApi = {
     if (userId !== null) params.userId = userId.toString();
     if (nev) params.nev = nev;
     if (izomcsoportId) params.izomcsoportId = izomcsoportId.toString();
-    if (izomcsoportok?.length) params.izomcsoportok = izomcsoportok.join(',');
+    if (izomcsoportok?.length) params.izomcsoportok = izomcsoportok.join(",");
     if (eszkoz) params.eszkoz = eszkoz;
 
     const query = new URLSearchParams(params).toString();
-    const response = await fetch(`http://localhost:8000/gyakorlat?${query}`, {
+    const response = await fetch(`${BACKEND_URL}/gyakorlat?${query}`, {
       headers: {
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -57,7 +54,7 @@ const gyakorlatApi = {
   },
 
   getIzomcsoportok: async (token?: string): Promise<Izomcsoport[]> => {
-    const response = await fetch(`http://localhost:8000/izomcsoport`, {
+    const response = await fetch(`${BACKEND_URL}/izomcsoport`, {
       headers: {
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -70,7 +67,7 @@ const gyakorlatApi = {
   },
 
   createGyakorlat: async (newGyakorlat: any, token?: string) => {
-    const response = await fetch(`http://localhost:8000/gyakorlat`, {
+    const response = await fetch(`${BACKEND_URL}/gyakorlat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,29 +83,28 @@ const gyakorlatApi = {
   },
 
   // gyakorlatApi.ts
-updateGyakorlat: async (
-  id: number,
-  updatedGyakorlat: any,
-  token?: string
-): Promise<Gyakorlat> => {
-  const response = await fetch(`http://localhost:8000/gyakorlat/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify(updatedGyakorlat),
-  });
+  updateGyakorlat: async (
+    id: number,
+    updatedGyakorlat: any,
+    token?: string
+  ): Promise<Gyakorlat> => {
+    const response = await fetch(`${BACKEND_URL}/gyakorlat/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(updatedGyakorlat),
+    });
 
-  if (!response.ok) {
-    throw new Error("Error updating data");
-  }
-  return response.json() as Promise<Gyakorlat>;
-},
-
+    if (!response.ok) {
+      throw new Error("Error updating data");
+    }
+    return response.json() as Promise<Gyakorlat>;
+  },
 
   getGyakorlat: async (id: number, token?: string): Promise<Gyakorlat> => {
-    const response = await fetch(`http://localhost:8000/gyakorlat/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/gyakorlat/${id}`, {
       headers: {
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -121,7 +117,7 @@ updateGyakorlat: async (
   },
 
   deleteGyakorlat: async (id: number, token?: string): Promise<Gyakorlat> => {
-    const response = await fetch(`http://localhost:8000/gyakorlat/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/gyakorlat/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

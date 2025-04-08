@@ -5,11 +5,9 @@
   display: flex;
   min-height: 100vh;
   margin: 0 auto;
-  
+
   @include mobile {
     width: 100%;
-    margin-bottom: 10rem; 
-
   }
 }
 
@@ -21,7 +19,8 @@
   margin-left: 5rem; // space for navbar
 
   // Instead of forcing full height and center alignment, let the content flow:
-  display: block;
+  display: flex;
+  align-items: center;
   height: auto;
   overflow: auto;
 
@@ -29,10 +28,13 @@
     margin-left: 0;
   }
   @media (max-width: 1420px) and (min-width: 1024px) {
-      // This will linearly scale the left margin from 60px to 80px
-      margin-left: clamp(150px, calc(150px + ((100vw - 1024px) * (20 / 396))), 40px);
+    // This will linearly scale the left margin from 60px to 80px
+    margin-left: clamp(
+      150px,
+      calc(150px + ((100vw - 1024px) * (20 / 396))),
+      40px
+    );
   }
-  
 }
 
 /* Dashboard container with fixed overall height */
@@ -46,7 +48,7 @@
   max-height: 800px; // Add maximum height constraint
   /* Set overall height. Adjust the subtraction value if needed */
   height: calc(100vh - 2rem);
-  
+
   @media (min-width: 1440px) {
     width: 90%;
   }
@@ -56,8 +58,6 @@
     max-width: 600px;
   }
 }
-
-
 
 /* Top row: 3 columns on desktop with flex ratio for height */
 .topRow {
@@ -142,7 +142,7 @@
   border-radius: 0.75rem;
   overflow: hidden;
   z-index: 1;
-  
+
   /* Force the child div to fill up the panel area. 
      If you need a min-height, define it. */
   > div {
@@ -161,6 +161,11 @@
   }
 }
 
+.stats {
+  @include mobile {
+    margin-bottom: 10rem;
+  }
+}
 /* Let the "TodaysWorkout" span both columns on smaller desktops if you want */
 .todaysWorkout {
   @media (max-width: 1024px) {

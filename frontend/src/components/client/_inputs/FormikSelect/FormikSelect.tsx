@@ -18,9 +18,11 @@ interface FormikSelectProps {
   isRequired?: boolean;
   isClearable?: boolean;
   onChange?: () => void;
+  noOptionsMessage?:string;
+  notFoundMessage?:string;
 }
 
-const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = false,onChange, placeholder,label,isRequired,isClearable = false, }) => {
+const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = false,onChange, placeholder,label,isRequired,isClearable = false, noOptionsMessage="Nincs találat!",notFoundMessage="Nincs találat!"  }) => {
   const { setFieldValue, values, errors, touched } = useFormikContext<any>(); // Get Formik context values
   const error = touched[name] && errors[name] ? String(errors[name]) : undefined;
 
@@ -70,6 +72,7 @@ const FormikSelect: React.FC<FormikSelectProps> = ({ name, options, isMulti = fa
             onChange={handleChange}
             isClearable={isClearable}
             className={error ? styles.error : ""}
+            noOptionsMessage={({inputValue}) => !inputValue ? noOptionsMessage :  notFoundMessage}   
           />
         )}
       </Field>

@@ -1,21 +1,14 @@
 "use client";
-import { Button, StatFilter } from "@/components/client";
+import { Button } from "@/components/client";
 import Flag from "@/components/server/Flags/Flag";
 import FormField from "@/components/client/_forms/FormField/FormField";
 import Input from "@/components/client/_inputs/Input/Input";
 import { Text ,Icons} from "@/components/server";
 import { Form, Formik } from "formik";
-import {useEdzes} from "@/hooks/index";
 
 import * as Yup from "yup";
 import BodySVG from "@/components/server/BodySVG/BodySVG";
-import {  use, useEffect, useState } from "react";
 import { useToast } from "@/hooks";
-import Weight from "@/components/client/WeightSum/Weight";
-import { MusclePieChart } from "@/components/client";
-import { FormikSelect } from "@/components/client/_inputs";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 const TestPage: React.FC = () => {
   const validationSchema = Yup.object().shape({

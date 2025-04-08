@@ -1,4 +1,5 @@
-import { PaginatedResponse, RecordItem, UserGyakorlatGyakorlat } from '@/types';
+import { PaginatedResponse, RecordItem, UserGyakorlatGyakorlat } from "@/types";
+import { BACKEND_URL } from "@/utils";
 
 interface fetchUserGyakorlatokParams {
   userId?: number | null;
@@ -19,7 +20,7 @@ const userGyakorlatAPI = {
       userId = null,
       page = 1,
       limit = 10,
-      search = '',
+      search = "",
       isRecord = false,
     }: fetchUserGyakorlatokParams = {},
     token?: string
@@ -31,26 +32,30 @@ const userGyakorlatAPI = {
 
     const query = new URLSearchParams(params).toString();
 
-    const url = `http://localhost:8000/user-gyakorlat/user/${userId}?${query}&isRecord=${
-      isRecord ? 'true' : 'false'
+    const url = `${BACKEND_URL}/user-gyakorlat/user/${userId}?${query}&isRecord=${
+      isRecord ? "true" : "false"
     }&search=${search}`;
 
     const response = await fetch(url, {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     });
 
     if (!response.ok) {
-      throw new Error('Error fetching data');
+      throw new Error("Error fetching data");
     }
 
     return response.json() as unknown as PaginatedResponse<RecordItem>;
   },
 
   fetchUserGyakorlatokAll: async (
-    { userId = null, page = 1, limit = 1000 }: UserGyakorlatGyakorlatParams = {},
+    {
+      userId = null,
+      page = 1,
+      limit = 1000,
+    }: UserGyakorlatGyakorlatParams = {},
     token?: string
   ): Promise<PaginatedResponse<UserGyakorlatGyakorlat>> => {
     const params: Record<string, string> = {
@@ -58,19 +63,18 @@ const userGyakorlatAPI = {
       limit: limit.toString(),
     };
 
-   
     const query = new URLSearchParams(params).toString();
-    const url = `http://localhost:8000/user-gyakorlat/user/${userId}?${query}`;
+    const url = `${BACKEND_URL}/user-gyakorlat/user/${userId}?${query}`;
 
     const response = await fetch(url, {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     });
 
     if (!response.ok) {
-      throw new Error('Error fetching data');
+      throw new Error("Error fetching data");
     }
 
     return response.json() as unknown as PaginatedResponse<UserGyakorlatGyakorlat>;

@@ -13,3 +13,5 @@ export const getQueryStringFromSearchParams = (searchParams: {
     .join("&");
   return queryString ? `?${queryString}` : "";
 };
+export const BACKEND_URL: string =
+  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";

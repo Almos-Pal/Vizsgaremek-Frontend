@@ -154,7 +154,7 @@ export default function ProgressChart() {
                   <label>
                     <Text variant="caption">Gyakorlat:</Text>
                   </label>
-                  <FormikSelect name="gyakorlat" options={gyakorlatsOptions} />
+                  <FormikSelect name="gyakorlat" options={gyakorlatsOptions} placeholder="Válassz gyakorlatot" noOptionsMessage="Még nincsenek edzéseid!" notFoundMessage="Nincs ilyen gyakorlat!" />
                 </Form>
 
                 <ResponsiveContainer
@@ -164,7 +164,7 @@ export default function ProgressChart() {
                 >
                   {items.length === 0 ? (
                     <div className={styles["no-data"]}>
-                      <Text variant="h1">Jelenleg nincsenek adatok</Text>
+                      <Text variant="h2" >Jelenleg nincsenek adatok</Text>
                     </div>
                   ) : (
                     <BarChart

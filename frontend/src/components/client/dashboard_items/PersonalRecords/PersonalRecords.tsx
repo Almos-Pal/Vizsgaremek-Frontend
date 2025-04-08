@@ -68,7 +68,11 @@ function PersonalRecords() {
                 ))}
             </div>
             <div className={clsx(styles.button,"flex justify-center")}>
-                <Button color={"secondary"} href={"/rekordok"} rightIcon="SearchIcon" >További Rekordok </Button>
+                {records?.meta.totalItems !== 0 ?                <Button color={"secondary"} href={"/rekordok"} rightIcon="SearchIcon" >További Rekordok </Button>
+                : 
+
+                  <Text variant='h5' className={styles["no-record-text"]}  >Jelenleg még nincsenek rekordjai</Text>
+                  }
             </div>
 
         </div>

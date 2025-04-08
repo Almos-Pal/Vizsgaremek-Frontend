@@ -187,3 +187,12 @@
     right: 12px;
    
 }
+
+.link {
+    display: block;
+    pointer-events: none;
+    
+    @include mobile  {
+      pointer-events: auto;
+    }
+  }

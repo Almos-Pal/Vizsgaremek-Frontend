@@ -35,7 +35,7 @@ const WeeklyTrainingPage = () => {
         >   
         <div className="flex justify-center items-center flex-col gap-4 text-center">
 
-            <Text variant="h5">Jelenleg nincsen edzésed a hétre</Text>
+            <Text variant="h5">Ezen a héten még nincs edzése</Text>
             <Button additionalClassName={styles.button}color="primary" onClick={()=> router.back()}>Vissza</Button>
         </div>
         </ContentLayout>
