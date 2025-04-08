@@ -7,12 +7,12 @@ import { Text } from '@/components/server';
 import { signOut, useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ConfirmationModal, Modal } from "../_modal";
-import { useEdzes, useModal } from '@/hooks';
+import { useEdzes, useModal, useToast } from '@/hooks';
 import { NewEdzesForm } from '../_forms';
 import Image from 'next/image'
 
 
-import { toast } from 'react-toastify';
+
 
 const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -24,6 +24,7 @@ const Navbar: React.FC = () => {
     const pathname = usePathname();
     const router = useRouter();
 
+    const toast = useToast();
     const startModal = useModal();
 
 

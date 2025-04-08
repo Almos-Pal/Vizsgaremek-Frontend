@@ -53,7 +53,7 @@ body {
 }
 
 .Toastify__toast-container {
-  width: 100%;
+  width: fit-content;
 
   @media (max-width: 600px) {
     width: 100%;
