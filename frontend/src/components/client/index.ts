@@ -27,3 +27,4 @@ export {default as Weight} from "./WeightSum/Weight";
 export {default as EdzesTervBlock} from "./EdzesTervBlock/EdzesTervBlock";
 export {default as EdzesTervEditForm} from "./_forms/EdzesTervEditForm/EdzesTervEditForm";
 export {default as SmallGyakorlatView } from  "./SmallGyakorlatView/SmallGyakorlatView";
+export {default as Error} from "./ErrorPage/Error";

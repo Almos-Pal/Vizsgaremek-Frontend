@@ -18,22 +18,12 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 import { useToast } from '@/hooks';
-
+import Image from 'next/image';
 
 const initialValues = {
     email: '',
     password: ''
 };
-
-
-//way to get session data
-//sessions are stored in cookies
-// session contains user data, token, etc.
-//place this in a fetch request's header to get user data
-// authorization: `Bearer ${session.backendTokens.accessToken}`
-
-
-
 
 
 const WelcomeLogin: React.FC = () => {
@@ -51,8 +41,8 @@ const WelcomeLogin: React.FC = () => {
             callbackUrl: "/dashboard", //Here you can change where to immidiately redirect after login
         });
         //console.log("SignIn result:", result);
-        
-        
+
+
         if (result?.error) {
             //console.error("Login error:", result.error);
             toast.error('Hibás email vagy jelszó! Ellenőrizze a beírt adatokat');
@@ -69,9 +59,17 @@ const WelcomeLogin: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            <Text className={styles.title} variant="h1">
-                RepVault
-            </Text>
+            <div className={styles.logoContainer}>
+                <Image
+                    src={"/loginTextLogo.svg"}
+                    width={500}
+                    height={500}
+                    alt='logo'
+                />
+
+             
+            </div>
+
 
             <Formik
                 initialValues={initialValues}

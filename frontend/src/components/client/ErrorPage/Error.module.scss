@@ -1,0 +1,13 @@
+
+@use "styles/breakpoints.scss" as *;
+
+.image-container{
+   width:  80vh;
+   
+   margin: auto;
+
+   @include mobile {
+       width: 70vw;
+    
+   }
+}

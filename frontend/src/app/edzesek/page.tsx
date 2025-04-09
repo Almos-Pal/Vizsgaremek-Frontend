@@ -63,10 +63,7 @@ function EdzesekPage() {
 
         setIsModalOpen(true)
 
-        const currentEdzesID = localStorage.getItem("currentEdzesID");
-        currentEdzesID ? localStorage.removeItem("currentEdzesID") : null;
-        const storedStartTime = localStorage.getItem("edzesStartTime");
-        storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
+       
     }
     const Option = [
         { label: "Kedvencek alapján", value: "byFavorite" },

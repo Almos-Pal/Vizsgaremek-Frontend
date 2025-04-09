@@ -7,7 +7,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  max-height: 90vh;
+ 
   width: 80%;
   max-width: 25rem;
 
@@ -53,4 +53,18 @@
   .title {
     margin-bottom: 0.5rem;
   }
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-bottom: 1.5rem;
+}
+
+.repvault{
+  text-shadow: -1.75px 0 0 var(--color-primary-50);
+  
 }

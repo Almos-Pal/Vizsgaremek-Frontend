@@ -11,7 +11,7 @@ import * as Yup from "yup";
 import { useRouter } from "next/dist/client/components/navigation";
 import { useToast } from "@/hooks";
 import { registerSchema } from "@/utils/Validations/registerSchema";
-
+import Image from "next/image";
 import Link from "next/link";
 import { BACKEND_URL } from "@/utils";
 
@@ -42,9 +42,9 @@ const Register: React.FC = () => {
     const data = await res.json();
 
     if (res.status === 409) {
-      toast.error('Az email cím már használatban van');
+      toast.error("Az email cím már használatban van");
       return;
-  }
+    }
 
     if (res.status === 400 || !res.ok) {
       toast.error("Hiba a regisztráció során!");
@@ -58,6 +58,17 @@ const Register: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.logoContainer}>
+        <Image
+          src={"/repvaultLogo.svg"}
+          alt="Repvault Logo"
+          width={50}
+          height={50}
+        />
+        <Text className={styles["repvault"]} variant="h3">
+          Repvault
+        </Text>
+      </div>
       <Text className={styles.title} variant="h1">
         Regisztráció
       </Text>
