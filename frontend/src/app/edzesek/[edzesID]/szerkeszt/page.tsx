@@ -1,8 +1,8 @@
 "use client";
 
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
-import useEdzes from '@/hooks/useEdzes';
-import React, { use, useEffect } from 'react';
+import useEdzes from "@/hooks/useEdzes";
+import React, { use, useEffect } from "react";
 import { Text } from "@/components/server";
 import { EdzesCreateEditForm } from "@/components/client/_forms";
 import Stopwatch from "@/components/client/Stopwatch/Stopwatch";
@@ -11,6 +11,7 @@ import { Loading } from "@/components/client/Loading/Loading";
 import { useToast } from "@/hooks";
 import Image from "next/image";
 import { Error } from "@/components/client";
+import ErrorPage from "@/components/client/ErrorPage/Error";
 
 interface PageParams {
   edzesID: string;
@@ -26,7 +27,7 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
   const router = useRouter();
   const toast = useToast();
 
-  const { data, isLoading, error } = useEdzes.getEdzes(edzesID);
+  const { data, isLoading, error, isError } = useEdzes.getEdzes(edzesID);
 
   const isLoadingData = isLoading || !data;
 
@@ -41,7 +42,6 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
 
   const isDateToday = data ? isToday(new Date(data.datum)) : true;
 
-
   useEffect(() => {
     if (!isLoadingData && !isDateToday) {
       toast.error("Ez az edzés nem szerkeszthető a mai napon");
@@ -52,15 +52,13 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
     }
   }, [isDateToday, isLoadingData, router]);
 
-
   useEffect(() => {
     if (data?.isFinalized) {
       router.push(`/edzesek/${edzesID}?fromFinalize=true`);
     } else if (data?.isTemplate === true) {
-      router.push('/edzestervek');
+      router.push("/edzestervek");
     }
   }, [data, router, edzesID]);
-
 
   useEffect(() => {
     if (data && isDateToday) {
@@ -68,6 +66,9 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
     }
   }, [data]);
 
+  if (isError) {
+    return <ErrorPage />;
+  }
   // Show loading spinner
   if (isLoadingData) {
     return (
@@ -79,21 +80,14 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
     );
   }
 
-
-  
-  
   if (error || !data) {
-    return (
-      <div>
-        <Text>Hiba akadt az edzések lekérdezésénél</Text>
-      </div>
-    );
+    return <ErrorPage />;
   }
-  
+
   if (!isDateToday) {
     return <Error />;
   }
-  
+
   return (
     <ContentLayout
       header={data.edzes_neve}
@@ -102,7 +96,6 @@ const EdzesSzerkesztPage: React.FC<EdzesSzerkesztPageProps> = ({ params }) => {
       <EdzesCreateEditForm data={data} />
     </ContentLayout>
   );
-
 };
 
 export default EdzesSzerkesztPage;

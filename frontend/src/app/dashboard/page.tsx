@@ -1,17 +1,23 @@
 "use client";
-import {
-  CalendarWidget,
-  Navbar,
-  PersonalRecords,
-  Stats,
-  TodaysWorkout,
-  WeeklyTotal,
-} from "@/components/client";
 import styles from "./page.module.scss";
-import { BACKEND_URL } from "@/utils";
+import {
+  WeeklyTotal,
+  Stats,
+  PersonalRecords,
+  Calendar,
+  TodaysWorkout,
+} from "@/components/client/dashboard_items";
+import { ErrorProvider, useError } from "@/contexts/ErrorContext";
+import ErrorPage from "@/components/client/ErrorPage/Error";
+import { Navbar } from "@/components/client";
 
-const Dashboard: React.FC = () => {
-  console.log(BACKEND_URL);
+function DashboardContent() {
+  const { hasError } = useError();
+
+  if (hasError) {
+    return <ErrorPage />;
+  }
+
   return (
     <div className={styles.container}>
       <Navbar />
@@ -25,7 +31,7 @@ const Dashboard: React.FC = () => {
               <WeeklyTotal />
             </div>
             <div className={styles.calendar}>
-              <CalendarWidget />
+              <Calendar />
             </div>
           </div>
           <div className={styles.bottomRow}>
@@ -40,6 +46,12 @@ const Dashboard: React.FC = () => {
       </main>
     </div>
   );
-};
+}
 
-export default Dashboard;
+export default function Dashboard() {
+  return (
+    <ErrorProvider>
+      <DashboardContent />
+    </ErrorProvider>
+  );
+}

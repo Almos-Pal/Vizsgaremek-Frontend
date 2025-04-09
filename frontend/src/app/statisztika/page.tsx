@@ -1,25 +1,40 @@
 "use client";
 
-import { Button, MusclePieChart, ProgressChart, RecordCard, StatFilter, UnderLinedText, Weight } from "@/components/client";
+import {
+  Button,
+  MusclePieChart,
+  ProgressChart,
+  RecordCard,
+  StatFilter,
+  UnderLinedText,
+  Weight,
+} from "@/components/client";
 import { useEdzes, useUserGyakorlat } from "@/hooks";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { EdzesStatsResponse } from "@/types/edzes";
 import { UseQueryResult } from "@tanstack/react-query";
 import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
-import { Text } from "@/components/server"
-import styles from "./page.module.scss"
+import { Text } from "@/components/server";
+import styles from "./page.module.scss";
 import { Loading } from "@/components/client/Loading/Loading";
+import { ErrorProvider, useError } from "@/contexts/ErrorContext";
+import ErrorPage from "@/components/client/ErrorPage/Error";
 
-const Statistics: React.FC = () => {
+function StatisticsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
   const userId = session?.user?.user_id;
+  const { setError } = useError();
 
   // Only fetch data when we have a userId
-  const { data: records, isLoading: isRecordLoading } = useUserGyakorlat.getRecords({
+  const {
+    data: records,
+    isLoading: isRecordLoading,
+    isError: isRecordError,
+  } = useUserGyakorlat.getRecords({
     isRecord: true,
     userId: userId || undefined,
     limit: 6,
@@ -27,10 +42,26 @@ const Statistics: React.FC = () => {
 
   const filteredValues = searchParams.get("type") || "all";
 
-  const { data, isLoading: isStatsLoading } = useEdzes.getEdzesByType(
+  const {
+    data,
+    isLoading: isStatsLoading,
+    isError: isStatsError,
+  } = useEdzes.getEdzesByType(
     userId || 0,
     filteredValues
   ) as unknown as UseQueryResult<EdzesStatsResponse, Error>;
+
+  const { hasError } = useError();
+
+  useEffect(() => {
+    if (isRecordError || isStatsError) {
+      setError(true);
+    }
+  }, [isRecordError, isStatsError, setError]);
+
+  if (hasError) {
+    return <ErrorPage />;
+  }
 
   const handleFilterChange = (values: any) => {
     if (values) {
@@ -57,31 +88,53 @@ const Statistics: React.FC = () => {
     <ContentLayout header="Statisztikák">
       <div className={styles.container}>
         <div className={styles["rekordok"]}>
-          <Text style={{textAlign: "center", paddingTop: "1rem", paddingBottom: "1rem"}} variant="h4">
+          <Text
+            style={{
+              textAlign: "center",
+              paddingTop: "1rem",
+              paddingBottom: "1rem",
+            }}
+            variant="h4"
+          >
             Rekordok
           </Text>
-          <div className={styles["records-content"]} style={{ minHeight: "400px" }}>
+          <div
+            className={styles["records-content"]}
+            style={{ minHeight: "400px" }}
+          >
             {isRecordLoading || !records ? (
               <div className={styles["loading-container-records"]}>
                 <Loading hasParent />
               </div>
             ) : (
               <>
-                <div className={`flex flex-row gap-6 mb-12 flex-wrap justify-center`}>
+                <div
+                  className={`flex flex-row gap-6 mb-12 flex-wrap justify-center`}
+                >
                   {records.items.map((record) => (
                     <div key={record.gyakorlat.gyakorlat_neve}>
                       <RecordCard record={record} />
                     </div>
                   ))}
                 </div>
-              {records.meta.totalItems !==0 ?  <div className={styles["rekord-button"]}>
-                  <Button href={"/rekordok"} rightIcon="SearchIcon" color="secondary">
-                    Több rekord
-                  </Button>
-                </div>: 
-
-                  <Text variant='h2' className='justify-self-center  mt-6 text-center pt-8 px-4'  >Jelenleg még nincsenek rekordjai</Text>
-                  }
+                {records.meta.totalItems !== 0 ? (
+                  <div className={styles["rekord-button"]}>
+                    <Button
+                      href={"/rekordok"}
+                      rightIcon="SearchIcon"
+                      color="secondary"
+                    >
+                      Több rekord
+                    </Button>
+                  </div>
+                ) : (
+                  <Text
+                    variant="h2"
+                    className="justify-self-center  mt-6 text-center pt-8 px-4"
+                  >
+                    Jelenleg még nincsenek rekordjai
+                  </Text>
+                )}
               </>
             )}
           </div>
@@ -115,6 +168,12 @@ const Statistics: React.FC = () => {
       </div>
     </ContentLayout>
   );
-};
+}
 
-export default Statistics;
+export default function Statistics() {
+  return (
+    <ErrorProvider>
+      <StatisticsContent />
+    </ErrorProvider>
+  );
+}

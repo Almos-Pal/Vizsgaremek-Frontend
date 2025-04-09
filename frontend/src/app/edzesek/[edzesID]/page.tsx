@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import React, { use, useEffect } from 'react'
-import { Text } from '@/components/server'
-import useEdzes from '@/hooks/useEdzes'
-import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout';
+import React, { use, useEffect } from "react";
+import { Text } from "@/components/server";
+import useEdzes from "@/hooks/useEdzes";
+import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
 import { EdzesView } from "@/components/client";
 import { useRouter } from "next/navigation";
-import { Loading } from '@/components/client/Loading/Loading';
-import { useToast } from '@/hooks';
-
+import { Loading } from "@/components/client/Loading/Loading";
+import { useToast } from "@/hooks";
+import ErrorPage from "@/components/client/ErrorPage/Error";
 
 interface PageParams {
   edzesID: string;
@@ -25,62 +25,47 @@ const EdzesViewPage: React.FC<EdzesViewPageProps> = ({ params }) => {
   const { data, isLoading, error } = useEdzes.getEdzes(edzesID);
   const toast = useToast();
 
-  
   useEffect(() => {
     if ((error as any)?.status === 401) {
-      toast.error("Nincs jogosultság a megtekintéshez. Átirányítás a főoldalra..");
+      toast.error(
+        "Nincs jogosultság a megtekintéshez. Átirányítás a főoldalra.."
+      );
       setTimeout(() => {
         router.push("/dashboard");
       }, 1500);
     }
     if (data?.isTemplate === true) {
-      router.push('/edzestervek');
+      router.push("/edzestervek");
     }
-  }, [error,data, router, edzesID]); 
-
-
+  }, [error, data, router, edzesID]);
 
   if (isNaN(edzesID)) {
+    return <ErrorPage />;
+  }
+
+  if (isLoading) {
     return (
-      <div>
-        <Text>Helytelen edzesID</Text>
-      </div>
+      <ContentLayout>
+        <div className="flex justify-center items-center flex-col ">
+          <Loading hasParent />
+        </div>
+      </ContentLayout>
     );
   }
 
-  if(isLoading) {
-    return (
-        <ContentLayout 
-        >   
-        <div className="flex justify-center items-center flex-col ">
-            <Loading  hasParent/>
-        </div>
-        </ContentLayout>
-    )
-}
-
   if (error) {
-    return (
-      <div>
-        <Text>Error fetching edzes data. Please try again later.</Text>
-      </div>
-    )
+    return <ErrorPage />;
   }
 
   if (!data) {
-    return (
-      <div>
-        <Text>No data available</Text>
-      </div>
-    );
+    return <ErrorPage />;
   }
 
-  return (<>
-    <EdzesView data={data}>
+  return (
+    <>
+      <EdzesView data={data}></EdzesView>
+    </>
+  );
+};
 
-    </EdzesView>
-  </>
-  )
-}
-
-export default EdzesViewPage
+export default EdzesViewPage;

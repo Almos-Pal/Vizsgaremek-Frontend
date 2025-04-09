@@ -1,14 +1,21 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import { Navbar, Pagination, SubHeader, UserItem, WelcomeLogin } from '@/components/client';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useUser } from '@/hooks';
-import ContentLayout from '@/components/server/Layout/ContentLayout/ContentLayout';
-import UsersFilter from '@/components/client/_filters/UsersFilter/UsersFilter';
-import { User } from '@/types/user';
-import { useSession } from 'next-auth/react';
-import { Loading } from '@/components/client/Loading/Loading';
+import React, { useState } from "react";
+import {
+  Navbar,
+  Pagination,
+  SubHeader,
+  UserItem,
+  WelcomeLogin,
+} from "@/components/client";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/hooks";
+import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayout";
+import UsersFilter from "@/components/client/_filters/UsersFilter/UsersFilter";
+import { User } from "@/types/user";
+import { useSession } from "next-auth/react";
+import { Loading } from "@/components/client/Loading/Loading";
+import ErrorPage from "@/components/client/ErrorPage/Error";
 const Admin: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -17,7 +24,7 @@ const Admin: React.FC = () => {
   const isAdminParam = searchParams.get("isAdmin");
   const isAdmin = isAdminParam !== null ? isAdminParam === "true" : undefined;
   const { data: session, status } = useSession();
-  console.log('session:', session);
+  console.log("session:", session);
   const filterValues = {
     isAdmin: searchParams.has("isAdmin")
       ? searchParams.get("isAdmin") === "true"
@@ -27,14 +34,21 @@ const Admin: React.FC = () => {
     username: searchParams.get("username") || undefined,
   };
 
-  const { data: users, isLoading } = useUser.getUsers({
+  const {
+    data: users,
+    isLoading,
+    isError,
+  } = useUser.getUsers({
     page,
     limit: 10,
-    ...filterValues
+    ...filterValues,
   });
 
-  if (status === "loading") {
+  if (isLoading) {
     return <Loading />;
+  }
+  if (isError) {
+    return <ErrorPage />;
   }
 
   console.log(users);
@@ -47,7 +61,6 @@ const Admin: React.FC = () => {
       header="ADMIN felület"
       filter={<UsersFilter onFilterChange={handleFilterChange} />}
     >
-
       <div className={"flex flex-col gap-6 mb-12"}>
         {users?.items?.map((user: User) => (
           <UserItem key={user.email} user={user} />

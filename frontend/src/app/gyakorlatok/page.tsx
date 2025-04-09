@@ -11,6 +11,7 @@ import ContentLayout from "@/components/server/Layout/ContentLayout/ContentLayou
 import { SubHeader } from "@/components/client/_common";
 import { Loading } from "@/components/client/Loading/Loading";
 import { useSession } from "next-auth/react";
+import ErrorPage from "@/components/client/ErrorPage/Error";
 
 const GyakorlatPage: React.FC = () => {
   const router = useRouter();
@@ -37,7 +38,11 @@ const GyakorlatPage: React.FC = () => {
     eszkoz: searchParams.get("eszkoz") || undefined,
   };
 
-  const { data: gyakorlatok, isLoading } = useGyakorlat.getGyakorlatok({
+  const {
+    data: gyakorlatok,
+    isLoading,
+    isError,
+  } = useGyakorlat.getGyakorlatok({
     page,
     limit: 10,
     ...filterValues,
@@ -46,6 +51,10 @@ const GyakorlatPage: React.FC = () => {
   const handleFilterChange = (values: any) => {
     setPage(1);
   };
+
+  if (isError) {
+    return <ErrorPage />;
+  }
 
   console.log(gyakorlatok);
   return (
