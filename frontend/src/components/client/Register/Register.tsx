@@ -30,7 +30,7 @@ const Register: React.FC = () => {
     const res = await fetch(`${BACKEND_URL}/auth/register`, {
       method: "POST",
       body: JSON.stringify({
-        email: values.email,
+        email: values.email.toLowerCase(),
         username: values.username,
         password: values.password,
       }),
