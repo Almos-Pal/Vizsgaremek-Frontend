@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { SunspotLoader } from "react-awesome-loaders";
+import styles from "./Loading.module.scss";
+import clsx from "clsx";
 
 interface LoadingProps {
   hasParent?: boolean;
@@ -14,14 +15,19 @@ export const Loading = ({ hasParent = false }: LoadingProps) => {
   }, []);
 
   return (
-    <div className={`${hasParent ? "flex items-center justify-center w-full h-full" : "flex items-center justify-center h-screen w-screen"}`}>
+    <div
+      className={clsx(
+        styles.container,
+        hasParent ? styles.hasParent : styles.fullScreen
+      )}
+    >
       {domLoaded && (
-        <SunspotLoader
-          gradientColors={["var(--color-primary)", "var(--color-primary-10)"]}
-          shadowColor={"var(--color-primary-90)"}
-          desktopSize="128px"
-          mobileSize="100px"
-        />
+        <div className={styles.loader}>
+          <div className={styles.circle}></div>
+          <div className={styles.circle}></div>
+          <div className={styles.circle}></div>
+          <div className={styles.pulse}></div>
+        </div>
       )}
     </div>
   );
