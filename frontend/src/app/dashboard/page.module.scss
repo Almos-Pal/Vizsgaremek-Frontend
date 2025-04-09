@@ -27,8 +27,8 @@
   @include mobile {
     margin-left: 0;
   }
-  @media (max-width: 1420px) and (min-width: 1024px) {
-    // This will linearly scale the left margin from 60px to 80px
+  // Now target desktop only (1025px and up) for the margin scaling:
+  @media (min-width: 1025px) and (max-width: 1420px) {
     margin-left: clamp(
       150px,
       calc(150px + ((100vw - 1024px) * (20 / 396))),
@@ -67,7 +67,8 @@
   flex: 2;
   height: 50vh;
 
-  @media (max-width: 1420px) and (min-width: 1024px) {
+  // For mid-desktop (1025px up to 1420px)
+  @media (min-width: 1025px) and (max-width: 1420px) {
     grid-template-columns: 1.1fr 0.5fr 0.9fr; // Further adjusted for mid-desktop
     height: auto;
     min-height: 380px;
@@ -75,8 +76,8 @@
     gap: 0.75rem; // Reduced gap
   }
 
-  /* Tablet-ish breakpoint: 2 columns */
-  @media (max-width: 1024px) {
+  /* Tablet breakpoint: 731px to 1024px: 2 columns */
+  @media (min-width: 731px) and (max-width: 1024px) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
   }
@@ -88,7 +89,8 @@
     grid-template-rows: repeat(3, auto);
   }
 
-  @media (max-width: 730px) and (min-width: 0px) {
+  /* For very small screens: override if necessary */
+  @media (max-width: 730px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
     gap: 1rem;
@@ -166,19 +168,20 @@
     margin-bottom: 10rem;
   }
 }
-/* Let the "TodaysWorkout" span both columns on smaller desktops if you want */
+
+/* Let the "todaysWorkout" span both columns on tablet size (731px to 1024px) */
 .todaysWorkout {
-  @media (max-width: 1024px) {
+  @media (min-width: 731px) and (max-width: 1024px) {
     grid-column: span 2;
   }
 
-  @media (max-width: 1420px) and (min-width: 1024px) {
+  @media (min-width: 1025px) and (max-width: 1420px) {
     min-height: 350px;
   }
 }
 
-/* Layout adjustments for in-between breakpoints */
-@media (max-width: 1024px) and (min-width: 730px) {
+/* Layout adjustments for in-between breakpoints (tablet range) */
+@media (min-width: 731px) and (max-width: 1024px) {
   .calendar {
     grid-row: 2;
     grid-column: 1;
@@ -204,5 +207,3 @@
     flex-direction: column;
   }
 }
-
-/* etc. ... */
