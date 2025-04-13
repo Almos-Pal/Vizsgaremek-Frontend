@@ -164,20 +164,20 @@ const Navbar: React.FC = () => {
                         {Number(currentEdzesID) === todaysWorkout?.edzes_id && todaysWorkout?.isFinalized == false ? "Edzés Folytatása" : "Edzés Kezdése"}
 
                     </Button>
-                    <Button onClick={handleNewEdzesTerv} rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width={350} color="secondary" style={{ marginBottom: 20 }}>
+                    <Button onClick={handleNewEdzesTerv} rightIcon="PenPaperIcon" iconProps={{ size: 40 }} width={350} color="secondary" style={{ marginBottom: 20 }}>
                         Új EdzésTerv
                     </Button>
                     <Text variant="h5" style={{ marginBottom: 20 }}>Saját gyűlytemény</Text>
                     <Button width={350} style={{ marginBottom: 20 }} href={'/edzesek'}>Edzés Előzmények</Button>
                     <Button width={350} color='secondary' style={{ marginBottom: 20 }} href={'/edzestervek'}>Edzéstervek</Button>
-                    <Button width={350} color='secondary' rightIcon='FavoriteIcon' iconProps={{ filled: true, size: 40 }} style={{ marginBottom: 20 }} href={'/kedvencek'}>Kedvenc edzések</Button>
+                    <Button width={350} color='secondary' rightIcon='FavoriteIcon' iconProps={{ filled: true, size: 45 }} style={{ marginBottom: 20 }} href={'/kedvencek'}>Kedvenc edzések</Button>
                     <Button width={350} color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlatok'}>Gyakorlatok</Button>
                 </div>
                 {session?.user.isAdmin && (
 
                     <div className={styles["adminButttonWrapper"]}>
 
-                        <Button width={350} href={"/admin"} rightIcon="ProfileIcon" iconProps={{ size: 35 }} additionalClassName={styles["admin-button-desktop"]}>
+                        <Button width={350} href={"/admin"} rightIcon="ProfileIcon" iconProps={{ size: 40 }} additionalClassName={styles["admin-button-desktop"]}>
                             Admin felület
                         </Button>
                     </div>
@@ -230,10 +230,10 @@ const Navbar: React.FC = () => {
             >
                 <div className={styles.innerMenu}>
                     {/* Menu items */}
-                    <Button onClick={handleNewEdzes} additionalClassName={styles.mobilebutton} rightIcon="DumbellIcon" iconProps={{ size: 45 }} width="90%" style={{ marginBottom: 20 }}>
+                    <Button onClick={handleNewEdzes} additionalClassName={styles.mobilebutton} rightIcon="DumbellIcon" iconProps={{ size: 42 }} width="90%" style={{ marginBottom: 20 }}>
                         {Number(currentEdzesID) === todaysWorkout?.edzes_id && todaysWorkout?.isFinalized == false ? "Edzés Folytatása" : "Edzés Kezdése"}
                     </Button>
-                    <Button onClick={handleNewEdzesTerv} additionalClassName={styles.mobilebutton} rightIcon="PenPaperIcon" iconProps={{ size: 45 }} width="90%" color="secondary" style={{ marginBottom: 20 }}>
+                    <Button onClick={handleNewEdzesTerv} additionalClassName={styles.mobilebutton} rightIcon="PenPaperIcon" iconProps={{ size: 40 }} width="90%" color="secondary" style={{ marginBottom: 20 }}>
                         Új EdzésTerv
                     </Button>
                     <Text variant="h5" style={{ marginBottom: 20 }}>
@@ -241,12 +241,12 @@ const Navbar: React.FC = () => {
                     </Text>
                     <Button additionalClassName={styles.mobilebutton} width="90%" color='primary' style={{ marginBottom: 20 }} href={'/edzesek'}>Edzés Előzmények</Button>
                     <Button additionalClassName={styles.mobilebutton} width="90%" color='secondary' style={{ marginBottom: 20 }} href={'/edzestervek'}>Edzéstervek</Button>
-                    <Button additionalClassName={styles.mobilebutton} rightIcon='FavoriteIcon' iconProps={{ filled: true, size: 40 }} width="90%" color='secondary' style={{ marginBottom: 20 }} href={'/kedvencek'}>Kedvenc Edzések</Button>
+                    <Button additionalClassName={styles.mobilebutton} rightIcon='FavoriteIcon' iconProps={{ filled: true, size: 45 }} width="90%" color='secondary' style={{ marginBottom: 20 }} href={'/kedvencek'}>Kedvenc Edzések</Button>
                     <Button additionalClassName={styles.mobilebutton} width="90%" color="secondary" style={{ marginBottom: 20 }} href={'/gyakorlatok'}>Gyakorlatok</Button>
 
                     {session?.user.isAdmin && (
 
-                        <Button width="90%" href={"/admin"} rightIcon="ProfileIcon" style={{ marginBottom: 20 }} iconProps={{ size: 35 }} additionalClassName={styles["admin-button-desktop"]}>
+                        <Button width="90%" href={"/admin"} rightIcon="ProfileIcon" style={{ marginBottom: 20 }} iconProps={{ size: 40 }} additionalClassName={styles["admin-button-desktop"]}>
                             Admin felület
                         </Button>
                     )}

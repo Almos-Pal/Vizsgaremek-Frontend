@@ -225,7 +225,7 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
             );
         } else if (!isDateToday) {
             return (
-                <Button additionalClassName={styles.singleButtonMobile} disabled>
+                <Button additionalClassName={styles.singleButtonMobile}onClick={NotTodayEdzes} rightIcon="PlayRightIcon">
                     Edzés kezdése
                 </Button>
             );
