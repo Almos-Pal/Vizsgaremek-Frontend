@@ -56,7 +56,7 @@ const TestPage: React.FC = () => {
         validationSchema={validationSchema}
         onSubmit={(values) => {
           toast.success("Sikeres form submit");
-          console.log(values);
+      
         }}
       >
         <Form>

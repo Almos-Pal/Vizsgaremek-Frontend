@@ -94,7 +94,7 @@ const SmallGyakorlatView: React.FC<SmallGyakorlatViewProps> = ({ index, gyakorla
             },
             {
                 onSuccess: () => {
-                    console.log(`Gyakorlat ${gyakorlat.gyakorlat_id} deleted successfully.`);
+                   
                     toast.success("Gyakorlat törölve");
                     arrayHelpers.remove(index);
                 },

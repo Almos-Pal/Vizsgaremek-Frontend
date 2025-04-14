@@ -35,7 +35,7 @@ const MusclePieChart: React.FC<MusclePieChartProps> = ({ data }) => {
 
 
   const totalValue = groupedData.reduce((sum, item) => sum + item.value, 0);
-console.log('groupedData: ', groupedData);
+
   return (
     <div className={styles.container}>
       <Text className={styles.title} variant="h4">

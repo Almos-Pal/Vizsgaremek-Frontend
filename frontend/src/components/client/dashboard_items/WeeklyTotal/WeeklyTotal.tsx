@@ -20,7 +20,7 @@ function WeeklyTotal() {
   } = useEdzes.getCurrentWeekEdzesek(session?.user.user_id!);
 
   const viewportSize = useViewportSize();
-  console.log("Current Week Edzesek:", viewportSize);
+
 
   // Dynamically set BodySVG size based on viewport
   const bodySvgSize = useMemo(() => {

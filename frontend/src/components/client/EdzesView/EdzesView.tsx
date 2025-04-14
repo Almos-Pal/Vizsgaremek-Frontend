@@ -63,18 +63,18 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
         storedStartTime ? localStorage.removeItem("edzesStartTime") : null;
 
 
-        console.log("Edzés klónozása");
+      
 
         try {
 
             const newEdzes = await createEdzesAsync(newEdzesPayload, {
                 onSuccess: (newEdzes: any) => {
-                    console.log("Edzés sikeresen elkezdve");
+                   
                     toast.success("Edzés sikeresen elkezdve");
 
                 },
                 onError: (error: any) => {
-                    console.log(error)
+                  
                     if (error == "Error: 409") {
 
                         toast.error("A mai nap már van edzés");
@@ -119,7 +119,6 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
 
     const checkifEdzesIsCurrent = () => {
         if (localStorage.getItem("currentEdzesID") == data.edzes_id.toString() && data.isFinalized == false) {
-            console.log("Edzés fut",);
             return <StopWatch />
         }
 
@@ -154,7 +153,6 @@ const EdzesView: React.FC<EdzesViewProps> = ({ data }) => {
         try {
             await deleteEdzesAsync(data.edzes_id, {
                 onSuccess: () => {
-                    console.log("Edzés törölve");
                     toast.success("Edzés törölve");
                 },
                 onError: (error) => {

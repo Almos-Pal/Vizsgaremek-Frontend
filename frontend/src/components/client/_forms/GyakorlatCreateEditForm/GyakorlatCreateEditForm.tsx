@@ -49,21 +49,17 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
     eszkoz: initialData?.eszkoz || ""
   };
   const handleBack = () => {
-    console.log("Back button clicked");
     router.back();
   };
 
   const handleModalClose = () => {
     modal.close();
-    console.log("Modal closed");
     }
   const handleOpenModal = () => {
     modal.open();
-    console.log("Open button clicked");
 
   }
   const handleDelete = () => {
-    console.log("Delete button clicked");
     if (id !== undefined) {
       deleteGyakorlat(id,{
         onSuccess: () => {
@@ -107,7 +103,6 @@ const GyakorlatCreateEditForm = ({ initialData ,id}: GyakorlatCreateEditFormProp
         },
       });
     }
-    console.log("Submitted values:", submissionValues);
   };
 
   return (

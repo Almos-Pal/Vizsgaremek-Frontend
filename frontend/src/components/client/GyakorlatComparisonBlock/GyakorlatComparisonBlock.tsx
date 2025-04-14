@@ -22,14 +22,14 @@ const GyakorlatComparisonBlock: React.FC<GyakorlatComparisonBlockProps> = ({ dat
     const repsDifference = (currentSet.reps - previousSet.reps) * 1.2;
 
     const totalScore = weightDifference + repsDifference;
-    console.log(totalScore);
+   
     if (totalScore > 0) return "var(--color-success)"; // Improvement
     if (totalScore < 0) return "var(--color-error)"; // Regression
     return "var(--color-light)"; // No change
   };
 
 
-  console.log(data);
+  
   return (
     <div className={styles["edzes-block"]}>
         <div className={styles["edzes-header"]}>

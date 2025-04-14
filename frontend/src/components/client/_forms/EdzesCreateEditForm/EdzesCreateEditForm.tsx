@@ -51,13 +51,13 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
       ido: Math.floor(elapsedTime / 1000),
     };
 
-    console.log("Edzés submitted with elapsed time:", elapsedTime);
+    
 
     updateEdzes(
       { id: submissionValues.edzes_id!, updatedEdzes: submissionValues },
       {
         onSuccess: () => {
-          console.log("Edzés updated");
+          
           toast.success("Edzés Befejezve");
           router.push(`/edzesek/${data.edzes_id}`);
         },
@@ -73,8 +73,9 @@ const EdzesCreateEditForm = ({ data }: EdzesCreateEditFormProps) => {
     changeFinalizedStatus(
       { edzesId: submissionValues.edzes_id!, userId: session?.user.user_id!, finalized: true },
       {
-        onSuccess: () => {
-          console.log("Edzés finalized");
+        onError: (error) => {
+          console.error("Error finalizing edzés", error);
+          toast.error("Hiba az edzés véglegesítésekor");
         },
       }
     );

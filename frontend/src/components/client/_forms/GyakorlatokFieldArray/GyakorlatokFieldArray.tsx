@@ -86,9 +86,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
           updateDetails,
         },
         {
-          onSuccess: () => {
-            console.log(`Set ${currentSet.set_szam} updated on blur.`);
-          },
+          
           onError: (error) => {
             console.error("Error updating set on blur:", error);
           },
@@ -116,7 +114,6 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
     },
     {
       onSuccess: (returnedSet) => {
-        console.log(`Set ${setNumber} added successfully.`);
         arrayHelpers.push(returnedSet);
       },
       onError: (error) => {
@@ -144,7 +141,7 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
         },
         {
           onSuccess: () => {
-            console.log(`Set ${setItem.set_szam} deleted successfully.`);
+         
             toast.success("Szett törölve");
             arrayHelpers.remove(setIndex);
           },
@@ -184,7 +181,6 @@ const GyakorlatokFieldArray: React.FC<GyakorlatokFieldArrayProps> = ({
       },
       {
         onSuccess: () => {
-          console.log(`Gyakorlat ${gyakorlat.gyakorlat_id} deleted successfully.`);
           toast.success("Gyakorlat törölve");
           arrayHelpers.remove(index);
         },

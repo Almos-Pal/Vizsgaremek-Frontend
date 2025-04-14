@@ -51,7 +51,7 @@ const Register: React.FC = () => {
       return;
     }
 
-    console.log("Sikeres regisztráció");
+    
     toast.success("Sikeres regisztráció!");
     router.push("/bejelentkezes");
   };
@@ -77,7 +77,7 @@ const Register: React.FC = () => {
         <Formik
           initialValues={initialValues}
           onSubmit={(values, actions) => {
-            console.log("Formik onSubmit triggered!"); // Debugging log
+          
             handleSubmit(values);
             actions.setSubmitting(false);
           }}

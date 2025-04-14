@@ -56,7 +56,7 @@ const GyakorlatPage: React.FC = () => {
     return <ErrorPage />;
   }
 
-  console.log(gyakorlatok);
+
   return (
     <ContentLayout
       header="Gyakorlatok"

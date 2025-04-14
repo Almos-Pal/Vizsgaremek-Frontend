@@ -32,7 +32,7 @@ function Stats() {
     (data?.meta.izomcsoportCounts as Record<string, number>) || {}
   );
 
-  console.log("Grouped Data:", groupedData);
+  
   const totalValue = groupedData.reduce((sum, item) => sum + item.value, 0);
   const [isClient, setIsClient] = useState(false);
 

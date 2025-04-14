@@ -19,7 +19,7 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
   const grantAdminModal = useModal();
   const toast = useToast();
   const { data: session } = useSession();
-  console.log(user);
+
 
 
  

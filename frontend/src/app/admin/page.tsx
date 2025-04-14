@@ -24,7 +24,7 @@ const Admin: React.FC = () => {
   const isAdminParam = searchParams.get("isAdmin");
   const isAdmin = isAdminParam !== null ? isAdminParam === "true" : undefined;
   const { data: session, status } = useSession();
-  console.log("session:", session);
+ 
   const filterValues = {
     isAdmin: searchParams.has("isAdmin")
       ? searchParams.get("isAdmin") === "true"
@@ -51,7 +51,7 @@ const Admin: React.FC = () => {
     return <ErrorPage />;
   }
 
-  console.log(users);
+  
   const handleFilterChange = (values: any) => {
     setPage(1);
   };

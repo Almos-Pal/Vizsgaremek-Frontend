@@ -48,7 +48,6 @@ const EdzesTervEditForm = ({ data }: EdzesCreateEditFormProps) => {
         try {
             await deleteEdzesAsync(data.edzes_id, {
                 onSuccess: () => {
-                    console.log("Edzésterv törölve");
                     toast.success("Edzésterv törölve");
                 },
                 onError: (error) => {
@@ -76,7 +75,7 @@ const EdzesTervEditForm = ({ data }: EdzesCreateEditFormProps) => {
             { id: submissionValues.edzes_id!, updatedEdzes: submissionValues },
             {
                 onSuccess: () => {
-                    console.log("Edzés updated");
+                    
                     toast.success("Edzésterv Elmentve");
                     router.push(`/edzestervek`);
                 },

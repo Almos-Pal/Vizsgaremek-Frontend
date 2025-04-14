@@ -33,7 +33,6 @@ const AddGyakorlatModal: React.FC<AddGyakorlatModalProps> = ({ onAdd, onCancel, 
   });
 
   const handleSubmit = (values: FormValues, { setSubmitting }: any) => {
-    console.log("Submitting with values:", values);
     const selectedGyakorlat = gyakorlatok?.items.find(
       (gy: any) => gy.gyakorlat_id.toString() === values.gyakorlat
     );

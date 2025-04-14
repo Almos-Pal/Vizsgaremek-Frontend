@@ -12,7 +12,7 @@ async function refreshToken(token: JWT): Promise<JWT> {
   });
 
   const response = await res.json();
-  console.log("refreshed");
+ 
 
   return {
     ...token,
@@ -20,8 +20,10 @@ async function refreshToken(token: JWT): Promise<JWT> {
   };
 }
 
+
+
 export const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET, // Automatically loaded from .env.local
+  secret: process.env.NEXTAUTH_SECRET, // loaded from .env.local
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -54,7 +56,6 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
         const user = await res.json();
-        console.log("Backend returned user:", user);
         return user;
       },
     }),
@@ -63,7 +64,6 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) return { ...token, ...user };
-      //console.log("JWT callback, adding user to token:", user);
       if (new Date().getTime() < token.backendTokens.expiresIn) return token;
 
       return await refreshToken(token);
@@ -72,7 +72,6 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       session.user = token.user;
       session.backendTokens = token.backendTokens;
-      //console.log("Session callback, session:", session);
       return session;
     },
   },

@@ -30,17 +30,17 @@ const WelcomeLogin: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
     const toast = useToast();
-    //console.log(session);
+   
     const handleSubmit = async (values: typeof initialValues) => {
-        //console.log("Submitting credentials:", values);
+        
         setErrorMessage("");
         const result = await signIn('credentials', {
             email: values.email.toLowerCase(),
             password: values.password,
             redirect: false,
-            callbackUrl: "/dashboard", //Here you can change where to immidiately redirect after login
+            callbackUrl: "/dashboard", 
         });
-        //console.log("SignIn result:", result);
+        
 
 
         if (result?.error) {

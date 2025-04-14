@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
 
     const toggleMenu = () => {
         setMenuOpen((prevOpen) => !prevOpen);
-        console.log('Toggle clicked. Menu open:', !menuOpen);
+     
     };
 
     const handleLogout = () => {
@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
 
 
     const handleNewEdzes = () => {
-        console.log(todaysWorkout)
+       
 
 
         if (todaysWorkout && todaysWorkout.isFinalized == false) {

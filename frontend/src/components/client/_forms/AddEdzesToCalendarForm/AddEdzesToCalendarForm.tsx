@@ -39,7 +39,6 @@ const toast = useToast();
     })) || [];
 
   const handleSubmit = (values: FormValues, { setSubmitting }: any) => {
-    console.log("Submitting with values:", values);
    createEdzesFromTemplate({templateId: parseInt(values.templateId), userId:session!.user.user_id,  date: date}, {
         onSuccess: (edzes) => {
             toast.success(`Az edzésterv sikeresen létrejött ${time.formatHungarianDate(date)}-ra`);

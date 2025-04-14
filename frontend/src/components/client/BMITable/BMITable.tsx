@@ -2,8 +2,6 @@ import { Text } from "@/components/server";
 import React from "react";
 
 export default function BmiTable({ bmi }: { bmi: number | typeof NaN }) {
-console.log("bmi", bmi);
-console.log("typeof bmi", typeof bmi);
   const bmiCategories = [
     { label: "Súlyos soványság", range: "<16", min: -Infinity, max: 16, color: "var(--color-error)" },
     { label: "Mérsékelt soványság", range: "16,0 - 16,99", min: 16, max: 16.99, color: "var(--color-error)" },

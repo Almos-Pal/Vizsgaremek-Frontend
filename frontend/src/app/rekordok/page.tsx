@@ -43,7 +43,6 @@ const RecordsPage: React.FC<RekordokPageProps> = () => {
     search,
     limit: 12,
   });
-  console.log("records", records);
   const handleFilterChange = (values: any) => {
     setPage(1);
   };

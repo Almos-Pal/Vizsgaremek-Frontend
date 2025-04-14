@@ -17,7 +17,7 @@ import ErrorPage from "@/components/client/ErrorPage/Error";
 
 const EdzesTervekPage: React.FC = () => {
   const { data: session, status } = useSession();
-  console.log("edzes user session data: ", session?.user.isAdmin);
+ 
 
   const toast = useToast();
   const router = useRouter();

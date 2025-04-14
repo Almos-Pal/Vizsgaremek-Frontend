@@ -8,7 +8,7 @@ interface RecordCardProps {
 }
 
 const RecordCard: React.FC<RecordCardProps> = ({ record }) => {
-    console.log("record", record);
+    
     return (
     <div className={styles.cardContainer}>
         <div className={styles.cardText}>
