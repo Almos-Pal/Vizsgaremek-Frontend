@@ -1,0 +1,209 @@
+@use "styles/breakpoints.scss" as *;
+
+// Outer container: includes navbar and main content
+.container {
+  display: flex;
+  min-height: 100vh;
+  margin: 0 auto;
+
+  @include mobile {
+    width: 100%;
+  }
+}
+
+/* Main area */
+.main {
+  /* Remove or change these so the grid can expand properly: */
+  flex: 1;
+  padding: 1rem;
+  margin-left: 5rem; // space for navbar
+
+  // Instead of forcing full height and center alignment, let the content flow:
+  display: flex;
+  align-items: center;
+  height: auto;
+  overflow: auto;
+
+  @include mobile {
+    margin-left: 0;
+  }
+  // Now target desktop only (1025px and up) for the margin scaling:
+  @media (min-width: 1025px) and (max-width: 1420px) {
+    margin-left: clamp(
+      150px,
+      calc(150px + ((100vw - 1024px) * (20 / 396))),
+      40px
+    );
+  }
+}
+
+/* Dashboard container with fixed overall height */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+  max-height: 800px; // Add maximum height constraint
+  /* Set overall height. Adjust the subtraction value if needed */
+  height: calc(100vh - 2rem);
+
+  @media (min-width: 1440px) {
+    width: 90%;
+  }
+
+  @include mobile {
+    width: 90%;
+    max-width: 600px;
+  }
+}
+
+/* Top row: 3 columns on desktop with flex ratio for height */
+.topRow {
+  display: grid;
+  grid-template-columns: 1.3fr 0.6fr 0.7fr; // Adjusted ratio for better balance
+  gap: 1rem;
+  flex: 2;
+  height: 50vh;
+
+  // For mid-desktop (1025px up to 1420px)
+  @media (min-width: 1025px) and (max-width: 1420px) {
+    grid-template-columns: 1.1fr 0.5fr 0.9fr; // Further adjusted for mid-desktop
+    height: auto;
+    min-height: 380px;
+    max-height: 450px;
+    gap: 0.75rem; // Reduced gap
+  }
+
+  /* Tablet breakpoint: 731px to 1024px: 2 columns */
+  @media (min-width: 731px) and (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  /* Mobile: 1 column stacked */
+  @include mobile {
+    grid-template-columns: 1fr;
+    height: auto;
+    grid-template-rows: repeat(3, auto);
+  }
+
+  /* For very small screens: override if necessary */
+  @media (max-width: 730px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+    height: auto;
+
+    .todaysWorkout,
+    .weeklyTotal,
+    .calendar {
+      grid-column: 1;
+    }
+
+    .todaysWorkout {
+      grid-row: 1;
+    }
+
+    .weeklyTotal {
+      grid-row: 2;
+    }
+
+    .calendar {
+      grid-row: 3;
+    }
+  }
+}
+
+/* Bottom row: 2 columns on desktop with smaller flex ratio */
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  /* This flex value allocates less height than topRow */
+  flex: 1;
+  height: 40vh;
+  max-height: none;
+
+  /* Mobile: stack vertically */
+  @include mobile {
+    grid-template-columns: 1fr;
+    height: auto;
+    grid-template-rows: auto auto;
+  }
+}
+
+/* Common panel styles */
+.todaysWorkout,
+.weeklyTotal,
+.calendar,
+.personalRecords,
+.stats {
+  background-color: var(--color-grey-500);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  z-index: 1;
+
+  /* Force the child div to fill up the panel area. 
+     If you need a min-height, define it. */
+  > div {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    max-width: none;
+    border-radius: 0;
+    background-color: transparent;
+  }
+
+  /* For mobile, let them size to content: */
+  @include mobile {
+    min-height: auto;
+    height: auto;
+  }
+}
+
+.stats {
+  @include mobile {
+    margin-bottom: 10rem;
+  }
+}
+
+/* Let the "todaysWorkout" span both columns on tablet size (731px to 1024px) */
+.todaysWorkout {
+  @media (min-width: 731px) and (max-width: 1024px) {
+    grid-column: span 2;
+  }
+
+  @media (min-width: 1025px) and (max-width: 1420px) {
+    min-height: 350px;
+  }
+}
+
+/* Layout adjustments for in-between breakpoints (tablet range) */
+@media (min-width: 731px) and (max-width: 1024px) {
+  .calendar {
+    grid-row: 2;
+    grid-column: 1;
+  }
+  .weeklyTotal {
+    grid-row: 2;
+    grid-column: 2;
+  }
+}
+
+/* Example if you have a separate "dashboardGrid" somewhere else */
+.dashboardGrid {
+  display: flex;
+  gap: 1rem;
+  max-width: 1440px;
+  margin: 0 auto;
+
+  @media (min-width: 1441px) {
+    max-width: 80%;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,116 @@
+@use "styles/breakpoints.scss" as *;
+
+
+
+.edzes-block {
+  background-color: var(--color-grey-500);
+  border-radius: 1rem;
+  
+  
+  @include desktop {
+    margin-bottom: 42px;
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @include mobile {
+    width: 90%;
+    margin: auto;
+    margin-top: 32px;
+  }
+
+  .edzes-header {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: var(--color-grey-400);
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .content-wrapper {
+
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+
+    .gyakorlat-list {
+      margin: 2rem;
+      margin-bottom: 0rem;
+      flex: 1;
+
+      
+      .gyakorlat-item {
+        padding-bottom: 1rem;
+
+        @include mobile {
+          max-width: 350px;
+        }
+
+
+        .gyakorlat-item-content {
+          background-color: var(--color-grey-400);
+          padding: 0.5rem;
+          padding-top: 0.2rem;
+          border-radius: 0.5rem;
+
+
+          .gyak-title{
+            margin-bottom: 0.5rem;
+         
+          }
+        }
+      }
+    }
+  }
+
+  .body-image {
+    
+    flex-shrink: 0; 
+    width: 350px;
+    height: 260px;
+    background-color: var(--color-grey-300);
+    padding: 0.5rem;
+    border-radius: 1rem;
+    margin-top: 2rem;
+    margin-right: 1rem;
+    margin-bottom: auto;
+    
+    
+
+
+    @include desktop {
+      display: block;
+    }
+
+    @include mobile {
+      display: none;
+    }
+
+    .svg {
+      margin: auto;
+      padding-bottom: 2rem;
+    }
+  }
+
+  .footer-button {
+    margin: auto;
+    width: 275px;
+   margin-top: 1rem;
+    justify-content: center; // Center the button horizontally
+    padding-bottom: 1.5rem;
+  }
+  .show-more-button {
+    color: var(--color-grey-300);
+
+
+    &:hover {
+      color: var(--color-grey-100);
+    }
+  }
+
+
+}

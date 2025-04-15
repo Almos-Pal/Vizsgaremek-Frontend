@@ -1,0 +1,50 @@
+@use "styles/breakpoints.scss" as *;
+
+
+.content-layout{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+
+    
+    @include desktop {
+        //solves the navbar overlapping problem, might be a bad solution look into it in the future
+        margin-left: 10rem;
+        margin-bottom: 2rem;
+    }
+    @include mobile {
+        //same solution just this time for the mobile navbar 
+       padding-bottom: 7.5rem;
+    }
+}
+.content-layout__container{
+    max-width: 1040px;
+    width: 100%;
+    padding: 0rem 0.5rem;
+    margin: 0 0.5rem;
+}
+
+
+.header{
+    padding-bottom: 5rem;
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    
+
+    .subheader {   
+        margin-top: 1rem;
+
+        @include mobile {
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+
+        }
+    }
+}
+

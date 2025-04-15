@@ -1,0 +1,13 @@
+.sub-header{
+    display: flex;
+    align-items: start;
+    gap: 1rem;
+    flex-direction: column;
+    margin-bottom: 3rem;
+
+}
+.line{
+    width: 220px;
+    height: 2px;
+    background-color: var(--color-light);
+}

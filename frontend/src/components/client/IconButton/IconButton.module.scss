@@ -1,0 +1,27 @@
+@use "styles/breakpoints.scss" as *;
+
+.button {
+    display: inline-flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    background-color: transparent;
+
+    @include desktop {
+        height: 60px;
+        padding: 12px 24px;
+        gap: 8px;
+        border-radius: 12px;
+    }
+
+    &.transparent {
+        &:hover {
+            path {
+                fill: var(--color-light) !important;
+            }
+        }
+    }
+}

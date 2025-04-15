@@ -1,0 +1,49 @@
+import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
+import { ReactQueryProvider, ReactSessionProvider } from "@/utils";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Suspense } from "react";
+import "./globals.css";
+import { Loading } from "@/components/client/Loading/Loading";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-poppins",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "Repvault",
+  description: "A te személyi edzésnaplód.",
+  
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <head>
+        <link rel="icon" href="/repvaultLogo.svg" type="image/svg+xml" />
+       
+      </head>
+      <body className={poppins.variable}>
+        <ReactSessionProvider>
+
+        <ReactQueryProvider>
+        <Suspense fallback={<Loading hasParent />}>
+            
+            {children}
+        <ToastContainer />
+        </Suspense>
+        </ReactQueryProvider>
+        </ReactSessionProvider>
+
+      </body>
+    </html>
+  );
+}

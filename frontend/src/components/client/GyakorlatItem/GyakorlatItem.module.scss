@@ -1,0 +1,52 @@
+@use "styles/breakpoints.scss" as *;
+
+.gyakorlat-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); // Adjusts based on available space
+    gap: 16px; // Spacing between items
+    padding: 16px; // Padding around the grid
+  }
+  
+  .gyakorlat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-grey-500);
+    min-height: 100px;
+    padding: 0px 8px;
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  
+
+    @include mobile {
+        &:hover {
+            transform: translateY(-2px);
+            background-color: var(--color-grey-400);
+        }
+    }
+  }
+  
+  .body-image {
+    width: 100px;
+    height: 100px;
+    background-color: var(--color-grey-200);
+    padding: 0.5rem;
+  }
+  
+  .gyakorlat-name {
+    max-width: 160px;
+    width: 100%;
+    padding-left: 8px;
+  }
+
+.gyakorlat-button{
+
+    @include mobile{
+        display: none;
+    }
+
+}  
+.icon{
+  align-self: self-start;
+}

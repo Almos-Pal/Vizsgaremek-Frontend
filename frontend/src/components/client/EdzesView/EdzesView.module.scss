@@ -1,0 +1,139 @@
+@use "styles/breakpoints.scss" as *;
+
+.edzesView {
+    display: flex;
+    flex-direction: column;
+
+    .buttons {
+        margin-left: auto;
+        margin-right: auto;
+
+
+        .singleButtonDesktop {
+            margin-bottom: 1rem;
+            margin-left: auto;
+            margin-right: auto;
+
+            
+            @include mobile {   
+                display: none;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .singleButtonMobile {
+            margin-bottom: 1rem;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1rem;
+
+            width: 70vw;
+            min-width: 245px;
+           
+            
+            @include desktop {
+                display: none;
+            }
+        }
+
+
+
+
+        .doubleButtonDesktop {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2rem;
+
+            @include mobile {
+                display: none; 
+            }
+
+            
+
+        }
+
+        .doubleButtonMobile {
+            display: none;
+            margin-bottom: 2rem;
+            align-items: center;
+
+
+            @include mobile {
+                display: flex; 
+                flex-direction: column;
+               
+                margin-left: auto;
+                margin-right: auto;
+
+            }
+
+            .btnmobileresponsive {
+                width: 70vw;
+                min-width: 245px;
+              
+
+            }
+        }
+    }
+
+    .humanContainment {
+        height: 330px;
+        background-color: var(--color-grey-400);
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+
+        @include desktop {
+            width: 750px;
+        }
+
+        @include mobile {
+            margin-left: 20px !important;
+            margin-right: 20px !important;
+            height: 300px;
+        }
+
+        .svg {
+            margin: auto;
+            margin-top: 1.5rem;
+
+        }
+    }
+
+    .underlinedText {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+
+        @include desktop {
+            width: 750px;
+        }
+
+        @include mobile {
+            margin-left: 20px !important;
+            margin-right: 20px !important;
+        }
+    }
+}.no-gyak-text {
+    text-align: center;
+    margin-top: 1rem;
+    margin: auto;
+    background-color: var(--color-grey-500);
+
+    padding-top: 5.8rem;
+    padding-bottom: 5.8rem;
+    border-radius: 1rem;
+
+    @include desktop {
+        width: 750px;
+    }
+
+    @include mobile {
+        width: 95%;
+    }
+}     

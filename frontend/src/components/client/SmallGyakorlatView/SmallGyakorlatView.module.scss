@@ -1,0 +1,140 @@
+@use "styles/breakpoints.scss" as *;
+
+@mixin tablet {
+  @media (max-width: 705px) {
+    @content;
+  }
+}
+
+.edzes-block {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-grey-500);
+  border-radius: 1rem;
+  align-items: stretch;
+  padding-bottom: 1.5rem;
+
+  @include desktop {
+    margin-bottom: 42px;
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--color-light);
+  }
+
+  @include mobile {
+    margin-bottom: 35px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .edzes-header {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: var(--color-grey-400);
+    border-radius: 1rem 1rem 0 0;
+
+
+  }
+
+  .gyak-neve {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    margin-left: 1.5rem;
+
+    p {
+
+      &:hover {
+        color: var(--color-grey-200) !important;
+
+      }
+    }
+  }
+
+  .data-pair {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+
+
+
+    .gyakorlat-leiras {
+      margin-left: 1rem;
+      margin-right: -1rem;
+      margin-top: 1rem;
+
+      .see-more-button-container {
+        display: flex;
+
+
+        @include tablet {
+
+          justify-content: center;
+        }
+      }
+
+      .see-more-button {
+
+        color: var(--color-grey-300) !important;
+        padding-top: 1rem;
+        padding-left: 1rem;
+
+
+        &:hover {
+          color: var(--color-grey-100) !important;
+        }
+
+        margin-left: -1rem;
+        color: var(--color-light);
+
+        @include tablet {
+          text-align: center;
+        }
+      }
+    }
+
+    .svg {
+      margin-right: 1rem;
+      margin-top: 1rem;
+
+      @include tablet {
+        display: none;
+      }
+    }
+
+    .svg-container {
+      background-color: var(--color-grey-400);
+      border-radius: 1rem;
+      width: 95%;
+      margin: auto;
+      margin-bottom: 1rem;
+
+      .svg-mobile {
+        display: none;
+
+        @include tablet {
+          display: block;
+          margin-right: 1rem;
+          margin: auto;
+
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+}

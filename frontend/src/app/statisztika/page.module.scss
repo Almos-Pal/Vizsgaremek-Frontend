@@ -1,0 +1,82 @@
+@use "styles/breakpoints.scss" as *;
+
+.container {
+
+    .rekordok {
+      
+
+        @include desktop {
+            max-width: 1024px;
+            min-width: 836px;
+        }
+
+        @include mobile {
+            margin: 1rem;
+        }
+     
+        border-radius: 1rem;
+        background-color: var(--color-grey-500);
+
+        .rekord-button {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 2rem;
+        }
+        margin-bottom: 2rem;
+    }
+
+    .filter {
+        margin-left: 1rem;
+    }
+
+
+    .chart-container {
+        padding-bottom: 1rem;
+        padding-top: 1rem;
+    }
+
+    .double-trouble {
+        
+
+        @include desktop {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding-top: 1rem;
+            padding-bottom: 2rem;
+        }
+
+        @include mobile {
+            flex-direction: column;
+            align-items: center;
+            
+        }
+
+        .piechart {
+            margin: 2rem;
+        }
+        .weight {
+            @include mobile {
+                padding-top: 2rem;
+            }
+        }
+    }
+}
+
+.loading-container-records,
+.loading-container-stats,
+.loading-container-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  width: 100%;
+  background-color: var(--color-grey-500);
+  border-radius: 0.75rem;
+}
+
+.records-content,
+.stats-content {
+  min-height: 400px;
+  width: 100%;
+}

@@ -1,0 +1,39 @@
+@use "styles/breakpoints.scss" as *;
+
+
+.mainDiv{
+    background-color: var(--color-grey-500);
+    width: 100%;
+
+
+    .item {
+      height: 48px;
+    }
+
+    .button {
+      margin-top: 0.5rem;
+      
+    }
+
+    .textLeft {
+      width: 170px;
+    }
+
+    .textRight {
+      width: 80px;
+      
+    }
+  }
+.greenify{
+    color: var(--color-success);
+  }
+
+  .no-record-text {
+
+    @include mobile {
+      padding-top: 1rem;
+      padding-bottom: 2rem;
+    }
+
+    padding-top: 5rem;
+  }

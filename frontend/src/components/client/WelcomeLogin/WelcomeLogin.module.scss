@@ -1,0 +1,77 @@
+@use "styles/breakpoints.scss" as *;
+
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  max-height: 90vh;
+  width: 80%;
+  max-width: 25rem;
+
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 1rem;
+
+
+  .form {
+    width: 275px;
+
+    @include mobile {
+      width: 220px;
+    }
+  }
+
+  .title {
+    margin-bottom: 0.5rem;
+  }
+
+
+  .logoContainer {
+   
+    margin: auto;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+ 
+
+
+  .dividerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .divider {
+    flex: 1;
+    border: none;
+    border-top: 1px solid #fff;
+    margin: 0 1rem;
+  }
+
+  .dividerText {
+    color: #fff;
+    font-size: 1rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .error-message {
+    height: 20px;
+    /* Reserve enough space for the message */
+    color: var(--color-error);
+    font-size: 14px;
+    /* Adjust font size to match your design */
+    text-align: center;
+    margin-top: 0.5rem;
+    /* Optional spacing */
+  }
+}

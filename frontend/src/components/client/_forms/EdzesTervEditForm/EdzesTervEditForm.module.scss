@@ -1,0 +1,96 @@
+@use "styles/breakpoints.scss" as *;
+
+
+.container {
+
+
+    .humanContainment {
+        height: 330px;
+        background-color: var(--color-grey-400);
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 2px;
+
+        @include desktop {
+            width: 750px;
+        }
+
+        @include mobile {
+            
+            height: 300px;
+        }
+
+        .svg {
+            margin: auto;
+            margin-top:1.5rem;
+
+        }
+    }
+
+    @include desktop {
+        margin-bottom: 2rem;
+        width: 750px;
+        margin-left: auto;
+        margin-right: auto;
+        color: var(--color-light);
+    }
+
+    @include mobile {
+        margin-bottom: 35px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .gyakorlatPlusButton-div {
+        width: 100%;
+
+        
+    }
+    
+}
+
+.no-gyak-text {
+    text-align: center;
+    margin-top: 1rem;
+    margin: auto;
+    background-color: var(--color-grey-500);
+
+    padding-top: 6.5rem;
+    padding-bottom: 6.5rem;
+    border-radius: 1rem;
+
+    @include desktop {
+        width: 750px;
+    }
+
+    @include mobile {
+        width: 95%;
+    }
+}
+.gyakorlatPlusButton {
+    width: 515px;
+    @include mobile {
+        width: 250px;
+    }
+}
+
+.submit-button-div {
+    text-align: center;
+    margin-bottom: 5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    @include mobile {
+        flex-direction: column;
+        margin: 0 auto;
+        text-align: center;
+        align-items: center;
+    }
+
+
+
+
+}
